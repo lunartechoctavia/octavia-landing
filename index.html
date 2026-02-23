@@ -1,0 +1,2191 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Octavia — Universal Translation. Zero Barriers.</title>
+  <meta name="description" content="The world's most advanced AI dubbing platform. Translate video, audio, and subtitles into 30+ languages with perfect lip-sync and voice cloning.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <!-- Load UnicornStudio asynchronously and defer initialization -->
+  <script>
+    // Load the script asynchronously
+    var unicornScript = document.createElement('script');
+    unicornScript.src = 'https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js';
+    unicornScript.async = true;
+    unicornScript.defer = true;
+    document.head.appendChild(unicornScript);
+
+    // Initialize after page load and when script is ready
+    unicornScript.onload = function() {
+      // Small delay to let page render first
+      setTimeout(function() {
+        if (window.UnicornStudio) {
+          UnicornStudio.init();
+        }
+      }, 100);
+    };
+  </script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            purple: {
+              400: '#A78BFA',
+              500: '#8B5CF6',
+              600: '#7C3AED',
+              900: '#2E1065',
+            },
+            neutral: {
+              850: '#1a1a1a',
+              900: '#111111',
+              950: '#050505',
+            }
+          },
+          fontFamily: {
+            sans: ['Geist', 'Inter', 'sans-serif'],
+            display: ['Geist', 'sans-serif'],
+          },
+          boxShadow: {
+            'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+            'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+          },
+          animation: {
+            'marquee': 'marquee 40s linear infinite',
+            'float': 'float 8s ease-in-out infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      },
+      plugins: [
+        function ({ addUtilities }) {
+          addUtilities({
+            '.rotate-x-5': { transform: 'perspective(1000px) rotateX(5deg)' },
+            '.rotate-x-12': { transform: 'perspective(1000px) rotateX(12deg)' },
+            '.preserve-3d': { transformStyle: 'preserve-3d' },
+          })
+        }
+      ]
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #050505;
+      color: #ffffff;
+      font-family: 'Geist', sans-serif;
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    /* Optimize animations with will-change */
+    .aura-background-component {
+      will-change: transform;
+    }
+    
+    /* Reduce backdrop blur on mobile for performance */
+    @media (max-width: 768px) {
+      .glass {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+    }
+
+    /* Pause animations when user prefers reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #444;
+    }
+
+    .glass {
+      background: rgba(5, 5, 5, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(5px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .accordion-content.open {
+      max-height: 200px;
+    }
+
+    .accordion-icon {
+      transition: transform 0.3s;
+    }
+
+    .accordion-icon.open {
+      transform: rotate(45deg);
+    }
+  </style>
+  <!-- Font loading with display swap for better performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  </noscript>
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+    <div id="navbar-bg"
+      class="flex bg-transparent w-full border-white/5 border-b py-6 px-8 relative backdrop-blur-xl items-center justify-between transition-all duration-300">
+      <!-- Logo Section -->
+      <div class="flex items-center gap-2.5 z-20 shrink-0">
+        <div
+          class="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600/20 to-indigo-600/20 border border-purple-500/20 shadow-[0_0_15px_-3px_rgba(147,51,234,0.15)]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="1em" viewBox="0 0 24 24" class="text-purple-300"
+            data-icon-set="lucide" data-lucide="flower-2">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path
+                d="M12 5a3 3 0 1 1 3 3m-3-3a3 3 0 1 0-3 3m3-3v1M9 8a3 3 0 1 0 3 3M9 8h1m5 0a3 3 0 1 1-3 3m3-3h-1m-2 3v-1">
+              </path>
+              <circle cx="12" cy="8" r="2"></circle>
+              <path d="M12 10v12m0 0c4.2 0 7-1.667 7-5c-4.2 0-7 1.667-7 5m0 0c-4.2 0-7-1.667-7-5c4.2 0 7 1.667 7 5">
+              </path>
+            </g>
+          </svg>
+        </div>
+        <span class="text-sm font-semibold text-white tracking-tight">Octavia</span>
+      </div>
+
+      <!-- Centered Navigation -->
+      <!-- Centered Navigation -->
+      <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+        <!-- Product Dropdown -->
+        <div class="relative group">
+          <button
+            class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-1 group-hover:text-white">
+            Product
+            <iconify-icon icon="lucide:chevron-down" width="12"
+              class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+          </button>
+          <!-- Dropdown Menu -->
+          <div
+            class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[500px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+            <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+              <div class="p-6 grid grid-cols-2 gap-6">
+                <!-- Item 1 -->
+                <a href="features.html" class="block group/item">
+                  <div class="flex items-start gap-3">
+                    <div
+                      class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                      <iconify-icon icon="lucide:zap" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div
+                        class="text-sm font-medium text-white mb-1 group-hover/item:text-purple-300 transition-colors">
+                        Features</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">AI dubbing & translation platform.</p>
+                    </div>
+                  </div>
+                </a>
+                <!-- Item 2 -->
+                <a href="solutions.html" class="block group/item">
+                  <div class="flex items-start gap-3">
+                    <div
+                      class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                      <iconify-icon icon="lucide:users" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white mb-1 group-hover/item:text-blue-300 transition-colors">
+                        Solutions</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">For creators, educators, & enterprises.</p>
+                    </div>
+                  </div>
+                </a>
+                <!-- Item 3 -->
+                <a href="pricing.html" class="block group/item">
+                  <div class="flex items-start gap-3">
+                    <div
+                      class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 group-hover/item:bg-green-500/20 transition-colors border border-green-500/10">
+                      <iconify-icon icon="lucide:credit-card" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div
+                        class="text-sm font-medium text-white mb-1 group-hover/item:text-green-300 transition-colors">
+                        Pricing</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Flexible plans for every creator.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <!-- Footer -->
+              <div class="bg-white/5 p-4 border-t border-white/5 flex flex-col gap-2">
+                <a href="#docs"
+                  class="flex items-center gap-2 text-xs text-neutral-400 hover:text-white transition-colors">
+                  <iconify-icon icon="lucide:book" width="14"></iconify-icon>
+                  Documentation
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resources Dropdown -->
+        <div class="relative group">
+          <button
+            class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-1 group-hover:text-white">
+            Resources
+            <iconify-icon icon="lucide:chevron-down" width="12"
+              class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+          </button>
+          <div
+            class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[400px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+            <div
+              class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden p-6 grid gap-6">
+              <a href="blog.html" class="flex items-center gap-3 group/item">
+                <div
+                  class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                  <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Blog
+                  </div>
+                  <p class="text-[11px] text-neutral-500">Latest updates & insights.</p>
+                </div>
+              </a>
+              <a href="blog.html" class="flex items-center gap-3 group/item">
+                <div
+                  class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 group-hover/item:bg-orange-500/20 transition-colors border border-orange-500/10">
+                  <iconify-icon icon="lucide:graduation-cap" width="16"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-sm font-medium text-white group-hover/item:text-orange-300 transition-colors">
+                    Academy</div>
+                  <p class="text-[11px] text-neutral-500">Learning resources & guides.</p>
+                </div>
+              </a>
+              <a href="faq.html" class="flex items-center gap-3 group/item">
+                <div
+                  class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                  <iconify-icon icon="lucide:help-circle" width="16"></iconify-icon>
+                </div>
+                <div>
+                  <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">FAQ
+                  </div>
+                  <p class="text-[11px] text-neutral-500">Common questions answered.</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Company Dropdown -->
+        <div class="relative group">
+          <button
+            class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-1 group-hover:text-white">
+            Company
+            <iconify-icon icon="lucide:chevron-down" width="12"
+              class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+          </button>
+          <div
+            class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[400px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+            <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+              <div class="p-6 grid gap-6">
+                <a href="team.html" class="flex items-center gap-3 group/item">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center text-white group-hover/item:bg-neutral-700 transition-colors border border-white/5">
+                    <iconify-icon icon="lucide:users-2" width="16"></iconify-icon>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium text-white group-hover/item:text-neutral-300 transition-colors">Our
+                      Team</div>
+                    <p class="text-[11px] text-neutral-500">Meet the builders.</p>
+                  </div>
+                </a>
+                <a href="contact.html" class="flex items-center gap-3 group/item">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center text-white group-hover/item:bg-neutral-700 transition-colors border border-white/5">
+                    <iconify-icon icon="lucide:mail" width="16"></iconify-icon>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium text-white group-hover/item:text-neutral-300 transition-colors">
+                      Contact Us</div>
+                    <p class="text-[11px] text-neutral-500">Get in touch.</p>
+                  </div>
+                </a>
+              </div>
+              <div class="bg-white/5 p-4 border-t border-white/5 flex items-center justify-between">
+                <a href="#privacy" class="text-[10px] text-neutral-500 hover:text-white transition-colors">Privacy
+                  Policy</a>
+                <a href="#terms" class="text-[10px] text-neutral-500 hover:text-white transition-colors">Terms of
+                  Service</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="pricing.html"
+          class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-4 z-20 shrink-0">
+<a href="https://app.octavia.lunartech.ai/login"
+          class="hidden sm:inline-flex text-xs font-medium text-neutral-400 hover:text-white transition-colors px-4 py-1.5 rounded-full border border-transparent hover:border-white/10 hover:bg-white/5">
+          Sign in
+        </a>
+        <a href="https://app.octavia.lunartech.ai/signup"
+          class="group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+          <iconify-icon icon="lucide:sparkles" width="14" stroke-width="1.5"
+            class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+          <span class="z-10 text-xs font-medium tracking-wide relative">Sign up</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="overflow-hidden pt-32 pb-16 relative">
+    <!-- Rain Of Tears -->
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+      <div class="aura-background-component absolute inset-0 w-full h-full">
+        <div data-us-project="XxCmD31vVBmiINgvYCho" class="absolute inset-0 w-full h-full bg-neutral-950"
+          style="filter: hue-rotate(50deg) saturate(150%);"></div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
+    </div>
+
+    <div
+      class="container z-10 reveal-on-scroll is-visible text-center max-w-4xl mr-auto mb-12 ml-auto pr-6 pl-6">
+      <div
+        class="inline-flex items-center gap-2 text-[10px] font-medium text-purple-300 bg-purple-500/10 border border-purple-500/20 rounded-full mb-6 py-1 px-3 backdrop-blur-sm">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-purple-500"></span>
+        </span>
+        System Sync Active
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-semibold text-white mb-6 leading-[0.95] tracking-tighter">
+        Universal Translation. <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-purple-100 to-purple-400">
+          Zero Barriers.
+        </span>
+      </h1>
+
+      <p class="text-base font-light text-neutral-400 max-w-xl mx-auto mb-6 leading-relaxed">
+        The world’s most advanced AI dubbing platform. Translate video, audio, and subtitles into 30+ languages with perfect lip-sync and voice cloning.
+      </p>
+
+      <div class="flex items-center justify-center gap-3 mb-8 animate-fade-in-up">
+        <div class="flex -space-x-3">
+          <img class="w-8 h-8 rounded-full border-2 border-[#050505] object-cover"
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=64&amp;h=64"
+            alt="User">
+          <img class="w-8 h-8 rounded-full border-2 border-[#050505] object-cover"
+            src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&amp;fit=crop&amp;w=64&amp;h=64"
+            alt="User">
+          <img class="w-8 h-8 rounded-full border-2 border-[#050505] object-cover"
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&amp;fit=crop&amp;w=64&amp;h=64"
+            alt="User">
+        </div>
+        <div class="text-xs font-medium text-neutral-300">
+          Trusted by <span class="text-white">10,000+</span> Creators
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 gap-x-3 gap-y-3 items-center justify-center">
+        <button
+          class="group px-6 py-2.5 rounded-full bg-white text-black font-medium text-sm hover:bg-neutral-200 transition-all shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]">
+          <span class="flex items-center gap-2">
+            Start Translating Free
+            <iconify-icon icon="lucide:arrow-right" width="14"
+              class="group-hover:translate-x-0.5 transition-transform"></iconify-icon>
+          </span>
+        </button>
+        <button
+          class="px-6 py-2.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-white font-medium text-sm hover:bg-white/10 transition-colors">
+          Watch Demo
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="relative w-full flex justify-center perspective-[1000px] mt-10 reveal-on-scroll is-visible">
+      <div class="transform-style-preserve-3d w-full max-w-[1280px] px-4 group isolate">
+        <div class="overflow-hidden aspect-[16/9] flex flex-row bg-[#080012] border-white/10 border rounded-2xl mr-auto ml-auto relative shadow-[0_30px_80px_-20px_rgba(168,85,247,0.4)] font-sans text-white text-left selection:bg-purple-500/30">
+
+          <!-- Global Background Glows -->
+          <div class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-purple-600/20 blur-[120px] pointer-events-none mix-blend-screen rounded-full transition-all duration-1000 group-hover:bg-purple-600/30"></div>
+          <div class="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/10 blur-[100px] pointer-events-none mix-blend-screen rounded-full"></div>
+
+          <!-- LEFT SIDEBAR -->
+          <div class="flex h-full w-[260px] flex-col py-6 px-4 shrink-0 transition-all z-20 relative bg-[#0A0014]/60 backdrop-blur-2xl border-r border-white/5">
+            <div class="flex flex-col h-full gap-8">
+              
+              <!-- Brand Logo (Replacing with LUNARTECH stylistic logo from screenshot) -->
+              <div class="flex items-center gap-3 px-2 group/logo cursor-default">
+                <div class="relative w-8 h-8 flex items-center justify-center shrink-0">
+                  <iconify-icon icon="lucide:atom" width="28" class="text-white relative z-10 transition-all duration-700 group-hover/logo:scale-110 group-hover/logo:rotate-90"></iconify-icon>
+                  <div class="absolute inset-0 bg-white/20 blur-md rounded-full animate-pulse"></div>
+                </div>
+                <div class="flex flex-col">
+                  <h1 class="text-white text-lg font-black tracking-widest uppercase py-1">LUNARTECH</h1>
+                </div>
+              </div>
+              
+              <!-- User Profile -->
+              <div class="bg-white/[0.03] border border-white/10 rounded-2xl p-4 shadow-sm backdrop-blur-md">
+                <div class="text-sm text-white font-semibold tracking-tight">Demo User</div>
+                <div class="text-xs text-neutral-400 mb-3">demo@octavia.com</div>
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-[#00FFCC] shadow-[0_0_8px_#00FFCC]"></div>
+                  <div class="text-xs text-neutral-300">Credits: <span class="font-bold text-[#A855F7]">5000</span></div>
+                </div>
+              </div>
+              
+              <!-- Navigation Menu -->
+              <div class="flex flex-col gap-1.5 flex-1">
+                <!-- Active Item -->
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-white/5 border border-white/10 text-white cursor-default shadow-sm backdrop-blur-sm relative overflow-hidden group/nav">
+                  <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover/nav:opacity-100 transition-opacity"></div>
+                  <iconify-icon icon="lucide:layout-grid" class="w-5 h-5 text-purple-400 relative z-10"></iconify-icon>
+                  <span class="text-sm font-medium relative z-10 text-purple-100">New Translation</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 text-neutral-400 hover:text-white cursor-default">
+                  <iconify-icon icon="lucide:mic" class="w-5 h-5 transition-colors text-neutral-500"></iconify-icon>
+                  <span class="text-sm font-medium">My Voices</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 text-neutral-400 hover:text-white cursor-default">
+                  <iconify-icon icon="lucide:folder" class="w-5 h-5 transition-colors text-neutral-500"></iconify-icon>
+                  <span class="text-sm font-medium">Projects</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 text-neutral-400 hover:text-white cursor-default">
+                  <iconify-icon icon="lucide:history" class="w-5 h-5 transition-colors text-neutral-500"></iconify-icon>
+                  <span class="text-sm font-medium">Job History</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 text-neutral-400 hover:text-white cursor-default">
+                  <iconify-icon icon="lucide:credit-card" class="w-5 h-5 transition-colors text-neutral-500"></iconify-icon>
+                  <span class="text-sm font-medium">Billing</span>
+                </a>
+                
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 text-neutral-400 hover:text-white cursor-default">
+                  <iconify-icon icon="lucide:users" class="w-5 h-5 transition-colors text-neutral-500"></iconify-icon>
+                  <span class="text-sm font-medium">Team</span>
+                </a>
+              </div>
+              
+              <!-- Bottom Settings -->
+              <div class="flex flex-col">
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 text-neutral-400 hover:text-white cursor-default">
+                  <iconify-icon icon="lucide:settings" class="w-5 h-5 transition-colors text-neutral-500"></iconify-icon>
+                  <span class="text-sm font-medium">Settings</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- MAIN CONTENT AREA (No Scrolling allowed) -->
+          <div class="flex-1 overflow-hidden relative z-10 w-full h-full flex flex-col bg-transparent">
+            
+            <!-- Top Header (Matches Screenshot) -->
+            <div class="h-[88px] w-full flex items-center px-8 shrink-0 relative z-20">
+              <div class="flex flex-col justify-center mr-6 border-r border-white/10 pr-6 h-full py-4">
+                <h2 class="text-white text-2xl font-black tracking-tight leading-none drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Octavia</h2>
+                <span class="text-[9px] font-black tracking-[0.25em] uppercase text-purple-400 mt-1">Rise Beyond Language</span>
+              </div>
+              <h1 class="text-white text-3xl font-bold tracking-tight drop-shadow-md">Video Translation</h1>
+            </div>
+            
+            <!-- Central Upload Progress Container -->
+            <div class="flex-1 w-full h-full flex items-center justify-center p-8 relative">
+              
+              <!-- Inner Content Wrapper (Stripped of borders/backgrounds) -->
+              <div class="w-full max-w-xl flex flex-col items-center justify-center relative overflow-hidden group">
+                
+                <!-- Circular Spinner UI -->
+                <div class="relative w-28 h-28 mb-8 flex items-center justify-center">
+                  
+                  <!-- Static Track -->
+                  <svg class="w-full h-full absolute inset-0 text-white/[0.03] drop-shadow-xl" viewBox="0 0 100 100" style="transform: rotate(-90deg)">
+                     <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3"></circle>
+                  </svg>
+                  
+                  <!-- Animated Progress Ring -->
+                  <svg class="w-full h-full absolute inset-0 text-purple-500 animate-[spin_3s_linear_infinite]" viewBox="0 0 100 100">
+                     <!-- 2 * pi * r = ~289 -->
+                     <circle cx="50" cy="50" r="46" fill="none" class="opacity-80 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]" stroke="url(#purpleGradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="188"></circle>
+                     <defs>
+                        <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                           <stop offset="0%" stop-color="#A855F7" />
+                           <stop offset="100%" stop-color="#6366F1" />
+                        </linearGradient>
+                     </defs>
+                  </svg>
+                  
+                  <!-- Center Icon -->
+                  <div class="relative z-10 text-white flex items-center justify-center w-[4.5rem] h-[4.5rem] rounded-full bg-transparent">
+                    <iconify-icon icon="lucide:languages" width="24" class="text-purple-100 drop-shadow-[0_0_12px_rgba(255,255,255,0.5)] animate-pulse"></iconify-icon>
+                  </div>
+                </div>
+                
+                <!-- Text Content -->
+                <h2 class="text-white text-2xl font-bold mb-8 tracking-tight z-10 drop-shadow-md">Translating Video</h2>
+                
+                <!-- Information Grid -->
+                <div class="grid grid-cols-2 gap-x-12 gap-y-5 mb-10 z-10 text-left w-full max-w-sm">
+                  <div>
+                    <div class="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold mb-1">Filename</div>
+                    <div class="text-sm text-white font-medium truncate max-w-[150px]">q3_earnings_call.mp4</div>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold mb-1">Target</div>
+                    <div class="text-sm text-white font-medium">Japanese, German</div>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold mb-1">Length</div>
+                    <div class="text-sm text-white font-medium">42:15</div>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-neutral-500 uppercase tracking-widest font-semibold mb-1">Est. Time</div>
+                    <div class="text-sm text-purple-400 font-bold drop-shadow-[0_0_8px_rgba(168,85,247,0.4)]">~3 mins remaining</div>
+                  </div>
+                </div>
+                
+                <!-- Linear Progress Bar -->
+                <div class="w-full max-w-sm z-10">
+                  <div class="flex justify-between items-center mb-2.5">
+                    <span class="text-[10px] uppercase tracking-widest font-semibold text-neutral-500">Progress</span>
+                    <span class="text-xs font-bold text-purple-400 drop-shadow-[0_0_4px_rgba(168,85,247,0.5)]">78%</span>
+                  </div>
+                  <div class="w-full h-1.5 rounded-full bg-white/5 border border-white/5 overflow-hidden">
+                     <div class="h-full bg-gradient-to-r from-[#A855F7] to-[#C084FC] rounded-full w-[78%] relative shadow-[0_0_15px_rgba(168,85,247,0.8)]">
+                       <div class="absolute inset-0 bg-white/30 animate-[pulse_1.5s_ease-in-out_infinite]"></div>
+                     </div>
+                  </div>
+                </div>
+                
+                <!-- Bottom Loading Status -->
+                <div class="mt-10 flex items-center justify-center gap-2.5 z-10 opacity-60">
+                  <iconify-icon icon="lucide:loader-circle" width="12" class="text-neutral-400 animate-spin opacity-80"></iconify-icon>
+                  <span class="text-[10px] text-neutral-400 uppercase tracking-[0.15em] font-semibold">Generating cloned voice tracks...</span>
+                </div>
+
+              </div>
+
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <!-- Extruded 3D Base Shadow Glow (Part of the 3D container context) -->
+        <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-[90%] h-24 bg-purple-600/30 blur-[100px] -z-10 group-hover:bg-purple-600/40 transition-colors duration-700"></div>
+      </div>
+  </header>
+
+  <section class="border-y bg-black border-white/5 pt-8 pb-8 relative">
+    <div class="relative w-full overflow-hidden max-w-4xl mx-auto"
+      style="mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);">
+      <div class="flex gap-12 min-w-max animate-marquee opacity-40 grayscale gap-x-12 items-center">
+        <iconify-icon icon="simple-icons:openai" width="18"></iconify-icon>
+        <iconify-icon icon="simple-icons:meta" width="20"></iconify-icon>
+        <iconify-icon icon="simple-icons:arxiv" width="24"></iconify-icon>
+        <iconify-icon icon="simple-icons:google" width="18"></iconify-icon>
+        <iconify-icon icon="simple-icons:nvidia" width="20" class=""></iconify-icon>
+        <iconify-icon icon="simple-icons:anthropic" width="20"></iconify-icon>
+        <iconify-icon icon="simple-icons:microsoft" width="18"></iconify-icon>
+        <iconify-icon icon="simple-icons:x" width="18"></iconify-icon>
+        <iconify-icon icon="simple-icons:apple" width="20" class=""></iconify-icon>
+        <iconify-icon icon="simple-icons:amazon" width="20" class=""></iconify-icon>
+        <iconify-icon icon="simple-icons:openai" width="18" class=""></iconify-icon>
+        <iconify-icon icon="simple-icons:meta" width="20"></iconify-icon>
+        <iconify-icon icon="simple-icons:arxiv" width="24" class=""></iconify-icon>
+        <iconify-icon icon="simple-icons:google" width="18" class=""></iconify-icon>
+        <iconify-icon icon="simple-icons:nvidia" width="20"></iconify-icon>
+        <iconify-icon icon="simple-icons:anthropic" width="20"></iconify-icon>
+        <iconify-icon icon="simple-icons:microsoft" width="18"></iconify-icon>
+        <iconify-icon icon="simple-icons:x" width="18"></iconify-icon>
+        <iconify-icon icon="simple-icons:apple" width="20"></iconify-icon>
+        <iconify-icon icon="simple-icons:amazon" width="20"></iconify-icon>
+      </div>
+    </div>
+  </section>
+
+  <section class="w-full bg-black py-24" id="features">
+    <div class="container mx-auto px-6">
+      <div class="mb-24 max-w-3xl relative">
+        <div
+          class="absolute -left-20 -top-20 w-64 h-64 bg-purple-500/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen">
+        </div>
+        <h2 class="text-4xl md:text-6xl font-medium mb-8 tracking-tighter text-white relative z-10">
+        The Translation <span
+          class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-violet-400 to-indigo-400">Platform</span>
+      </h2>
+      <p class="text-neutral-400 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+        A complete suite of tools designed to break language barriers. Don't just translate—transform your content for global audiences.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr">
+
+      <!-- Item 1: Wide Feature -->
+      <div
+        class="md:col-span-2 group relative p-8 md:p-12 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-purple-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div
+          class="absolute top-0 right-0 w-80 h-80 bg-purple-500/5 blur-[80px] rounded-full group-hover:bg-purple-500/10 transition-colors duration-700">
+        </div>
+
+        <div class="relative z-10 flex flex-col h-full justify-between items-start">
+          <div
+            class="w-14 h-14 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-8 text-purple-300 shadow-lg shadow-purple-900/20 group-hover:scale-105 transition-transform duration-500">
+            <iconify-icon icon="lucide:database" width="28"></iconify-icon>
+          </div>
+          <div class="">
+            <h3 class="text-2xl md:text-3xl font-medium text-white mb-4 tracking-tight">Intelligent Source Management
+            </h3>
+            <p class="text-neutral-400 text-base md:text-lg leading-relaxed max-w-lg font-light">The central nervous
+              system for your library. Automatically categorize, tag, and cross-reference PDFs, articles, and notes into
+              a cohesive knowledge graph.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2: Tall/Standard -->
+      <div
+        class="group relative p-8 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-blue-500/20 transition-all duration-500 backdrop-blur-sm flex flex-col justify-between">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+
+        <div class="relative z-10">
+          <div
+            class="w-12 h-12 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-6 text-blue-300 shadow-lg shadow-blue-900/20">
+            <iconify-icon icon="lucide:mic" width="24"></iconify-icon>
+          </div>
+          <h3 class="text-xl font-medium text-white mb-3 tracking-tight">Voice Cloning</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed font-light">Keep original speaker's voice and emotion with ultra-realistic AI cloning.</p>
+        </div>
+      </div>
+
+      <!-- Item 3: Standard -->
+      <div
+        class="group relative p-8 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-emerald-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div class="relative z-10">
+          <div
+            class="w-12 h-12 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-6 text-emerald-300 shadow-lg shadow-emerald-900/20">
+            <iconify-icon icon="lucide:subtitles" width="24"></iconify-icon>
+          </div>
+          <h3 class="text-xl font-medium text-white mb-3 tracking-tight">Smart Subtitles</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed font-light">Frame-perfect SRT, VTT, or burned-in subs with real-time editor.</p>
+        </div>
+      </div>
+
+      <!-- Item 4: Wide Feature (Podcast) -->
+      <div
+        class="md:col-span-2 group relative p-8 md:p-12 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-pink-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-bl from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div
+          class="absolute -right-20 -bottom-20 w-80 h-80 bg-pink-500/5 blur-[80px] rounded-full group-hover:bg-pink-500/10 transition-colors duration-700">
+        </div>
+
+        <div class="relative z-10 flex flex-col md:flex-row gap-8 justify-between h-full items-end">
+          <div class="max-w-md">
+            <div
+              class="w-14 h-14 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-8 text-pink-300 shadow-lg shadow-pink-900/20">
+              <iconify-icon icon="lucide:wand-2" width="28"></iconify-icon>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-medium text-white mb-4 tracking-tight">Magic Mode</h3>
+            <p class="text-neutral-400 text-base md:text-lg leading-relaxed font-light">One-click audio enhancement: remove noise, clarify speech, balance levels, and preserve background music with intelligent ducking.</p>
+          </div>
+
+          <!-- Visual Waveform Decoration -->
+          <div class="hidden md:flex items-center gap-1.5 h-16 opacity-40">
+            <span class="w-1 h-4 bg-pink-400/80 rounded-full animate-pulse"></span>
+            <span class="w-1 h-8 bg-pink-400/80 rounded-full animate-[pulse_1.5s_ease-in-out_infinite]"></span>
+            <span class="w-1 h-12 bg-pink-400/80 rounded-full animate-[pulse_1s_ease-in-out_infinite]"></span>
+            <span class="w-1 h-6 bg-pink-400/80 rounded-full animate-[pulse_1.2s_ease-in-out_infinite]"></span>
+            <span class="w-1 h-10 bg-pink-400/80 rounded-full animate-[pulse_1.8s_ease-in-out_infinite]"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Three singles -->
+      <div
+        class="group relative p-8 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-amber-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div class="relative z-10">
+          <div
+            class="w-12 h-12 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-6 text-amber-300 shadow-lg shadow-amber-900/20">
+            <iconify-icon icon="lucide:zap" width="24"></iconify-icon>
+          </div>
+          <h3 class="text-xl font-medium text-white mb-3 tracking-tight">Lightning Fast</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed font-light">Process hours in minutes via distributed GPU network.</p>
+        </div>
+      </div>
+
+      <div
+        class="group relative p-8 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-cyan-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div class="relative z-10">
+          <div
+            class="w-12 h-12 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-6 text-cyan-300 shadow-lg shadow-cyan-900/20">
+            <iconify-icon icon="lucide:globe" width="24"></iconify-icon>
+          </div>
+          <h3 class="text-xl font-medium text-white mb-3 tracking-tight">Global Reach</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed font-light">30+ languages including Japanese, Mandarin, Spanish, French, German.</p>
+        </div>
+      </div>
+
+      <div
+        class="group relative p-8 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-rose-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div class="relative z-10">
+          <div
+            class="w-12 h-12 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-6 text-rose-300 shadow-lg shadow-rose-900/20">
+            <iconify-icon icon="lucide:file-audio" width="24"></iconify-icon>
+          </div>
+          <h3 class="text-xl font-medium text-white mb-3 tracking-tight">Audio Translation</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed font-light">Convert audio files between languages seamlessly.</p>
+        </div>
+      </div>
+
+      <!-- Row 4: Large + Small -->
+      <div
+        class="md:col-span-2 group relative p-8 md:p-12 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-violet-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-tr from-violet-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-8">
+            <div
+              class="w-14 h-14 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center text-violet-300 shadow-lg shadow-violet-900/20">
+              <iconify-icon icon="lucide:brain-circuit" width="28"></iconify-icon>
+            </div>
+            <span
+              class="px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-xs font-medium text-violet-300 backdrop-blur-md">Interactive</span>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-medium text-white mb-4 tracking-tight">Multi-Speaker Diarization</h3>
+          <p class="text-neutral-400 text-base md:text-lg leading-relaxed max-w-lg font-light">Automatically identify and separate different speakers in your content. Each voice gets its own cloned translation, maintaining natural conversation flow.</p>
+        </div>
+      </div>
+
+      <div
+        class="group relative p-8 bg-neutral-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-indigo-500/20 transition-all duration-500 backdrop-blur-sm">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        </div>
+        <div class="relative z-10">
+          <div
+            class="w-12 h-12 rounded-2xl bg-neutral-800/80 border border-white/10 flex items-center justify-center mb-6 text-indigo-300 shadow-lg shadow-indigo-900/20">
+            <iconify-icon icon="lucide:download" width="24"></iconify-icon>
+          </div>
+          <h3 class="text-xl font-medium text-white mb-3 tracking-tight">Batch Export</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed font-light">Export all formats at once: video, audio, subtitles.</p>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-neutral-900/20 border-y border-white/5 relative">
+    <section class="py-32 bg-neutral-950 relative z-10 border-t border-white/5">
+      <div class="container mr-auto ml-auto pr-6 pl-6">
+
+        <div class="text-center mb-20 max-w-3xl mx-auto">
+          <h2 class="text-3xl md:text-5xl font-semibold mb-4 tracking-tight text-white">From Upload to Worldwide</h2>
+          <p class="text-neutral-400">Three simple steps to break language barriers and reach global audiences.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div
+            class="group relative rounded-2xl border border-white/10 bg-neutral-900 overflow-hidden p-6 hover:border-purple-500/30 transition-colors duration-500 reveal-on-scroll">
+            <div
+              class="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4 text-purple-400">
+              <iconify-icon icon="lucide:mic" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">Upload Content</h3>
+            <p class="text-sm text-neutral-400 mb-6 h-10">Drag & drop video or audio. All major formats up to 5GB supported.</p>
+
+            <div class="bg-black rounded-xl border border-white/5 p-4 relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent"></div>
+              <div
+                class="bg-neutral-900 rounded-lg px-3 py-2 text-[10px] text-neutral-300 font-mono mb-3 border border-white/5 truncate">
+                Input: "product_demo.mp4"
+              </div>
+              <div
+                class="flex items-center justify-center h-12 bg-neutral-900/50 rounded-lg border border-white/5 gap-1">
+                <div class="w-1 bg-purple-400 h-4 animate-float"></div>
+                <div class="w-1 bg-purple-400 h-8 animate-[float_0.5s_infinite]"></div>
+                <div class="w-1 bg-purple-400 h-6 animate-[float_0.7s_infinite]"></div>
+                <div class="w-1 bg-purple-400 h-3 animate-float"></div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="group relative rounded-2xl border border-white/10 bg-neutral-900 overflow-hidden p-6 hover:border-blue-500/30 transition-colors duration-500 reveal-on-scroll delay-75">
+            <div
+              class="w-10 h-10 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4 text-blue-400">
+              <iconify-icon icon="lucide:video" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">AI Processing</h3>
+            <p class="text-sm text-neutral-400 mb-6 h-10">Engine transcribes, translates, clones voice, and syncs lips automatically.</p>
+
+            <div class="bg-black rounded-xl border border-white/5 p-4 relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent"></div>
+              <div class="flex gap-2 mb-3">
+                <div class="flex-1 h-8 bg-neutral-800 rounded border border-white/5"></div>
+                <div class="flex-1 h-8 bg-neutral-800 rounded border border-white/5"></div>
+                <div class="flex-1 h-8 bg-neutral-800 rounded border border-white/5"></div>
+              </div>
+              <div class="h-1 rounded-full bg-neutral-800 w-full overflow-hidden">
+                <div class="h-full bg-blue-500 w-[72%]"></div>
+              </div>
+              <div class="flex justify-between mt-2">
+                <span class="text-[10px] text-neutral-500">Processing...</span>
+                <span class="text-[10px] text-blue-400">72%</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="group relative rounded-2xl border border-white/10 bg-neutral-900 overflow-hidden p-6 hover:border-green-500/30 transition-colors duration-500 reveal-on-scroll delay-150">
+            <div
+              class="w-10 h-10 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mb-4 text-green-400">
+              <iconify-icon icon="lucide:users" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">Global Release</h3>
+            <p class="text-sm text-neutral-400 mb-6 h-10">Download localized assets or stream via global CDN instantly.</p>
+
+            <div class="bg-black rounded-xl border border-white/5 p-4 relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-b from-green-500/5 to-transparent"></div>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-green-500/20"></div>
+                  <div class="h-1.5 w-2/3 bg-neutral-800 rounded"></div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-green-500/20"></div>
+                  <div class="h-1.5 w-1/2 bg-neutral-800 rounded"></div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-green-500/20"></div>
+                  <div class="h-1.5 w-3/4 bg-neutral-800 rounded"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="group relative rounded-2xl border border-white/10 bg-neutral-900 overflow-hidden p-6 hover:border-pink-500/30 transition-colors duration-500 reveal-on-scroll">
+            <div
+              class="w-10 h-10 rounded-full bg-pink-500/10 border border-pink-500/20 flex items-center justify-center mb-4 text-pink-400">
+              <iconify-icon icon="lucide:brain-circuit" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">Lip-Sync Technology</h3>
+            <p class="text-sm text-neutral-400 mb-6 h-10">AI matches mouth movements perfectly to translated audio for natural results.</p>
+
+            <div class="bg-black rounded-xl border border-white/5 p-4 relative overflow-hidden flex flex-col gap-2">
+              <div class="absolute inset-0 bg-gradient-to-b from-pink-500/5 to-transparent"></div>
+              <div
+                class="self-start bg-neutral-800 rounded-lg rounded-tl-none px-2 py-1.5 max-w-[80%] border border-white/5">
+                <div class="h-1 w-12 bg-neutral-600 rounded mb-1"></div>
+                <div class="h-1 w-20 bg-neutral-600 rounded"></div>
+              </div>
+              <div
+                class="self-end bg-pink-900/30 rounded-lg rounded-tr-none px-2 py-1.5 max-w-[80%] border border-pink-500/20">
+                <div class="h-1 w-16 bg-pink-400/50 rounded"></div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="group relative rounded-2xl border border-white/10 bg-neutral-900 overflow-hidden p-6 hover:border-orange-500/30 transition-colors duration-500 reveal-on-scroll delay-75">
+            <div
+              class="w-10 h-10 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-4 text-orange-400">
+              <iconify-icon icon="lucide:library" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">Multi-Language Export</h3>
+            <p class="text-sm text-neutral-400 mb-6 h-10">Export videos in multiple languages simultaneously with batch processing.</p>
+
+            <div class="bg-black rounded-xl border border-white/5 p-4 relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-b from-orange-500/5 to-transparent"></div>
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between bg-neutral-900 border border-white/5 p-1.5 rounded">
+                  <div class="h-1.5 w-16 bg-neutral-700 rounded"></div>
+                  <div class="w-3 h-3 rounded-full border border-white/10"></div>
+                </div>
+                <div class="flex items-center justify-between bg-neutral-900 border border-white/5 p-1.5 rounded">
+                  <div class="h-1.5 w-20 bg-neutral-700 rounded"></div>
+                  <div class="w-3 h-3 rounded-full border border-white/10"></div>
+                </div>
+                <div class="flex items-center justify-between bg-neutral-900 border border-white/5 p-1.5 rounded">
+                  <div class="h-1.5 w-12 bg-neutral-700 rounded"></div>
+                  <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="group relative rounded-2xl border border-white/10 bg-neutral-900 overflow-hidden p-6 hover:border-cyan-500/30 transition-colors duration-500 reveal-on-scroll delay-150">
+            <div
+              class="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4 text-cyan-400">
+              <iconify-icon icon="lucide:fingerprint" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-2">Voice Preservation</h3>
+            <p class="text-sm text-neutral-400 mb-6 h-10">Clone and preserve original speaker's voice characteristics and emotional tone.</p>
+
+            <div class="bg-black rounded-xl border border-white/5 p-4 relative overflow-hidden flex items-center gap-3">
+              <div class="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent"></div>
+              <div class="w-8 h-8 rounded-full bg-neutral-800 border border-white/10 flex items-center justify-center">
+                <iconify-icon icon="lucide:user" width="14" class="text-neutral-500"></iconify-icon>
+              </div>
+              <div class="flex-1 flex items-center gap-0.5 h-6">
+                <div class="w-0.5 bg-cyan-500 h-2 animate-float"></div>
+                <div class="w-0.5 bg-cyan-500 h-4 animate-[float_0.3s_infinite]"></div>
+                <div class="w-0.5 bg-cyan-500 h-3 animate-float"></div>
+                <div class="w-0.5 bg-cyan-500 h-5 animate-[float_0.6s_infinite]"></div>
+                <div class="w-0.5 bg-cyan-500 h-2 animate-float"></div>
+                <div class="w-0.5 bg-neutral-800 h-1"></div>
+                <div class="w-0.5 bg-neutral-800 h-1"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="w-full bg-black py-24" id="learnings">
+    <div class="container mx-auto px-6">
+    <div class="flex flex-col md:flex-row mb-12 items-end justify-between">
+      <div>
+        <h2 class="text-3xl font-semibold mb-3 text-white tracking-tight">Recent Translations</h2>
+        <p class="text-neutral-400">Real-time projects from creators worldwide.</p>
+      </div>
+
+    </div>
+
+    <div class="columns-1 sm:columns-2 lg:columns-4 gap-4 space-y-4 gap-x-4 gap-y-4">
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-950 border border-white/10 p-6 hover:border-purple-500/30 transition-all duration-500">
+        <div class="absolute inset-0 z-0">
+          <img src="https://images.unsplash.com/photo-1640906152676-dace6710d24b?w=2160&amp;q=80"
+            class="w-full h-full object-cover opacity-40 group-hover:scale-110 group-hover:opacity-50 transition-all duration-700"
+            alt="Background">
+          <div class="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-950/80 to-neutral-950"></div>
+        </div>
+        <div class="absolute top-0 right-0 p-4 opacity-20 z-10">
+          <iconify-icon icon="lucide:sparkles" width="64" class="text-purple-500"></iconify-icon>
+        </div>
+        <div class="relative z-10">
+          <div
+            class="inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 px-2.5 py-1 text-[10px] text-neutral-300 mb-4 backdrop-blur-md shadow-sm">
+            Platform Capabilities
+          </div>
+          <h3 class="text-2xl font-semibold text-white mb-4 tracking-tight">Break Language Barriers</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-center gap-2 text-sm text-neutral-300">
+              <div
+                class="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 border border-purple-500/20">
+                <iconify-icon icon="lucide:check" width="12"></iconify-icon>
+              </div>
+              Video Translation
+            </li>
+            <li class="flex items-center gap-2 text-sm text-neutral-300">
+              <div
+                class="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 border border-purple-500/20">
+                <iconify-icon icon="lucide:check" width="12"></iconify-icon>
+              </div>
+              Voice Cloning
+            </li>
+              Auto-Course Creation
+            </li>
+            <li class="flex items-center gap-2 text-sm text-neutral-300">
+              <div
+                class="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 border border-purple-500/20">
+                <iconify-icon icon="lucide:check" width="12"></iconify-icon>
+              </div>
+              Live AI Debates
+            </li>
+          </ul>
+          <div class="flex gap-2">
+            <span
+              class="px-2 py-1 rounded bg-white/10 text-[10px] text-neutral-400 border border-white/5 backdrop-blur-sm">GPT-4o</span>
+            <div
+              class="z-10 bg-black/50 px-3 py-1 rounded-full text-[10px] font-mono border border-white/10 backdrop-blur-sm">
+              Demo: Rendering... 72%
+            </div>
+            <span
+              class="px-2 py-1 rounded bg-white/10 text-[10px] text-neutral-400 border border-white/5 backdrop-blur-sm">Claude
+              3.5</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-purple-500/50 transition-all duration-500">
+        <div class="relative h-[320px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="Quantum">
+          <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent"></div>
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-purple-500/20 backdrop-blur-md border border-purple-500/20 text-[10px] font-medium text-purple-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:headphones" width="12"></iconify-icon> Podcast
+          </div>
+          <div
+            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div
+              class="w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-glow hover:scale-110 transition-transform">
+              <iconify-icon icon="lucide:play" width="20" class="ml-1"></iconify-icon>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Quantum Mechanics</h4>
+          <p class="text-xs text-neutral-400 mb-2">Deep dive into wave functions.</p>
+          <div class="w-full h-0.5 bg-white/10 rounded-full overflow-hidden group-hover:h-1 transition-all">
+            <div class="w-1/3 h-full bg-purple-500"></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-blue-500/50 transition-all duration-500">
+        <div class="relative h-[200px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="Aerospace">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-blue-500/20 backdrop-blur-md border border-blue-500/20 text-[10px] font-medium text-blue-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:graduation-cap" width="12"></iconify-icon> Course
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Aerospace 101</h4>
+          <p class="text-xs text-neutral-400">Flight dynamics basics.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-green-500/50 transition-all duration-500">
+        <div class="relative h-[200px] overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1629946832022-c327f74956e0?w=2160&amp;q=80"
+            class="transition-transform duration-700 group-hover:scale-110 group-hover:opacity-60 opacity-80 w-full h-full object-cover"
+            alt="Math">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-green-500/20 backdrop-blur-md border border-green-500/20 text-[10px] font-medium text-green-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:users" width="12"></iconify-icon> Debate
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Linear Algebra</h4>
+          <p class="text-xs text-neutral-400">Eigenvectors &amp; spaces.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-pink-500/50 transition-all duration-500">
+        <div class="relative h-[380px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="AI">
+          <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent"></div>
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-pink-500/20 backdrop-blur-md border border-pink-500/20 text-[10px] font-medium text-pink-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:video" width="12"></iconify-icon> Documentary
+          </div>
+          <div
+            class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div
+              class="w-12 h-12 rounded-full bg-pink-600 text-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+              <iconify-icon icon="lucide:play" width="20" class="ml-1"></iconify-icon>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Deep Learning</h4>
+          <p class="text-xs text-neutral-400 mb-2">Neural networks explained.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-purple-500/50 transition-all duration-500">
+        <div class="relative h-[220px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1559757175-5700dde675bc?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="Brain">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-purple-500/20 backdrop-blur-md border border-purple-500/20 text-[10px] font-medium text-purple-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:headphones" width="12"></iconify-icon> Podcast
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Neuroscience</h4>
+          <p class="text-xs text-neutral-400">Brain structure deep dive.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-green-500/50 transition-all duration-500">
+        <div class="overflow-hidden h-[340px] relative">
+          <img src="https://images.unsplash.com/photo-1724525647065-f948fc102e68?w=2160&amp;q=80"
+            class="transition-transform duration-700 group-hover:scale-110 group-hover:opacity-60 opacity-80 w-full h-full object-cover"
+            alt="Econ">
+          <div
+            class="text-[10px] flex gap-1 font-medium text-green-200 bg-green-500/20 border-green-500/20 border rounded-md pt-1 pr-2 pb-1 pl-2 absolute top-3 left-3 backdrop-blur-md gap-x-1 gap-y-1 items-center">
+            <iconify-icon icon="lucide:users" width="12" class=""></iconify-icon> Debate
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Macroeconomics</h4>
+          <p class="text-xs text-neutral-400">Keynes vs. Hayek simulation.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-blue-500/50 transition-all duration-500">
+        <div class="relative h-[200px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="Chem">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-blue-500/20 backdrop-blur-md border border-blue-500/20 text-[10px] font-medium text-blue-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:graduation-cap" width="12" class=""></iconify-icon> Course
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Organic Chemistry</h4>
+          <p class="text-xs text-neutral-400">Molecular bonding.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-pink-500/50 transition-all duration-500">
+        <div class="relative h-[240px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1548786811-dd6e453ccca7?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="History">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-pink-500/20 backdrop-blur-md border border-pink-500/20 text-[10px] font-medium text-pink-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:video" width="12"></iconify-icon> Docu
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">European History</h4>
+          <p class="text-xs text-neutral-400">The Renaissance era.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-purple-500/50 transition-all duration-500">
+        <div class="relative h-[320px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="transition-transform duration-700 group-hover:scale-110 group-hover:opacity-60 opacity-80 w-full h-full object-cover"
+            alt="Psych">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-purple-500/20 backdrop-blur-md border border-purple-500/20 text-[10px] font-medium text-purple-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:headphones" width="12" class=""></iconify-icon> Podcast
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Cognitive Psych</h4>
+          <p class="text-xs text-neutral-400">Behavioral economics.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-blue-500/50 transition-all duration-500">
+        <div class="relative h-[360px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="Space">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-blue-500/20 backdrop-blur-md border border-blue-500/20 text-[10px] font-medium text-blue-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:graduation-cap" width="12"></iconify-icon> Course
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Astrophysics</h4>
+          <p class="text-xs text-neutral-400">Stellar evolution.</p>
+        </div>
+      </div>
+
+      <div
+        class="group break-inside-avoid relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 cursor-pointer hover:border-green-500/50 transition-all duration-500">
+        <div class="relative h-[220px] overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&amp;w=800&amp;auto=format&amp;fit=crop"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-60"
+            alt="Game Theory">
+          <div
+            class="absolute top-3 left-3 px-2 py-1 rounded-md bg-green-500/20 backdrop-blur-md border border-green-500/20 text-[10px] font-medium text-green-200 flex items-center gap-1">
+            <iconify-icon icon="lucide:users" width="12"></iconify-icon> Debate
+          </div>
+        </div>
+        <div class="p-4 bg-neutral-900">
+          <h4 class="text-white font-medium mb-1">Game Theory</h4>
+          <p class="text-xs text-neutral-400">Nash equilibrium.</p>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <section class="w-full relative py-24" id="who-can-use">
+    <!-- Background Glow -->
+    <div class="absolute left-0 top-0 w-full h-full overflow-hidden pointer-events-none">
+      <div
+        class="absolute left-[-10%] top-[10%] w-[600px] h-[600px] bg-purple-600/10 blur-[120px] rounded-full mix-blend-screen animate-pulse">
+      </div>
+      <div
+        class="absolute right-[-10%] bottom-[10%] w-[600px] h-[600px] bg-indigo-600/10 blur-[120px] rounded-full mix-blend-screen animate-pulse"
+        style="animation-delay: 2s;"></div>
+    </div>
+    <div class="container mx-auto px-6">
+
+    <div class="flex flex-col gap-20 relative z-10">
+      <!-- Top row: brands & headline -->
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
+        <div class="flex-1 flex flex-col gap-10">
+          <!-- Trusted by (Redesigned) -->
+          <div class="flex flex-wrap items-center gap-6">
+            <div
+              class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-[#0A0A0A] border border-white/10 shadow-[0_0_15px_-3px_rgba(168,85,246,0.2)]">
+              <span class="w-2 h-2 rounded-full bg-[#A78BFA] shadow-[0_0_10px_rgba(167,139,250,0.5)]"></span>
+              <span class="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#E9D5FF]">
+                Trusted by top institutions
+              </span>
+            </div>
+            <div class="flex items-center gap-8 text-[12px] font-medium text-neutral-500 uppercase tracking-[0.15em]">
+              <span class="hover:text-white transition-colors duration-300 cursor-default">MIT</span>
+              <span class="hover:text-white transition-colors duration-300 cursor-default">Stanford</span>
+              <span class="hover:text-white transition-colors duration-300 cursor-default">Oxford</span>
+              <span class="hover:text-white transition-colors duration-300 cursor-default">Cambridge</span>
+            </div>
+          </div>
+
+          <!-- Heading -->
+          <div class="max-w-3xl relative">
+            <div
+              class="absolute -left-20 -top-20 w-40 h-40 bg-purple-500/20 blur-[80px] rounded-full pointer-events-none mix-blend-screen">
+            </div>
+            <h2 class="text-5xl md:text-7xl font-medium mb-8 tracking-tighter text-white relative z-10 leading-[0.9]">
+              Translation infrastructure <br /> for <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#8B5CF6] to-[#6366F1] drop-shadow-[0_0_30px_rgba(139,92,246,0.3)]">global
+                reach</span>
+            </h2>
+            <p class="text-neutral-400 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+              Octavia adapts to your content type, whether you're translating educational videos, marketing campaigns, podcasts, or entertainment content. Our AI preserves context, tone, and cultural nuances across 30+ languages.
+            </p>
+          </div>
+
+          <!-- Stats row -->
+          <div class="flex flex-wrap gap-6">
+            <div
+              class="group flex items-center gap-5 px-6 py-4 rounded-2xl bg-neutral-900/40 border border-white/5 backdrop-blur-md hover:border-purple-500/30 hover:bg-purple-500/5 transition-all duration-500">
+              <div
+                class="w-12 h-12 rounded-xl bg-neutral-800/50 border border-white/10 flex items-center justify-center text-purple-300 group-hover:scale-110 group-hover:text-purple-200 group-hover:shadow-[0_0_20px_rgba(168,85,246,0.2)] transition-all duration-500">
+                <iconify-icon icon="lucide:video" width="20"></iconify-icon>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-medium text-white group-hover:text-purple-100 transition-colors">500K+
+                  Videos</span>
+                <span class="text-xs text-neutral-500 group-hover:text-purple-300/70 transition-colors">Translated
+                  daily</span>
+              </div>
+            </div>
+
+            <div
+              class="group flex items-center gap-5 px-6 py-4 rounded-2xl bg-neutral-900/40 border border-white/5 backdrop-blur-md hover:border-purple-500/30 hover:bg-purple-500/5 transition-all duration-500">
+              <div
+                class="w-12 h-12 rounded-xl bg-neutral-800/50 border border-white/10 flex items-center justify-center text-purple-300 group-hover:scale-110 group-hover:text-purple-200 group-hover:shadow-[0_0_20px_rgba(168,85,246,0.2)] transition-all duration-500">
+                <iconify-icon icon="lucide:users" width="20"></iconify-icon>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-base font-medium text-white group-hover:text-purple-100 transition-colors">10k+
+                  Creators</span>
+                <span class="text-xs text-neutral-500 group-hover:text-purple-300/70 transition-colors">Worldwide reach</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: CTA Card -->
+        <div class="w-full max-w-sm pt-8 lg:pt-0">
+          <div
+            class="group relative p-8 rounded-[2.5rem] bg-[#0A0A0A] border border-white/10 overflow-hidden hover:border-purple-500/50 transition-all duration-500 shadow-2xl">
+            <!-- Card Glow -->
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+            </div>
+            <div
+              class="absolute -top-20 -right-20 w-60 h-60 bg-purple-500/20 blur-[60px] rounded-full group-hover:bg-purple-500/30 transition-colors duration-700">
+            </div>
+
+            <div class="relative z-10 flex flex-col gap-8">
+              <div class="flex items-center justify-between">
+                <div class="flex flex-col gap-1">
+                  <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-400 mb-1">Enterprise
+                    Access</span>
+                  <span class="text-2xl font-semibold text-white tracking-tight">Get Octavia Pro</span>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-white group-hover:shadow-[0_0_30px_rgba(168,85,246,0.4)] transition-all duration-500">
+                  <iconify-icon icon="lucide:globe" width="24"></iconify-icon>
+                </div>
+              </div>
+
+              <p class="text-sm text-neutral-400 font-light leading-relaxed border-l-2 border-purple-500/20 pl-4">
+                Businesses and content creators get <span class="text-white font-medium">priority processing</span> with Octavia Pro. Scale your global reach with unlimited translations.
+              </p>
+
+              <button
+                class="flex items-center justify-between w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-purple-600 hover:border-purple-500 text-sm font-medium text-white transition-all duration-300 group/btn shadow-lg hover:shadow-purple-500/25">
+                <span>Start Free Trial</span>
+                <iconify-icon icon="lucide:arrow-right" width="18"
+                  class="group-hover/btn:translate-x-1 transition-transform"></iconify-icon>
+              </button>
+
+              <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                <span class="text-[10px] text-neutral-500 uppercase tracking-widest font-medium">30+ Languages <span
+                    class="text-neutral-300">Available</span></span>
+                <div
+                  class="flex items-center gap-2 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                  <span
+                    class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                  <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Live</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom row: Image Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Card 1: Academia -->
+        <div
+          class="group relative rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 overflow-hidden hover:border-purple-500/40 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(168,85,246,0.15)]">
+          <div class="h-48 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+              alt="Students"
+              class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0">
+          </div>
+          <div class="p-8 relative z-20 -mt-16">
+            <div
+              class="w-12 h-12 rounded-2xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-purple-400 mb-6 shadow-xl group-hover:scale-110 group-hover:border-purple-500/30 group-hover:shadow-[0_0_20px_rgba(168,85,246,0.2)] transition-all duration-500">
+              <iconify-icon icon="lucide:graduation-cap" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-medium text-white mb-3 group-hover:text-purple-200 transition-colors">Students</h3>
+            <p
+              class="text-sm text-neutral-400 font-light leading-relaxed group-hover:text-neutral-300 transition-colors">
+              Turn hundreds of PDFs into a searchable knowledge base. Generate citations instantly.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: Enterprise -->
+        <div
+          class="group relative rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 overflow-hidden hover:border-blue-500/40 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.15)]">
+          <div class="h-48 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+              alt="Professionals"
+              class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0">
+          </div>
+          <div class="p-8 relative z-20 -mt-16">
+            <div
+              class="w-12 h-12 rounded-2xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-blue-400 mb-6 shadow-xl group-hover:scale-110 group-hover:border-blue-500/30 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] transition-all duration-500">
+              <iconify-icon icon="lucide:briefcase" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-medium text-white mb-3 group-hover:text-blue-200 transition-colors">Professionals
+            </h3>
+            <p
+              class="text-sm text-neutral-400 font-light leading-relaxed group-hover:text-neutral-300 transition-colors">
+              Ingest market reports and technical docs to make data-driven decisions faster.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: Developers -->
+        <div
+          class="group relative rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 overflow-hidden hover:border-emerald-500/40 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(16,185,129,0.15)]">
+          <div class="h-48 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+              alt="Developers"
+              class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0">
+          </div>
+          <div class="p-8 relative z-20 -mt-16">
+            <div
+              class="w-12 h-12 rounded-2xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-emerald-400 mb-6 shadow-xl group-hover:scale-110 group-hover:border-emerald-500/30 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] transition-all duration-500">
+              <iconify-icon icon="lucide:code-2" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-medium text-white mb-3 group-hover:text-emerald-200 transition-colors">Developers
+            </h3>
+            <p
+              class="text-sm text-neutral-400 font-light leading-relaxed group-hover:text-neutral-300 transition-colors">
+              Upload codebases. Ask for refactoring, docs, or debugging help with context.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4: Creative -->
+        <div
+          class="group relative rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 overflow-hidden hover:border-pink-500/40 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(236,72,153,0.15)]">
+          <div class="h-48 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+              alt="Creators"
+              class="w-full h-full object-cover opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0">
+          </div>
+          <div class="p-8 relative z-20 -mt-16">
+            <div
+              class="w-12 h-12 rounded-2xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-pink-400 mb-6 shadow-xl group-hover:scale-110 group-hover:border-pink-500/30 group-hover:shadow-[0_0_20px_rgba(236,72,153,0.2)] transition-all duration-500">
+              <iconify-icon icon="lucide:pen-tool" width="20"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-medium text-white mb-3 group-hover:text-pink-200 transition-colors">Creators</h3>
+            <p
+              class="text-sm text-neutral-400 font-light leading-relaxed group-hover:text-neutral-300 transition-colors">
+              Overcome writer's block. Brainstorm plot points and organize research.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="overflow-hidden bg-neutral-950 border-white/5 border-t py-24 relative">
+    <div class="container mx-auto px-6 mb-16">
+      <div class="max-w-2xl">
+        <p class="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-3">What people say</p>
+        <h2 class="text-3xl md:text-5xl font-medium text-white tracking-tight">Testimonials</h2>
+      </div>
+    </div>
+
+    <div class="w-full relative space-y-6">
+      <div
+        class="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-neutral-950 to-transparent z-10">
+      </div>
+      <div
+        class="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-neutral-950 to-transparent z-10">
+      </div>
+
+      <div class="flex gap-6 animate-marquee-ltr hover:[animation-play-state:paused] w-max will-change-transform">
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1640906152676-dace6710d24b?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Ava Thompson</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@ava_builds</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">Octavia's AI dubbing is incredible. I uploaded my
+            product demo and got perfect Spanish and French versions with natural voice cloning in minutes.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div class="">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Noah Patel</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@noah_ops</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The translation quality is unmatched. It didn't just
+            translate words; it preserved the emotion and tone perfectly across three different languages.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div class="">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Maya Kim</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@mayak</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">Lightning fast video dubbing. I translated my entire course
+            library into 5 languages with perfect lip-sync. Game changer for my online business.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Ethan Garcia</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@egarcia</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The voice cloning is scary good. My audience can't tell
+            the difference between my original English videos and the AI-dubbed Spanish versions.</p>
+        </article>
+
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1640906152676-dace6710d24b?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Ava Thompson</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@ava_builds</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">Octavia's AI dubbing is incredible. I uploaded my
+            product demo and got perfect Spanish and French versions with natural voice cloning in minutes.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Noah Patel</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@noah_ops</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The translation quality is unmatched. It didn't just
+            translate words; it preserved the emotion and tone perfectly across three different languages.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Maya Kim</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@mayak</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">Lightning fast video dubbing. I translated my entire course
+            library into 5 languages with perfect lip-sync. Game changer for my online business.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Ethan Garcia</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@egarcia</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The voice cloning is scary good. My audience can't tell
+            the difference between my original English videos and the AI-dubbed Spanish versions.</p>
+        </article>
+      </div>
+
+      <div class="flex gap-6 animate-marquee-rtl hover:[animation-play-state:paused] w-max will-change-transform">
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Priya Singh</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@priya_dev</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The subtitle editor is seamless. Frame-perfect timing with
+            real-time preview. No more manual adjustments or third-party tools needed.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Leo Martin</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@leom</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">I use Magic Mode for all my podcasts. The audio enhancement
+            removes background noise and balances levels automatically. Professional quality every time.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Sofia Alvarez</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@sofialabs</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The batch processing saves me hours. Upload 20 videos, select
+            languages, and let Octavia handle everything. My global reach increased 10x.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Jackson Lee</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@jacksonlee</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The multi-speaker diarization is incredible. Each person in my
+            panel discussion got their own voice clone in the translated version. Absolutely seamless.</p>
+        </article>
+
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Priya Singh</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@priya_dev</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The subtitle editor is seamless. Frame-perfect timing with
+            real-time preview. No more manual adjustments or third-party tools needed.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Leo Martin</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@leom</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">I use Magic Mode for all my podcasts. The audio enhancement
+            removes background noise and balances levels automatically. Professional quality every time.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Sofia Alvarez</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@sofialabs</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The batch processing saves me hours. Upload 20 videos, select
+            languages, and let Octavia handle everything. My global reach increased 10x.</p>
+        </article>
+        <article
+          class="w-[320px] md:w-[400px] p-6 rounded-2xl bg-neutral-900/30 border border-white/5 backdrop-blur-sm shrink-0">
+          <div class="flex items-center gap-3 mb-4">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;h=100&amp;fit=crop&amp;q=80"
+              alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-white/10">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-medium text-white">Jackson Lee</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="text-purple-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="text-[10px] text-neutral-500">@jacksonlee</div>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-300 leading-relaxed">The multi-speaker diarization is incredible. Each person in my
+            panel discussion got their own voice clone in the translated version. Absolutely seamless.</p>
+        </article>
+      </div>
+    </div>
+
+    <style>
+      .animate-marquee-ltr {
+        animation: marquee-ltr 80s linear infinite;
+      }
+
+      .animate-marquee-rtl {
+        animation: marquee-rtl 80s linear infinite;
+      }
+
+      @keyframes marquee-ltr {
+        0% {
+          transform: translateX(-50%);
+        }
+
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes marquee-rtl {
+        0% {
+          transform: translateX(0);
+        }
+
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+    </style>
+  </section>
+
+  <section class="w-full bg-black py-24" id="faq">
+    <div class="container mx-auto px-6">
+    <div
+      class="max-w-3xl mx-auto bg-neutral-900/30 border border-white/5 rounded-3xl p-8 md:p-12 backdrop-blur-sm reveal-on-scroll">
+      <div class="mb-10">
+        <h2 class="text-3xl font-semibold text-white mb-2">Help &amp; FAQs</h2>
+        <p class="text-neutral-400 text-sm">Everything you need to know about AI video translation.</p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">How accurate is the AI translation and does it preserve meaning?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              We utilize advanced neural machine translation combined with context-aware AI models. Octavia doesn't just translate words; it understands context, idioms, and cultural nuances. Our voice cloning technology preserves the original speaker's tone, emotion, and speaking style. Every translation is processed through multiple quality checks, and you can preview and adjust any output before finalizing.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">Can I process long videos or does it have file size limits?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              Absolutely. Octavia supports videos up to 10 hours in length and files up to 5GB. Our distributed GPU processing network handles long-form content efficiently, processing hours of video in minutes. We support all major formats (MP4, MOV, AVI, MKV) and automatically optimize your content for the best translation quality. For enterprise clients, we offer unlimited file sizes and custom processing pipelines.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">Is my video content and data private and secure?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              Privacy is our top priority. All uploads are end-to-end encrypted during transfer and storage. Your videos are processed in isolated, secure containers and automatically deleted after 30 days (or immediately upon request). We legally guarantee that your content is never used to train our public models or shared with third parties. For sensitive content, we offer on-premise deployment options where data never leaves your infrastructure.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">How does the lip-sync technology work?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              Our lip-sync technology uses advanced computer vision and audio analysis to match mouth movements with translated audio. The AI analyzes facial landmarks, phoneme timing, and speech patterns to ensure natural synchronization. It works across different languages with varying syllable counts, automatically adjusting timing and pacing. The result is dubbed video that looks and sounds like the speaker is naturally speaking the target language.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">Can I translate content with multiple speakers?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              Yes. Our multi-speaker diarization automatically identifies and separates different speakers in your content. Each speaker gets their own voice clone in the translated version, maintaining the natural conversation flow and individual vocal characteristics. This works for interviews, panel discussions, podcasts, and any content with multiple speakers. You can also manually adjust speaker assignments if needed.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">Does Octavia support technical content and specialized terminology?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              Octavia excels at technical content. Our AI models are trained on specialized terminology across industries including medical, legal, technical, and scientific fields. You can upload custom glossaries to ensure brand names, product terms, and industry-specific jargon are translated correctly. For enterprise clients, we offer domain-specific fine-tuning to match your exact terminology and style guidelines.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">Can I use my own voice for the translations?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              Yes, with our Pro plan. Upload a 30-second to 2-minute sample of your voice to create a custom voice profile. This allows Octavia to generate translations in your exact voice across any language. The AI preserves your unique vocal characteristics, speaking style, and emotional range. You can create multiple voice profiles for different speakers or use cases, and all voice data is stored securely and never shared.
+              that feels familiar and natural to you. Alternatively, choose from our library of 50+ premium AI voices optimized for different languages and content types.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item rounded-2xl border border-white/5 bg-white/5 overflow-hidden">
+          <button
+            class="faq-trigger w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white">What happens if I cancel my subscription?</span>
+            <iconify-icon icon="lucide:plus" class="accordion-icon text-neutral-400"></iconify-icon>
+          </button>
+          <div class="accordion-content bg-black/20">
+            <div class="p-5 pt-0 text-sm text-neutral-400 leading-relaxed">
+              Your content belongs to you. If you choose to cancel, you can export all your translated videos, audio files, subtitles, and transcripts in a single click. We believe in zero lock-in. Your account will revert to the Free tier where you can still access your existing projects, but new translation limits will apply. All your data remains accessible and exportable at any time.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+
+    <!-- Newsletter Pill -->
+    <div class="flex -translate-y-1/2 z-30 mt-16 mb-16 pr-6 pl-6 absolute top-0 right-0 left-0 justify-center">
+      <div
+        class="bg-[#0A0A0A] border border-white/10 rounded-full py-3 pl-6 pr-2 flex items-center gap-4 shadow-2xl max-w-md w-full group hover:border-purple-500/50 transition-colors">
+        <input type="text" placeholder="Join the waitlist for early access..."
+          class="bg-transparent border-none outline-none text-white text-sm w-full placeholder:text-neutral-600 font-mono focus:ring-0">
+        <button
+          class="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center hover:bg-purple-500 hover:text-white transition-colors shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            data-lucide="arrow-right" class="lucide lucide-arrow-right w-4 h-4">
+            <path d="M5 12h14" class=""></path>
+            <path d="m12 5 7 7-7 7" class=""></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+      <!-- Left -->
+      <div class="lg:col-span-7">
+        <h2 class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+          Translate.
+          <span class="text-neutral-700">Dub.</span>
+          Reach.
+        </h2>
+        <div class="flex flex-wrap gap-8 opacity-40 hover:opacity-100 transition-opacity duration-500">
+          <!-- Logos (Letters only style) -->
+          <span class="font-display font-bold tracking-tighter text-xl text-white">GOOGLE</span>
+          <span class="font-display font-bold tracking-tighter text-xl text-white">ELEVENLABS</span>
+          <span class="font-display font-bold tracking-tighter text-xl text-white">OPENAI</span>
+          <span class="font-display font-bold tracking-tighter text-xl text-white">NVIDIA</span>
+        </div>
+      </div>
+
+      <!-- Right (Purple Card) -->
+      <div class="lg:col-span-5 flex lg:justify-end items-center">
+        <div
+          class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+          <iconify-icon icon="lucide:brain-circuit" width="128"
+            class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now</h3>
+            <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">
+              Break language barriers instantly. Reach global audiences with AI-powered dubbing.
+            </p>
+            <div class="flex items-center justify-between border-t border-white/20 pt-4">
+              <span class="text-xs font-bold uppercase tracking-widest text-white">30+ Languages</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                data-lucide="arrow-up-right" class="lucide lucide-arrow-up-right w-5 h-5 text-white">
+                <path d="M7 7h10v10" class=""></path>
+                <path d="M7 17 17 7" class=""></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Watermark -->
+    <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+      <h1 class="text-[20vw] leading-none font-bold text-white/5 text-center -mb-12 tracking-tighter font-display">
+        OCTAVIA
+      </h1>
+      <div class="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#050505] to-transparent"></div>
+    </div>
+
+    <div class="absolute bottom-6 w-full flex justify-center z-30">
+      <p class="text-[10px] text-neutral-700 font-mono uppercase tracking-widest">© 2026 Octavia Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Navbar scroll effect
+      const navbarBg = document.getElementById('navbar-bg');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          navbarBg.classList.remove('bg-transparent');
+          navbarBg.classList.add('bg-black/50');
+        } else {
+          navbarBg.classList.add('bg-transparent');
+          navbarBg.classList.remove('bg-black/50');
+        }
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+      document.querySelectorAll('.faq-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const content = trigger.nextElementSibling;
+          const icon = trigger.querySelector('.accordion-icon');
+          content.classList.toggle('open');
+          icon.classList.toggle('open');
+          document.querySelectorAll('.accordion-content').forEach(c => {
+            if (c !== content) c.classList.remove('open');
+          });
+          document.querySelectorAll('.accordion-icon').forEach(i => {
+            if (i !== icon) i.classList.remove('open');
+          });
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>
