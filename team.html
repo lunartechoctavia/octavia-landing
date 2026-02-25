@@ -10,50 +10,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-
-    <!-- Preload UnicornStudio -->
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            if (!window.UnicornStudio) {
-                window.UnicornStudio = { isInitialized: !1 };
-                var i = document.createElement("script");
-                i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js";
-                i.onload = function () {
-                    if (!window.UnicornStudio.isInitialized) {
-                        UnicornStudio.init();
-                        window.UnicornStudio.isInitialized = !0;
-                        setTimeout(() => {
-                            document.querySelectorAll('.content-wait-for-load').forEach(el => el.classList.add('content-loaded'));
-                        }, 100);
-                    }
-                };
-                (document.head || document.body).appendChild(i);
-            }
-        });
-    </script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        purple: {
-                            400: '#A78BFA',
-                            500: '#8B5CF6',
-                            600: '#7C3AED',
-                            900: '#2E1065',
-                        },
-                        neutral: {
-                            850: '#1a1a1a',
-                            900: '#111111',
-                            950: '#050505',
-                        }
+                        purple: { 400: '#A78BFA', 500: '#8B5CF6', 600: '#7C3AED', 900: '#2E1065' },
+                        neutral: { 850: '#1a1a1a', 900: '#111111', 950: '#050505' }
                     },
                     fontFamily: {
                         sans: ['Geist', 'Inter', 'sans-serif'],
@@ -66,11 +34,16 @@
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
+                        'marquee-team': 'marqueeTeam 30s linear infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
+                        },
+                        marqueeTeam: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
                         }
                     }
                 }
@@ -88,54 +61,53 @@
     </script>
 
     <style>
-        body {
-            background-color: #050505;
-            color: #ffffff;
-            font-family: 'Geist', sans-serif;
-            overflow-x: hidden;
-            overflow-y: auto;
-            font-size: 14px;
+        body { background-color: #050505; color: #ffffff; font-family: 'Geist', sans-serif; overflow-x: hidden; overflow-y: auto; font-size: 14px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        .reveal-on-scroll { opacity: 0; transform: translateY(20px); filter: blur(5px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+        @keyframes letterSlideIn {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeSlideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeSlideRight {
+            0% { transform: translateX(-20px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes scaleIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+        .hero-sidebar-item { opacity: 0; animation: fadeSlideRight 0.6s ease-out forwards; transition: transform 0.4s ease; }
+        .hero-info-card { opacity: 0; animation: fadeSlideUp 0.7s ease-out forwards; transition: transform 0.4s ease, background 0.3s ease; }
+        .hero-stat-card { opacity: 0; animation: fadeSlideUp 0.5s ease-out forwards; transition: transform 0.5s ease; }
+        .hero-headline { opacity: 0; animation: fadeSlideUp 0.8s ease-out 0.7s forwards; }
+        .hero-description { opacity: 0; animation: fadeSlideUp 0.8s ease-out 0.9s forwards; }
+        .hover-float:hover { animation: float 2s ease-in-out infinite; }
+        .float-badge { animation: floatBadge 3s ease-in-out infinite; }
 
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
+        .hero-section-container { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .hero-section-container:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.06), 0 24px 48px rgba(0,0,0,0.08); }
+        .hero-section-container:hover .hero-letter { animation: float 0.6s ease-in-out; }
+        .hero-section-container:hover .hero-sidebar-item { transform: translateX(4px); }
+        .hero-section-container:hover .hero-info-card { transform: translateY(-2px); }
 
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #444;
-        }
-
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            filter: blur(5px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
-
-        .content-wait-for-load {
-            opacity: 0;
-            transition: opacity 1s ease-out;
-            will-change: opacity;
-        }
-
-        .content-loaded {
-            opacity: 1;
-        }
+        .stat-card-glow:hover { box-shadow: 0 0 8px 1px rgba(139, 92, 246, 0.3); border-color: rgba(139, 92, 246, 0.4); }
+        .marquee-team:hover { animation-play-state: paused; }
     </style>
 </head>
 
@@ -145,64 +117,45 @@
     <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
         <div id="navbar-bg"
             class="flex bg-transparent w-full border-white/5 border-b py-6 px-8 relative backdrop-blur-xl items-center justify-between transition-all duration-300">
-            <!-- Logo Section -->
             <a href="index.html" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
-                <!-- Glow effect behind logo -->
                 <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
                 <img src="assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
             </a>
 
-            <!-- Centered Navigation -->
             <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
-                <!-- Product Dropdown -->
                 <div class="relative group">
-                    <button
-                        class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-1 group-hover:text-white">
+                    <button class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-1 group-hover:text-white">
                         Product
-                        <iconify-icon icon="lucide:chevron-down" width="12"
-                            class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
                     </button>
-                    <!-- Dropdown Menu -->
-                    <div
-                        class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[500px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
-                        <div
-                            class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[500px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
                             <div class="p-6 grid grid-cols-2 gap-6">
-                                <!-- Item 1 -->
                                 <a href="features.html" class="block group/item">
                                     <div class="flex items-start gap-3">
-                                        <div
-                                            class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
                                             <iconify-icon icon="lucide:zap" width="16"></iconify-icon>
                                         </div>
                                         <div>
-                                            <div
-                                                class="text-sm font-medium text-white mb-1 group-hover/item:text-purple-300 transition-colors">
-                                                Features</div>
+                                            <div class="text-sm font-medium text-white mb-1 group-hover/item:text-purple-300 transition-colors">Features</div>
                                             <p class="text-[11px] text-neutral-500 leading-snug">AI dubbing & translation platform.</p>
                                         </div>
                                     </div>
                                 </a>
-                                <!-- Item 2 -->
                                 <a href="solutions.html" class="block group/item">
                                     <div class="flex items-start gap-3">
-                                        <div
-                                            class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
                                             <iconify-icon icon="lucide:users" width="16"></iconify-icon>
                                         </div>
                                         <div>
-                                            <div
-                                                class="text-sm font-medium text-white mb-1 group-hover/item:text-blue-300 transition-colors">
-                                                Solutions</div>
+                                            <div class="text-sm font-medium text-white mb-1 group-hover/item:text-blue-300 transition-colors">Solutions</div>
                                             <p class="text-[11px] text-neutral-500 leading-snug">For creators, educators, & enterprises.</p>
                                         </div>
                                     </div>
                                 </a>
                             </div>
-                            <!-- Footer -->
                             <div class="bg-white/5 p-4 border-t border-white/5 flex flex-col gap-2">
-                                <a href="#docs"
-                                    class="flex items-center gap-2 text-xs text-neutral-400 hover:text-white transition-colors">
+                                <a href="#docs" class="flex items-center gap-2 text-xs text-neutral-400 hover:text-white transition-colors">
                                     <iconify-icon icon="lucide:book" width="14"></iconify-icon>
                                     Documentation
                                 </a>
@@ -210,378 +163,464 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Team -->
-                <a href="team.html"
-                    class="px-4 py-2 text-xs font-medium text-white bg-white/10 rounded-full transition-colors">Team</a>
-
-                <!-- Contact -->
-                <a href="contact.html"
-                    class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+                <a href="team.html" class="px-4 py-2 text-xs font-medium text-white bg-white/10 rounded-full transition-colors">Team</a>
+                <a href="contact.html" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
             </nav>
 
-            <!-- Right Actions -->
             <div class="flex items-center gap-4 z-20 shrink-0">
-                <a href="https://app.octavia.lunartech.ai/signup"
-                    class="hidden sm:inline-flex text-xs font-medium text-neutral-400 hover:text-white transition-colors px-4 py-1.5 rounded-full border border-transparent hover:border-white/10 hover:bg-white/5">
-                    Sign in
-                </a>
-                <a href="https://app.octavia.lunartech.ai/signup"
-                    class="group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    </div>
-                    <iconify-icon icon="lucide:sparkles" width="14" stroke-width="1.5"
-                        class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                <a href="https://app.octavia.lunartech.ai/signup" class="hidden sm:inline-flex text-xs font-medium text-neutral-400 hover:text-white transition-colors px-4 py-1.5 rounded-full border border-transparent hover:border-white/10 hover:bg-white/5">Sign in</a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:sparkles" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
                     <span class="z-10 text-xs font-medium tracking-wide relative">Sign up</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- 1. HERO: The Manifesto -->
-    <section
-        class="min-h-[80vh] flex flex-col justify-center items-center text-center px-6 relative content-wait-for-load pt-24">
-        <div
-            class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-[#050505]/50 to-[#050505] -z-10">
-        </div>
-
-        <div class="max-w-4xl mx-auto">
-            <div class="inline-flex items-center gap-2 mb-8 animate-float">
-                <span
-                    class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono uppercase tracking-widest text-purple-400">
-                    Our Mission
-                </span>
+    <!-- ─── SECTION 1: HERO ─── -->
+    <section class="pt-28 pb-8 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div class="hero-section-container relative sm:mt-10 overflow-hidden bg-neutral-900/40 border border-white/5 rounded-[40px] mt-6 cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute inset-0 bg-gradient-to-b from-purple-900/10 via-transparent to-transparent"></div>
             </div>
 
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white mb-10 leading-[0.9]">
-                We are building the <br>
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-white to-purple-400">universal
-                    language</span>
-                engine.
-            </h1>
-
-            <p class="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed font-light">
-                Language creates barriers. We exist to tear them down, allowing every creator and company to instantly reach the entire globe.
-            </p>
-        </div>
-    </section>
-
-    <!-- 2. VALUES GRID -->
-    <section class="py-24 border-t border-white/5 reveal-on-scroll">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <!-- Value 1 -->
-                <div class="group">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-6 text-purple-400 group-hover:scale-110 transition-transform duration-300">
-                        <iconify-icon icon="lucide:globe" width="24"></iconify-icon>
-                    </div>
-                    <h3 class="text-xl font-medium text-white mb-3">Global Empathy</h3>
-                    <p class="text-neutral-400 leading-relaxed font-light">Understanding that translation is about cultural context, not just word-swapping.</p>
-                </div>
-
-                <!-- Value 2 -->
-                <div class="group">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 transition-transform duration-300">
-                        <iconify-icon icon="lucide:target" width="24"></iconify-icon>
-                    </div>
-                    <h3 class="text-xl font-medium text-white mb-3">Radical Accuracy</h3>
-                    <p class="text-neutral-400 leading-relaxed font-light">Processing perfectly synced audio and mouth movements down to the millisecond.</p>
-                </div>
-
-                <!-- Value 3 -->
-                <div class="group">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center mb-6 text-pink-400 group-hover:scale-110 transition-transform duration-300">
-                        <iconify-icon icon="lucide:sparkles" width="24"></iconify-icon>
-                    </div>
-                    <h3 class="text-xl font-medium text-white mb-3">Creator First</h3>
-                    <p class="text-neutral-400 leading-relaxed font-light">Building robust, fast tools that get out of the way of the creative process.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. TEAM GRID -->
-    <section class="py-24 bg-neutral-900/20 reveal-on-scroll">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-semibold text-white mb-12 text-center">The Builders</h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Member 1 -->
-                <div class="group relative">
-                    <div
-                        class="aspect-square rounded-2xl bg-neutral-800 overflow-hidden mb-4 border border-white/5 relative">
-                        <!-- Placeholder Image / Abstract -->
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-neutral-900 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                            <iconify-icon icon="lucide:user" width="64" class="text-white/10"></iconify-icon>
+            <div class="relative sm:p-8 p-6">
+                <h1 class="leading-none select-none text-white tracking-tight">
+                    <div class="flex items-start gap-8">
+                        <div class="flex-1">
+                            <span class="block text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[9vw] font-semibold" style="overflow: hidden; letter-spacing: -0.15em;">
+                                <span style="display: inline-block; animation: 0.8s ease-out 0s 1 normal forwards running letterSlideIn; transform: translateY(-100%); opacity: 0;" class="hero-letter tracking-tighter hover-float">T</span>
+                                <span style="display: inline-block; animation: 0.8s ease-out 0.1s 1 normal forwards running letterSlideIn; transform: translateY(-100%); opacity: 0;" class="hero-letter tracking-tighter hover-float">E</span>
+                                <span style="display: inline-block; animation: 0.8s ease-out 0.2s 1 normal forwards running letterSlideIn; transform: translateY(-100%); opacity: 0;" class="hero-letter tracking-tighter hover-float">A</span>
+                                <span style="display: inline-block; animation: 0.8s ease-out 0.3s 1 normal forwards running letterSlideIn; transform: translateY(-100%); opacity: 0;" class="hero-letter tracking-tighter hover-float">M</span>
+                            </span>
+                        </div>
+                        <div class="w-80 pt-8 hidden lg:block">
+                            <div class="space-y-4">
+                                <div class="hero-sidebar-item flex items-center gap-2 text-sm text-neutral-400 hover:text-purple-400 transition-colors cursor-pointer" style="animation-delay: 0.4s;">
+                                    <iconify-icon icon="lucide:map-pin" width="16"></iconify-icon>
+                                    <span>Yerevan, Armenia</span>
+                                </div>
+                                <div class="hero-sidebar-item flex items-center gap-2 text-sm text-neutral-400 hover:text-purple-400 transition-colors cursor-pointer" style="animation-delay: 0.5s;">
+                                    <iconify-icon icon="lucide:users" width="16"></iconify-icon>
+                                    <span>Growing Team</span>
+                                </div>
+                                <div class="hero-sidebar-item flex items-center gap-2 text-sm text-neutral-400 hover:text-purple-400 transition-colors cursor-pointer" style="animation-delay: 0.6s;">
+                                    <iconify-icon icon="lucide:globe" width="16"></iconify-icon>
+                                    <span>Global Reach</span>
+                                </div>
+                                <div class="hero-sidebar-item flex items-center gap-2 text-sm text-neutral-400 hover:text-purple-400 transition-colors cursor-pointer" style="animation-delay: 0.7s;">
+                                    <iconify-icon icon="lucide:calendar" width="16"></iconify-icon>
+                                    <span>Est. 2024</span>
+                                </div>
+                                <div class="hero-sidebar-item border-white/10 border-t pt-4" style="animation-delay: 0.8s;">
+                                    <p class="text-sm text-neutral-500 leading-relaxed">
+                                        Building the world's most advanced AI dubbing platform — breaking language barriers with voice cloning and perfect lip-sync.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <h3 class="text-lg font-medium text-white">Maya Chen</h3>
-                    <p class="text-sm text-purple-400 mb-2">Founder & CEO</p>
-                    <p class="text-xs text-neutral-500 leading-relaxed">Previously at Google Translate. Obsessed with breaking language barriers at scale.</p>
-                </div>
+                </h1>
 
-                <!-- Member 2 -->
-                <div class="group relative">
-                    <div
-                        class="aspect-square rounded-2xl bg-neutral-800 overflow-hidden mb-4 border border-white/5 relative">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-neutral-900 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                            <iconify-icon icon="lucide:code-2" width="64" class="text-white/10"></iconify-icon>
+                <div class="mt-6 sm:mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div class="hero-info-card border-white/5 border-t pt-5 hover:bg-white/5 rounded-xl transition-all duration-300 cursor-pointer group" style="animation-delay: 0.5s;">
+                        <div class="flex items-start gap-3 p-2">
+                            <iconify-icon icon="lucide:map-pin" width="20" class="mt-0.5 text-neutral-600 group-hover:text-purple-400 transition-all duration-300"></iconify-icon>
+                            <div>
+                                <p class="text-sm font-medium tracking-tight text-white group-hover:text-purple-300 transition-colors">Based in Armenia</p>
+                                <p class="text-xs text-neutral-500 mt-1">Yerevan • Working globally</p>
+                            </div>
                         </div>
                     </div>
-                    <h3 class="text-lg font-medium text-white">David Kim</h3>
-                    <p class="text-sm text-blue-400 mb-2">CTO</p>
-                    <p class="text-xs text-neutral-500 leading-relaxed">Ex-DeepMind researcher. Specialist in real-time audio processing and lip-sync algorithms.</p>
-                </div>
-
-                <!-- Member 3 -->
-                <div class="group relative">
-                    <div
-                        class="aspect-square rounded-2xl bg-neutral-800 overflow-hidden mb-4 border border-white/5 relative">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-pink-900/50 to-neutral-900 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                            <iconify-icon icon="lucide:palette" width="64" class="text-white/10"></iconify-icon>
+                    <div class="hero-info-card border-white/5 border-t pt-5 hover:bg-white/5 rounded-xl transition-all duration-300 cursor-pointer group" style="animation-delay: 0.6s;">
+                        <div class="flex items-start gap-3 p-2">
+                            <iconify-icon icon="lucide:languages" width="20" class="mt-0.5 text-neutral-600 group-hover:text-purple-400 transition-all duration-300"></iconify-icon>
+                            <div>
+                                <p class="text-sm font-medium tracking-tight text-white group-hover:text-purple-300 transition-colors">AI & Translation Focus</p>
+                                <p class="text-xs text-neutral-500 mt-1">Dubbing • Voice Cloning • NLP</p>
+                            </div>
                         </div>
                     </div>
-                    <h3 class="text-lg font-medium text-white">Sofia Martinez</h3>
-                    <p class="text-sm text-pink-400 mb-2">Head of Design</p>
-                    <p class="text-xs text-neutral-500 leading-relaxed">Believes video tools should feel invisible. Minimalist at heart.</p>
-                </div>
-
-                <!-- Member 4 -->
-                <div class="group relative">
-                    <div
-                        class="aspect-square rounded-2xl bg-neutral-800 overflow-hidden mb-4 border border-white/5 relative">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-green-900/50 to-neutral-900 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                            <iconify-icon icon="lucide:rocket" width="64" class="text-white/10"></iconify-icon>
+                    <div class="hero-info-card border-white/5 border-t pt-5 hover:bg-white/5 rounded-xl transition-all duration-300 cursor-pointer group" style="animation-delay: 0.7s;">
+                        <div class="flex items-start gap-3 p-2">
+                            <iconify-icon icon="lucide:award" width="20" class="mt-0.5 text-neutral-600 group-hover:text-purple-400 transition-all duration-300"></iconify-icon>
+                            <div>
+                                <p class="text-sm font-medium tracking-tight text-white group-hover:text-purple-300 transition-colors">World-Class Team</p>
+                                <p class="text-xs text-neutral-500 mt-1">Engineers • Researchers • Creators</p>
+                            </div>
                         </div>
                     </div>
-                    <h3 class="text-lg font-medium text-white">Alex Thompson</h3>
-                    <p class="text-sm text-green-400 mb-2">Head of Product</p>
-                    <p class="text-xs text-neutral-500 leading-relaxed">Translating complex AI capabilities into intuitive creator workflows.</p>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- 5. OUR CULTURE -->
-    <section class="py-24 border-t border-white/5 reveal-on-scroll">
-        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <h2 class="text-3xl md:text-4xl font-semibold text-white mb-6">Obsessed with latency & quality.</h2>
-                <p class="text-neutral-400 mb-8 leading-relaxed text-lg">We don't ship until it feels like magic. Our
-                    culture is built on deep work, radical candor, and an unrelenting pursuit of perfection.</p>
-                <ul class="space-y-4">
-                    <li class="flex items-center gap-3 text-neutral-300">
-                        <iconify-icon icon="lucide:check" class="text-purple-500"></iconify-icon>
-                        Remote-first, async communication.
-                    </li>
-                    <li class="flex items-center gap-3 text-neutral-300">
-                        <iconify-icon icon="lucide:check" class="text-purple-500"></iconify-icon>
-                        Write it down. Documentation over conversation.
-                    </li>
-                    <li class="flex items-center gap-3 text-neutral-300">
-                        <iconify-icon icon="lucide:check" class="text-purple-500"></iconify-icon>
-                        Ship daily. Iterate hourly.
-                    </li>
-                </ul>
-            </div>
-            <div class="relative">
-                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 blur-3xl rounded-full">
-                </div>
-                <div
-                    class="relative bg-neutral-900 border border-white/10 rounded-2xl p-8 aspect-square flex items-center justify-center overflow-hidden">
-                    <div class="text-center">
-                        <div class="text-6xl font-bold text-white mb-2">100x</div>
-                        <div class="text-neutral-500 uppercase tracking-widest text-sm">Faster than traditional dubbing studios</div>
+                <div class="sm:mt-10 mt-8">
+                    <div class="relative overflow-hidden bg-neutral-900/60 border border-white/5 rounded-2xl">
+                        <video autoplay muted loop playsinline class="w-full h-[52vh] sm:h-[60vh] object-cover">
+                            <source src="assets/videos/team-hero-bg.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none"></div>
+                        <!-- Corner accents -->
+                        <div class="absolute top-4 left-4 w-16 h-16 border-l-2 border-t-2 border-white/20 rounded-tl-lg pointer-events-none"></div>
+                        <div class="absolute top-4 right-4 w-16 h-16 border-r-2 border-t-2 border-white/20 rounded-tr-lg pointer-events-none"></div>
+                        <div class="absolute bottom-32 left-4 w-16 h-16 border-l-2 border-b-2 border-white/20 rounded-bl-lg pointer-events-none"></div>
+                        <div class="absolute bottom-32 right-4 w-16 h-16 border-r-2 border-b-2 border-white/20 rounded-br-lg pointer-events-none"></div>
+
+                        <div class="absolute inset-0 flex items-end">
+                            <div class="w-full sm:p-8 p-6">
+                                <div class="max-w-3xl">
+                                    <h2 class="hero-headline text-3xl sm:text-4xl lg:text-6xl text-white tracking-tighter drop-shadow-lg font-medium">
+                                        Building the universal<br>
+                                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-white to-purple-400">language engine</span>
+                                    </h2>
+                                    <p class="hero-description sm:text-lg leading-relaxed text-lg font-normal text-white/90 mt-3 drop-shadow-sm max-w-2xl">
+                                        Language creates barriers. We exist to tear them down, allowing every creator and company to instantly reach the entire globe.
+                                    </p>
+                                </div>
+
+                                <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                    <div class="hero-stat-card stat-card-glow rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-4 shadow-lg hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer" style="animation-delay: 1s;">
+                                        <div class="text-2xl font-bold tracking-tight text-white drop-shadow-sm">30+</div>
+                                        <p class="text-xs text-white/80 mt-1 font-medium">Languages</p>
+                                    </div>
+                                    <div class="hero-stat-card stat-card-glow rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-4 shadow-lg hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer" style="animation-delay: 1.1s;">
+                                        <div class="text-2xl font-bold tracking-tight text-white drop-shadow-sm">100x</div>
+                                        <p class="text-xs text-white/80 mt-1 font-medium">Faster Than Studios</p>
+                                    </div>
+                                    <div class="hero-stat-card stat-card-glow rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-4 shadow-lg hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer" style="animation-delay: 1.2s;">
+                                        <div class="text-2xl font-bold tracking-tight text-white drop-shadow-sm">AI</div>
+                                        <p class="text-xs text-white/80 mt-1 font-medium">Voice Cloning</p>
+                                    </div>
+                                    <div class="hero-stat-card stat-card-glow rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-4 shadow-lg hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer" style="animation-delay: 1.3s;">
+                                        <div class="text-2xl font-bold tracking-tight text-white drop-shadow-sm">∞</div>
+                                        <p class="text-xs text-white/80 mt-1 font-medium">Global Reach</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6. ADVISORS -->
-    <section class="py-24 bg-neutral-900/20 reveal-on-scroll">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-semibold text-white mb-12">Trusted by industry leaders.</h2>
-            <div class="flex flex-wrap justify-center gap-12">
-                <div class="text-center">
-                    <div
-                        class="w-20 h-20 rounded-full bg-neutral-800 border border-white/10 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        Dr. L</div>
-                    <div class="text-white font-medium">Dr. Lisa W.</div>
-                    <div class="text-neutral-500 text-xs">Linguistics, MIT</div>
-                </div>
-                <div class="text-center">
-                    <div
-                        class="w-20 h-20 rounded-full bg-neutral-800 border border-white/10 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        MK</div>
-                    <div class="text-white font-medium">Michael K.</div>
-                    <div class="text-neutral-500 text-xs">Ex-VP Engineering, YouTube</div>
-                </div>
-                <div class="text-center">
-                    <div
-                        class="w-20 h-20 rounded-full bg-neutral-800 border border-white/10 mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
-                        AR</div>
-                    <div class="text-white font-medium">Aisha R.</div>
-                    <div class="text-neutral-500 text-xs">Creator Economy Expert</div>
-                </div>
+    <!-- ─── SECTION 2: LOGO MARQUEE ─── -->
+    <section class="border-y border-white/5 py-8 relative overflow-hidden">
+        <div class="relative w-full overflow-hidden max-w-4xl mx-auto" style="mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);">
+            <div class="flex gap-12 min-w-max animate-marquee-team marquee-team opacity-40 grayscale hover:grayscale-0 transition-all duration-500 items-center">
+                <iconify-icon icon="simple-icons:openai" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:meta" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:google" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:nvidia" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:anthropic" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:microsoft" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:apple" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:amazon" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:openai" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:meta" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:google" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:nvidia" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:anthropic" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:microsoft" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:apple" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:amazon" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:openai" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:meta" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:google" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:nvidia" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:anthropic" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:microsoft" width="18"></iconify-icon>
+                <iconify-icon icon="simple-icons:apple" width="20"></iconify-icon>
+                <iconify-icon icon="simple-icons:amazon" width="20"></iconify-icon>
             </div>
         </div>
     </section>
 
-    <!-- 7. INVESTORS -->
-    <section class="py-24 reveal-on-scroll">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-semibold text-white mb-16">Backed by visionaries.</h2>
-            <div
-                class="flex flex-wrap justify-center gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                <div class="text-2xl font-bold text-white flex items-center gap-2"><iconify-icon icon="lucide:gem"
-                        class="text-purple-500"></iconify-icon> NVIDIA INCEPTION</div>
-                <div class="text-2xl font-bold text-white flex items-center gap-2"><iconify-icon icon="lucide:zap"
-                        class="text-blue-500"></iconify-icon> OPENAI FUND</div>
-                <div class="text-2xl font-bold text-white flex items-center gap-2"><iconify-icon icon="lucide:triangle"
-                        class="text-green-500"></iconify-icon> Y COMBINATOR</div>
-                <div class="text-2xl font-bold text-white flex items-center gap-2"><iconify-icon icon="lucide:box"
-                        class="text-orange-500"></iconify-icon> SEQUOIA</div>
+    <!-- ─── SECTION 3: LEADERSHIP ─── -->
+    <section class="py-24 md:py-32 px-6 reveal-on-scroll">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-medium tracking-tighter text-white mb-4">Meet Our Leaders</h2>
+                <p class="text-lg text-neutral-500 max-w-2xl mx-auto font-light">Building Octavia with deep expertise in AI, engineering, and global content</p>
             </div>
-        </div>
-    </section>
 
-    <!-- 8. OFFICES -->
-    <section class="py-24 border-t border-white/5 reveal-on-scroll">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="relative h-96 rounded-3xl overflow-hidden group">
-                <div class="absolute inset-0 bg-neutral-900"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-                <div class="absolute bottom-8 left-8 z-20">
-                    <h3 class="text-2xl font-bold text-white mb-1">San Francisco</h3>
-                    <p class="text-neutral-400">HQ • Mission District</p>
-                </div>
-            </div>
-            <div class="relative h-96 rounded-3xl overflow-hidden group">
-                <div class="absolute inset-0 bg-neutral-900"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-                <div class="absolute bottom-8 left-8 z-20">
-                    <h3 class="text-2xl font-bold text-white mb-1">Remote First</h3>
-                    <p class="text-neutral-400">Global • 12 Countries</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 9. DIVERSITY -->
-    <section class="py-24 bg-neutral-900/20 reveal-on-scroll">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-semibold text-white mb-16">Building for everyone.</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="text-4xl font-bold text-purple-400 mb-2">45%</div>
-                    <div class="text-neutral-500 text-sm">Female / Non-binary</div>
-                </div>
-                <div>
-                    <div class="text-4xl font-bold text-blue-400 mb-2">12</div>
-                    <div class="text-neutral-500 text-sm">Countries Represented</div>
-                </div>
-                <div>
-                    <div class="text-4xl font-bold text-green-400 mb-2">30%</div>
-                    <div class="text-neutral-500 text-sm">Underrepresented Groups</div>
-                </div>
-                <div>
-                    <div class="text-4xl font-bold text-orange-400 mb-2">100%</div>
-                    <div class="text-neutral-500 text-sm">Pay Equity</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 10. HISTORY -->
-    <section class="py-24 reveal-on-scroll">
-        <div class="container mx-auto px-6 max-w-3xl">
-            <h2 class="text-3xl font-semibold text-white mb-16 text-center">Our Journey</h2>
-            <div class="space-y-12 border-l border-white/10 ml-6 pl-8 relative">
-                <div class="relative">
-                    <div
-                        class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-purple-500 border-4 border-[#050505]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- CEO Card -->
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl overflow-hidden group cursor-pointer transition-all duration-500 hover:border-purple-500/20 hover:shadow-[0_32px_64px_rgba(139,92,246,0.1)] hover:-translate-y-3">
+                    <div class="aspect-[4/5] overflow-hidden">
+                        <img src="assets/team/tatev-aslanyan.png" alt="Tatev Aslanyan" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105">
                     </div>
-                    <div class="text-sm text-purple-400 mb-1">2023</div>
-                    <h3 class="text-xl font-bold text-white mb-2">The Original Sync Algorithm</h3>
-                    <p class="text-neutral-400">Octavia begins as a research project focused on perfect lip-sync technology.</p>
-                </div>
-                <div class="relative">
-                    <div
-                        class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-neutral-800 border-4 border-[#050505]">
+                    <div class="p-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <h3 class="text-2xl font-semibold text-white">Tatev Aslanyan</h3>
+                            <span class="text-lg" title="Armenia">🇦🇲</span>
+                            <span class="text-lg" title="Italy">🇮🇹</span>
+                            <span class="text-lg" title="Canada">🇨🇦</span>
+                        </div>
+                        <p class="text-purple-400 font-medium mb-2">Chief Executive Officer</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/5 text-neutral-300 border border-white/10">10+ years experience</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/5 text-neutral-400">AI/ML</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/5 text-neutral-400">Content</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/5 text-neutral-400">Research</span>
+                        </div>
+                        <div class="text-neutral-500 leading-relaxed mb-6 space-y-3 text-sm">
+                            <p>Visionary leader driving Octavia's mission to make universal translation accessible to creators and enterprises globally.</p>
+                            <p>With first-authored publications in machine learning and AI, Tatev brings deep scientific expertise alongside business acumen. Her work spans computational linguistics, multimodal data fusion, and AI-driven content generation.</p>
+                            <p>Previously led AI research initiatives across multiple international institutions, combining rigorous scientific methodology with a mission-driven approach to transforming global content accessibility.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="https://www.linkedin.com/in/tatev-karen-aslanyan/" target="_blank" rel="noopener noreferrer"
+                                class="relative inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-white/5 text-white text-xs font-semibold tracking-wide uppercase hover:bg-white/10 hover:scale-[1.02] hover:shadow-[0_8px_30px_-4px_rgba(139,92,246,0.3)] active:scale-[0.98] transition-all duration-300 ease-out group/linkedin overflow-hidden border border-white/10">
+                                <div class="absolute inset-0 opacity-0 group-hover/linkedin:opacity-100 transition-opacity duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/linkedin:translate-x-full transition-transform duration-700"></div>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" class="relative z-10"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                <span class="relative z-10">LinkedIn</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="relative z-10 opacity-70 group-hover/linkedin:opacity-100 group-hover/linkedin:translate-x-0.5 transition-all duration-300"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                            </a>
+                        </div>
                     </div>
-                    <div class="text-sm text-neutral-500 mb-1">2024</div>
-                    <h3 class="text-xl font-bold text-white mb-2">Seed Round & Voice Cloning Beta</h3>
-                    <p class="text-neutral-400">Raised $8M to build the first real-time dubbing engine with voice cloning.</p>
                 </div>
-                <div class="relative">
-                    <div
-                        class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-neutral-800 border-4 border-[#050505]">
+
+                <!-- CTO Card -->
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl overflow-hidden group cursor-pointer transition-all duration-500 hover:border-purple-500/20 hover:shadow-[0_32px_64px_rgba(139,92,246,0.1)] hover:-translate-y-3">
+                    <div class="aspect-[4/5] overflow-hidden">
+                        <img src="assets/team/vahe-aslanyan.jpg" alt="Vahe Aslanyan" class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105">
                     </div>
-                    <div class="text-sm text-neutral-500 mb-1">2025</div>
-                    <h3 class="text-xl font-bold text-white mb-2">Octavia 2.0 Global Launch</h3>
-                    <p class="text-neutral-400">Scaling to 30+ languages and 100K+ creators worldwide.</p>
+                    <div class="p-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <h3 class="text-2xl font-semibold text-white">Vahe Aslanyan</h3>
+                            <span class="text-lg" title="Armenia">🇦🇲</span>
+                            <span class="text-lg" title="Netherlands">🇳🇱</span>
+                            <span class="text-lg" title="Canada">🇨🇦</span>
+                        </div>
+                        <p class="text-purple-400 font-medium mb-2">Chief Technology Officer</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/5 text-neutral-300 border border-white/10">9+ years experience</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/5 text-neutral-400">AI Systems</span>
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/5 text-neutral-400">Cybersecurity</span>
+                        </div>
+                        <div class="text-neutral-500 leading-relaxed mb-6 space-y-3 text-sm">
+                            <p>Technical architect with 9+ years of experience in advanced AI/ML system architecture, large-scale agent deployment, and robust cybersecurity practices.</p>
+                            <p>Studied Computer Science at the University of British Columbia as a Dean's Honours Student and completed Executive Education at Harvard Business School.</p>
+                            <p>Leading the development of Octavia's core translation engine, multi-modal fusion pipelines, voice cloning architecture, and production-grade AI systems.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer"
+                                class="relative inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-white/5 text-white text-xs font-semibold tracking-wide uppercase hover:bg-white/10 hover:scale-[1.02] hover:shadow-[0_8px_30px_-4px_rgba(139,92,246,0.3)] active:scale-[0.98] transition-all duration-300 ease-out group/linkedin overflow-hidden border border-white/10">
+                                <div class="absolute inset-0 opacity-0 group-hover/linkedin:opacity-100 transition-opacity duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/linkedin:translate-x-full transition-transform duration-700"></div>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" class="relative z-10"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                <span class="relative z-10">LinkedIn</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="relative z-10 opacity-70 group-hover/linkedin:opacity-100 group-hover/linkedin:translate-x-0.5 transition-all duration-300"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 11. PRESS -->
-    <section class="py-24 border-t border-white/5 reveal-on-scroll text-center">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-semibold text-white mb-12">In the news.</h2>
-            <div class="flex flex-wrap justify-center gap-12 text-neutral-500 font-serif text-2xl">
-                <span>TechCrunch</span>
-                <span>The Verge</span>
-                <span>VentureBeat</span>
-                <span>WIRED</span>
+    <!-- ─── SECTION 4: CULTURE BENTO ─── -->
+    <section class="py-24 md:py-32 px-6 border-t border-white/5 reveal-on-scroll">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-16">
+                <h2 class="text-3xl md:text-5xl font-medium tracking-tighter text-white mb-4">Our Culture</h2>
+                <p class="text-lg text-neutral-500 max-w-2xl font-light">The values that guide everything we do</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="col-span-2 row-span-2 bg-gradient-to-br from-purple-900/40 to-neutral-900/60 border border-purple-500/10 text-white rounded-3xl p-8 md:p-12 flex flex-col justify-between min-h-[320px] group cursor-pointer transition-all duration-500 hover:border-purple-500/20 hover:shadow-[0_24px_48px_rgba(139,92,246,0.15)] hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-6">
+                        <iconify-icon icon="lucide:globe" width="28" class="text-purple-300"></iconify-icon>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl md:text-3xl font-semibold mb-4">Mission-Driven</h3>
+                        <p class="text-white/60 leading-relaxed">We're on a mission to make content universally accessible. Every decision we make is guided by breaking language barriers for creators worldwide.</p>
+                    </div>
+                </div>
+
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl p-6 md:p-8 group cursor-pointer transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 group-hover:border-purple-500/20 transition-colors">
+                        <iconify-icon icon="lucide:sparkles" width="24" class="text-neutral-400 group-hover:text-purple-300 transition-colors"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Creator First</h3>
+                    <p class="text-sm text-neutral-500">Building tools that feel invisible and get out of the creative process.</p>
+                </div>
+
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl p-6 md:p-8 group cursor-pointer transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-blue-500/20 group-hover:border-blue-500/20 transition-colors">
+                        <iconify-icon icon="lucide:target" width="24" class="text-neutral-400 group-hover:text-blue-300 transition-colors"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Radical Accuracy</h3>
+                    <p class="text-sm text-neutral-500">Millisecond-perfect lip sync and audio quality. We don't ship until it's magic.</p>
+                </div>
+
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl p-6 md:p-8 group cursor-pointer transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/20 transition-colors">
+                        <iconify-icon icon="lucide:users" width="24" class="text-neutral-400 group-hover:text-emerald-300 transition-colors"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Collaboration</h3>
+                    <p class="text-sm text-neutral-500">Working across disciplines and timezones to solve complex challenges.</p>
+                </div>
+
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl p-6 md:p-8 group cursor-pointer transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-amber-500/20 group-hover:border-amber-500/20 transition-colors">
+                        <iconify-icon icon="lucide:book-open" width="24" class="text-neutral-400 group-hover:text-amber-300 transition-colors"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Continuous Learning</h3>
+                    <p class="text-sm text-neutral-500">Always growing, always pushing the boundaries of what AI can do.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. CTA: Join Us -->
-    <section class="py-32 reveal-on-scroll text-center">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-medium text-white mb-6">Join our mission.</h2>
-            <p class="text-neutral-400 max-w-xl mx-auto mb-10">
-                We are always looking for exceptional engineers, designers, and thinkers to join our distributed team.
-            </p>
-            <a href="#"
-                class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white text-black font-medium hover:bg-neutral-200 transition-colors">
-                View Open Roles
-                <iconify-icon icon="lucide:arrow-right" width="16"></iconify-icon>
-            </a>
+    <!-- ─── SECTION 5: GLOBAL EXPERTISE ─── -->
+    <section class="py-24 md:py-32 px-6 border-t border-white/5 reveal-on-scroll">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-medium tracking-tighter text-white mb-4">Global Expertise</h2>
+            <p class="text-lg text-neutral-500 mb-16 font-light">Our team brings diverse expertise from around the world</p>
+
+            <div class="flex justify-center items-center mb-8">
+                <div class="flex -space-x-4 hover:space-x-2 transition-all duration-500">
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-900/60 border-2 border-white/10 flex items-center justify-center shadow-lg hover:scale-110 hover:z-10 hover:border-purple-500/30 transition-all duration-300 cursor-pointer">
+                        <span class="text-xs md:text-sm font-bold text-white text-center leading-tight">AI &<br>ML</span>
+                    </div>
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-900/60 border-2 border-white/10 flex items-center justify-center shadow-lg hover:scale-110 hover:z-10 hover:border-purple-500/30 transition-all duration-300 cursor-pointer">
+                        <span class="text-xs md:text-sm font-bold text-white text-center leading-tight">NLP &<br>Linguistics</span>
+                    </div>
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-900/60 border-2 border-white/10 flex items-center justify-center shadow-lg hover:scale-110 hover:z-10 hover:border-purple-500/30 transition-all duration-300 cursor-pointer">
+                        <span class="text-xs md:text-sm font-bold text-white text-center leading-tight">Audio<br>Engineering</span>
+                    </div>
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-900/60 border-2 border-white/10 flex items-center justify-center shadow-lg hover:scale-110 hover:z-10 hover:border-purple-500/30 transition-all duration-300 cursor-pointer">
+                        <span class="text-xs md:text-sm font-bold text-white text-center leading-tight">Voice<br>Cloning</span>
+                    </div>
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-neutral-900/60 border-2 border-white/10 flex items-center justify-center shadow-lg hover:scale-110 hover:z-10 hover:border-purple-500/30 transition-all duration-300 cursor-pointer">
+                        <span class="text-xs md:text-sm font-bold text-white text-center leading-tight">Content<br>Localization</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center mb-12">
+                <div class="float-badge px-6 py-3 bg-purple-600/20 border border-purple-500/30 text-purple-300 rounded-full shadow-lg backdrop-blur-md">
+                    <span class="font-semibold text-sm">Multidisciplinary Team of Experts</span>
+                </div>
+            </div>
+
+            <blockquote class="text-xl md:text-2xl text-neutral-500 italic max-w-3xl mx-auto font-light">
+                "Breaking language barriers with world-class expertise in AI, audio engineering, and global content strategy."
+            </blockquote>
         </div>
     </section>
 
+    <!-- ─── SECTION 6: WHERE WE WORK ─── -->
+    <section class="py-24 md:py-32 px-6 border-t border-white/5 bg-neutral-900/20 reveal-on-scroll">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-medium tracking-tighter text-white mb-4">Where We Work</h2>
+                <p class="text-lg text-neutral-500 max-w-2xl mx-auto font-light">A global team united by a shared mission</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl p-8 group cursor-pointer transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                    <div class="text-4xl mb-4">🇦🇲</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Yerevan, Armenia</h3>
+                    <div class="w-12 h-px bg-white/10 mb-4"></div>
+                    <p class="text-neutral-400 mb-4">Headquarters & R&D Center</p>
+                    <p class="text-sm text-neutral-500">Our main office and engineering hub, where the core translation engine is developed.</p>
+                </div>
+
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl p-8 group cursor-pointer transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                    <div class="text-4xl mb-4">🇪🇺</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Europe</h3>
+                    <div class="w-12 h-px bg-white/10 mb-4"></div>
+                    <p class="text-neutral-400 mb-4">Operations & Partnerships</p>
+                    <p class="text-sm text-neutral-500">Expanding our presence across European markets with creator partnerships and collaborations.</p>
+                </div>
+
+                <div class="bg-neutral-900/40 border border-white/5 rounded-3xl p-8 group cursor-pointer transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)] hover:-translate-y-2">
+                    <div class="text-4xl mb-4">🌍</div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Remote-First</h3>
+                    <div class="w-12 h-px bg-white/10 mb-4"></div>
+                    <p class="text-neutral-400 mb-4">Global Team</p>
+                    <p class="text-sm text-neutral-500">Building a distributed team of exceptional engineers, researchers, and thinkers across multiple countries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── SECTION 7: JOIN OUR MISSION ─── -->
+    <section class="py-24 md:py-32 px-6 border-t border-white/5 reveal-on-scroll">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-neutral-900/40 border border-white/5 rounded-[2.5rem] overflow-hidden group transition-all duration-500 hover:border-white/10 hover:shadow-[0_24px_48px_rgba(0,0,0,0.3)]">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <div class="h-80 lg:h-auto lg:min-h-[560px] overflow-hidden relative">
+                        <video autoplay muted loop playsinline class="w-full h-full object-cover absolute inset-0 transition-all duration-700 group-hover:scale-105">
+                            <source src="assets/videos/team-join-cta.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#050505]/30 pointer-events-none"></div>
+                    </div>
+
+                    <div class="p-10 md:p-14 lg:p-16 flex flex-col justify-center">
+                        <h3 class="text-3xl md:text-4xl font-medium text-white mb-6 tracking-tighter">Join Our Mission</h3>
+                        <p class="text-lg text-neutral-400 leading-relaxed mb-8 font-light">
+                            We're always looking for exceptional talent to join our growing team. If you're passionate about using AI to break language barriers, we'd love to hear from you.
+                        </p>
+
+                        <ul class="space-y-4 mb-10">
+                            <li class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                    <iconify-icon icon="lucide:check" width="14" class="text-purple-400"></iconify-icon>
+                                </div>
+                                <span class="text-neutral-300">Remote-first culture</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                    <iconify-icon icon="lucide:check" width="14" class="text-purple-400"></iconify-icon>
+                                </div>
+                                <span class="text-neutral-300">Competitive equity packages</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                    <iconify-icon icon="lucide:check" width="14" class="text-purple-400"></iconify-icon>
+                                </div>
+                                <span class="text-neutral-300">Learning & development budget</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                    <iconify-icon icon="lucide:check" width="14" class="text-purple-400"></iconify-icon>
+                                </div>
+                                <span class="text-neutral-300">Work on cutting-edge AI</span>
+                            </li>
+                        </ul>
+
+                        <a href="contact.html" class="inline-flex items-center gap-2 text-white font-medium hover:text-purple-300 transition-colors group/link">
+                            Get in Touch
+                            <iconify-icon icon="lucide:arrow-right" width="20" class="group-hover/link:translate-x-2 transition-transform"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
     <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
-        <!-- Footer content same as other pages -->
         <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
             <div class="lg:col-span-7">
-                <h2
-                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                <h2 class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
                     Ready to break
                     <span class="text-neutral-700">language</span>
                     barriers?
                 </h2>
             </div>
             <div class="lg:col-span-5 flex lg:justify-end items-center">
-                <div
-                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
-                    <iconify-icon icon="lucide:globe" width="128"
-                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                <div class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128" class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
                     <div class="relative z-10">
-                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
-                        </h3>
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now</h3>
                         <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
                         <div class="flex items-center justify-between border-t border-white/20 pt-4">
                             <span class="text-xs font-bold uppercase tracking-widest text-white">30+ Languages</span>
@@ -592,9 +631,7 @@
             </div>
         </div>
         <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
-            <h1
-                class="text-[20vw] leading-none font-bold text-white/5 text-center -mb-12 tracking-tighter font-display">
-                OCTAVIA</h1>
+            <h1 class="text-[20vw] leading-none font-bold text-white/5 text-center -mb-12 tracking-tighter font-display">OCTAVIA</h1>
             <div class="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#050505] to-transparent"></div>
         </div>
         <div class="absolute bottom-6 w-full flex justify-center z-30">
@@ -616,6 +653,7 @@
                 }
             });
 
+            // Reveal on scroll
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -629,5 +667,4 @@
     </script>
 
 </body>
-
 </html>
