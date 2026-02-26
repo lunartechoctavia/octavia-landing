@@ -13,22 +13,30 @@
 
   <!-- Load UnicornStudio asynchronously and defer initialization -->
   <script>
-    // Load the script asynchronously
-    var unicornScript = document.createElement('script');
-    unicornScript.src = 'https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js';
-    unicornScript.async = true;
-    unicornScript.defer = true;
-    document.head.appendChild(unicornScript);
-
-    // Initialize after page load and when script is ready
-    unicornScript.onload = function () {
-      // Small delay to let page render first
-      setTimeout(function () {
-        if (window.UnicornStudio) {
-          UnicornStudio.init();
-        }
-      }, 100);
-    };
+    // Only load UnicornStudio when the hero section scrolls into view (or is already visible)
+    var unicornLoaded = false;
+    function loadUnicorn() {
+      if (unicornLoaded) return;
+      unicornLoaded = true;
+      var unicornScript = document.createElement('script');
+      unicornScript.src = 'https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js';
+      unicornScript.async = true;
+      unicornScript.onload = function () {
+        // Give browser time to breathe before starting WebGL
+        requestIdleCallback ? requestIdleCallback(function () {
+          if (window.UnicornStudio) UnicornStudio.init();
+        }) : setTimeout(function () {
+          if (window.UnicornStudio) UnicornStudio.init();
+        }, 500);
+      };
+      document.head.appendChild(unicornScript);
+    }
+    // Start loading after the critical page content renders
+    if (document.readyState === 'complete') {
+      setTimeout(loadUnicorn, 1000);
+    } else {
+      window.addEventListener('load', function () { setTimeout(loadUnicorn, 1000); });
+    }
   </script>
 
   <script>
@@ -94,9 +102,17 @@
       font-size: 14px;
     }
 
-    /* Optimize animations with will-change */
+    /* Optimize animations with will-change and containment */
     .aura-background-component {
       will-change: transform;
+      contain: layout style paint;
+    }
+
+    /* GPU-promote heavy blur/glow elements */
+    [class*="blur-"],
+    [class*="backdrop-blur"] {
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
 
     /* Reduce backdrop blur on mobile for performance */
@@ -292,12 +308,12 @@
     </div>
   </nav>
 
-  <header class="overflow-hidden pt-32 pb-16 relative">
+  <header class="overflow-hidden pt-32 pb-16 relative" style="contain: layout style;">
     <!-- Rain Of Tears -->
-    <div class="absolute inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0 -z-10 overflow-hidden" style="contain: strict;">
       <div class="aura-background-component absolute inset-0 w-full h-full">
         <div data-us-project="XxCmD31vVBmiINgvYCho" class="absolute inset-0 w-full h-full bg-neutral-950"
-          style="filter: hue-rotate(50deg) saturate(150%);"></div>
+          style="filter: hue-rotate(50deg) saturate(150%); contain: strict;"></div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
     </div>
@@ -356,10 +372,10 @@
 
           <!-- Global Background Glows -->
           <div
-            class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-purple-600/20 blur-[120px] pointer-events-none mix-blend-screen rounded-full transition-all duration-1000 group-hover:bg-purple-600/30">
+            class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-purple-600/20 blur-[80px] pointer-events-none mix-blend-screen rounded-full transition-all duration-1000 group-hover:bg-purple-600/30">
           </div>
           <div
-            class="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/10 blur-[100px] pointer-events-none mix-blend-screen rounded-full">
+            class="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/10 blur-[60px] pointer-events-none mix-blend-screen rounded-full">
           </div>
 
           <!-- LEFT SIDEBAR -->
@@ -2085,41 +2101,65 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Navbar scroll effect
+      // Throttled navbar scroll effect using requestAnimationFrame
       const navbarBg = document.getElementById('navbar-bg');
+      let ticking = false;
+      let lastScrollState = false;
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          navbarBg.classList.remove('bg-transparent');
-          navbarBg.classList.add('bg-black/50');
-        } else {
-          navbarBg.classList.add('bg-transparent');
-          navbarBg.classList.remove('bg-black/50');
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrolled = window.scrollY > 50;
+            if (scrolled !== lastScrollState) {
+              lastScrollState = scrolled;
+              if (scrolled) {
+                navbarBg.classList.remove('bg-transparent');
+                navbarBg.classList.add('bg-black/50');
+              } else {
+                navbarBg.classList.add('bg-transparent');
+                navbarBg.classList.remove('bg-black/50');
+              }
+            }
+            ticking = false;
+          });
+          ticking = true;
         }
-      });
+      }, { passive: true });
 
+      // Reveal-on-scroll with unobserve for performance
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); // Stop observing once revealed
           }
         });
       }, { threshold: 0.1 });
 
       document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
 
-      document.querySelectorAll('.faq-trigger').forEach(trigger => {
-        trigger.addEventListener('click', () => {
+      // FAQ accordion (event delegation instead of many listeners)
+      const faqContainer = document.querySelector('.faq-item')?.parentElement;
+      if (faqContainer) {
+        faqContainer.addEventListener('click', (e) => {
+          const trigger = e.target.closest('.faq-trigger');
+          if (!trigger) return;
           const content = trigger.nextElementSibling;
           const icon = trigger.querySelector('.accordion-icon');
           content.classList.toggle('open');
           icon.classList.toggle('open');
-          document.querySelectorAll('.accordion-content').forEach(c => {
+          faqContainer.querySelectorAll('.accordion-content').forEach(c => {
             if (c !== content) c.classList.remove('open');
           });
-          document.querySelectorAll('.accordion-icon').forEach(i => {
+          faqContainer.querySelectorAll('.accordion-icon').forEach(i => {
             if (i !== icon) i.classList.remove('open');
           });
         });
+      }
+
+      // Lazy load images that are off-screen
+      document.querySelectorAll('img:not([loading])').forEach(img => {
+        img.setAttribute('loading', 'lazy');
+        img.setAttribute('decoding', 'async');
       });
     });
   </script>
