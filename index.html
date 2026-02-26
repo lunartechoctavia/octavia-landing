@@ -8,12 +8,16 @@
     content="The world's most advanced AI dubbing platform. Translate video, audio, and subtitles into 30+ languages with perfect lip-sync and voice cloning.">
   <link rel="icon" type="image/jpeg" href="assets/lunartechai_logo_black.jpg">
 
+  <!-- Preconnect and preload UnicornStudio for faster animation startup -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://unicorn.studio" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js" as="script">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
-  <!-- Load UnicornStudio asynchronously and defer initialization -->
+  <!-- Load UnicornStudio as early as possible -->
   <script>
-    // Only load UnicornStudio when the hero section scrolls into view (or is already visible)
     var unicornLoaded = false;
     function loadUnicorn() {
       if (unicornLoaded) return;
@@ -22,20 +26,15 @@
       unicornScript.src = 'https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js';
       unicornScript.async = true;
       unicornScript.onload = function () {
-        // Give browser time to breathe before starting WebGL
-        requestIdleCallback ? requestIdleCallback(function () {
-          if (window.UnicornStudio) UnicornStudio.init();
-        }) : setTimeout(function () {
-          if (window.UnicornStudio) UnicornStudio.init();
-        }, 500);
+        if (window.UnicornStudio) UnicornStudio.init();
       };
       document.head.appendChild(unicornScript);
     }
-    // Start loading after the critical page content renders
-    if (document.readyState === 'complete') {
-      setTimeout(loadUnicorn, 1000);
+    // Load on DOMContentLoaded (earlier than 'load') for faster startup
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadUnicorn);
     } else {
-      window.addEventListener('load', function () { setTimeout(loadUnicorn, 1000); });
+      loadUnicorn();
     }
   </script>
 
@@ -106,6 +105,11 @@
     .aura-background-component {
       will-change: transform;
       contain: layout style paint;
+    }
+
+    @keyframes placeholderPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
 
     /* GPU-promote heavy blur/glow elements */
@@ -309,6 +313,8 @@
       <div class="aura-background-component absolute inset-0 w-full h-full">
         <div data-us-project="XxCmD31vVBmiINgvYCho" class="absolute inset-0 w-full h-full bg-neutral-950"
           style="filter: hue-rotate(50deg) saturate(150%); contain: strict;"></div>
+        <!-- CSS placeholder animation shown while WebGL loads -->
+        <div class="absolute inset-0 w-full h-full bg-neutral-950 -z-[1]" style="background: radial-gradient(ellipse at 50% 40%, rgba(139,92,246,0.15) 0%, rgba(5,5,5,1) 70%); animation: placeholderPulse 3s ease-in-out infinite;"></div>
       </div>
       <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
     </div>
