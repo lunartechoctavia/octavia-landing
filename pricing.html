@@ -111,22 +111,38 @@
       filter: blur(0);
     }
 
+    /* easeInOutSine — gentle sinusoidal accelerate-in / decelerate-out */
     .accordion-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease-out;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition:
+        max-height 0.55s cubic-bezier(0.37, 0, 0.63, 1),
+        opacity 0.4s cubic-bezier(0.37, 0, 0.63, 1),
+        transform 0.55s cubic-bezier(0.37, 0, 0.63, 1);
     }
 
     .accordion-content.open {
-      max-height: 200px;
+      max-height: 400px;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .accordion-icon {
-      transition: transform 0.3s;
+      transition: transform 0.5s cubic-bezier(0.37, 0, 0.63, 1);
     }
 
     .accordion-icon.open {
       transform: rotate(45deg);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .accordion-content,
+      .accordion-content.open,
+      .accordion-icon {
+        transition: none;
+      }
     }
   </style>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap" id="all-fonts-link-font-roboto" rel="stylesheet"/>
@@ -266,7 +282,7 @@
                                     </div>
                                     <div>
                                         <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
-                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 30+ languages.</p>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
                                     </div>
                                 </a>
                                 <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
@@ -358,10 +374,26 @@
 <p class="sm:text-base leading-relaxed text-sm text-white/60 max-w-lg mt-5 mx-auto">
                     Choose the monthly credit package that matches your production volume.
                 </p>
-<div class="flex flex-wrap items-center justify-center gap-3 mt-8 mb-16">
-<span class="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-white border border-white/10">Monthly billing</span>
-<span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 text-purple-300 border border-purple-500/20">Credits refresh monthly</span>
-<span class="px-3 py-1 rounded-full text-xs font-medium bg-white/5 text-white border border-white/10">Self-serve paid plans</span>
+<div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 mb-16 text-xs text-white/55">
+<span class="inline-flex items-center gap-1.5 text-purple-300">
+<iconify-icon icon="lucide:sparkles" width="13"></iconify-icon>
+                        3-day free trial on all plans
+                    </span>
+<span class="hidden sm:inline text-white/15">·</span>
+<span class="inline-flex items-center gap-1.5">
+<iconify-icon icon="lucide:check" width="13"></iconify-icon>
+                        Monthly billing
+                    </span>
+<span class="hidden sm:inline text-white/15">·</span>
+<span class="inline-flex items-center gap-1.5">
+<iconify-icon icon="lucide:check" width="13"></iconify-icon>
+                        Credits refresh monthly
+                    </span>
+<span class="hidden sm:inline text-white/15">·</span>
+<span class="inline-flex items-center gap-1.5">
+<iconify-icon icon="lucide:check" width="13"></iconify-icon>
+                        Self-serve paid plans
+                    </span>
 </div>
 </div>
 </section>
@@ -412,9 +444,10 @@
 <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-purple-500/10 text-purple-300 border border-purple-500/20">100 min/mo</span>
 </div>
 </div>
-<a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors mb-8 group-hover:border-white/20 block text-center">
-                            Get Creator
+<a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors mb-3 group-hover:border-white/20 block text-center">
+                            Start free trial
                         </a>
+<p class="text-xs text-center text-neutral-500 mb-8">3-day free trial · no charge until it ends</p>
 <ul class="space-y-4 flex-1">
 <li class="flex items-start gap-3 text-sm text-neutral-300">
 <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
@@ -422,7 +455,7 @@
 </li>
 <li class="flex items-start gap-3 text-sm text-neutral-300">
 <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
-<span>50+ languages with auto-detect</span>
+<span>60+ languages with auto-detect</span>
 </li>
 <li class="flex items-start gap-3 text-sm text-neutral-300">
 <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
@@ -462,9 +495,10 @@
 <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-purple-500/10 text-purple-300 border border-purple-500/20">500 min/mo</span>
 </div>
 </div>
-<a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-500 transition-all shadow-lg shadow-purple-900/20 mb-8 hover:shadow-purple-900/40 hover:scale-[1.02] block text-center">
-                            Get Pro
+<a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-500 transition-all shadow-lg shadow-purple-900/20 mb-3 hover:shadow-purple-900/40 hover:scale-[1.02] block text-center">
+                            Start free trial
                         </a>
+<p class="text-xs text-center text-neutral-400 mb-8">3-day free trial · no charge until it ends</p>
 <ul class="space-y-4 flex-1">
 <li class="flex items-start gap-3 text-sm text-white">
 <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
@@ -514,9 +548,10 @@
 <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-300 border border-amber-500/20">1,600 min/mo</span>
 </div>
 </div>
-<a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-white/5 border border-amber-400/20 text-white font-medium hover:bg-amber-400/10 transition-colors mb-8 group-hover:border-amber-400/40 block text-center">
-                            Get Studio
+<a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-white/5 border border-amber-400/20 text-white font-medium hover:bg-amber-400/10 transition-colors mb-3 group-hover:border-amber-400/40 block text-center">
+                            Start free trial
                         </a>
+<p class="text-xs text-center text-neutral-500 mb-8">3-day free trial · no charge until it ends</p>
 <ul class="space-y-4 flex-1">
 <li class="flex items-start gap-3 text-sm text-neutral-300">
 <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
@@ -597,12 +632,13 @@
 <!-- 4. FEATURE COMPARISON -->
 <section class="py-24 border-t border-white/5 bg-neutral-900/20 reveal-on-scroll">
 <div class="container mx-auto px-6 max-w-7xl">
-<h2 class="text-3xl font-semibold text-white mb-12 text-center">Compare Features</h2>
+<h2 class="text-3xl font-semibold text-white mb-3 text-center">Compare <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(90deg, #a855f7, #c084fc);">Plans</span></h2>
+<p class="text-neutral-400 text-center mb-12">Every paid plan includes access to Octavia's full AI media localization workflow.</p>
 <div class="overflow-x-auto">
 <table class="w-full text-left border-collapse">
 <thead>
-<tr class="border-b border-white/10">
-<th class="py-4 px-6 text-sm font-medium text-neutral-400 min-w-48">Features</th>
+<tr>
+<th class="py-4 px-6 text-xs font-semibold tracking-wide uppercase text-purple-400 min-w-48">Usage &amp; Limits</th>
 <th class="py-4 px-6 text-sm font-medium text-white text-center">Creator</th>
 <th class="py-4 px-6 text-sm font-medium text-purple-400 text-center">Pro</th>
 <th class="py-4 px-6 text-sm font-medium text-amber-300 text-center">Studio</th>
@@ -610,113 +646,333 @@
 </tr>
 </thead>
 <tbody class="text-sm">
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<tr class="border-t border-white/10 hover:bg-white/5 transition-colors">
 <td class="py-4 px-6 text-neutral-300">Monthly credits</td>
 <td class="py-4 px-6 text-white text-center">10,000</td>
 <td class="py-4 px-6 text-white text-center">50,000</td>
 <td class="py-4 px-6 text-white text-center">160,000</td>
 <td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">Minutes per month</td>
-<td class="py-4 px-6 text-white text-center">100</td>
-<td class="py-4 px-6 text-white text-center">500</td>
-<td class="py-4 px-6 text-white text-center">1,600</td>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Video equivalent</td>
+<td class="py-4 px-6 text-white text-center">Up to 100 min</td>
+<td class="py-4 px-6 text-white text-center">Up to 500 min</td>
+<td class="py-4 px-6 text-white text-center">Up to 1,600 min</td>
 <td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">Source file cap</td>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Seats</td>
+<td class="py-4 px-6 text-white text-center">1</td>
+<td class="py-4 px-6 text-white text-center">2</td>
+<td class="py-4 px-6 text-white text-center">5</td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Concurrent jobs</td>
+<td class="py-4 px-6 text-white text-center">1</td>
+<td class="py-4 px-6 text-white text-center">2</td>
+<td class="py-4 px-6 text-white text-center">5</td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Source limit</td>
+<td class="py-4 px-6 text-white text-center">100 min</td>
+<td class="py-4 px-6 text-white text-center">500 min</td>
+<td class="py-4 px-6 text-white text-center">1,600 min</td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Single job cap</td>
 <td class="py-4 px-6 text-white text-center">90 min</td>
-<td class="py-4 px-6 text-white text-center">10 h</td>
-<td class="py-4 px-6 text-white text-center">10 h</td>
+<td class="py-4 px-6 text-white text-center">10 hours</td>
+<td class="py-4 px-6 text-white text-center">10 hours</td>
 <td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">No watermark exports</td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-purple-400 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">No watermark</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">Languages</td>
-<td class="py-4 px-6 text-white text-center">50+</td>
-<td class="py-4 px-6 text-white text-center">50+</td>
-<td class="py-4 px-6 text-white text-center">50+</td>
-<td class="py-4 px-6 text-white text-center">50+ / custom</td>
+<tr>
+<td class="pt-12 pb-4 px-6 text-xs font-semibold tracking-wide uppercase text-purple-400">Quality &amp; Control</td>
+<td colspan="4"></td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">Word-level subtitle sync</td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-purple-400 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<tr class="border-t border-white/10 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Fast mode</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">Voice Cloning</td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-purple-400 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Quality mode</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Transcript review</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Editing studio</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Context-aware translation</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Translation review</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Voice preview</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+</tr>
+<tr>
+<td class="pt-12 pb-4 px-6 text-xs font-semibold tracking-wide uppercase text-purple-400">Team &amp; Enterprise</td>
+<td colspan="4"></td>
+</tr>
+<tr class="border-t border-white/10 hover:bg-white/5 transition-colors">
 <td class="py-4 px-6 text-neutral-300">Multi-speaker detection</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-purple-400 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
 <td class="py-4 px-6 text-neutral-300">Priority processing</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-purple-400 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+<td class="py-4 px-6 text-neutral-300">Parallel processing</td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
+</tr>
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
 <td class="py-4 px-6 text-neutral-300">Custom voice library</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
 <td class="py-4 px-6 text-neutral-300">Priority API access</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">SSO / SAML &amp; SLA</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-</tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
 <td class="py-4 px-6 text-neutral-300">Dedicated success manager</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+<tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
 <td class="py-4 px-6 text-neutral-300">Early access to new models</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-amber-300 text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
-</tr>
-<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-<td class="py-4 px-6 text-neutral-300">24/7 priority support</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-neutral-500 text-center">-</td>
-<td class="py-4 px-6 text-white text-center"><iconify-icon icon="lucide:check" width="16"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-rose-500/70" icon="lucide:circle-x" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-center"><iconify-icon class="text-emerald-400" icon="lucide:circle-check" width="18"></iconify-icon></td>
+<td class="py-4 px-6 text-white text-center">Custom</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</section>
+<!-- 4.5 PREMIUM CONTROLS -->
+<section class="py-24 border-t border-white/5 bg-neutral-900/20 reveal-on-scroll">
+<div class="container mx-auto px-6 max-w-6xl">
+<!-- Header -->
+<div class="text-center max-w-2xl mx-auto mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight uppercase">Premium controls for <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-violet-400">serious</span> media</h2>
+<p class="text-neutral-400 text-base md:text-lg">For high-value content, Octavia gives you total control before final output.</p>
+<div class="flex items-center justify-center gap-4 mt-10">
+<span class="h-px w-24 bg-gradient-to-r from-transparent to-purple-500/40"></span>
+<span class="text-purple-300 text-xs font-semibold uppercase tracking-[0.25em]">Complete Control</span>
+<span class="h-px w-24 bg-gradient-to-l from-transparent to-purple-500/40"></span>
+</div>
+</div>
+<!-- Card grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- C1: Glossary -->
+<div class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 p-8 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-purple-500/30 hover:-translate-y-1.5 hover:shadow-[inset_0_1px_0_0_rgba(192,132,252,0.25),0_12px_45px_-15px_rgba(147,51,234,0.5)] transition-all duration-500 ease-out">
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-violet-600/0 group-hover:from-purple-500/[0.06] group-hover:to-violet-600/[0.06] transition-all duration-500"></div>
+<div class="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-40 rounded-full bg-purple-600/0 blur-[60px] group-hover:bg-purple-600/20 transition-all duration-500"></div>
+<div class="relative z-10 w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-50 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"></div>
+<img src="assets/controls/icon-glossary.png" alt="Glossary and brand terms" width="112" height="112" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.35)] group-hover:scale-105 transition-transform duration-300"/>
+</div>
+<h3 class="relative z-10 text-white font-semibold mb-2">Correct Names, Acronyms, Jargon &amp; Brand Terms</h3>
+<p class="relative z-10 text-neutral-400 text-sm leading-relaxed">Add custom terms and a glossary so every translation keeps your message precise.</p>
+</div>
+<!-- C2: Typography -->
+<div class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 p-8 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-purple-500/30 hover:-translate-y-1.5 hover:shadow-[inset_0_1px_0_0_rgba(192,132,252,0.25),0_12px_45px_-15px_rgba(147,51,234,0.5)] transition-all duration-500 ease-out">
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-violet-600/0 group-hover:from-purple-500/[0.06] group-hover:to-violet-600/[0.06] transition-all duration-500"></div>
+<div class="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-40 rounded-full bg-purple-600/0 blur-[60px] group-hover:bg-purple-600/20 transition-all duration-500"></div>
+<div class="relative z-10 w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-50 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"></div>
+<img src="assets/controls/icon-typography.png" alt="Subtitle styling" width="112" height="112" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.35)] group-hover:scale-105 transition-transform duration-300"/>
+</div>
+<h3 class="relative z-10 text-white font-semibold mb-2">Word-Level Subtitle Styling</h3>
+<p class="relative z-10 text-neutral-400 text-sm leading-relaxed">Fine-tune wording, line breaks, and formatting down to the individual word.</p>
+</div>
+<!-- C3: Context -->
+<div class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 p-8 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-purple-500/30 hover:-translate-y-1.5 hover:shadow-[inset_0_1px_0_0_rgba(192,132,252,0.25),0_12px_45px_-15px_rgba(147,51,234,0.5)] transition-all duration-500 ease-out">
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-violet-600/0 group-hover:from-purple-500/[0.06] group-hover:to-violet-600/[0.06] transition-all duration-500"></div>
+<div class="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-40 rounded-full bg-purple-600/0 blur-[60px] group-hover:bg-purple-600/20 transition-all duration-500"></div>
+<div class="relative z-10 w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-50 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"></div>
+<img src="assets/controls/icon-context.png" alt="Context-aware translation" width="112" height="112" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.35)] group-hover:scale-105 transition-transform duration-300"/>
+</div>
+<h3 class="relative z-10 text-white font-semibold mb-2">Context-Aware Translation</h3>
+<p class="relative z-10 text-neutral-400 text-sm leading-relaxed">Guide tone, intent, and terminology so meaning lands the way a human would phrase it.</p>
+</div>
+<!-- C4: Subtitles / transcript -->
+<div class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 p-8 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-purple-500/30 hover:-translate-y-1.5 hover:shadow-[inset_0_1px_0_0_rgba(192,132,252,0.25),0_12px_45px_-15px_rgba(147,51,234,0.5)] transition-all duration-500 ease-out">
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-violet-600/0 group-hover:from-purple-500/[0.06] group-hover:to-violet-600/[0.06] transition-all duration-500"></div>
+<div class="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-40 rounded-full bg-purple-600/0 blur-[60px] group-hover:bg-purple-600/20 transition-all duration-500"></div>
+<div class="relative z-10 w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-50 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"></div>
+<img src="assets/controls/icon-subtitles.png" alt="Edit transcripts and translations" width="112" height="112" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.35)] group-hover:scale-105 transition-transform duration-300"/>
+</div>
+<h3 class="relative z-10 text-white font-semibold mb-2">Edit Transcript &amp; Translation</h3>
+<p class="relative z-10 text-neutral-400 text-sm leading-relaxed">Read and revise both the source and the translation before anything is rendered.</p>
+</div>
+<!-- C5: Audio -->
+<div class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 p-8 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-purple-500/30 hover:-translate-y-1.5 hover:shadow-[inset_0_1px_0_0_rgba(192,132,252,0.25),0_12px_45px_-15px_rgba(147,51,234,0.5)] transition-all duration-500 ease-out">
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-violet-600/0 group-hover:from-purple-500/[0.06] group-hover:to-violet-600/[0.06] transition-all duration-500"></div>
+<div class="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-40 rounded-full bg-purple-600/0 blur-[60px] group-hover:bg-purple-600/20 transition-all duration-500"></div>
+<div class="relative z-10 w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-50 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"></div>
+<img src="assets/controls/icon-audio.png" alt="Voice and pacing controls" width="112" height="112" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.35)] group-hover:scale-105 transition-transform duration-300"/>
+</div>
+<h3 class="relative z-10 text-white font-semibold mb-2">Fine-Tune Voice &amp; Pacing</h3>
+<p class="relative z-10 text-neutral-400 text-sm leading-relaxed">Adjust voice, pronunciation, and timing so the dub sounds exactly the way you talk.</p>
+</div>
+<!-- C6: Speed / approve -->
+<div class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 p-8 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-purple-500/30 hover:-translate-y-1.5 hover:shadow-[inset_0_1px_0_0_rgba(192,132,252,0.25),0_12px_45px_-15px_rgba(147,51,234,0.5)] transition-all duration-500 ease-out">
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-violet-600/0 group-hover:from-purple-500/[0.06] group-hover:to-violet-600/[0.06] transition-all duration-500"></div>
+<div class="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-40 rounded-full bg-purple-600/0 blur-[60px] group-hover:bg-purple-600/20 transition-all duration-500"></div>
+<div class="relative z-10 w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-50 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"></div>
+<img src="assets/controls/icon-speed.png" alt="Approve and export" width="112" height="112" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.35)] group-hover:scale-105 transition-transform duration-300"/>
+</div>
+<h3 class="relative z-10 text-white font-semibold mb-2">Approve &amp; Ship in Seconds</h3>
+<p class="relative z-10 text-neutral-400 text-sm leading-relaxed">Sign off when it's right — nothing exports without your final approval.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 4.6 TOTAL CONTROL WORKFLOW -->
+<section class="py-24 border-t border-white/5 bg-[#060606] reveal-on-scroll overflow-hidden">
+<div class="container mx-auto px-6 max-w-6xl">
+<!-- Divider label -->
+<div class="flex items-center justify-center gap-4 mb-16">
+<span class="h-px w-24 sm:w-40 bg-gradient-to-r from-transparent to-purple-500/40"></span>
+<span class="text-purple-300 text-xs font-semibold uppercase tracking-[0.3em] whitespace-nowrap">Total Control Workflow</span>
+<span class="h-px w-24 sm:w-40 bg-gradient-to-l from-transparent to-purple-500/40"></span>
+</div>
+<!-- Steps -->
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-y-12 gap-x-2">
+<!-- Step 1 -->
+<div class="group relative flex flex-col items-center text-center">
+<div class="relative mb-8 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-purple-500/20 blur-xl scale-110 opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative w-16 h-16 rounded-full bg-[#0c0c0c] border border-purple-500/40 flex items-center justify-center text-white font-semibold text-lg shadow-[inset_0_0_12px_rgba(168,85,247,0.25)] group-hover:border-purple-400/70 group-hover:shadow-[inset_0_0_18px_rgba(168,85,247,0.45),0_0_25px_-5px_rgba(168,85,247,0.6)] transition-all duration-500">1</div>
+</div>
+<div class="relative w-24 h-24 mb-4 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+<img src="assets/workflow/step-transcript.png" alt="Review transcript" width="96" height="96" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:scale-110 transition-transform duration-500"/>
+</div>
+<p class="text-sm text-neutral-300 font-medium leading-snug group-hover:text-white transition-colors duration-300">Review Transcript</p>
+</div>
+<!-- Step 2 -->
+<div class="group relative flex flex-col items-center text-center">
+<div class="relative mb-8 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-purple-500/20 blur-xl scale-110 opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative w-16 h-16 rounded-full bg-[#0c0c0c] border border-purple-500/40 flex items-center justify-center text-white font-semibold text-lg shadow-[inset_0_0_12px_rgba(168,85,247,0.25)] group-hover:border-purple-400/70 group-hover:shadow-[inset_0_0_18px_rgba(168,85,247,0.45),0_0_25px_-5px_rgba(168,85,247,0.6)] transition-all duration-500">2</div>
+</div>
+<div class="relative w-24 h-24 mb-4 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+<img src="assets/workflow/step-terms.png" alt="Correct terms and guidelines" width="96" height="96" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:scale-110 transition-transform duration-500"/>
+</div>
+<p class="text-sm text-neutral-300 font-medium leading-snug group-hover:text-white transition-colors duration-300">Correct Terms &amp; Guidelines</p>
+</div>
+<!-- Step 3 -->
+<div class="group relative flex flex-col items-center text-center">
+<div class="relative mb-8 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-purple-500/20 blur-xl scale-110 opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative w-16 h-16 rounded-full bg-[#0c0c0c] border border-purple-500/40 flex items-center justify-center text-white font-semibold text-lg shadow-[inset_0_0_12px_rgba(168,85,247,0.25)] group-hover:border-purple-400/70 group-hover:shadow-[inset_0_0_18px_rgba(168,85,247,0.45),0_0_25px_-5px_rgba(168,85,247,0.6)] transition-all duration-500">3</div>
+</div>
+<div class="relative w-24 h-24 mb-4 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+<img src="assets/workflow/step-translation.png" alt="Hyper-context translation" width="96" height="96" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:scale-110 transition-transform duration-500"/>
+</div>
+<p class="text-sm text-neutral-300 font-medium leading-snug group-hover:text-white transition-colors duration-300">Hyper-Context Translation</p>
+</div>
+<!-- Step 4 -->
+<div class="group relative flex flex-col items-center text-center">
+<div class="relative mb-8 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-purple-500/20 blur-xl scale-110 opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative w-16 h-16 rounded-full bg-[#0c0c0c] border border-purple-500/40 flex items-center justify-center text-white font-semibold text-lg shadow-[inset_0_0_12px_rgba(168,85,247,0.25)] group-hover:border-purple-400/70 group-hover:shadow-[inset_0_0_18px_rgba(168,85,247,0.45),0_0_25px_-5px_rgba(168,85,247,0.6)] transition-all duration-500">4</div>
+</div>
+<div class="relative w-24 h-24 mb-4 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+<img src="assets/workflow/step-review-text.png" alt="Review translated text" width="96" height="96" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:scale-110 transition-transform duration-500"/>
+</div>
+<p class="text-sm text-neutral-300 font-medium leading-snug group-hover:text-white transition-colors duration-300">Review Translated Text</p>
+</div>
+<!-- Step 5 -->
+<div class="group relative flex flex-col items-center text-center">
+<div class="relative mb-8 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-purple-500/20 blur-xl scale-110 opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative w-16 h-16 rounded-full bg-[#0c0c0c] border border-purple-500/40 flex items-center justify-center text-white font-semibold text-lg shadow-[inset_0_0_12px_rgba(168,85,247,0.25)] group-hover:border-purple-400/70 group-hover:shadow-[inset_0_0_18px_rgba(168,85,247,0.45),0_0_25px_-5px_rgba(168,85,247,0.6)] transition-all duration-500">5</div>
+</div>
+<div class="relative w-24 h-24 mb-4 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+<img src="assets/workflow/step-preview-voices.png" alt="Preview voices" width="96" height="96" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:scale-110 transition-transform duration-500"/>
+</div>
+<p class="text-sm text-neutral-300 font-medium leading-snug group-hover:text-white transition-colors duration-300">Preview Voices</p>
+</div>
+<!-- Step 6 -->
+<div class="group relative flex flex-col items-center text-center">
+<div class="relative mb-8 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-purple-500/20 blur-xl scale-110 opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative w-16 h-16 rounded-full bg-[#0c0c0c] border border-purple-500/40 flex items-center justify-center text-white font-semibold text-lg shadow-[inset_0_0_12px_rgba(168,85,247,0.25)] group-hover:border-purple-400/70 group-hover:shadow-[inset_0_0_18px_rgba(168,85,247,0.45),0_0_25px_-5px_rgba(168,85,247,0.6)] transition-all duration-500">6</div>
+</div>
+<div class="relative w-24 h-24 mb-4 flex items-center justify-center">
+<div class="pointer-events-none absolute inset-0 rounded-full bg-purple-500/10 blur-2xl scale-90 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+<img src="assets/workflow/step-mode.png" alt="Fast or quality mode" width="96" height="96" class="relative z-10 w-full h-full object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:scale-110 transition-transform duration-500"/>
+</div>
+<p class="text-sm text-neutral-300 font-medium leading-snug group-hover:text-white transition-colors duration-300">Fast or Quality Mode</p>
+</div>
 </div>
 </div>
 </section>
@@ -847,81 +1103,453 @@
 </div>
 </div>
 </section>
+<!-- 6.5 FEATURES -->
+<section class="w-full bg-neutral-900/20 py-24 border-t border-white/5" id="features">
+<div class="container mx-auto px-6">
+<div class="mb-24 max-w-3xl relative">
+<div class="absolute -left-20 -top-20 w-64 h-64 bg-purple-500/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen">
+</div>
+<span class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium tracking-wide relative z-10">
+<iconify-icon icon="lucide:sparkles" width="14"></iconify-icon>
+          The world's most advanced translator
+        </span>
+<h2 class="text-4xl md:text-6xl font-medium mb-8 tracking-tighter text-white relative z-10">
+          Reach every audience on Earth — <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-violet-400 to-indigo-400">in their
+            language, your voice</span>
+</h2>
+<p class="text-neutral-400 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+          The world's fastest and most advanced translator. Custom context-aware models that understand meaning like a
+          human — dubbing a 10-hour video in seconds, across 60+ languages, without ever sounding robotic.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-6 gap-6 auto-rows-fr">
+<!-- S1: Flagship — World's Most Advanced Translator -->
+<div class="md:col-span-4 group relative p-10 bg-neutral-900/10 border border-purple-500/20 rounded-3xl overflow-hidden hover:border-purple-500/40 transition-all duration-500">
+<div class="relative z-10 flex flex-col h-full justify-between items-start">
+<div>
+<div class="flex items-center gap-3 mb-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center text-purple-400 border border-white/10 group-hover:bg-purple-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:brain-circuit" width="20"></iconify-icon>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] uppercase tracking-widest font-medium text-purple-300">Context-Aware AI</span>
+</div>
+<h3 class="text-3xl font-medium text-white mb-4 tracking-tight">The World's Most Advanced Translator</h3>
+<p class="text-neutral-400 text-lg leading-relaxed max-w-xl font-light">Our own custom models read the full
+                context first — tone, intent, terminology — then translate the way a real human translator would. Idioms
+                land. Names stay intact. Meaning is preserved. This isn't word-for-word. It's true localization.</p>
+</div>
+</div>
+<div class="absolute top-0 right-0 w-[1px] h-32 bg-gradient-to-b from-purple-500/30 to-transparent"></div>
+</div>
+<!-- S2: World's Fastest -->
+<div class="md:col-span-2 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center mb-8 text-amber-400 border border-white/10 group-hover:bg-amber-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:zap" width="20"></iconify-icon>
+</div>
+<h3 class="text-xl font-medium text-white mb-3 tracking-tight">The World's Fastest</h3>
+<p class="text-sm text-neutral-400 leading-relaxed font-light">Subtitles for a full 10-hour video in about
+              <span class="text-amber-300 font-medium">4 seconds</span>. Stop waiting. Start publishing.</p>
+</div>
+</div>
+<!-- S3: Character-Perfect Timing -->
+<div class="md:col-span-2 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center mb-8 text-emerald-400 border border-white/10 group-hover:bg-emerald-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:gauge" width="20"></iconify-icon>
+</div>
+<h3 class="text-xl font-medium text-white mb-3 tracking-tight">Character-Perfect Timing</h3>
+<p class="text-sm text-neutral-400 leading-relaxed font-light">Every dub stays in sync — never sped-up,
+              never dragging. Intelligent character counting keeps speech natural, the way you actually talk.</p>
+</div>
+</div>
+<!-- S4: Magic Mode -->
+<div class="md:col-span-4 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10 flex flex-col md:flex-row gap-10 justify-between h-full items-start">
+<div class="max-w-md">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center mb-10 text-pink-400 border border-white/10 group-hover:bg-pink-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:wand-2" width="20"></iconify-icon>
+</div>
+<h3 class="text-3xl font-medium text-white mb-4 tracking-tight">Magic Mode</h3>
+<p class="text-neutral-400 text-lg leading-relaxed font-light">One click separates voice from music.
+                Translate the dialogue while the original soundtrack, effects, and atmosphere stay perfectly
+                untouched.</p>
+</div>
+<div class="hidden md:flex flex-col gap-1 items-end w-32 mt-auto">
+<div class="h-0.5 bg-pink-500/40 w-full rounded-full"></div>
+<div class="h-0.5 bg-pink-500/60 w-3/4 rounded-full"></div>
+<div class="h-0.5 bg-pink-500/30 w-1/2 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- S5: Voice Cloning -->
+<div class="md:col-span-2 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center mb-8 text-blue-400 border border-white/10 group-hover:bg-blue-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:mic" width="20"></iconify-icon>
+</div>
+<h3 class="text-xl font-medium text-white mb-3 tracking-tight">Voice Cloning</h3>
+<p class="text-sm text-neutral-400 leading-relaxed font-light">Your voice, speaking 60+ languages.
+              Ultra-realistic cloning keeps your tone, emotion, and personality intact.</p>
+</div>
+</div>
+<!-- S6: Review Every Word -->
+<div class="md:col-span-2 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center mb-8 text-cyan-400 border border-white/10 group-hover:bg-cyan-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:scan-eye" width="20"></iconify-icon>
+</div>
+<h3 class="text-xl font-medium text-white mb-3 tracking-tight">Review Every Word</h3>
+<p class="text-sm text-neutral-400 leading-relaxed font-light">Stay in control. Read and edit the transcript
+              and the translation before export — nothing ships without your approval.</p>
+</div>
+</div>
+<!-- S7: 60+ Languages -->
+<div class="md:col-span-2 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center mb-8 text-sky-400 border border-white/10 group-hover:bg-sky-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:globe" width="20"></iconify-icon>
+</div>
+<h3 class="text-xl font-medium text-white mb-3 tracking-tight">60+ Languages</h3>
+<p class="text-sm text-neutral-400 leading-relaxed font-light">English, Spanish, German, Mandarin, French,
+              Italian — and 60+ more. One upload, a truly global audience.</p>
+</div>
+</div>
+<!-- S8: Multi-Speaker Diarization -->
+<div class="md:col-span-4 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center text-violet-400 border border-white/10 group-hover:bg-violet-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:users" width="20"></iconify-icon>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase tracking-widest font-medium text-neutral-400 transition-colors group-hover:text-violet-300">Diarization</span>
+</div>
+<h3 class="text-3xl font-medium text-white mb-4 tracking-tight">Multi-Speaker Diarization</h3>
+<p class="text-neutral-400 text-lg leading-relaxed max-w-xl font-light">Octavia hears every speaker apart and
+              gives each their own cloned voice — so interviews, podcasts, and panels flow naturally in any language.</p>
+</div>
+</div>
+<!-- S9: The Complete Studio -->
+<div class="md:col-span-2 group relative p-10 bg-neutral-900/10 border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center mb-8 text-indigo-400 border border-white/10 group-hover:bg-indigo-500/10 transition-colors duration-500">
+<iconify-icon icon="lucide:layers" width="20"></iconify-icon>
+</div>
+<h3 class="text-xl font-medium text-white mb-3 tracking-tight">The Complete Studio</h3>
+<p class="text-sm text-neutral-400 leading-relaxed font-light">Translate audio, turn subtitles into natural
+              voiceover, generate speech, and fine-tune word-level subtitles — all in one place.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6.7 LOCALIZATION BENEFITS (New Section) -->
+<section class="py-24 border-t border-white/5 bg-neutral-900/20 reveal-on-scroll">
+<div class="container mx-auto px-6 max-w-6xl">
+<!-- Section header -->
+<div class="mb-20 max-w-3xl relative">
+<div class="absolute -left-20 -top-20 w-64 h-64 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen">
+</div>
+<span class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium tracking-wide relative z-10">
+<iconify-icon icon="lucide:globe" width="14"></iconify-icon>
+                            One upload. Every language. Your voice.
+                        </span>
+<h2 class="text-4xl md:text-6xl font-medium mb-8 tracking-tighter text-white relative z-10">
+                            Everything you need to <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-green-400">reach the entire world</span>
+</h2>
+<p class="text-neutral-400 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+                            Octavia doesn't just translate words — it carries your voice, your timing, and your meaning
+                            into 60+ languages. Here's exactly what you can do.
+                        </p>
+</div>
+<!-- Primary ability cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-6 text-left hover:border-emerald-500/20 transition-colors">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center mb-5">
+<iconify-icon icon="lucide:languages" width="18"></iconify-icon>
+</div>
+<h3 class="text-white font-semibold text-lg mb-2">Speak 60+ languages — in your own voice</h3>
+<p class="text-neutral-400 text-sm leading-relaxed">English, Spanish, Mandarin, French, German, Hindi and 60+ more. Ultra-realistic voice cloning keeps your tone, emotion, and personality intact in every one.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-6 text-left hover:border-emerald-500/20 transition-colors">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center mb-5">
+<iconify-icon icon="lucide:earth" width="18"></iconify-icon>
+</div>
+<h3 class="text-white font-semibold text-lg mb-2">Reach the entire world from one upload</h3>
+<p class="text-neutral-400 text-sm leading-relaxed">Upload once and publish to every market. The billions who never spoke your language finally hear your content the way it was meant to sound — native, not subtitled-over.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-6 text-left hover:border-emerald-500/20 transition-colors">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center mb-5">
+<iconify-icon icon="lucide:zap" width="18"></iconify-icon>
+</div>
+<h3 class="text-white font-semibold text-lg mb-2">Dub a 10-hour video in seconds</h3>
+<p class="text-neutral-400 text-sm leading-relaxed">The world's fastest translator turns a full-length video into a polished, multi-language dub in seconds — not the days or weeks a studio would take.</p>
+</div>
+</div>
+<!-- Secondary ability row -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="flex items-center gap-2 mb-2 text-emerald-300">
+<iconify-icon icon="lucide:gauge" width="16"></iconify-icon>
+<span class="text-xs font-medium uppercase tracking-wider text-neutral-500">Perfectly in sync</span>
+</div>
+<p class="text-neutral-400 text-xs leading-relaxed">Character-perfect timing keeps every dub natural — never sped-up, never dragging, always in step with the picture.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="flex items-center gap-2 mb-2 text-emerald-300">
+<iconify-icon icon="lucide:wand-2" width="16"></iconify-icon>
+<span class="text-xs font-medium uppercase tracking-wider text-neutral-500">Keep the music</span>
+</div>
+<p class="text-neutral-400 text-xs leading-relaxed">Magic Mode separates voice from soundtrack, so dialogue gets translated while effects and atmosphere stay untouched.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="flex items-center gap-2 mb-2 text-emerald-300">
+<iconify-icon icon="lucide:users" width="16"></iconify-icon>
+<span class="text-xs font-medium uppercase tracking-wider text-neutral-500">Every speaker</span>
+</div>
+<p class="text-neutral-400 text-xs leading-relaxed">Multi-speaker diarization gives each person their own cloned voice — interviews and panels flow in any language.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="flex items-center gap-2 mb-2 text-emerald-300">
+<iconify-icon icon="lucide:scan-eye" width="16"></iconify-icon>
+<span class="text-xs font-medium uppercase tracking-wider text-neutral-500">You stay in control</span>
+</div>
+<p class="text-neutral-400 text-xs leading-relaxed">Review and edit the transcript and translation before export — nothing ships without your approval.</p>
+</div>
+</div>
+<!-- Payoff callout -->
+<div class="mt-16 rounded-[2rem] bg-gradient-to-r from-emerald-950/40 to-neutral-950 border border-emerald-500/15 p-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="absolute top-0 right-0 w-72 h-72 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+<div class="relative z-10 text-center md:text-left">
+<p class="text-2xl md:text-3xl font-semibold text-white mb-2">Your content already works. <span class="text-emerald-400">Now make it work everywhere.</span></p>
+<p class="text-neutral-400 max-w-lg">Same story, every language, your own voice. Start today and reach the audience you've been missing.</p>
+</div>
+<a href="https://app.octavia.lunartech.ai/signup" class="relative z-10 shrink-0 inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-black font-medium hover:bg-neutral-200 transition-colors group">
+                        Start translating
+                        <iconify-icon class="transition-transform group-hover:translate-x-0.5" icon="lucide:arrow-right" width="18"></iconify-icon>
+</a>
+</div>
+</div>
+</section>
 <!-- 7. ROI / VALUE (New Section) -->
 <section class="py-24 border-t border-white/5 bg-neutral-900/20 reveal-on-scroll">
-<div class="container mx-auto px-6 text-center">
-<h2 class="text-3xl font-semibold text-white mb-16">The Cost of Single-Language</h2>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-<div class="p-6">
-<div class="text-4xl font-bold text-red-400 mb-2">85%</div>
-<p class="text-neutral-400 text-sm">Potential audience missed by staying English-only.</p>
+<div class="container mx-auto px-6 max-w-6xl">
+<!-- Section header -->
+<div class="text-center max-w-3xl mx-auto mb-16">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-medium mb-6">
+<iconify-icon icon="lucide:trending-down" width="14"></iconify-icon>
+                            The hidden cost of English-only
+                        </div>
+<h2 class="text-3xl md:text-4xl font-semibold text-white mb-4">The Cost of Single-Language</h2>
+<p class="text-neutral-400 text-lg leading-relaxed">Staying in one language doesn't just cap your audience — it quietly drains revenue, burns weeks of production time, and hands market share to creators who already speak to the world. Here's what single-language really costs.</p>
 </div>
-<div class="p-6">
-<div class="text-4xl font-bold text-red-400 mb-2">$20k+</div>
-<p class="text-neutral-400 text-sm">Cost of traditional studio dubbing per video.</p>
+<!-- Primary stat cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-6 text-left hover:border-rose-500/20 transition-colors">
+<div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-300 flex items-center justify-center mb-5">
+<iconify-icon icon="lucide:globe" width="18"></iconify-icon>
 </div>
-<div class="p-6">
-<div class="text-4xl font-bold text-red-400 mb-2">3-5x</div>
-<p class="text-neutral-400 text-sm">Revenue increase from multilingual content.</p>
+<div class="text-4xl font-bold text-rose-400 mb-2">85%</div>
+<p class="text-white font-medium mb-1">Audience left on the table</p>
+<p class="text-neutral-400 text-sm leading-relaxed">Roughly 85% of the world doesn't speak English natively. Publishing English-only means most of your potential viewers never understand a word.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-6 text-left hover:border-rose-500/20 transition-colors">
+<div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-300 flex items-center justify-center mb-5">
+<iconify-icon icon="lucide:banknote" width="18"></iconify-icon>
+</div>
+<div class="text-4xl font-bold text-rose-400 mb-2">$20k+</div>
+<p class="text-white font-medium mb-1">Per video, the old way</p>
+<p class="text-neutral-400 text-sm leading-relaxed">Traditional studio dubbing runs $15k–$20k+ per video, per language — before voice talent, revisions, or rush fees stack on top.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-6 text-left hover:border-emerald-500/20 transition-colors">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center mb-5">
+<iconify-icon icon="lucide:trending-up" width="18"></iconify-icon>
+</div>
+<div class="text-4xl font-bold text-emerald-400 mb-2">3–5x</div>
+<p class="text-white font-medium mb-1">Revenue from going global</p>
+<p class="text-neutral-400 text-sm leading-relaxed">Creators who localize regularly see 3–5x growth in watch time and revenue as new-language markets compound month over month.</p>
 </div>
 </div>
-<div class="mt-16">
-<p class="text-lg text-white font-medium">Octavia pays for itself with <span class="text-purple-400">one
-                            video</span>.</p>
+<!-- Secondary "what nobody mentions" stats -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="text-2xl font-bold text-rose-400 mb-1">2–4 wks</div>
+<p class="text-neutral-500 text-xs leading-relaxed">Typical turnaround for outsourced studio dubbing — Octavia delivers in minutes.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="text-2xl font-bold text-rose-400 mb-1">75%</div>
+<p class="text-neutral-500 text-xs leading-relaxed">Of viewers prefer content in their native language, even when they understand English.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="text-2xl font-bold text-rose-400 mb-1">60+</div>
+<p class="text-neutral-500 text-xs leading-relaxed">Languages you'd otherwise hire, brief, and manage a separate vendor for — each one.</p>
+</div>
+<div class="rounded-2xl bg-[#0A0A0A] border border-white/10 p-5 text-left">
+<div class="text-2xl font-bold text-rose-400 mb-1">∞</div>
+<p class="text-neutral-500 text-xs leading-relaxed">Re-dubs and edits cost you again every time with a studio. With Octavia, they're free.</p>
+</div>
+</div>
+<!-- Payoff callout -->
+<div class="mt-16 rounded-[2rem] bg-gradient-to-r from-neutral-900 to-neutral-950 border border-white/10 p-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="absolute top-0 left-0 w-72 h-72 bg-purple-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+<div class="relative z-10 text-center md:text-left">
+<p class="text-2xl md:text-3xl font-semibold text-white mb-2">Octavia pays for itself with <span class="text-purple-400">one video</span>.</p>
+<p class="text-neutral-400 max-w-lg">A single localized video covers a full month of credits — and reaches an audience a $20k studio bill never could.</p>
+</div>
+<a href="https://app.octavia.lunartech.ai/signup" class="relative z-10 shrink-0 inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-black font-medium hover:bg-neutral-200 transition-colors group">
+                        Start translating
+                        <iconify-icon class="transition-transform group-hover:translate-x-0.5" icon="lucide:arrow-right" width="18"></iconify-icon>
+</a>
 </div>
 </div>
 </section>
 <!-- FAQ -->
 <section class="py-24 bg-neutral-900/20">
 <div class="container mx-auto px-6 max-w-3xl">
-<h2 class="text-3xl font-semibold text-white mb-12 text-center">Frequently Asked Questions</h2>
+<h2 class="text-3xl font-semibold text-white mb-4 text-center">Frequently Asked Questions</h2>
+<p class="text-neutral-400 text-center mb-12 max-w-2xl mx-auto">Everything you need to know about languages, credits, billing, and the workflows Octavia supports.</p>
 <div class="space-y-4">
-<!-- Item 1 -->
-<div class="group border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
-<button class="faq-trigger w-full flex items-center justify-between p-6 text-left">
-<span class="font-medium text-white text-lg">How does the voice cloning work?</span>
-<iconify-icon class="text-neutral-500 transition-transform duration-300 group-[.open]:rotate-45" icon="lucide:plus"></iconify-icon>
+<!-- Q1 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">What languages do you support?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
 </button>
-<div class="faq-content h-0 overflow-hidden transition-all duration-300">
-<div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                                Our AI analyzes your voice characteristics and creates a natural-sounding clone that maintains your unique tone, accent, and speaking style across all languages.
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Octavia translates and dubs across 60+ languages — including Spanish, French, German, Portuguese, Japanese, Korean, Hindi, Arabic, and more — with automatic source-language detection. Every plan has access to the full language library, so you can localize one video into as many of them as your credits allow.
                             </div>
 </div>
 </div>
-<!-- Item 2 -->
-<div class="group border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
-<button class="faq-trigger w-full flex items-center justify-between p-6 text-left">
-<span class="font-medium text-white text-lg">Can I cancel anytime?</span>
-<iconify-icon class="text-neutral-500 transition-transform duration-300 group-[.open]:rotate-45" icon="lucide:plus"></iconify-icon>
+<!-- Q2 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">What are credits and how do they work?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
 </button>
-<div class="faq-content h-0 overflow-hidden transition-all duration-300">
-<div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                                Yes, you can cancel your subscription at any time. You will continue to have access to
-                                the features you paid for until the end of your billing cycle.
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Credits are Octavia's single, shared currency across every workflow — video dubbing, audio translation, subtitles, and subtitle-to-audio all draw from the same balance. Each plan includes a monthly credit allowance (Creator 10,000, Pro 50,000, Studio 160,000), and you can spend it however you like across the tools. New accounts also get 500 free credits each month to try the platform.
                             </div>
 </div>
 </div>
-<!-- Item 3 -->
-<div class="group border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
-<button class="faq-trigger w-full flex items-center justify-between p-6 text-left">
-<span class="font-medium text-white text-lg">What limits apply?</span>
-<iconify-icon class="text-neutral-500 transition-transform duration-300 group-[.open]:rotate-45" icon="lucide:plus"></iconify-icon>
+<!-- Q3 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">What payment methods do you accept?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
 </button>
-<div class="faq-content h-0 overflow-hidden transition-all duration-300">
-<div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                                Limits are credit-based and refresh monthly. Creator includes 10,000 credits, Pro includes 50,000 credits, Studio includes 160,000 credits, and Enterprise is custom. At the standard video rate, that equals 100, 500, and 1,600 minutes per month.
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Subscriptions are handled securely through Stripe, so we accept all major credit and debit cards (Visa, Mastercard, American Express) and supported regional payment methods. Billing is monthly and you can manage or update your payment details at any time. Enterprise customers can arrange custom invoicing by contacting our team.
                             </div>
 </div>
 </div>
-<!-- Item 4 -->
-<div class="group border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
-<button class="faq-trigger w-full flex items-center justify-between p-6 text-left">
-<span class="font-medium text-white text-lg">How many languages are supported?</span>
-<iconify-icon class="text-neutral-500 transition-transform duration-300 group-[.open]:rotate-45" icon="lucide:plus"></iconify-icon>
+<!-- Q4 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">Can I use Octavia for only translation?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
 </button>
-<div class="faq-content h-0 overflow-hidden transition-all duration-300">
-<div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                                Octavia supports 30+ languages including Spanish, French, German, Japanese, Korean, Arabic, and more. All plans have access to the full language library.
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Yes. Octavia is modular — you can use a single workflow on its own. Generate or translate subtitles without dubbing, translate an audio track without touching the video, or produce a transcript only. You're never required to run the full dubbing pipeline; you only spend credits on the steps you actually use.
+                            </div>
+</div>
+</div>
+<!-- Q5 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">How is credit usage calculated?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Credits are charged per minute of media processed, and the rate depends on the workflow: video translation 100 credits/min, audio translation 80, subtitle-to-audio 60, subtitle translation 25, and subtitle generation 20. You'll see an estimated cost before you confirm a job, and if a job fails it's automatically refunded.
+                            </div>
+</div>
+</div>
+<!-- Q6 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">Can I cancel my subscription?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Yes — you can cancel anytime from your billing page, no contracts and no cancellation fees. When you cancel, your account simply returns to the free tier with its 500 monthly credits, and you keep access to your existing projects. There's zero lock-in: your videos, audio, subtitles, and transcripts remain exportable at any time.
+                            </div>
+</div>
+</div>
+<!-- Q7 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">Do you support multi-speaker content?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Yes. On Pro and above, Octavia automatically detects and separates different speakers, giving each their own voice in the translated output so conversations stay natural. It's built for interviews, panels, podcasts, and any content with more than one voice — and you can adjust speaker assignments if you need to.
+                            </div>
+</div>
+</div>
+<!-- Q8 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">Do unused credits roll over?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Your monthly plan credits refresh at the start of each billing cycle and don't carry over, so they're designed to be used within the month. Any additional credits you top up separately stay on your balance and aren't wiped by the monthly reset. If you regularly have credits left over, downgrading to a smaller plan may be the better fit.
+                            </div>
+</div>
+</div>
+<!-- Q9 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">What happens if I run out of credits?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Nothing breaks — new jobs simply pause until you have enough credits again. You can either wait for your monthly allowance to refresh, or upgrade your plan to unlock a larger balance instantly. Your existing projects and outputs remain fully accessible the whole time.
+                            </div>
+</div>
+</div>
+<!-- Q10 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">What is the video single-job cap?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                The single-job cap is the maximum length of one source file you can submit in a single job. Creator handles source files up to 90 minutes, while Pro and Studio go up to 10 hours per file. Longer libraries are no problem — just split them across multiple jobs, or talk to us about Enterprise for custom limits.
+                            </div>
+</div>
+</div>
+<!-- Q11 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">Can I upgrade or downgrade my plan?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Anytime. Switching plans is a single click on your billing page. Upgrades take effect right away so you get the larger credit balance immediately, while downgrades apply at your next renewal so you keep what you've paid for through the current cycle. Your usage and history carry across the change.
+                            </div>
+</div>
+</div>
+<!-- Q12 -->
+<div class="group faq-item border border-white/5 bg-[#0A0A0A] rounded-2xl overflow-hidden transition-all hover:border-white/10">
+<button class="faq-trigger w-full flex items-center justify-between gap-4 p-6 text-left">
+<span class="font-medium text-white text-lg">Do you support long-form content?</span>
+<iconify-icon class="accordion-icon text-neutral-500 shrink-0" icon="lucide:plus"></iconify-icon>
+</button>
+<div class="accordion-content bg-black/20">
+<div class="p-6 pt-0 text-sm text-neutral-400 leading-relaxed">
+                                Yes. Pro and Studio handle source files up to 10 hours long, and our distributed GPU processing turns hours of footage around in minutes rather than days. Whether it's a feature-length film, a full course, or a long podcast, long-form content is fully supported — and credits scale by duration so you only pay for what you process.
                             </div>
 </div>
 </div>
@@ -957,7 +1585,7 @@
 <div class="text-sm text-neutral-500">Priority Support</div>
 </div>
 <div class="bg-black/40 backdrop-blur-md border border-white/10 p-6 rounded-2xl col-span-2">
-<div class="text-3xl font-bold text-white mb-1">30+</div>
+<div class="text-3xl font-bold text-white mb-1">60+</div>
 <div class="text-sm text-neutral-500">Languages</div>
 </div>
 </div>
@@ -1102,7 +1730,7 @@
               Break language barriers instantly. Reach global audiences with AI-powered dubbing.
             </p>
 <div class="flex items-center justify-between border-t border-white/20 pt-4">
-<span class="text-xs font-bold uppercase tracking-widest text-white">30+ Languages</span>
+<span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
 <svg class="lucide lucide-arrow-up-right w-5 h-5 text-white" data-lucide="arrow-up-right" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
 <path class="" d="M7 7h10v10"></path>
 <path class="" d="M7 17 17 7"></path>

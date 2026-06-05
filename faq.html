@@ -108,21 +108,38 @@
             opacity: 1;
         }
 
-        /* Accordion Styles */
+        /* Accordion Styles — easeInOutSine for smooth sinusoidal motion */
         .accordion-content {
-            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            transition:
+                max-height 0.55s cubic-bezier(0.37, 0, 0.63, 1),
+                opacity 0.4s cubic-bezier(0.37, 0, 0.63, 1),
+                transform 0.55s cubic-bezier(0.37, 0, 0.63, 1);
             max-height: 0;
             overflow: hidden;
             opacity: 0;
+            transform: translateY(-6px);
         }
 
         .accordion-item.active .accordion-content {
             max-height: 500px;
             opacity: 1;
+            transform: translateY(0);
+        }
+
+        .accordion-icon {
+            transition: transform 0.5s cubic-bezier(0.37, 0, 0.63, 1);
         }
 
         .accordion-item.active .accordion-icon {
             transform: rotate(180deg);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .accordion-content,
+            .accordion-item.active .accordion-content,
+            .accordion-icon {
+                transition: none;
+            }
         }
     </style>
 </head>
@@ -168,7 +185,7 @@
                                     </div>
                                     <div>
                                         <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
-                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 30+ languages.</p>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
                                     </div>
                                 </a>
                                 <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
@@ -263,87 +280,206 @@
     <section class="container mx-auto px-6 pb-32 max-w-3xl reveal-on-scroll">
         <div class="space-y-4">
 
-            <!-- Item 1 -->
+            <!-- Q1 -->
             <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
                 <button
-                    class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
                     onclick="toggleAccordion(this)">
-                    <span class="text-lg font-medium text-white">How accurate is the lip synchronization?</span>
+                    <span class="text-lg font-medium text-white">What languages do you support?</span>
                     <iconify-icon icon="lucide:chevron-down"
-                        class="accordion-icon text-neutral-500 transition-transform duration-300"
+                        class="accordion-icon text-neutral-500 shrink-0"
                         width="20"></iconify-icon>
                 </button>
                 <div class="accordion-content bg-black/20">
                     <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                        Octavia uses a 10ms frame-accurate lip-sync model that analyzes phoneme timing and facial movements to ensure natural synchronization. Our AI matches mouth shapes to translated audio with precision, creating seamless dubbing that looks authentic across 30+ languages.
+                        Octavia translates and dubs across 60+ languages — including Spanish, French, German, Portuguese, Japanese, Korean, Hindi, Arabic, and more — with automatic source-language detection. Every plan includes the full language library, so you can localize a single video into as many languages as your credits allow.
                     </div>
                 </div>
             </div>
 
-            <!-- Item 2 -->
+            <!-- Q2 -->
             <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
                 <button
-                    class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
                     onclick="toggleAccordion(this)">
-                    <span class="text-lg font-medium text-white">Do I retain copyright of my cloned voice?</span>
+                    <span class="text-lg font-medium text-white">What are credits and how do they work?</span>
                     <iconify-icon icon="lucide:chevron-down"
-                        class="accordion-icon text-neutral-500 transition-transform duration-300"
+                        class="accordion-icon text-neutral-500 shrink-0"
                         width="20"></iconify-icon>
                 </button>
                 <div class="accordion-content bg-black/20">
                     <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                        Yes, absolutely. You retain full ownership and copyright of your voice clone. Octavia operates under strict privacy policies-your voice data is encrypted, never shared with third parties, and never used to train public models. You have complete control over your voice assets.
+                        Credits are Octavia's single, shared currency across every workflow — video dubbing, audio translation, subtitles, and subtitle-to-audio all draw from the same monthly balance, so you spend it however suits your work. Each plan includes an allowance (Creator 10,000, Pro 50,000, Studio 160,000), and new accounts get 500 free credits each month to try the platform.
                     </div>
                 </div>
             </div>
 
-            <!-- Item 3 -->
+            <!-- Q3 -->
             <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
                 <button
-                    class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
                     onclick="toggleAccordion(this)">
-                    <span class="text-lg font-medium text-white">What video formats are supported?</span>
+                    <span class="text-lg font-medium text-white">What payment methods do you accept?</span>
                     <iconify-icon icon="lucide:chevron-down"
-                        class="accordion-icon text-neutral-500 transition-transform duration-300"
+                        class="accordion-icon text-neutral-500 shrink-0"
                         width="20"></iconify-icon>
                 </button>
                 <div class="accordion-content bg-black/20">
                     <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                        Octavia supports MP4, MOV, and WebM formats with resolutions up to 4K (3840x2160). We process videos with frame rates from 24fps to 60fps, ensuring your content maintains its original quality while adding multilingual dubbing and subtitles.
+                        Subscriptions are handled securely through Stripe, so we accept all major credit and debit cards (Visa, Mastercard, American Express) and supported regional payment methods. Billing is monthly and your details can be updated at any time. Enterprise customers can arrange custom invoicing by contacting our team.
                     </div>
                 </div>
             </div>
 
-            <!-- Item 4 -->
+            <!-- Q4 -->
             <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
                 <button
-                    class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
                     onclick="toggleAccordion(this)">
-                    <span class="text-lg font-medium text-white">Are the subtitles burned into the video or exported separately?</span>
+                    <span class="text-lg font-medium text-white">Can I use Octavia for only translation?</span>
                     <iconify-icon icon="lucide:chevron-down"
-                        class="accordion-icon text-neutral-500 transition-transform duration-300"
+                        class="accordion-icon text-neutral-500 shrink-0"
                         width="20"></iconify-icon>
                 </button>
                 <div class="accordion-content bg-black/20">
                     <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                        Both options are available. You can choose to burn subtitles directly into your video for permanent embedding, or export them as separate SRT or VTT files for flexible playback across different platforms. This gives you complete control over how your translated content is delivered.
+                        Yes. Octavia is modular — you can run a single workflow on its own. Generate or translate subtitles without dubbing, translate an audio track without touching the video, or produce a transcript only. You're never required to run the full dubbing pipeline, and you only spend credits on the steps you actually use.
                     </div>
                 </div>
             </div>
 
-            <!-- Item 5 -->
+            <!-- Q5 -->
             <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
                 <button
-                    class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
                     onclick="toggleAccordion(this)">
-                    <span class="text-lg font-medium text-white">How does the billing work for API usage?</span>
+                    <span class="text-lg font-medium text-white">How is credit usage calculated?</span>
                     <iconify-icon icon="lucide:chevron-down"
-                        class="accordion-icon text-neutral-500 transition-transform duration-300"
+                        class="accordion-icon text-neutral-500 shrink-0"
                         width="20"></iconify-icon>
                 </button>
                 <div class="accordion-content bg-black/20">
                     <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
-                        API usage is billed per minute of processed audio. Pricing is transparent and scales with your needs-starting at $0.15 per minute for standard processing. Enterprise customers receive volume discounts and dedicated support. You can monitor usage in real-time through your dashboard.
+                        Credits are charged per minute of media processed, and the rate depends on the workflow: video translation 100 credits/min, audio translation 80, subtitle-to-audio 60, subtitle translation 25, and subtitle generation 20. You'll see an estimated cost before confirming a job, and any job that fails is automatically refunded.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
+                <button
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
+                    onclick="toggleAccordion(this)">
+                    <span class="text-lg font-medium text-white">Can I cancel my subscription?</span>
+                    <iconify-icon icon="lucide:chevron-down"
+                        class="accordion-icon text-neutral-500 shrink-0"
+                        width="20"></iconify-icon>
+                </button>
+                <div class="accordion-content bg-black/20">
+                    <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
+                        Yes — cancel anytime from your billing page, with no contracts and no cancellation fees. When you cancel, your account returns to the free tier and its 500 monthly credits, and you keep access to your existing projects. There's zero lock-in: your videos, audio, subtitles, and transcripts remain exportable at any time.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
+                <button
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
+                    onclick="toggleAccordion(this)">
+                    <span class="text-lg font-medium text-white">Do you support multi-speaker content?</span>
+                    <iconify-icon icon="lucide:chevron-down"
+                        class="accordion-icon text-neutral-500 shrink-0"
+                        width="20"></iconify-icon>
+                </button>
+                <div class="accordion-content bg-black/20">
+                    <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
+                        Yes. On Pro and above, Octavia automatically detects and separates different speakers, giving each their own voice in the translated output so conversations stay natural. It's built for interviews, panels, podcasts, and any content with more than one voice — and you can adjust speaker assignments if you need to.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
+                <button
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
+                    onclick="toggleAccordion(this)">
+                    <span class="text-lg font-medium text-white">Do unused credits roll over?</span>
+                    <iconify-icon icon="lucide:chevron-down"
+                        class="accordion-icon text-neutral-500 shrink-0"
+                        width="20"></iconify-icon>
+                </button>
+                <div class="accordion-content bg-black/20">
+                    <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
+                        Your monthly plan credits refresh at the start of each billing cycle and don't carry over, so they're designed to be used within the month. Any additional credits you top up separately stay on your balance and aren't wiped by the monthly reset. If you regularly have credits left over, a smaller plan may be the better fit.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q9 -->
+            <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
+                <button
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
+                    onclick="toggleAccordion(this)">
+                    <span class="text-lg font-medium text-white">What happens if I run out of credits?</span>
+                    <iconify-icon icon="lucide:chevron-down"
+                        class="accordion-icon text-neutral-500 shrink-0"
+                        width="20"></iconify-icon>
+                </button>
+                <div class="accordion-content bg-black/20">
+                    <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
+                        Nothing breaks — new jobs simply pause until you have enough credits again. You can either wait for your monthly allowance to refresh, or upgrade your plan to unlock a larger balance instantly. Your existing projects and outputs remain fully accessible the whole time.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
+                <button
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
+                    onclick="toggleAccordion(this)">
+                    <span class="text-lg font-medium text-white">What is the video single-job cap?</span>
+                    <iconify-icon icon="lucide:chevron-down"
+                        class="accordion-icon text-neutral-500 shrink-0"
+                        width="20"></iconify-icon>
+                </button>
+                <div class="accordion-content bg-black/20">
+                    <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
+                        The single-job cap is the maximum length of one source file you can submit in a single job. Creator handles source files up to 90 minutes, while Pro and Studio go up to 10 hours per file. Longer libraries are no problem — split them across multiple jobs, or talk to us about Enterprise for custom limits.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q11 -->
+            <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
+                <button
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
+                    onclick="toggleAccordion(this)">
+                    <span class="text-lg font-medium text-white">Can I upgrade or downgrade my plan?</span>
+                    <iconify-icon icon="lucide:chevron-down"
+                        class="accordion-icon text-neutral-500 shrink-0"
+                        width="20"></iconify-icon>
+                </button>
+                <div class="accordion-content bg-black/20">
+                    <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
+                        Anytime, in a single click from your billing page. Upgrades take effect right away so you get the larger credit balance immediately, while downgrades apply at your next renewal so you keep what you've paid for through the current cycle. Your usage and history carry across the change.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q12 -->
+            <div class="accordion-item bg-neutral-900/30 border border-white/5 rounded-2xl overflow-hidden">
+                <button
+                    class="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-white/5 transition-colors"
+                    onclick="toggleAccordion(this)">
+                    <span class="text-lg font-medium text-white">Do you support long-form content?</span>
+                    <iconify-icon icon="lucide:chevron-down"
+                        class="accordion-icon text-neutral-500 shrink-0"
+                        width="20"></iconify-icon>
+                </button>
+                <div class="accordion-content bg-black/20">
+                    <div class="p-6 pt-0 text-neutral-400 leading-relaxed">
+                        Yes. Pro and Studio handle source files up to 10 hours long, and our distributed GPU processing turns hours of footage around in minutes rather than days. Whether it's a feature-length film, a full course, or a long podcast, long-form content is fully supported — and credits scale by duration, so you only pay for what you process.
                     </div>
                 </div>
             </div>
@@ -372,7 +508,7 @@
                         </h3>
                         <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
                         <div class="flex items-center justify-between border-t border-white/20 pt-4">
-                            <span class="text-xs font-bold uppercase tracking-widest text-white">30+ Languages</span>
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
                             <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
                         </div>
                     </div>
