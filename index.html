@@ -290,8 +290,31 @@
 
   <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
     <div id="navbar-bg"
-      class="flex bg-transparent w-full border-white/5 border-b py-6 px-8 relative backdrop-blur-xl items-center justify-between transition-all duration-300">
-      <!-- Logo Section -->
+      class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+      <!-- Follow-us row (shares the navbar backdrop, blur & scroll state) -->
+      <div class="fu-row">
+        <span class="fu-label">Follow us for updates</span>
+        <span class="fu-sep" aria-hidden="true"></span>
+        <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link">
+          <iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon>
+          <span>Vahe Aslanyan</span>
+        </a>
+        <a href="https://www.linkedin.com/in/tatev-karen-aslanyan/" target="_blank" rel="noopener noreferrer"
+          class="fu-link">
+          <iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon>
+          <span>Tatev Aslanyan</span>
+        </a>
+        <a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"
+          class="fu-link">
+          <iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon>
+          <span>LunarTech</span>
+        </a>
+      </div>
+
+      <!-- Main nav row -->
+      <div class="flex w-full px-8 py-5 relative items-center justify-between">
+        <!-- Logo Section -->
       <div class="flex items-center gap-2.5 z-20 shrink-0">
         <a href="/" class="block group relative">
           <!-- Glow effect behind logo -->
@@ -402,8 +425,78 @@
                     Sign Up
                 </a>
             </div>
+      </div>
     </div>
   </nav>
+
+  <style>
+    /* Follow-us row — folded into the navbar so it reads as one cohesive header */
+    .fu-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 1rem;
+      padding: 0.5rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .fu-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .fu-label {
+      color: #a3a3a3;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .fu-sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.12);
+      flex: none;
+    }
+
+    .fu-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: #d4d4d4;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.25s ease;
+    }
+
+    .fu-link iconify-icon {
+      color: #8b5cf6;
+      transition: color 0.25s ease;
+    }
+
+    .fu-link:hover {
+      color: #c4b5fd;
+    }
+
+    .fu-link:hover iconify-icon {
+      color: #a78bfa;
+    }
+
+    /* On phones the label drops out so the three links stay on one tidy line */
+    @media (max-width: 767px) {
+
+      .fu-label,
+      .fu-sep {
+        display: none;
+      }
+    }
+  </style>
 
   <header class="overflow-hidden pt-32 md:pt-48 pb-16 relative" style="contain: layout style;">
     <!-- Rain Of Tears -->
@@ -743,6 +836,202 @@
     </div>
   </section>
 
+  <!-- Feature strip -->
+  <section class="fs-section reveal-on-scroll">
+    <div class="fs-card">
+      <div class="fs-item">
+        <iconify-icon class="fs-icon" icon="lucide:hand-coins" width="26"></iconify-icon>
+        <div>
+          <h3 class="fs-title">Flexible Credits</h3>
+          <p class="fs-desc">Pay for what you use — no waste.</p>
+        </div>
+      </div>
+      <div class="fs-item">
+        <iconify-icon class="fs-icon" icon="lucide:zap" width="26"></iconify-icon>
+        <div>
+          <h3 class="fs-title">Lightning Fast</h3>
+          <p class="fs-desc">Process more content in less time.</p>
+        </div>
+      </div>
+      <div class="fs-item">
+        <iconify-icon class="fs-icon" icon="lucide:users-round" width="26"></iconify-icon>
+        <div>
+          <h3 class="fs-title">Multi-Speaker</h3>
+          <p class="fs-desc">Preserve voices, tone &amp; emotion.</p>
+        </div>
+      </div>
+      <div class="fs-item">
+        <iconify-icon class="fs-icon" icon="lucide:shield-check" width="26"></iconify-icon>
+        <div>
+          <h3 class="fs-title">Enterprise Ready</h3>
+          <p class="fs-desc">Secure, scalable, and built for teams.</p>
+        </div>
+      </div>
+      <div class="fs-item">
+        <iconify-icon class="fs-icon" icon="lucide:sparkles" width="26"></iconify-icon>
+        <div>
+          <h3 class="fs-title">AI at the Core</h3>
+          <p class="fs-desc">State-of-the-art models for stunning results.</p>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .fs-section {
+        width: 100%;
+        background: #000;
+        padding: 5rem 1.5rem;
+      }
+
+      .fs-card {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem 2rem;
+        padding: 3rem 2.5rem;
+        border-radius: 1.75rem;
+        background: linear-gradient(180deg, rgba(24, 24, 29, 0.55), rgba(10, 10, 12, 0.55));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 30px 80px -40px rgba(139, 92, 246, 0.25);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        transition: border-color 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      /* Cursor-following spotlight that makes the whole strip feel connected */
+      .fs-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%),
+            rgba(139, 92, 246, 0.14), transparent 62%);
+        transition: opacity 0.5s ease;
+      }
+
+      .fs-card:hover {
+        border-color: rgba(139, 92, 246, 0.25);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 36px 90px -38px rgba(139, 92, 246, 0.4);
+      }
+
+      .fs-card:hover::before {
+        opacity: 1;
+      }
+
+      .fs-item {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.85rem;
+        padding: 0.9rem 1rem;
+        border-radius: 1rem;
+        border: 1px solid transparent;
+        cursor: default;
+        transition: transform 0.45s cubic-bezier(0.37, 0, 0.63, 1), background 0.45s ease,
+          border-color 0.45s ease, box-shadow 0.45s ease;
+      }
+
+      .fs-item:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.035);
+        border-color: rgba(168, 85, 247, 0.22);
+        box-shadow: 0 16px 36px -20px rgba(139, 92, 246, 0.55);
+      }
+
+      .fs-icon {
+        color: #a78bfa;
+        flex: none;
+        margin-top: 2px;
+        transition: transform 0.45s cubic-bezier(0.37, 0, 0.63, 1), color 0.45s ease, filter 0.45s ease;
+      }
+
+      .fs-item:hover .fs-icon {
+        transform: scale(1.18) translateY(-1px);
+        color: #c4b5fd;
+        filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.75));
+      }
+
+      .fs-title {
+        margin: 0 0 0.35rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #ededed;
+        transition: color 0.45s ease, text-shadow 0.45s ease;
+      }
+
+      .fs-item:hover .fs-title {
+        color: #fff;
+        text-shadow: 0 0 18px rgba(167, 139, 250, 0.35);
+      }
+
+      .fs-desc {
+        margin: 0;
+        font-size: 0.75rem;
+        line-height: 1.5;
+        color: #a3a3a3;
+        transition: color 0.45s ease;
+      }
+
+      .fs-item:hover .fs-desc {
+        color: #d4d4d4;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+
+        .fs-card,
+        .fs-card::before,
+        .fs-item,
+        .fs-icon,
+        .fs-title,
+        .fs-desc {
+          transition: none;
+        }
+
+        .fs-item:hover {
+          transform: none;
+        }
+
+        .fs-item:hover .fs-icon {
+          transform: none;
+        }
+      }
+
+      @media (min-width: 640px) {
+        .fs-card {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .fs-card {
+          grid-template-columns: repeat(5, 1fr);
+          gap: 2.25rem;
+          padding: 2.75rem 2.5rem;
+        }
+      }
+    </style>
+    <script>
+      (function () {
+        var card = document.querySelector('.fs-card');
+        if (!card || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        card.addEventListener('pointermove', function (e) {
+          var r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      })();
+    </script>
+  </section>
+
   <section class="w-full bg-black py-24" id="features">
     <div class="container mx-auto px-6">
       <div class="mb-24 max-w-3xl relative">
@@ -1026,6 +1315,412 @@
         </div>
       </div>
     </section>
+  </section>
+
+  <!-- PRICING -->
+  <section class="py-24 content-wait-for-load">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto items-start">
+        <!-- CREATOR PLAN -->
+        <div class="rounded-3xl bg-neutral-900/30 border border-white/5 p-7 backdrop-blur-sm hover:border-white/10 transition-all duration-300 flex flex-col group">
+          <div class="mb-6">
+            <h3 class="text-xl font-medium text-white mb-2">Creator</h3>
+            <p class="text-sm text-neutral-400 min-h-[2.5rem]">For solo creators publishing regularly.</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-5xl font-bold text-white tracking-tight">$79</span>
+            <span class="text-neutral-500">/mo</span>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-white/5 text-neutral-300 border border-white/10">10,000 credits</span>
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-purple-500/10 text-purple-300 border border-purple-500/20">100 min/mo</span>
+            </div>
+          </div>
+          <a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors mb-3 group-hover:border-white/20 block text-center">
+            Start free trial
+          </a>
+          <p class="text-xs text-center text-neutral-500 mb-8">3-day free trial · no charge until it ends</p>
+          <ul class="space-y-4 flex-1">
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Voice cloning included</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>60+ languages with auto-detect</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Word-level subtitle sync</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Up to 90-min source files</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>No watermark on exports</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>1 seat and 1 concurrent job</span>
+            </li>
+          </ul>
+        </div>
+        <!-- PRO PLAN (Highlighted) -->
+        <div class="relative rounded-3xl bg-[#0A0A0A] border border-purple-500/50 p-7 xl:pt-[3.25rem] shadow-[0_0_60px_-15px_rgba(139,92,246,0.2)] transform xl:-translate-y-6 flex flex-col z-10">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg border border-white/10">
+            Most Popular
+          </div>
+          <div class="mb-6">
+            <h3 class="text-xl font-medium text-white mb-2 flex items-center gap-2">
+              Pro
+              <iconify-icon class="text-purple-400" icon="lucide:sparkles" width="16"></iconify-icon>
+            </h3>
+            <p class="text-sm text-neutral-400 min-h-[2.5rem]">For high-volume creator teams.</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-5xl font-bold text-white tracking-tight">$269</span>
+            <span class="text-neutral-500">/mo</span>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-white/5 text-neutral-300 border border-white/10">50,000 credits</span>
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-purple-500/10 text-purple-300 border border-purple-500/20">500 min/mo</span>
+            </div>
+          </div>
+          <a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-500 transition-all shadow-lg shadow-purple-900/20 mb-3 hover:shadow-purple-900/40 hover:scale-[1.02] block text-center">
+            Start free trial
+          </a>
+          <p class="text-xs text-center text-neutral-400 mb-8">3-day free trial · no charge until it ends</p>
+          <ul class="space-y-4 flex-1">
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Everything in Creator</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Up to 10-hour source files</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Multi-speaker detection</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Priority processing</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>API access</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Priority email support</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>2 seats and 2 concurrent jobs</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-white">
+              <iconify-icon class="text-purple-400 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>No watermark on exports</span>
+            </li>
+          </ul>
+        </div>
+        <!-- STUDIO PLAN -->
+        <div class="rounded-3xl bg-neutral-900/30 border border-amber-400/20 p-7 backdrop-blur-sm hover:border-amber-400/40 transition-all duration-300 flex flex-col group">
+          <div class="mb-6">
+            <h3 class="text-xl font-medium text-white mb-2">Studio</h3>
+            <p class="text-sm text-neutral-400 min-h-[2.5rem]">For studios running parallel localization.</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-5xl font-bold text-white tracking-tight">$799</span>
+            <span class="text-neutral-500">/mo</span>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-white/5 text-neutral-300 border border-white/10">160,000 credits</span>
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-300 border border-amber-500/20">1,600 min/mo</span>
+            </div>
+          </div>
+          <a href="https://app.octavia.lunartech.ai/signup" class="w-full py-3 rounded-xl bg-white/5 border border-amber-400/20 text-white font-medium hover:bg-amber-400/10 transition-colors mb-3 group-hover:border-amber-400/40 block text-center">
+            Start free trial
+          </a>
+          <p class="text-xs text-center text-neutral-500 mb-8">3-day free trial · no charge until it ends</p>
+          <ul class="space-y-4 flex-1">
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Everything in Pro</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Parallel processing</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Custom voice library</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Priority API access</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Dedicated success manager</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Early access to new models</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-amber-300 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>5 seats and 5 concurrent jobs</span>
+            </li>
+          </ul>
+        </div>
+        <!-- ENTERPRISE PLAN -->
+        <div class="rounded-3xl bg-neutral-900/30 border border-white/5 p-7 backdrop-blur-sm hover:border-white/10 transition-all duration-300 flex flex-col group">
+          <div class="mb-6">
+            <h3 class="text-xl font-medium text-white mb-2">Enterprise</h3>
+            <p class="text-sm text-neutral-400 min-h-[2.5rem]">For custom volume and infrastructure.</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-5xl font-bold text-white tracking-tight">Custom</span>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-white/5 text-neutral-300 border border-white/10">Custom credits</span>
+              <span class="px-2 py-1 rounded-full text-[11px] font-medium bg-white/5 text-neutral-300 border border-white/10">Custom volume</span>
+            </div>
+          </div>
+          <a href="/contact" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors mb-8 group-hover:border-white/20 block text-center">
+            Contact Sales
+          </a>
+          <ul class="space-y-4 flex-1">
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Custom volume &amp; pricing</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>SSO / SAML authentication</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Dedicated infrastructure</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Custom integrations</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>24/7 priority support</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-neutral-300">
+              <iconify-icon class="text-neutral-500 mt-0.5" icon="lucide:check" width="16"></iconify-icon>
+              <span>Service-level agreement</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEVER MEANT FOR ONE LANGUAGE -->
+  <section class="nm-section reveal-on-scroll">
+    <!-- Globe (bleeds off the right edge, blends into black) -->
+    <div class="nm-globe">
+      <img src="assets/902fb53b6c3585b6acb980afc2c3ac24d87cc9ec.png" alt="Global network of languages"
+        loading="lazy" decoding="async">
+      <span class="nm-fade-left"></span>
+      <span class="nm-fade-bottom"></span>
+    </div>
+
+    <!-- Copy -->
+    <div class="nm-inner">
+      <div class="container mx-auto px-6">
+        <div class="nm-copy">
+          <h2 class="nm-title">
+            Your content was<br>
+            <span class="nm-accent">Never meant</span> for one language
+          </h2>
+          <p class="nm-sub">
+            Octavia helps creators, educators, and teams turn existing content into multilingual media workflows — from
+            short clips to long-form productions.
+          </p>
+          <a href="https://app.octavia.lunartech.ai/signup" class="nm-btn">
+            Start Building
+            <iconify-icon icon="lucide:arrow-right" width="16"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Language band -->
+    <div class="nm-band">
+      <span>English</span>
+      <span>Spanish</span>
+      <span>French</span>
+      <span>German</span>
+      <span>Chinese</span>
+      <span>Arabic</span>
+      <span>Portuguese</span>
+      <span>Italian</span>
+      <span>Japanese</span>
+      <span>Korean</span>
+    </div>
+
+    <style>
+      .nm-section {
+        position: relative;
+        width: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+
+      /* Dissolve the seam with the lighter section above (#050505 -> transparent) */
+      .nm-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 96px;
+        background: linear-gradient(to bottom, #050505, rgba(5, 5, 5, 0));
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .nm-globe {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        opacity: 0.45;
+        pointer-events: none;
+      }
+
+      .nm-globe img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      /* Fade the globe's left edge into black so the copy stays readable */
+      .nm-fade-left {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.6) 35%, transparent 100%);
+      }
+
+      .nm-fade-bottom {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, #000 0%, transparent 45%);
+      }
+
+      .nm-inner {
+        position: relative;
+        z-index: 2;
+        padding-top: 7rem;
+        padding-bottom: 7rem;
+      }
+
+      .nm-copy {
+        max-width: 44rem;
+      }
+
+      .nm-title {
+        font-family: Geist, sans-serif;
+        font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+        color: #fff;
+        margin: 0 0 1.5rem;
+      }
+
+      .nm-accent {
+        color: transparent;
+        background-image: linear-gradient(to right, #c084fc, #a78bfa, #8b5cf6);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      .nm-sub {
+        max-width: 34rem;
+        color: #a3a3a3;
+        font-size: 1.0625rem;
+        font-weight: 300;
+        line-height: 1.7;
+        margin: 0 0 2.5rem;
+      }
+
+      .nm-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+        border-radius: 9999px;
+        background: #fff;
+        color: #000;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 0 24px -6px rgba(255, 255, 255, 0.35);
+        transition: transform 0.3s cubic-bezier(0.37, 0, 0.63, 1), background 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .nm-btn:hover {
+        transform: scale(1.02);
+        background: #ededed;
+        box-shadow: 0 0 34px -4px rgba(255, 255, 255, 0.5);
+      }
+
+      .nm-btn iconify-icon {
+        transition: transform 0.3s cubic-bezier(0.37, 0, 0.63, 1);
+      }
+
+      .nm-btn:hover iconify-icon {
+        transform: translateX(4px);
+      }
+
+      .nm-band {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem 2rem;
+        padding: 1.25rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(4px);
+      }
+
+      .nm-band span {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.025em;
+        color: #737373;
+        transition: color 0.3s ease;
+      }
+
+      .nm-band span:hover {
+        color: #d4d4d4;
+      }
+
+      @media (min-width: 1024px) {
+        .nm-globe {
+          width: 50%;
+          opacity: 1;
+        }
+
+        .nm-inner {
+          padding-top: 9rem;
+          padding-bottom: 9rem;
+        }
+      }
+    </style>
   </section>
 
   <section class="w-full bg-black py-24" id="learnings">
