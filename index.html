@@ -903,6 +903,22 @@
         padding: 5rem 1.5rem;
       }
 
+      /* Smooth, GPU-cheap reveal for this strip. The global .reveal-on-scroll
+         animates filter: blur() which fights the card's own backdrop-filter and
+         stutters; here we drop the blur and ease only opacity + transform. */
+      .fs-section.reveal-on-scroll {
+        filter: none;
+        transform: translateY(26px);
+        transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: opacity, transform;
+      }
+
+      .fs-section.reveal-on-scroll.is-visible {
+        filter: none;
+        transform: translateY(0);
+      }
+
       .fs-card {
         position: relative;
         isolation: isolate;
