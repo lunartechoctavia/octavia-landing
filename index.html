@@ -2839,12 +2839,61 @@
   </section>
 
   <!-- Video lightbox -->
-  <div id="yt-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4">
-    <button id="yt-close" aria-label="Close video" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition-colors z-10">
-      <iconify-icon icon="lucide:x" width="20"></iconify-icon>
-    </button>
-    <div class="w-full max-w-4xl aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black">
-      <iframe id="yt-frame" class="w-full h-full" src="" title="Octavia translation" frameborder="0"
+  <style>
+    .yt-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5vh 4vw;
+      background: rgba(5, 5, 5, 0.92);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .yt-modal.is-open { opacity: 1; visibility: visible; }
+    .yt-modal-inner {
+      position: relative;
+      width: min(92vw, 1120px);
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.9), 0 0 90px -30px rgba(168, 92, 247, 0.35);
+      transform: scale(0.94) translateY(12px);
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .yt-modal.is-open .yt-modal-inner { transform: scale(1) translateY(0); }
+    .yt-modal-inner iframe { width: 100%; height: 100%; display: block; border: 0; }
+    .yt-close {
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .yt-close:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.08); }
+    @media (max-width: 640px) { .yt-close { top: 14px; right: 14px; } }
+  </style>
+  <div id="yt-modal" class="yt-modal" aria-hidden="true">
+    <button id="yt-close" class="yt-close" aria-label="Close video"><iconify-icon icon="lucide:x" width="22"></iconify-icon></button>
+    <div class="yt-modal-inner">
+      <iframe id="yt-frame" src="" title="Octavia translation"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
@@ -2856,32 +2905,33 @@
       const frame = document.getElementById('yt-frame');
       const closeBtn = document.getElementById('yt-close');
       if (!modal || !frame) return;
+      let closeTimer = null;
 
       const open = (id) => {
+        if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
         frame.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
       };
       const close = () => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        frame.src = '';
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        closeTimer = setTimeout(() => { frame.src = ''; }, 400);
       };
 
       document.querySelectorAll('.yt-card').forEach((card) => {
         card.addEventListener('click', (e) => {
           e.preventDefault();
-          const href = card.getAttribute('href') || '';
-          const m = href.match(/youtu\.be\/([^?&\/]+)/);
+          const m = (card.getAttribute('href') || '').match(/youtu\.be\/([^?&\/]+)/);
           if (m) open(m[1]);
         });
       });
 
       closeBtn.addEventListener('click', close);
       modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) close(); });
     })();
   </script>
 
