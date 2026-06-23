@@ -148,6 +148,13 @@
     }
   </script>
   <script src="assets/unicornStudio.umd.js" defer onload="unicornScriptReady = true; initUnicornWhenReady();"></script>
+  <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+       (and no opacity transition replays) before the external Tailwind CSS applies on load.
+       Matches on the class attribute, so it works pre-CSS; Tailwind's group-hover rules
+       win by specificity, so hover-to-open is unaffected. -->
+  <style>
+    nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+  </style>
   <link rel="stylesheet" href="assets/octavia-tailwind.css?v=20260522-perf1">
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
 

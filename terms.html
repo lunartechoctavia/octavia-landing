@@ -14,6 +14,12 @@
         href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
         rel="stylesheet">
 
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <!-- Page content renders immediately; no UnicornStudio project is used on this page. -->

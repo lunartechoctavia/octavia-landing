@@ -11,6 +11,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
     
