@@ -327,6 +327,40 @@
         transition: none;
       }
     }
+
+    /* Watch Demo lightbox — near-fullscreen, soft white/silver glow */
+    .yt-modal {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0;
+      background: rgba(5, 5, 5, 0.94);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .yt-modal.is-open { opacity: 1; visibility: visible; }
+    .yt-modal-inner {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9)); max-width: 100%;
+      aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow:
+        0 40px 120px -20px rgba(0, 0, 0, 0.85),
+        0 0 90px -25px rgba(255, 255, 255, 0.22),
+        0 0 34px -10px rgba(226, 232, 240, 0.18);
+      transform: scale(0.94) translateY(12px);
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .yt-modal.is-open .yt-modal-inner { transform: scale(1) translateY(0); }
+    .yt-modal-inner iframe { width: 100%; height: 100%; display: block; border: 0; }
+    .yt-close {
+      position: absolute; top: 22px; right: 26px; width: 44px; height: 44px; border-radius: 9999px;
+      display: flex; align-items: center; justify-content: center; z-index: 10;
+      background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff; cursor: pointer; transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .yt-close:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.08); }
+    @media (max-width: 640px) { .yt-close { top: 14px; right: 14px; } }
   </style>
 </head>
 
@@ -642,7 +676,7 @@
               class="group-hover:translate-x-0.5 transition-transform"></iconify-icon>
           </span>
         </a>
-        <button
+        <button id="watch-demo-btn"
           class="px-6 py-2.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-white font-medium text-sm hover:bg-white/10 transition-colors">
           Watch Demo
         </button>
@@ -929,6 +963,7 @@
 
   <!-- Feature strip -->
   <section class="fs-section reveal-on-scroll">
+    <div class="container mx-auto px-6">
     <div class="fs-card">
       <div class="fs-item">
         <iconify-icon class="fs-icon" icon="lucide:hand-coins" width="26"></iconify-icon>
@@ -966,12 +1001,13 @@
         </div>
       </div>
     </div>
+    </div>
 
     <style>
       .fs-section {
         width: 100%;
         background: #000;
-        padding: 5rem 1.5rem;
+        padding: 5rem 0;
       }
 
       /* Smooth, GPU-cheap reveal for this strip. The global .reveal-on-scroll
@@ -994,8 +1030,6 @@
         position: relative;
         isolation: isolate;
         overflow: hidden;
-        max-width: 1400px;
-        margin: 0 auto;
         display: grid;
         grid-template-columns: 1fr;
         gap: 2.5rem 2rem;
@@ -1137,6 +1171,141 @@
         });
       })();
     </script>
+  </section>
+
+  <!-- Demo video -->
+  <section class="w-full bg-black pt-20 pb-32" id="demo">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mb-20 relative reveal-on-scroll">
+        <div class="absolute -left-20 -top-20 w-64 h-64 bg-purple-500/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+        <span class="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium tracking-wide relative z-10">
+          <iconify-icon icon="lucide:circle-play" width="14"></iconify-icon>
+          Watch the demo
+        </span>
+        <h2 class="text-4xl md:text-6xl font-medium mb-8 tracking-tighter text-white relative z-10">
+          See Octavia <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-violet-400 to-indigo-400">in action</span>
+        </h2>
+        <p class="text-neutral-400 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+          One upload becomes a global release — dubbed and subtitled in 60+ languages, with natural, expressive voices.
+        </p>
+      </div>
+
+      <button id="demo-video-card" class="demo-card group reveal-on-scroll" aria-label="Play the Octavia demo video">
+        <img src="https://i.ytimg.com/vi/7LPig5QKFEM/maxresdefault.jpg" alt="Octavia demo — Translate. Dub. Reach."
+          loading="lazy" decoding="async">
+        <span class="demo-overlay" aria-hidden="true"></span>
+        <span class="demo-play" aria-hidden="true">
+          <iconify-icon icon="lucide:play" width="30"></iconify-icon>
+        </span>
+        <span class="demo-caption" aria-hidden="true">Octavia &mdash; Translate. Dub. Reach.</span>
+      </button>
+    </div>
+
+    <style>
+      .demo-card {
+        position: relative;
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 1.75rem;
+        overflow: hidden;
+        cursor: pointer;
+        background: #000;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 40px 110px -35px rgba(0, 0, 0, 0.85),
+          0 0 70px -25px rgba(255, 255, 255, 0.14),
+          0 0 26px -8px rgba(226, 232, 240, 0.1);
+        transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .demo-card:hover {
+        border-color: rgba(255, 255, 255, 0.22);
+        box-shadow:
+          0 46px 120px -35px rgba(0, 0, 0, 0.9),
+          0 0 90px -25px rgba(255, 255, 255, 0.2),
+          0 0 34px -8px rgba(226, 232, 240, 0.16);
+        transform: translateY(-4px);
+      }
+
+      .demo-card img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .demo-card:hover img {
+        transform: scale(1.03);
+      }
+
+      .demo-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center, rgba(5, 5, 5, 0.15), rgba(5, 5, 5, 0.55));
+        transition: background 0.5s ease;
+      }
+
+      .demo-card:hover .demo-overlay {
+        background: radial-gradient(ellipse at center, rgba(5, 5, 5, 0.05), rgba(5, 5, 5, 0.45));
+      }
+
+      .demo-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 88px;
+        height: 88px;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 50px -10px rgba(255, 255, 255, 0.35);
+        transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .demo-play iconify-icon {
+        margin-left: 4px;
+      }
+
+      .demo-card:hover .demo-play {
+        transform: translate(-50%, -50%) scale(1.12);
+        background: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 0 70px -8px rgba(255, 255, 255, 0.5);
+      }
+
+      .demo-caption {
+        position: absolute;
+        left: 1.75rem;
+        bottom: 1.5rem;
+        color: #e5e5e5;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+      }
+
+      @media (max-width: 640px) {
+        .demo-play {
+          width: 64px;
+          height: 64px;
+        }
+
+        .demo-caption {
+          left: 1.1rem;
+          bottom: 0.9rem;
+          font-size: 0.7rem;
+        }
+      }
+    </style>
   </section>
 
   <section class="w-full bg-black py-24" id="features">
@@ -3429,6 +3598,16 @@
     </div>
   </footer>
 
+  <!-- Watch Demo lightbox -->
+  <div id="yt-modal" class="yt-modal" aria-hidden="true">
+    <button id="yt-close" class="yt-close" aria-label="Close video"><iconify-icon icon="lucide:x" width="22"></iconify-icon></button>
+    <div class="yt-modal-inner">
+      <iframe id="yt-frame" src="" title="Octavia demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Throttled navbar scroll effect using requestAnimationFrame
@@ -3494,6 +3673,34 @@
         img.setAttribute('loading', 'lazy');
         img.setAttribute('decoding', 'async');
       });
+
+      // Watch Demo lightbox
+      const demoModal = document.getElementById('yt-modal');
+      const demoFrame = document.getElementById('yt-frame');
+      const demoClose = document.getElementById('yt-close');
+      const demoBtn = document.getElementById('watch-demo-btn');
+      const DEMO_VIDEO_ID = '7LPig5QKFEM';
+      let demoCloseTimer = null;
+
+      const openDemo = () => {
+        if (demoCloseTimer) { clearTimeout(demoCloseTimer); demoCloseTimer = null; }
+        demoFrame.src = 'https://www.youtube.com/embed/' + DEMO_VIDEO_ID + '?autoplay=1&rel=0';
+        demoModal.classList.add('is-open');
+        demoModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+      const closeDemo = () => {
+        demoModal.classList.remove('is-open');
+        demoModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        demoCloseTimer = setTimeout(() => { demoFrame.src = ''; }, 400);
+      };
+
+      demoBtn?.addEventListener('click', openDemo);
+      document.getElementById('demo-video-card')?.addEventListener('click', openDemo);
+      demoClose.addEventListener('click', closeDemo);
+      demoModal.addEventListener('click', (e) => { if (e.target === demoModal) closeDemo(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && demoModal.classList.contains('is-open')) closeDemo(); });
     });
   </script>
 
