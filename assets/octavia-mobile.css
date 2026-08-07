@@ -181,8 +181,35 @@
 
 .mnav-btn-ghost iconify-icon { color: #c4b5fd; }
 
+/* --------------------------------------------------------------------------
+   1b. Where the nav switches over — 1200px, NOT the 768px layout breakpoint
+
+   The centred desktop links are `position: absolute; left: 50%`, so they are
+   out of flow and cannot push the logo or the CTA pills aside. Measured on
+   /features, the three groups collide from 768px right up to ~1140px:
+
+       768px   links overlap the logo by 41px and the CTAs by 190px
+       900px   links overlap the CTAs by 124px   <- typical phone landscape
+      1024px   links overlap the CTAs by 62px
+      1100px   links overlap the CTAs by 24px
+      1180px   first clean width
+
+   So the nav needs far more room than the layout does. The two breakpoints
+   are deliberately decoupled: the hamburger takes over below 1200px, while
+   the phone layout rules below still start at 768px so tablets keep the
+   full-size type and spacing.
+   -------------------------------------------------------------------------- */
+@media (max-width: 1199px) {
+  body .nav-burger { display: inline-flex; }
+  body .mnav { display: block; }
+
+  /* The centred link row. `.hidden` stays in the class list even while
+     `md:flex` is winning, so it is a stable hook on every page. */
+  body #navbar-bg nav.hidden { display: none !important; }
+}
+
 /* Never let the mobile chrome leak into the desktop layout. */
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
   .mnav { display: none !important; }
   .nav-burger { display: none !important; }
 }
@@ -201,11 +228,10 @@
      future one can drag the whole layout sideways. */
   html { overflow-x: clip; }
 
-  body .mnav { display: block; }
-  body .nav-burger { display: inline-flex; }
-
   /* The wordmark plus both header pills overflow a 390px viewport — that is
-     what clipped the sign-up CTA. "Get Started" moves into the menu instead. */
+     what clipped the sign-up CTA. "Get Started" moves into the menu instead.
+     Between 768 and 1199px there is room for both, so this stays scoped to
+     phones rather than riding along with the nav breakpoint above. */
   body .nav-cta-login { display: none; }
 
   /* #navbar-bg is a flex item of the fixed <nav>, so its default
