@@ -1,0 +1,518 @@
+/* ==========================================================================
+   Octavia — mobile optimisation layer (shared by every page)
+
+   Two different Tailwind setups ship on this site: index.html links the
+   pre-built, purged assets/octavia-tailwind.css, while every other page pulls
+   the runtime CDN build, which injects its <style> element at an unpredictable
+   point in the cascade. So nothing here relies on document order — every rule
+   that competes with a plain Tailwind utility carries a `body ` prefix to win
+   on specificity (0,1,1 vs 0,1,0) no matter where Tailwind lands.
+
+   The same prefix also beats the component stylesheets that live in <style>
+   blocks inside the body (.fs-card, .wf-section, .fu-row, …).
+
+   Everything is hand-written CSS keyed off hook classes rather than new
+   `md:`/`sm:` utilities, because the purged build on index.html does not
+   contain utilities that were not already in the markup.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Mobile menu chrome — inert until the phone breakpoint
+   -------------------------------------------------------------------------- */
+.nav-burger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-burger-bars {
+  position: relative;
+  display: block;
+  width: 17px;
+  height: 12px;
+}
+
+.nav-burger-bars span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.nav-burger-bars span:nth-child(1) { top: 0; }
+.nav-burger-bars span:nth-child(2) { top: 5.25px; }
+.nav-burger-bars span:nth-child(3) { top: 10.5px; }
+
+.nav-burger[aria-expanded="true"] .nav-burger-bars span:nth-child(1) { transform: translateY(5.25px) rotate(45deg); }
+.nav-burger[aria-expanded="true"] .nav-burger-bars span:nth-child(2) { opacity: 0; }
+.nav-burger[aria-expanded="true"] .nav-burger-bars span:nth-child(3) { transform: translateY(-5.25px) rotate(-45deg); }
+
+.mnav {
+  position: fixed;
+  top: var(--nav-h, 101px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  display: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem 1rem 2.5rem;
+  background: #050505;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.26s ease, transform 0.26s ease, visibility 0.26s;
+}
+
+.mnav.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.mnav-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 34rem;
+  margin: 0 auto;
+}
+
+.mnav-label {
+  margin: 0 0 0.5rem 0.75rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+}
+
+.mnav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: 0.9rem;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mnav-item:active { background: rgba(255, 255, 255, 0.07); }
+
+.mnav-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 0.65rem;
+  color: var(--mi, #a78bfa);
+  background: color-mix(in srgb, var(--mi, #a78bfa) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mi, #a78bfa) 18%, transparent);
+}
+
+.mnav-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mnav-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.mnav-desc {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: #737373;
+}
+
+.mnav-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 0.25rem;
+}
+
+.mnav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.mnav-btn-primary {
+  background: #fff;
+  color: #000;
+  border: 1px solid #fff;
+}
+
+.mnav-btn-ghost {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mnav-btn-ghost iconify-icon { color: #c4b5fd; }
+
+/* Never let the mobile chrome leak into the desktop layout. */
+@media (min-width: 768px) {
+  .mnav { display: none !important; }
+  .nav-burger { display: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   2. Phone / small-tablet layout (< 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+
+  /* Safety net. The pages already set `overflow-x: hidden` on <body>, but that
+     does not stop Chrome's mobile layout viewport from widening to the content
+     width — which stretched the fixed navbar past the screen and produced a
+     real horizontal scroll. `clip` on the root prevents the widening without
+     creating a scroll container (so position: sticky keeps working). The
+     specific offenders are fixed individually below; this just guarantees no
+     future one can drag the whole layout sideways. */
+  html { overflow-x: clip; }
+
+  body .mnav { display: block; }
+  body .nav-burger { display: inline-flex; }
+
+  /* The wordmark plus both header pills overflow a 390px viewport — that is
+     what clipped the sign-up CTA. "Get Started" moves into the menu instead. */
+  body .nav-cta-login { display: none; }
+
+  /* #navbar-bg is a flex item of the fixed <nav>, so its default
+     `min-width: auto` lets it grow to its min-content width and ignore
+     `w-full` — that is what pushed the whole document into horizontal scroll
+     on narrow viewports (solutions @320 was 375px wide). Fixed elements
+     escape the body's overflow-x:hidden, so nothing else was clipping it. */
+  body nav > #navbar-bg {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  body #navbar-bg > .fu-row,
+  body #navbar-bg > .nav-main-row {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  body .nav-main-row {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+
+  body .nav-main-row > * { min-width: 0; }
+
+  /* The logo's wrapper markup differs between index.html and the CDN pages,
+     so target the wordmark itself rather than a container hook. */
+  body #navbar-bg img[alt="LUNARTECH"] { height: 1.5rem; }
+
+  body .nav-cta-signup {
+    min-height: 42px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    justify-content: center;
+  }
+
+  body.mnav-open { overflow: hidden; }
+  body.mnav-open #navbar-bg { background: #050505; }
+
+  /* Follow-us strip: tighter, with real tap targets. */
+  body .fu-row { gap: 0.85rem; padding: 0.35rem 1rem; }
+  body .fu-link { font-size: 0.68rem; padding: 0.4rem 0; }
+
+  /* ---------- Hero (index.html) ----------
+     Padding is measured off the real header height so the headline always
+     clears the navbar with the same breathing room. */
+  body .hero-header {
+    padding-top: calc(var(--nav-h, 111px) + 4rem);
+    padding-bottom: 3rem;
+  }
+
+  body .hero-title {
+    font-size: clamp(2.1rem, 9.5vw, 3rem);
+    line-height: 1.03;
+    margin-bottom: 1.15rem;
+  }
+
+  body .hero-copy {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  body .hero-cta {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  body .hero-cta > a,
+  body .hero-cta > button {
+    width: 100%;
+    max-width: 18rem;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- Hero product mock (index.html) ----------
+     A fixed 260px sidebar beside a 16/9 stage is unreadable and clipped on a
+     phone. Drop the sidebar, let height follow content, rescale the type. */
+  body .hero-mock-wrap {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  body .hero-mock {
+    aspect-ratio: auto;
+    border-radius: 1rem;
+  }
+
+  body .hero-mock-aside { display: none; }
+  body .hero-mock-main { height: auto; }
+
+  body .hero-mock-head {
+    height: auto;
+    padding: 0.85rem 1rem;
+  }
+
+  body .hero-mock-head .hm-brand {
+    height: auto;
+    margin-right: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  body .hero-mock-head h2 { font-size: 1.05rem; }
+  body .hero-mock-head h1 { font-size: 0.95rem; }
+  body .hero-mock-head span { font-size: 7px; letter-spacing: 0.2em; }
+
+  body .hero-mock-body {
+    height: auto;
+    padding: 1.5rem 1rem 1.75rem;
+  }
+
+  body .hero-mock-body .hm-ring {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  body .hero-mock-body .hm-ring > div[class*="w-[4.5rem]"] {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  body .hero-mock-body h2 {
+    font-size: 1.15rem;
+    margin-bottom: 1.25rem;
+  }
+
+  body .hero-mock-body .hm-grid {
+    column-gap: 1rem;
+    row-gap: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  body .hero-mock-body .hm-grid .text-sm { font-size: 0.78rem; }
+  body .hero-mock-body .hm-status { margin-top: 1.5rem; }
+
+  /* ---------- Shared section rhythm ----------
+     Desktop uses 6–8rem of vertical air per section; on a phone that turned
+     pricing into ~26,000px of mostly empty scrolling. */
+  body section.py-24 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  body section.py-32 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  body section.py-20 { padding-top: 3rem; padding-bottom: 3rem; }
+  body section#demo { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  body .wf-section { padding: 3.5rem 1rem 4rem; }
+  body .io-section { padding: 3.5rem 1rem 4rem; }
+  body .fs-section { padding: 3rem 0; }
+
+  body .container { max-width: 100%; }
+
+  body section .mb-24 { margin-bottom: 2.75rem; }
+  body section .mb-20 { margin-bottom: 2.25rem; }
+  body section .mb-16 { margin-bottom: 2rem; }
+
+  /* ---------- Headings ----------
+     Untouched, the display scale runs 36–96px on a 390px screen. */
+  body h1.text-3xl, body h2.text-3xl { font-size: 1.6rem; line-height: 1.2; }
+  body h1.text-4xl, body h2.text-4xl { font-size: 1.9rem; line-height: 1.15; }
+  body h1.text-5xl, body h2.text-5xl { font-size: 2.15rem; line-height: 1.1; }
+  body h1.text-6xl, body h2.text-6xl { font-size: 2.35rem; line-height: 1.08; }
+  body h1.text-7xl, body h2.text-7xl,
+  body h1.text-8xl, body h2.text-8xl { font-size: 2.5rem; line-height: 1.05; }
+
+  /* The footer statement is meant to read big. */
+  body footer h2.text-5xl,
+  body footer h2.text-6xl { font-size: 2.6rem; }
+
+  body h3.text-3xl { font-size: 1.45rem; }
+  body h3.text-2xl { font-size: 1.3rem; }
+
+  body section p.text-lg { font-size: 1rem; }
+  body section p.text-xl { font-size: 1.05rem; }
+
+  /* Card padding: p-10 is 2.5rem of a 390px viewport. */
+  body section .p-10 { padding: 1.5rem; }
+  body section .p-8 { padding: 1.25rem; }
+
+  /* ---------- Feature strip (index.html) ---------- */
+  body .fs-card {
+    padding: 1.25rem 0.75rem;
+    gap: 0.25rem;
+    border-radius: 1.25rem;
+  }
+
+  body .fs-item {
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+  }
+
+  /* ---------- Equal-height grids ----------
+     Every `auto-rows-fr` grid on the site is `grid-cols-1` below md, where
+     equal-height rows just inflate every card to the tallest one — which is
+     what produced screens of empty space between headings. */
+  body .auto-rows-fr {
+    grid-auto-rows: auto;
+    gap: 1rem;
+  }
+
+  /* ---------- Page-specific overflow fixes ----------
+     Each of these was measurably wider than a 320–600px viewport. */
+
+  /* solutions: the Creators / Educators / Enterprises segmented control came
+     to 351px at a 320px viewport, putting part of the last tab off-screen.
+     The absolute indicator is sized in %, so the three tabs must stay equal —
+     shrink the padding rather than wrapping them. */
+  body .persona-toggle { max-width: 100%; }
+
+  body .persona-toggle button {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  /* team: five 80px avatars overlapped by 16px still totalled 336px. */
+  body .avatar-stack > div {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  /* features + feature detail pages: decorative tilted cards sit at
+     right: -5% until the sm breakpoint, which overhangs the viewport. */
+  body .floating-card { right: 0; }
+
+  /* Big-number + unit rows ("$4,200" / "estimated") are baseline-aligned and
+     nowrap by default, which ran 25px past a 320px screen on solutions. */
+  body .items-baseline { flex-wrap: wrap; }
+
+  /* ---------- Trusted-by row ---------- */
+  body .trust-brands {
+    flex-wrap: wrap;
+    gap: 0.6rem 1.25rem;
+    font-size: 11px;
+  }
+
+  /* ---------- Footer ---------- */
+  body footer { padding-top: 5rem; }
+  body footer > .py-20 { padding-top: 2.5rem; padding-bottom: 2.5rem; gap: 2.5rem; }
+
+  body .footer-brands { gap: 0.75rem 1.25rem; }
+  body .footer-brands span { font-size: 1.05rem; }
+
+  body .nl-btn { width: 2.5rem; height: 2.5rem; }
+
+  /* Absolutely-positioned badges overflowed the viewport and collided with
+     the copyright once the footer got shorter. */
+  body .footer-badges {
+    position: static;
+    padding: 0 1rem 1.75rem;
+    margin-top: -0.5rem;
+  }
+
+  body .footer-badges img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Hero CTAs sit side by side once there is room, still capped so the pair
+   never stretches edge to edge on a large phone. */
+@media (min-width: 480px) and (max-width: 767px) {
+  body .hero-cta {
+    flex-direction: row;
+    max-width: 30rem;
+  }
+
+  body .hero-cta > a,
+  body .hero-cta > button { max-width: 14rem; }
+}
+
+/* --------------------------------------------------------------------------
+   3. Very small phones
+   -------------------------------------------------------------------------- */
+@media (max-width: 400px) {
+  body #navbar-bg img[alt="LUNARTECH"] { height: 1.3rem; }
+
+  body .nav-cta-signup {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+    font-size: 0.7rem;
+  }
+
+  body .fu-link span { font-size: 0.62rem; }
+
+  /* "Octavia | Video Translation" wraps to two lines below ~360px; the 7px
+     tagline is decorative and illegible at this size anyway. */
+  body .hero-mock-head { padding: 0.75rem 0.85rem; }
+  body .hero-mock-head h2 { font-size: 0.95rem; }
+  body .hero-mock-head h1 { font-size: 0.85rem; }
+  body .hero-mock-head .hm-brand { margin-right: 0.6rem; padding-right: 0.6rem; }
+  body .hero-mock-head .hm-brand span { display: none; }
+}
+
+@media (max-width: 340px) {
+  body .nav-cta-signup {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    font-size: 0.66rem;
+  }
+
+  body .nav-burger { width: 38px; height: 38px; }
+}
