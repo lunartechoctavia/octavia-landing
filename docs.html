@@ -1,0 +1,1802 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Docs - Octavia</title>
+    <meta name="description" content="Documentation for Octavia's AI dubbing, translation, subtitling and API platform — quickstart, guides and full API reference.">
+    <link rel="icon" type="image/jpeg" href="assets/lunartechai_logo_black.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+
+        /* ============ Docs-page-specific styles ============ */
+
+        .docs-page-top { padding-top: 132px; }
+        @media (max-width: 767px) { .docs-page-top { padding-top: 96px; } }
+
+        /* Sub-header: search + tabs */
+        .docs-subheader {
+            top: 92px; /* fallback; overridden with the navbar's real height by syncStickyOffsets() */
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(5,5,5,0.7);
+            backdrop-filter: blur(12px);
+        }
+        .docs-search {
+            background: #0A0A0A;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0.65rem;
+            transition: border-color .2s ease;
+        }
+        .docs-search:focus-within { border-color: rgba(139,92,246,0.5); }
+        .docs-search input { background: transparent; outline: none; color: #fff; }
+        .docs-search input::placeholder { color: #6b6b6b; }
+
+        /* #doc-tabs must be allowed to shrink below its buttons' unwrapped
+           content width, or flexbox's default min-width:auto forces the whole
+           page wider than a narrow viewport (clipped invisibly by body's
+           overflow-x:hidden instead of scrolling) — so it scrolls internally. */
+        #doc-tabs { min-width: 0; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+        #doc-tabs::-webkit-scrollbar { display: none; }
+        .doc-tab-btn {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.55rem 0.9rem;
+            border-radius: 0.55rem;
+            color: #a3a3a3;
+            transition: color .2s ease, background-color .2s ease;
+            white-space: nowrap;
+        }
+        .doc-tab-btn:hover { color: #e5e5e5; }
+        .doc-tab-btn.is-active { color: #fff; background: rgba(139,92,246,0.14); }
+
+        /* Sidebar */
+        .docs-sidebar { font-size: 0.79rem; }
+        .docs-sidebar-group + .docs-sidebar-group { margin-top: 1.5rem; }
+        .docs-sidebar-label {
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #6b6b6b;
+            margin-bottom: 0.5rem;
+        }
+        .docs-sidebar-link {
+            display: block;
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.45rem;
+            color: #a3a3a3;
+            text-decoration: none;
+            transition: color .15s ease, background-color .15s ease;
+            border-left: 2px solid transparent;
+            margin-left: -1px;
+        }
+        .docs-sidebar-link:hover { color: #fff; background: rgba(255,255,255,0.04); }
+        .docs-sidebar-link.is-active { color: #c4b5fd; background: rgba(139,92,246,0.09); border-left-color: #8B5CF6; font-weight: 500; }
+
+        /* On-this-page TOC */
+        .docs-toc-label {
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #6b6b6b;
+            margin-bottom: 0.75rem;
+        }
+        .docs-toc-link {
+            display: block;
+            padding: 0.3rem 0 0.3rem 0.75rem;
+            border-left: 1px solid rgba(255,255,255,0.08);
+            color: #737373;
+            text-decoration: none;
+            font-size: 0.76rem;
+            transition: color .15s ease, border-color .15s ease;
+        }
+        .docs-toc-link:hover { color: #d4d4d4; }
+        .docs-toc-link.is-active { color: #c4b5fd; border-left-color: #8B5CF6; }
+
+        /* Content */
+        .doc-section { scroll-margin-top: 130px; }
+        .doc-section + .doc-section { margin-top: 3.5rem; padding-top: 3.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
+        .doc-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #8B5CF6;
+            margin-bottom: 0.6rem;
+        }
+        .doc-body p { color: #b8b8b8; line-height: 1.75; margin-bottom: 1.1rem; }
+        .doc-body ul, .doc-body ol { color: #b8b8b8; line-height: 1.75; margin-bottom: 1.1rem; padding-left: 1.3rem; }
+        .doc-body ul { list-style: disc; }
+        .doc-body ol { list-style: decimal; }
+        .doc-body li { margin-bottom: 0.4rem; }
+        .doc-body li::marker { color: #8B5CF6; }
+        .doc-body code:not(pre code) {
+            background: rgba(139,92,246,0.1);
+            border: 1px solid rgba(139,92,246,0.2);
+            color: #d8c9fc;
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.3rem;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.82em;
+        }
+        .doc-body a.doc-inline-link { color: #c4b5fd; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(196,181,253,0.35); }
+        .doc-body a.doc-inline-link:hover { color: #e9d5ff; }
+
+        /* Code / example panel */
+        .doc-panel {
+            background: #0A0A0A;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0.9rem;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        .doc-panel-head {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #8a8a8a;
+        }
+        .doc-panel pre {
+            margin: 0;
+            padding: 1.1rem 1.25rem;
+            overflow-x: auto;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.78rem;
+            line-height: 1.65;
+            color: #d4d4d4;
+        }
+        .doc-panel pre .tok-key { color: #93c5fd; }
+        .doc-panel pre .tok-str { color: #86efac; }
+        .doc-panel pre .tok-com { color: #6b7280; }
+        .doc-panel pre .tok-mut { color: #fca5a5; }
+
+        /* Tables */
+        .doc-table-wrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid rgba(255,255,255,0.08); border-radius: 0.9rem; }
+        table.doc-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        table.doc-table caption {
+            text-align: left; padding: 0.7rem 1.1rem;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8a8a;
+        }
+        table.doc-table th {
+            text-align: left; padding: 0.65rem 1.1rem;
+            background: rgba(255,255,255,0.02);
+            color: #a3a3a3; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.03em; text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        table.doc-table td {
+            padding: 0.7rem 1.1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #c7c7c7; vertical-align: top;
+        }
+        table.doc-table tr:last-child td { border-bottom: none; }
+        table.doc-table td code, table.doc-table th code {
+            font-family: 'Geist Mono', monospace; font-size: 0.78em; color: #d8c9fc;
+            background: rgba(139,92,246,0.1); padding: 0.05rem 0.35rem; border-radius: 0.25rem;
+        }
+
+        /* Callouts */
+        .doc-callout { border-left: 3px solid; border-radius: 0 0.6rem 0.6rem 0; padding: 0.9rem 1.1rem; margin: 1.5rem 0; font-size: 0.82rem; line-height: 1.65; }
+        .doc-callout p { margin: 0; color: inherit; }
+        .doc-callout-note { border-color: #8B5CF6; background: rgba(139,92,246,0.06); color: #d4c8fb; }
+        .doc-callout-warn { border-color: #f59e0b; background: rgba(245,158,11,0.06); color: #fcd9a8; }
+
+        /* HTTP method badges */
+        .doc-method { font-family: 'Geist Mono', monospace; font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 0.3rem; letter-spacing: 0.02em; }
+        .doc-method-get { background: rgba(52,211,153,0.12); color: #34d399; border: 1px solid rgba(52,211,153,0.25); }
+        .doc-method-post { background: rgba(139,92,246,0.14); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.3); }
+        .doc-method-patch { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+        .doc-method-delete { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+        .doc-endpoint-path { font-family: 'Geist Mono', monospace; font-size: 0.85rem; color: #e5e5e5; }
+
+        /* Status pill (job lifecycle table) */
+        .doc-status-pill { font-family: 'Geist Mono', monospace; font-size: 0.72rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 0.15rem 0.5rem; border-radius: 0.3rem; color: #d4d4d4; }
+
+        /* Mobile jump select (shown < lg) */
+        #docs-mobile-jump { background: #0A0A0A; border: 1px solid rgba(255,255,255,0.1); color: #e5e5e5; border-radius: 0.6rem; font-size: 0.78rem; padding: 0.55rem 0.75rem; width: 100%; }
+    </style>
+  <link rel="stylesheet" href="assets/octavia-mobile.css?v=1">
+</head>
+
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- ============ DOCS PAGE ============ -->
+    <div class="docs-page-top">
+
+        <!-- Docs sub-header: search + section tabs -->
+        <div class="docs-subheader sticky z-40">
+            <div class="max-w-[1600px] mx-auto px-5 lg:px-8">
+                <div class="flex flex-col lg:flex-row lg:items-center gap-4 py-4">
+                    <a href="#intro" data-jump="overview" class="flex items-center gap-2 shrink-0">
+                        <span class="text-sm font-semibold tracking-tight">Octavia</span>
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-neutral-300 bg-white/[0.06] border border-white/10 rounded-full px-2 py-0.5">Docs</span>
+                    </a>
+
+                    <div class="docs-search flex items-center gap-2 px-3.5 py-2 w-full lg:max-w-md lg:mx-auto">
+                        <iconify-icon icon="lucide:search" width="15" class="text-neutral-500 shrink-0"></iconify-icon>
+                        <input id="docs-search-input" type="text" placeholder="Search the docs" class="w-full text-xs" autocomplete="off">
+                    </div>
+
+                    <div class="flex items-center justify-between gap-4 shrink-0 min-w-0">
+                        <div id="doc-tabs" class="flex items-center gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1">
+                            <button class="doc-tab-btn is-active" data-tab="overview" type="button">Overview</button>
+                            <button class="doc-tab-btn" data-tab="api" type="button">API Reference</button>
+                            <button class="doc-tab-btn" data-tab="changelog" type="button">Changelog</button>
+                        </div>
+                        <div class="hidden xl:flex items-center gap-4 pl-2">
+                            <a href="/faq" class="text-xs font-medium text-neutral-400 hover:text-white transition-colors whitespace-nowrap">Help Center</a>
+                            <a href="/contact" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-black hover:bg-neutral-200 transition-all text-xs font-medium whitespace-nowrap">
+                                Get API Access
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-[1600px] mx-auto px-5 lg:px-8">
+            <div class="lg:grid lg:grid-cols-[220px_minmax(0,1fr)_220px] lg:gap-10 xl:gap-14 py-8">
+
+                <!-- ============ SIDEBAR ============ -->
+                <aside class="hidden lg:block">
+                    <div class="docs-sticky-aside sticky top-[92px] max-h-[calc(100vh-110px)] overflow-y-auto pr-2 pb-10 docs-sidebar">
+
+                        <!-- Overview sidebar -->
+                        <div data-sidebar="overview">
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Getting Started</p>
+                                <a href="#intro" class="docs-sidebar-link">Introduction</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Using The App</p>
+                                <a href="#app-dashboard" class="docs-sidebar-link">The dashboard</a>
+                                <a href="#app-create-project" class="docs-sidebar-link">Create a project</a>
+                                <a href="#app-upload-source" class="docs-sidebar-link">Upload a source</a>
+                                <a href="#app-review-edit" class="docs-sidebar-link">Review &amp; edit</a>
+                                <a href="#app-export-download" class="docs-sidebar-link">Export &amp; download</a>
+                                <a href="#app-workspace-team" class="docs-sidebar-link">Workspace &amp; team</a>
+                                <a href="#app-billing-plan" class="docs-sidebar-link">Billing &amp; plan</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Developer Quickstart</p>
+                                <a href="#quickstart" class="docs-sidebar-link">Quickstart</a>
+                                <a href="#authentication" class="docs-sidebar-link">Authentication</a>
+                                <a href="#errors-limits" class="docs-sidebar-link">Errors &amp; limits</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Core Workflows</p>
+                                <a href="#video-translation" class="docs-sidebar-link">Video translation</a>
+                                <a href="#audio-translation" class="docs-sidebar-link">Audio translation</a>
+                                <a href="#speech-generation" class="docs-sidebar-link">Speech generation</a>
+                                <a href="#subtitle-generation" class="docs-sidebar-link">Subtitle generation</a>
+                                <a href="#subtitle-to-audio" class="docs-sidebar-link">Subtitle to audio</a>
+                                <a href="#subtitle-translation" class="docs-sidebar-link">Subtitle translation</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Working With Jobs</p>
+                                <a href="#job-lifecycle" class="docs-sidebar-link">Job lifecycle</a>
+                                <a href="#transcript-review" class="docs-sidebar-link">Transcript &amp; review</a>
+                                <a href="#multi-speaker" class="docs-sidebar-link">Multi-speaker detection</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Languages</p>
+                                <a href="#languages" class="docs-sidebar-link">Supported languages</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Platform</p>
+                                <a href="#webhooks" class="docs-sidebar-link">Webhooks</a>
+                                <a href="#credits-usage" class="docs-sidebar-link">Credits &amp; usage</a>
+                                <a href="#permissions" class="docs-sidebar-link">Permission scopes</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Best Practices</p>
+                                <a href="#best-practices" class="docs-sidebar-link">Reliable integrations</a>
+                            </div>
+                        </div>
+
+                        <!-- API reference sidebar -->
+                        <div data-sidebar="api" hidden>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Core</p>
+                                <a href="#api-base-url" class="docs-sidebar-link">Base URL &amp; versioning</a>
+                                <a href="#api-auth" class="docs-sidebar-link">Authentication</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Dubs</p>
+                                <a href="#api-create-dub" class="docs-sidebar-link">Create a dub</a>
+                                <a href="#api-get-dub" class="docs-sidebar-link">Retrieve a dub</a>
+                                <a href="#api-list-dubs" class="docs-sidebar-link">List dubs</a>
+                                <a href="#api-patch-transcript" class="docs-sidebar-link">Edit a transcript line</a>
+                                <a href="#api-render-dub" class="docs-sidebar-link">Render a dub</a>
+                                <a href="#api-cancel-dub" class="docs-sidebar-link">Cancel a dub</a>
+                                <a href="#api-download-output" class="docs-sidebar-link">Download output</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Speech</p>
+                                <a href="#api-create-speech" class="docs-sidebar-link">Create speech</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Subtitles</p>
+                                <a href="#api-generate-subtitles" class="docs-sidebar-link">Generate subtitles</a>
+                                <a href="#api-translate-subtitles" class="docs-sidebar-link">Translate subtitles</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Webhooks</p>
+                                <a href="#api-webhooks-register" class="docs-sidebar-link">Register a webhook</a>
+                                <a href="#api-webhook-events" class="docs-sidebar-link">Event types</a>
+                            </div>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Reference</p>
+                                <a href="#api-languages" class="docs-sidebar-link">Languages</a>
+                                <a href="#api-usage" class="docs-sidebar-link">Usage</a>
+                                <a href="#api-error-codes" class="docs-sidebar-link">Error codes</a>
+                            </div>
+                        </div>
+
+                        <!-- Changelog sidebar -->
+                        <div data-sidebar="changelog" hidden>
+                            <div class="docs-sidebar-group">
+                                <p class="docs-sidebar-label">Changelog</p>
+                                <a href="#changelog-current" class="docs-sidebar-link">Current version</a>
+                                <a href="#changelog-note" class="docs-sidebar-link">Release notes</a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- ============ CONTENT ============ -->
+                <main class="min-w-0">
+
+                    <!-- Mobile section jump -->
+                    <div class="lg:hidden mb-8">
+                        <select id="docs-mobile-jump"></select>
+                    </div>
+
+                    <!-- ================= OVERVIEW CONTENT ================= -->
+                    <div data-content="overview">
+
+                        <section id="intro" class="doc-section">
+                            <p class="doc-eyebrow">01 &middot; Introduction</p>
+                            <h1 class="text-3xl lg:text-[2.6rem] font-semibold tracking-tight font-display mb-5">Octavia Documentation</h1>
+                            <div class="doc-body">
+                                <p>Octavia turns a single video, audio file, or subtitle file into fully localized output — dubbed voice tracks, translated subtitles, lip-synced video, and narrated speech — across 60+ languages. Everything the app does through its UI is reachable through the same API: send a source file, get back a job you can poll or subscribe to with a webhook, and download finished output per language once it renders.</p>
+                                <p>This reference covers both the Octavia app itself and, for teams integrating Octavia into their own product, the exact endpoints, parameters, and payloads for the API. Nothing in the API does anything the app can't already do through its interface — the API just makes it scriptable.</p>
+
+                                <div class="doc-callout doc-callout-note">
+                                    <p><strong>Two ways in:</strong> if you just need to dub, subtitle, or narrate something without writing code, skip straight to <a href="#app-dashboard" class="doc-inline-link doc-jump">Using The App</a> below — everything there happens in the browser. If you're integrating Octavia into your own product or pipeline, jump to <a href="#quickstart" class="doc-inline-link doc-jump">Developer Quickstart</a> instead, which walks through creating a dub end to end in four requests.</p>
+                                </div>
+
+                                <h3 class="text-white font-medium text-base mt-8 mb-3">What you can build</h3>
+                                <ul>
+                                    <li>Automated dubbing pipelines that plug into a CMS, video host, or publishing workflow.</li>
+                                    <li>Subtitle generation and translation for an existing content library, in bulk.</li>
+                                    <li>Text-to-speech or subtitle-to-speech narration for voiceovers and audio articles.</li>
+                                    <li>Webhook-driven systems that pick up finished renders automatically instead of polling.</li>
+                                    <li>Internal review tools that edit machine translations before they render, using the same transcript endpoints the Octavia app itself uses.</li>
+                                </ul>
+
+                                <div class="doc-callout doc-callout-warn">
+                                    <p><strong>API access</strong> is available on the Pro and Studio plans. Studio additionally gets priority queueing for API requests. Free, Starter, and Creator plans can use every workflow through the Octavia app, but need to upgrade to call the API directly. See <a href="/pricing" class="doc-inline-link">Pricing</a> for plan details.</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="app-dashboard" class="doc-section">
+                            <p class="doc-eyebrow">Using The App</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">The dashboard</h2>
+                            <div class="doc-body">
+                                <p>Everything described in this reference is also available directly through the Octavia app at <code>app.octavia.lunartech.ai</code> — no code required. After signing in, your dashboard lists every dub, subtitle, and speech job in your workspace, each with its current status, target languages, and a shortcut back into the finished file once it's ready.</p>
+                                <p>A credit balance in the top corner tracks what's left in the current billing period (see <a href="#app-billing-plan" class="doc-inline-link doc-jump">Billing &amp; plan</a>), and a <strong>New Project</strong> button starts a fresh job on any of the six workflows covered under <a href="#video-translation" class="doc-inline-link doc-jump">Core Workflows</a>: video translation, audio translation, speech generation, subtitle generation, subtitle to audio, and subtitle translation.</p>
+                            </div>
+                        </section>
+
+                        <section id="app-create-project" class="doc-section">
+                            <p class="doc-eyebrow">Using The App</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Create a project</h2>
+                            <div class="doc-body">
+                                <p>Click <strong>New Project</strong> and pick a workflow. Each one opens a short setup form: choose or upload a source, pick your target language(s), and decide between <strong>Fast</strong> and <strong>Quality</strong> mode depending on whether you're checking a translation or rendering the version you plan to ship. Toggling manual review here does the same thing as passing <code>review: "manual"</code> through the API — it pauses the project after translation so you can proofread before anything renders (see <a href="#app-review-edit" class="doc-inline-link doc-jump">Review &amp; edit</a>).</p>
+                                <p>A project you start in the app and one you create through the API are the same object underneath — a project kicked off from the dashboard shows up if you query it with <code>GET /v1/dubs</code>, and one created through the API shows up on your dashboard just the same.</p>
+                            </div>
+                        </section>
+
+                        <section id="app-upload-source" class="doc-section">
+                            <p class="doc-eyebrow">Using The App</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Upload a source</h2>
+                            <div class="doc-body">
+                                <p>Drag a file in directly, or paste a URL Octavia can fetch on its own. Plan tier sets how long a single source can run: Free caps out at 5 minutes and Starter at 60; Creator, Pro, and Studio raise that ceiling considerably — see <a href="/pricing" class="doc-inline-link">Pricing</a> for the exact limit on your plan. Once a source is accepted, the project appears on your dashboard as <span class="doc-status-pill">queued</span> and moves through the same stages described in <a href="#job-lifecycle" class="doc-inline-link doc-jump">Job lifecycle</a> regardless of whether it started from the app or the API.</p>
+                            </div>
+                        </section>
+
+                        <section id="app-review-edit" class="doc-section">
+                            <p class="doc-eyebrow">Using The App</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Review &amp; edit</h2>
+                            <div class="doc-body">
+                                <p>If manual review was turned on when the project was created, it pauses after translation with an editable transcript — line by line, per language, with detected speakers labeled where <a href="#multi-speaker" class="doc-inline-link doc-jump">multi-speaker detection</a> applies. Fix a mistranslated name, adjust phrasing, or reassign a line to the correct speaker directly in that screen, then hit <strong>Render</strong> when you're satisfied. These are the exact same edits available through the transcript endpoints in the API (see <a href="#transcript-review" class="doc-inline-link doc-jump">Transcript &amp; review</a>) — the app screen and the API are two views onto the same in-review project, so edits made in one show up in the other immediately.</p>
+                            </div>
+                        </section>
+
+                        <section id="app-export-download" class="doc-section">
+                            <p class="doc-eyebrow">Using The App</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Export &amp; download</h2>
+                            <div class="doc-body">
+                                <p>Once a project reaches <span class="doc-status-pill">complete</span>, every target language is downloadable from its detail page, individually or as a batch. Video dubs export as the original video with the dubbed, lip-synced audio track baked in; audio and speech jobs export as an audio file; subtitle jobs export as SRT or VTT. Starter and above export without a watermark; Free-tier exports carry one.</p>
+                            </div>
+                        </section>
+
+                        <section id="app-workspace-team" class="doc-section">
+                            <p class="doc-eyebrow">Using The App</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Workspace &amp; team</h2>
+                            <div class="doc-body">
+                                <p>A workspace is shared by everyone on your plan's seat allowance — Free, Starter, and Creator include a single seat, Pro includes two, and Studio includes five (see <a href="/pricing" class="doc-inline-link">Pricing</a> for the full breakdown, including how many jobs can run concurrently per plan). Invite teammates and manage roles from <strong>Settings &rarr; Team</strong>. Everyone in a workspace shares the same credit balance and project history, so a teammate's finished dub shows up on your dashboard too, not just theirs.</p>
+                            </div>
+                        </section>
+
+                        <section id="app-billing-plan" class="doc-section">
+                            <p class="doc-eyebrow">Using The App</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Billing &amp; plan</h2>
+                            <div class="doc-body">
+                                <p>Plans, credits, and payment details live under <strong>Settings &rarr; Billing</strong>, handled through Stripe. Billing is monthly with no long-term contract. Upgrades apply immediately, so you get the new plan's credits and limits right away; downgrades take effect at your next renewal, so you don't lose access mid-cycle. Cancel any time from the same screen — there's no cancellation fee.</p>
+                            </div>
+                        </section>
+
+                        <section id="quickstart" class="doc-section">
+                            <p class="doc-eyebrow">Developer Quickstart</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Quickstart</h2>
+                            <div class="doc-body">
+                                <p>Everything past this point is for teams integrating Octavia into their own product or pipeline rather than using the app directly.</p>
+                                <h3 class="text-white font-medium text-base mt-8 mb-3">Base URL</h3>
+                                <p>All API requests are made against:</p>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Base URL</div>
+                                <pre>https://api.octavia.ai/v1</pre>
+                            </div>
+                            <div class="doc-body">
+                                <p><code>v1</code> is the current stable API version and the one every example on this page uses. New fields and endpoints are added in a backward-compatible way; nothing existing is removed or renamed without a new version prefix. If you need to track exactly what changed and when, see the <a href="#" data-tab-link="changelog" class="doc-inline-link">Changelog</a>.</p>
+                                <h3 class="text-white font-medium text-base mt-8 mb-3">SDKs</h3>
+                                <p>There's an official JavaScript/TypeScript client, <code>OctaviaClient</code>, that wraps the REST API with typed methods:</p>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Node / TypeScript</div>
+                                <pre><span class="tok-com">// npm install @octavia/sdk</span>
+<span class="tok-key">import</span> { OctaviaClient } <span class="tok-key">from</span> <span class="tok-str">'@octavia/sdk'</span>;
+
+<span class="tok-key">const</span> octavia = <span class="tok-key">new</span> OctaviaClient({
+  apiKey: <span class="tok-str">'oct_sk_...'</span>
+});
+
+<span class="tok-com">// Dub your video content</span>
+<span class="tok-key">const</span> results = <span class="tok-key">await</span> octavia.dub.translate({
+  videoUrl: <span class="tok-str">'https://example.com/video.mp4'</span>,
+  targetLanguages: [<span class="tok-str">'es'</span>, <span class="tok-str">'fr'</span>, <span class="tok-str">'de'</span>]
+});
+
+console.<span class="tok-key">log</span>(results.dubbedVideos);</pre>
+                            </div>
+                            <div class="doc-body">
+                                <p>If you're not on Node, every endpoint is plain REST and a GraphQL endpoint is also available for clients that want to fetch nested resources (a dub with its transcript lines and output URLs) in a single round trip. This reference documents the REST surface; the GraphQL schema mirrors the same resources.</p>
+                                <h3 class="text-white font-medium text-base mt-8 mb-3">Create your first dub</h3>
+                                <p>This walks through dubbing a video into two languages using nothing but <code>curl</code>. It's the same sequence the <code>OctaviaClient</code> SDK performs under the hood.</p>
+                            </div>
+
+                            <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-2 mt-6">1 &middot; Get an API key</p>
+                            <div class="doc-body"><p>Create one from <strong>Settings &rarr; API Keys</strong> in the Octavia app. Keys are prefixed <code>oct_sk_</code> and shown once — store it somewhere safe.</p></div>
+
+                            <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-2 mt-6">2 &middot; Set it as an environment variable</p>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Shell</div>
+                                <pre>export OCTAVIA_API_KEY=<span class="tok-str">"oct_sk_live_..."</span></pre>
+                            </div>
+
+                            <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-2 mt-6">3 &middot; Create a dub</p>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">POST /v1/dubs</div>
+                                <pre>curl https://api.octavia.ai/v1/dubs \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span> \
+  -H <span class="tok-str">"Content-Type: application/json"</span> \
+  -d <span class="tok-str">'{
+    "videoUrl": "https://example.com/video.mp4",
+    "targetLanguages": ["es", "fr"]
+  }'</span></pre>
+                            </div>
+                            <div class="doc-body"><p>The response returns immediately with a queued job and its id:</p></div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Response &middot; 201 Created</div>
+                                <pre>{
+  <span class="tok-key">"id"</span>: <span class="tok-str">"dub_31xk9m"</span>,
+  <span class="tok-key">"status"</span>: <span class="tok-str">"queued"</span>,
+  <span class="tok-key">"targetLanguages"</span>: [<span class="tok-str">"es"</span>, <span class="tok-str">"fr"</span>],
+  <span class="tok-key">"createdAt"</span>: <span class="tok-str">"2026-08-16T09:12:03Z"</span>
+}</pre>
+                            </div>
+
+                            <p class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-2 mt-6">4 &middot; Check status, then download each finished language</p>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">GET /v1/dubs/&#123;id&#125;</div>
+                                <pre>curl https://api.octavia.ai/v1/dubs/dub_31xk9m \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span></pre>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">GET /v1/dubs/&#123;id&#125;/output/&#123;lang&#125;</div>
+                                <pre>curl -L https://api.octavia.ai/v1/dubs/dub_31xk9m/output/es \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span> \
+  -o dubbed-es.mp4</pre>
+                            </div>
+                            <div class="doc-body">
+                                <p>By default a dub renders immediately. Pass <code>"review": "manual"</code> in the create request to pause after translation, edit any line through the API, and render only once you approve — see <a href="#transcript-review" class="doc-inline-link doc-jump">Transcript &amp; review</a>. Rather than polling, you can also register a <a href="#webhooks" class="doc-inline-link doc-jump">webhook</a> and get notified the moment each language finishes.</p>
+                            </div>
+                        </section>
+
+                        <section id="authentication" class="doc-section">
+                            <p class="doc-eyebrow">Developer Quickstart</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Authentication</h2>
+                            <div class="doc-body">
+                                <p>Every request is authenticated with a bearer token in the <code>Authorization</code> header:</p>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Header</div>
+                                <pre>Authorization: Bearer oct_sk_live_...</pre>
+                            </div>
+                            <div class="doc-body">
+                                <p>API keys are created and revoked from <strong>Settings &rarr; API Keys</strong> and are scoped to a single workspace. A few rules worth building around:</p>
+                                <ul>
+                                    <li>Keys are shown once at creation — if you lose one, revoke it and issue a new one rather than trying to recover it.</li>
+                                    <li>Never embed a key in client-side code, a mobile app bundle, or a public repository. Call Octavia from your own backend, or use a short-lived, narrowly-scoped key if a request has to originate from a browser.</li>
+                                    <li>Use separate keys per environment (development, staging, production) so a compromised staging key can't touch production jobs, and so usage per environment shows up separately in <a href="#credits-usage" class="doc-inline-link doc-jump">usage reporting</a>.</li>
+                                    <li>Keys can be created with restricted <a href="#permissions" class="doc-inline-link doc-jump">permission scopes</a> — for example a key that can create dubs but can't read usage or manage webhooks.</li>
+                                </ul>
+                                <p>Requests without a valid <code>Authorization</code> header return <code>401 Unauthorized</code>. Requests from a plan without API access return <code>403 Forbidden</code>.</p>
+                            </div>
+                        </section>
+
+                        <section id="errors-limits" class="doc-section">
+                            <p class="doc-eyebrow">Developer Quickstart</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Errors &amp; limits</h2>
+                            <div class="doc-body"><p>Octavia uses conventional HTTP status codes: 2xx for success, 4xx when the request itself needs fixing, 5xx when something failed on our end and is usually safe to retry.</p></div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <caption>HTTP status codes</caption>
+                                    <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>400</code></td><td>The request body is malformed — invalid JSON, missing a required field.</td></tr>
+                                        <tr><td><code>401</code></td><td>Missing, malformed, or revoked API key.</td></tr>
+                                        <tr><td><code>403</code></td><td>The key is valid but the plan or scope doesn't allow this action.</td></tr>
+                                        <tr><td><code>404</code></td><td>The resource (dub, job, key) doesn't exist or doesn't belong to this workspace.</td></tr>
+                                        <tr><td><code>409</code></td><td>The resource is in a state that doesn't allow this action — e.g. rendering a dub that's already rendering.</td></tr>
+                                        <tr><td><code>422</code></td><td>The request is well-formed but fails validation; the error body includes the offending field.</td></tr>
+                                        <tr><td><code>429</code></td><td>Rate limited — back off and retry using the headers below.</td></tr>
+                                        <tr><td><code>500 / 503</code></td><td>Something failed on Octavia's side. Safe to retry with backoff.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="doc-body"><p>Error responses share one shape:</p></div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Error shape</div>
+                                <pre>{
+  <span class="tok-key">"error"</span>: {
+    <span class="tok-key">"code"</span>: <span class="tok-str">"invalid_target_language"</span>,
+    <span class="tok-key">"message"</span>: <span class="tok-str">"'xx' is not a supported language code."</span>,
+    <span class="tok-key">"field"</span>: <span class="tok-str">"targetLanguages[0]"</span>
+  }
+}</pre>
+                            </div>
+                            <div class="doc-body">
+                                <p><strong>Rate limits</strong> are enforced per API key and scale with plan tier — Studio keys get priority throughput over Pro. Rather than hard-coding a number, read the limit off the response headers on every call:</p>
+                                <ul>
+                                    <li><code>X-RateLimit-Limit</code> — requests allowed in the current window.</li>
+                                    <li><code>X-RateLimit-Remaining</code> — requests left in the current window.</li>
+                                    <li><code>X-RateLimit-Reset</code> — unix timestamp the window resets at.</li>
+                                </ul>
+                                <p>On a <code>429</code>, respect the <code>Retry-After</code> header rather than retrying immediately in a loop.</p>
+                            </div>
+                        </section>
+
+                        <section id="video-translation" class="doc-section">
+                            <p class="doc-eyebrow">Core Workflow</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Video translation (dubbing)</h2>
+                            <div class="doc-body">
+                                <p>The core workflow: send a source video, get back the same video dubbed into every target language, lip-synced by default. Under the hood a dub moves through transcription, translation, and rendering — see <a href="#job-lifecycle" class="doc-inline-link doc-jump">Job lifecycle</a> for the exact stages.</p>
+                                <p>Create one with <code>POST /v1/dubs</code>, supplying either a <code>videoUrl</code> Octavia can fetch or a direct file upload. <code>sourceLanguage</code> is optional — when omitted, Octavia detects it automatically from the audio. <code>targetLanguages</code> is always an array, even for a single language.</p>
+                                <ul>
+                                    <li><strong>Lip-sync</strong> is on by default for video sources (<code>lipSync: true</code>) and maps generated speech to mouth movement frame by frame. Set it to <code>false</code> to get a dubbed audio track composited over the original video without resyncing the mouth.</li>
+                                    <li><strong>Mode</strong> (<code>fast</code> or <code>quality</code>) trades render time for fidelity — iterate in <code>fast</code>, switch to <code>quality</code> for the version you ship. See <a href="#best-practices" class="doc-inline-link doc-jump">Best practices</a>.</li>
+                                    <li>Generated speech follows the pacing, tone, and delivery of each source speaker rather than reading in a flat, uniform voice — this is what keeps a dub feeling like the same person talking, not a narrator reading a translation over them.</li>
+                                </ul>
+                                <p>See the full parameter list under <a href="#" data-tab-link="api" class="doc-inline-link">API Reference &rarr; Create a dub</a>.</p>
+                            </div>
+                        </section>
+
+                        <section id="audio-translation" class="doc-section">
+                            <p class="doc-eyebrow">Core Workflow</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Audio translation</h2>
+                            <div class="doc-body">
+                                <p>Audio translation is the same pipeline as video dubbing minus the video and lip-sync stages, so it's a better fit for podcasts, voice memos, lectures, and any audio-only source. Submit <code>audioUrl</code> instead of <code>videoUrl</code> on the same <code>POST /v1/dubs</code> endpoint — Octavia infers the workflow from which field is present. Because there's no video to render or sync, jobs move through <code>rendering</code> faster than a video dub of the same length.</p>
+                                <p>Output is a dubbed audio file per target language, downloadable the same way as a video dub's output.</p>
+                            </div>
+                        </section>
+
+                        <section id="speech-generation" class="doc-section">
+                            <p class="doc-eyebrow">Core Workflow</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Speech generation</h2>
+                            <div class="doc-body">
+                                <p>Speech generation goes the other direction: instead of dubbing an existing recording, it turns a script you write directly into narration. Use it for voiceovers, IVR prompts, or audio versions of written articles where there's no source audio to translate. <code>POST /v1/speech</code> takes <code>text</code>, a target <code>language</code>, and an optional <code>voiceId</code> — omit the voice and Octavia picks a natural default for that language. <code>speed</code> adjusts pacing without changing pitch.</p>
+                                <p>Speech jobs skip transcription and translation entirely, so they're the fastest workflow in the API — usually rendering in well under the time it takes to read the output back.</p>
+                            </div>
+                        </section>
+
+                        <section id="subtitle-generation" class="doc-section">
+                            <p class="doc-eyebrow">Core Workflow</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Subtitle generation</h2>
+                            <div class="doc-body">
+                                <p><code>POST /v1/subtitles/generate</code> transcribes a video or audio source into timed subtitles — word-level timestamps, punctuation, and speaker labels when more than one voice is detected — without translating or dubbing anything. Useful when you already have the source language covered and just need accurate captions, or as the first step before running <a href="#subtitle-translation" class="doc-inline-link doc-jump">subtitle translation</a> separately.</p>
+                                <p>Output is downloadable as SRT or VTT.</p>
+                            </div>
+                        </section>
+
+                        <section id="subtitle-to-audio" class="doc-section">
+                            <p class="doc-eyebrow">Core Workflow</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Subtitle to audio</h2>
+                            <div class="doc-body">
+                                <p>If you already have a subtitle file and want narrated audio without re-transcribing a source recording, submit it directly: <code>POST /v1/dubs</code> with <code>sourceType: "subtitles"</code> and a <code>subtitleUrl</code> instead of a video or audio URL. Octavia uses the subtitle timing as the pacing target for generated speech, then translates into each of <code>targetLanguages</code> as usual. This skips the transcription stage of the job lifecycle since the timed text is already provided.</p>
+                            </div>
+                        </section>
+
+                        <section id="subtitle-translation" class="doc-section">
+                            <p class="doc-eyebrow">Core Workflow</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Subtitle translation</h2>
+                            <div class="doc-body">
+                                <p><code>POST /v1/subtitles/translate</code> translates the text of an existing SRT or VTT file into one or more target languages while leaving the original timing untouched — no audio is generated. It's the lightest-weight localization workflow in the API and the cheapest per minute (see <a href="#credits-usage" class="doc-inline-link doc-jump">Credits &amp; usage</a>), which makes it a good fit for translating an entire back catalog of captions quickly.</p>
+                            </div>
+                        </section>
+
+                        <section id="job-lifecycle" class="doc-section">
+                            <p class="doc-eyebrow">Working With Jobs</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">How a dub moves</h2>
+                            <div class="doc-body"><p>Every dub reports its progress through a small, fixed set of statuses. Poll <code>GET /v1/dubs/&#123;id&#125;</code> to read the current one, or subscribe to <a href="#webhooks" class="doc-inline-link doc-jump">webhooks</a> to get pushed each transition instead.</p></div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <caption>Table 01 &middot; Dub lifecycle</caption>
+                                    <thead><tr><th>Status</th><th>What's happening</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><span class="doc-status-pill">queued</span></td><td>Accepted and waiting for a worker.</td></tr>
+                                        <tr><td><span class="doc-status-pill">transcribing</span></td><td>Speech-to-text with word timestamps; speakers separated.</td></tr>
+                                        <tr><td><span class="doc-status-pill">translating</span></td><td>Each line translated into every target language.</td></tr>
+                                        <tr><td><span class="doc-status-pill">in_review</span></td><td>Only with <code>review=manual</code>: the transcript is editable until you render.</td></tr>
+                                        <tr><td><span class="doc-status-pill">rendering</span></td><td>Voice (and lip-sync, for video) generated per language.</td></tr>
+                                        <tr><td><span class="doc-status-pill">complete</span></td><td>Every target language rendered; outputs downloadable.</td></tr>
+                                        <tr><td><span class="doc-status-pill">failed</span></td><td>Something broke; the error rides the status payload.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="doc-body"><p>A job in <code>failed</code> includes an <code>error</code> object with the same shape described in <a href="#errors-limits" class="doc-inline-link doc-jump">Errors &amp; limits</a>. Failed jobs don't consume credits for the languages that didn't finish rendering.</p></div>
+                        </section>
+
+                        <section id="transcript-review" class="doc-section">
+                            <p class="doc-eyebrow">Working With Jobs</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Transcript &amp; review</h2>
+                            <div class="doc-body">
+                                <p>By default a dub renders as soon as translation finishes. Pass <code>"review": "manual"</code> when creating it, and the job pauses in <code>in_review</code> after translation instead of moving straight to rendering — giving you a window to fix names, terminology, or phrasing before any voice is generated.</p>
+                                <p>While a dub is <code>in_review</code>:</p>
+                                <ul>
+                                    <li>Read the full transcript, line by line, per language, with <code>GET /v1/dubs/&#123;id&#125;</code>.</li>
+                                    <li>Edit an individual line's text, reassign it to a different detected speaker, or nudge its timing with <code>PATCH /v1/dubs/&#123;id&#125;/transcript/&#123;lineId&#125;</code>.</li>
+                                    <li>When every edit is in, call <code>POST /v1/dubs/&#123;id&#125;/render</code> to resume the job and move it into <code>rendering</code>.</li>
+                                </ul>
+                                <p>A dub left <code>in_review</code> doesn't expire on any fixed timer, but it also doesn't consume rendering credits until you explicitly render it — a useful way to batch up translation review work without burning budget on drafts you might still change.</p>
+                            </div>
+                        </section>
+
+                        <section id="multi-speaker" class="doc-section">
+                            <p class="doc-eyebrow">Working With Jobs</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Multi-speaker detection</h2>
+                            <div class="doc-body">
+                                <p>On Pro and above, Octavia automatically detects and separates distinct speakers in a source file during transcription, rather than treating the whole track as one voice. Each detected speaker keeps a consistent voice across the entire dub and across every target language, so a conversation between two people in the source stays a conversation between two distinct voices in the translation.</p>
+                                <p>Speaker assignments are visible per transcript line and adjustable during <a href="#transcript-review" class="doc-inline-link doc-jump">manual review</a> — if two speakers get merged or split incorrectly, reassign the affected lines before rendering rather than living with the mistake in the output.</p>
+                            </div>
+                        </section>
+
+                        <section id="languages" class="doc-section">
+                            <p class="doc-eyebrow">Languages</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Supported languages</h2>
+                            <div class="doc-body">
+                                <p>Octavia supports 60+ target languages across every workflow, identified by standard language codes (e.g. <code>es</code>, <code>fr</code>, <code>de</code>, <code>ja</code>, <code>ko</code>, <code>hi</code>, <code>ar</code>, <code>pt</code>), with regional variants distinguished where pronunciation or vocabulary meaningfully differs (e.g. <code>pt-BR</code> vs. <code>pt-PT</code>). <code>sourceLanguage</code> is optional on every endpoint that accepts audio or video — when it's omitted, Octavia detects the spoken language automatically before transcribing.</p>
+                                <p>The full, current list of supported codes is machine-readable rather than reproduced here, since it grows over time:</p>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">GET /v1/languages</div>
+                                <pre>curl https://api.octavia.ai/v1/languages \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span></pre>
+                            </div>
+                        </section>
+
+                        <section id="webhooks" class="doc-section">
+                            <p class="doc-eyebrow">Platform</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Webhooks</h2>
+                            <div class="doc-body">
+                                <p>Polling <code>GET /v1/dubs/&#123;id&#125;</code> works fine for a one-off script, but for anything running in production, register a webhook instead and let Octavia push each state change to your endpoint the moment it happens.</p>
+                                <p>Register an endpoint with <code>POST /v1/webhooks</code>, or from <strong>Settings &rarr; Webhooks</strong> in the app. Every delivery is a POST with a JSON body:</p>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Webhook payload</div>
+                                <pre>{
+  <span class="tok-key">"event"</span>: <span class="tok-str">"dub.completed"</span>,
+  <span class="tok-key">"data"</span>: {
+    <span class="tok-key">"id"</span>: <span class="tok-str">"dub_31xk9m"</span>,
+    <span class="tok-key">"status"</span>: <span class="tok-str">"complete"</span>,
+    <span class="tok-key">"targetLanguages"</span>: [<span class="tok-str">"es"</span>, <span class="tok-str">"fr"</span>]
+  },
+  <span class="tok-key">"timestamp"</span>: <span class="tok-str">"2026-08-16T09:14:41Z"</span>
+}</pre>
+                            </div>
+                            <div class="doc-body">
+                                <p>Each delivery is signed — verify the <code>X-Octavia-Signature</code> header (an HMAC-SHA256 of the raw request body, keyed with your webhook secret) before trusting the payload, the same way you would for any inbound webhook. Reject anything that doesn't match rather than assuming requests to your endpoint can only come from Octavia.</p>
+                                <p>If your endpoint doesn't return a <code>2xx</code>, the delivery is retried with backoff for a limited number of attempts — treat webhook handling as idempotent so a retried delivery doesn't double-process the same event. See the full list of event types under <a href="#" data-tab-link="api" class="doc-inline-link">API Reference &rarr; Event types</a>.</p>
+                            </div>
+                        </section>
+
+                        <section id="credits-usage" class="doc-section">
+                            <p class="doc-eyebrow">Platform</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Credits &amp; usage</h2>
+                            <div class="doc-body">
+                                <p>Credits are the single currency across every Octavia workflow — API usage draws from the same monthly balance as jobs run through the app. Each workflow costs a different amount per minute of source content processed:</p>
+                            </div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <caption>Credit cost per minute of source</caption>
+                                    <thead><tr><th>Workflow</th><th>Credits / min</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Video translation</td><td><code>100</code></td></tr>
+                                        <tr><td>Audio translation</td><td><code>80</code></td></tr>
+                                        <tr><td>Subtitle to audio</td><td><code>60</code></td></tr>
+                                        <tr><td>Subtitle translation</td><td><code>25</code></td></tr>
+                                        <tr><td>Subtitle generation</td><td><code>20</code></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="doc-body">
+                                <p>Monthly allowance scales with plan: Free includes 500 credits/month, Starter 6,000, Creator 12,000, Pro 30,000, and Studio 120,000 — see <a href="/pricing" class="doc-inline-link">Pricing</a> for the full breakdown, including per-plan limits on job length and concurrency. Check your remaining balance at any time with <code>GET /v1/usage</code> rather than tracking it manually; a job that would exceed your remaining balance is rejected with <code>402</code> before it starts, so failed credit checks never partially consume a job's allowance.</p>
+                            </div>
+                        </section>
+
+                        <section id="permissions" class="doc-section">
+                            <p class="doc-eyebrow">Platform</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Permission scopes</h2>
+                            <div class="doc-body">
+                                <p>API access itself is gated by plan — Pro and Studio only, with Studio getting priority throughput. Within an eligible workspace, individual keys can be scoped down further so an integration only has the access it actually needs:</p>
+                            </div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <caption>Available scopes</caption>
+                                    <thead><tr><th>Scope</th><th>Grants</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>dubs:read</code></td><td>Read dub status, transcripts, and output URLs.</td></tr>
+                                        <tr><td><code>dubs:write</code></td><td>Create, edit, render, and cancel dubs.</td></tr>
+                                        <tr><td><code>subtitles:read</code></td><td>Read generated or translated subtitle jobs.</td></tr>
+                                        <tr><td><code>subtitles:write</code></td><td>Create subtitle generation and translation jobs.</td></tr>
+                                        <tr><td><code>speech:write</code></td><td>Create speech generation jobs.</td></tr>
+                                        <tr><td><code>webhooks:manage</code></td><td>Create, update, and delete webhook endpoints.</td></tr>
+                                        <tr><td><code>usage:read</code></td><td>Read credit balance and usage history.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="doc-body"><p>A key created for a one-way ingest pipeline, for example, typically only needs <code>dubs:write</code> and <code>webhooks:manage</code> — it never needs to read usage or manage other keys. Scope keys to the minimum they need.</p></div>
+                        </section>
+
+                        <section id="best-practices" class="doc-section">
+                            <p class="doc-eyebrow">Best Practices</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Building reliable integrations</h2>
+                            <div class="doc-body">
+                                <ul>
+                                    <li><strong>Prefer webhooks over polling.</strong> If you must poll, don't do it more than once every 5&ndash;10 seconds per job — rendering a video dub reliably takes longer than a single poll interval anyway.</li>
+                                    <li><strong>Always send <code>targetLanguages</code> as an array</strong>, even for a single language. It keeps the response shape (and your parsing code) identical regardless of how many languages you request.</li>
+                                    <li><strong>Use <code>review=manual</code> for anything long-form</strong> — lectures, interviews, podcasts — where names, jargon, and brand terms are easy for machine translation to get wrong. Fixing a line before render is free; re-rendering after the fact isn't.</li>
+                                    <li><strong>Pass an <code>idempotencyKey</code></strong> on <code>POST /v1/dubs</code> when your client might retry a request after a network failure. Retrying with the same key returns the original job instead of creating a duplicate one.</li>
+                                    <li><strong>Store the returned <code>id</code> immediately.</strong> It's what you'll use to poll, to correlate incoming webhook events, and to fetch output — treat it as the join key between your system and Octavia's.</li>
+                                    <li><strong>Iterate in <code>fast</code> mode, ship in <code>quality</code> mode.</strong> Fast mode is meant for checking translation and pacing before you commit credits to a final render.</li>
+                                    <li><strong>Verify webhook signatures</strong> and make your handler idempotent — see <a href="#webhooks" class="doc-inline-link doc-jump">Webhooks</a>.</li>
+                                </ul>
+                                <div class="doc-callout doc-callout-warn">
+                                    <p><strong>Heads up:</strong> generated speech follows the tone and pacing of the source speaker but Octavia doesn't offer a standalone voice-cloning feature today — you can't submit a separate voice sample and have it applied independently of a source recording. If your workflow assumes that capability, check back or reach out via <a href="/contact" class="doc-inline-link" style="color:inherit">Contact</a> before building around it.</p>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <!-- ================= API REFERENCE CONTENT ================= -->
+                    <div data-content="api" hidden>
+
+                        <section id="api-base-url" class="doc-section">
+                            <p class="doc-eyebrow">Core</p>
+                            <h1 class="text-3xl font-semibold tracking-tight font-display mb-5">API Reference</h1>
+                            <div class="doc-body">
+                                <p>The REST API is organized around the same resources described in the Overview: dubs, speech jobs, subtitle jobs, and webhooks. Requests and responses are JSON. Every endpoint below is relative to the base URL:</p>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Base URL</div>
+                                <pre>https://api.octavia.ai/v1</pre>
+                            </div>
+                            <div class="doc-body"><p>All endpoints live under the <code>v1</code> prefix. A GraphQL endpoint at <code>/v1/graphql</code> exposes the same resources for clients that prefer to fetch nested data in one request.</p></div>
+                        </section>
+
+                        <section id="api-auth" class="doc-section">
+                            <p class="doc-eyebrow">Core</p>
+                            <h2 class="text-2xl font-semibold tracking-tight font-display mb-4">Authentication</h2>
+                            <div class="doc-body"><p>Send your API key as a bearer token on every request. See <a href="#" data-tab-link="overview" class="doc-inline-link">Overview &rarr; Authentication</a> for key management and scoping.</p></div>
+                            <div class="doc-panel"><div class="doc-panel-head">Header</div><pre>Authorization: Bearer oct_sk_live_...</pre></div>
+                        </section>
+
+                        <section id="api-create-dub" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-post">POST</span><span class="doc-endpoint-path">/v1/dubs</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Create a dub</h2>
+                            <div class="doc-body"><p>Creates a video or audio dubbing job. The source is inferred from which of <code>videoUrl</code>, <code>audioUrl</code>, or <code>subtitleUrl</code> you provide.</p></div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <caption>Body parameters</caption>
+                                    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>videoUrl</code></td><td>string</td><td>Publicly fetchable URL of the source video. Required unless <code>audioUrl</code> or <code>subtitleUrl</code> is set.</td></tr>
+                                        <tr><td><code>audioUrl</code></td><td>string</td><td>Source audio URL for audio-only translation.</td></tr>
+                                        <tr><td><code>subtitleUrl</code></td><td>string</td><td>Source SRT/VTT URL for subtitle-to-audio jobs. Pair with <code>sourceType: "subtitles"</code>.</td></tr>
+                                        <tr><td><code>targetLanguages</code></td><td>array&lt;string&gt;</td><td>Required. One or more language codes to dub into.</td></tr>
+                                        <tr><td><code>sourceLanguage</code></td><td>string</td><td>Optional. Auto-detected from audio when omitted.</td></tr>
+                                        <tr><td><code>review</code></td><td>"auto" | "manual"</td><td>Default <code>"auto"</code>. Use <code>"manual"</code> to pause at <code>in_review</code>.</td></tr>
+                                        <tr><td><code>lipSync</code></td><td>boolean</td><td>Default <code>true</code> for video sources. Ignored for audio-only jobs.</td></tr>
+                                        <tr><td><code>mode</code></td><td>"fast" | "quality"</td><td>Default <code>"fast"</code>.</td></tr>
+                                        <tr><td><code>idempotencyKey</code></td><td>string</td><td>Optional. Safely retry the request without creating a duplicate job.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Request</div>
+                                <pre>curl https://api.octavia.ai/v1/dubs \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span> \
+  -H <span class="tok-str">"Content-Type: application/json"</span> \
+  -d <span class="tok-str">'{
+    "videoUrl": "https://example.com/video.mp4",
+    "targetLanguages": ["es", "fr"],
+    "review": "manual",
+    "mode": "quality"
+  }'</span></pre>
+                            </div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Response &middot; 201 Created</div>
+                                <pre>{
+  <span class="tok-key">"id"</span>: <span class="tok-str">"dub_31xk9m"</span>,
+  <span class="tok-key">"status"</span>: <span class="tok-str">"queued"</span>,
+  <span class="tok-key">"sourceLanguage"</span>: <span class="tok-mut">null</span>,
+  <span class="tok-key">"targetLanguages"</span>: [<span class="tok-str">"es"</span>, <span class="tok-str">"fr"</span>],
+  <span class="tok-key">"review"</span>: <span class="tok-str">"manual"</span>,
+  <span class="tok-key">"mode"</span>: <span class="tok-str">"quality"</span>,
+  <span class="tok-key">"createdAt"</span>: <span class="tok-str">"2026-08-16T09:12:03Z"</span>
+}</pre>
+                            </div>
+                        </section>
+
+                        <section id="api-get-dub" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-get">GET</span><span class="doc-endpoint-path">/v1/dubs/&#123;id&#125;</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Retrieve a dub</h2>
+                            <div class="doc-body"><p>Returns the current status of a dub, its transcript once available, and a per-language output URL once <code>complete</code>.</p></div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Response &middot; 200 OK</div>
+                                <pre>{
+  <span class="tok-key">"id"</span>: <span class="tok-str">"dub_31xk9m"</span>,
+  <span class="tok-key">"status"</span>: <span class="tok-str">"complete"</span>,
+  <span class="tok-key">"targetLanguages"</span>: [<span class="tok-str">"es"</span>, <span class="tok-str">"fr"</span>],
+  <span class="tok-key">"outputs"</span>: {
+    <span class="tok-key">"es"</span>: <span class="tok-str">"https://api.octavia.ai/v1/dubs/dub_31xk9m/output/es"</span>,
+    <span class="tok-key">"fr"</span>: <span class="tok-str">"https://api.octavia.ai/v1/dubs/dub_31xk9m/output/fr"</span>
+  },
+  <span class="tok-key">"createdAt"</span>: <span class="tok-str">"2026-08-16T09:12:03Z"</span>,
+  <span class="tok-key">"completedAt"</span>: <span class="tok-str">"2026-08-16T09:19:47Z"</span>
+}</pre>
+                            </div>
+                        </section>
+
+                        <section id="api-list-dubs" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-get">GET</span><span class="doc-endpoint-path">/v1/dubs</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">List dubs</h2>
+                            <div class="doc-body"><p>Returns dubs for the current workspace, newest first. Supports cursor pagination and filtering by status.</p></div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <caption>Query parameters</caption>
+                                    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>status</code></td><td>string</td><td>Optional filter, e.g. <code>complete</code> or <code>failed</code>.</td></tr>
+                                        <tr><td><code>limit</code></td><td>integer</td><td>Max results per page, default 20, max 100.</td></tr>
+                                        <tr><td><code>cursor</code></td><td>string</td><td>Opaque pagination cursor from a prior response's <code>nextCursor</code>.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <section id="api-patch-transcript" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-patch">PATCH</span><span class="doc-endpoint-path">/v1/dubs/&#123;id&#125;/transcript/&#123;lineId&#125;</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Edit a transcript line</h2>
+                            <div class="doc-body"><p>Only valid while a dub is <code>in_review</code>. Edits the translated text, speaker assignment, or timing of a single line without touching the rest of the transcript.</p></div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Request</div>
+                                <pre>curl -X PATCH https://api.octavia.ai/v1/dubs/dub_31xk9m/transcript/ln_04 \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span> \
+  -H <span class="tok-str">"Content-Type: application/json"</span> \
+  -d <span class="tok-str">'{ "text": "Octavia, not Octavio." }'</span></pre>
+                            </div>
+                        </section>
+
+                        <section id="api-render-dub" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-post">POST</span><span class="doc-endpoint-path">/v1/dubs/&#123;id&#125;/render</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Render a dub</h2>
+                            <div class="doc-body"><p>Resumes a dub out of <code>in_review</code> and moves it into <code>rendering</code>. No effect on a dub that isn't currently in review.</p></div>
+                        </section>
+
+                        <section id="api-cancel-dub" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-delete">DELETE</span><span class="doc-endpoint-path">/v1/dubs/&#123;id&#125;</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Cancel a dub</h2>
+                            <div class="doc-body"><p>Cancels a dub that's <code>queued</code>, <code>transcribing</code>, <code>translating</code>, or <code>in_review</code>. Returns <code>409</code> if it's already <code>rendering</code> or <code>complete</code>. Cancelled jobs are not billed for languages that hadn't started rendering.</p></div>
+                        </section>
+
+                        <section id="api-download-output" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-get">GET</span><span class="doc-endpoint-path">/v1/dubs/&#123;id&#125;/output/&#123;lang&#125;</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Download output</h2>
+                            <div class="doc-body"><p>Streams the finished file for one target language. <code>404</code> until that language reaches <code>complete</code>.</p></div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Request</div>
+                                <pre>curl -L https://api.octavia.ai/v1/dubs/dub_31xk9m/output/es \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span> \
+  -o dubbed-es.mp4</pre>
+                            </div>
+                        </section>
+
+                        <section id="api-create-speech" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-post">POST</span><span class="doc-endpoint-path">/v1/speech</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Create speech</h2>
+                            <div class="doc-body"><p>Generates narration from plain text — no source recording required.</p></div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <caption>Body parameters</caption>
+                                    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>text</code></td><td>string</td><td>Required. The script to narrate.</td></tr>
+                                        <tr><td><code>language</code></td><td>string</td><td>Required. Target language code.</td></tr>
+                                        <tr><td><code>voiceId</code></td><td>string</td><td>Optional. Omit for a natural default voice.</td></tr>
+                                        <tr><td><code>speed</code></td><td>number</td><td>Optional. Playback rate multiplier, default <code>1.0</code>.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <section id="api-generate-subtitles" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-post">POST</span><span class="doc-endpoint-path">/v1/subtitles/generate</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Generate subtitles</h2>
+                            <div class="doc-body"><p>Transcribes <code>videoUrl</code> or <code>audioUrl</code> into timed subtitles without translating. Returns a job you poll the same way as a dub; output format defaults to <code>srt</code>, or set <code>format: "vtt"</code>.</p></div>
+                        </section>
+
+                        <section id="api-translate-subtitles" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-post">POST</span><span class="doc-endpoint-path">/v1/subtitles/translate</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Translate subtitles</h2>
+                            <div class="doc-body"><p>Translates the text of a <code>subtitleUrl</code> into each of <code>targetLanguages</code>, keeping the original cue timing untouched.</p></div>
+                        </section>
+
+                        <section id="api-webhooks-register" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-post">POST</span><span class="doc-endpoint-path">/v1/webhooks</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Register a webhook</h2>
+                            <div class="doc-body"><p>Registers an endpoint to receive job lifecycle events. Returns a signing secret once, used to verify the <code>X-Octavia-Signature</code> header on every delivery.</p></div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Request</div>
+                                <pre>curl https://api.octavia.ai/v1/webhooks \
+  -H <span class="tok-str">"Authorization: Bearer $OCTAVIA_API_KEY"</span> \
+  -H <span class="tok-str">"Content-Type: application/json"</span> \
+  -d <span class="tok-str">'{
+    "url": "https://yourapp.com/hooks/octavia",
+    "events": ["dub.completed", "dub.failed"]
+  }'</span></pre>
+                            </div>
+                        </section>
+
+                        <section id="api-webhook-events" class="doc-section">
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Event types</h2>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <thead><tr><th>Event</th><th>Fires when</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>dub.queued</code></td><td>A dub is accepted and waiting for a worker.</td></tr>
+                                        <tr><td><code>dub.in_review</code></td><td>A manual-review dub's transcript is ready to edit.</td></tr>
+                                        <tr><td><code>dub.rendering</code></td><td>A dub starts generating voice/lip-sync output.</td></tr>
+                                        <tr><td><code>dub.completed</code></td><td>Every target language has finished rendering.</td></tr>
+                                        <tr><td><code>dub.failed</code></td><td>A dub failed at any stage.</td></tr>
+                                        <tr><td><code>subtitles.completed</code></td><td>A subtitle generation or translation job finishes.</td></tr>
+                                        <tr><td><code>speech.completed</code></td><td>A speech generation job finishes.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <section id="api-languages" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-get">GET</span><span class="doc-endpoint-path">/v1/languages</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Languages</h2>
+                            <div class="doc-body"><p>Returns the current list of supported language codes and display names, usable across every workflow.</p></div>
+                        </section>
+
+                        <section id="api-usage" class="doc-section">
+                            <div class="flex items-center gap-2 mb-3"><span class="doc-method doc-method-get">GET</span><span class="doc-endpoint-path">/v1/usage</span></div>
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Usage</h2>
+                            <div class="doc-body"><p>Returns the workspace's credit balance for the current billing period and a breakdown of consumption by workflow.</p></div>
+                            <div class="doc-panel">
+                                <div class="doc-panel-head">Response &middot; 200 OK</div>
+                                <pre>{
+  <span class="tok-key">"period"</span>: <span class="tok-str">"2026-08"</span>,
+  <span class="tok-key">"allowance"</span>: <span class="tok-mut">30000</span>,
+  <span class="tok-key">"used"</span>: <span class="tok-mut">4820</span>,
+  <span class="tok-key">"remaining"</span>: <span class="tok-mut">25180</span>
+}</pre>
+                            </div>
+                        </section>
+
+                        <section id="api-error-codes" class="doc-section">
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Error codes</h2>
+                            <div class="doc-body"><p>Non-exhaustive list of <code>error.code</code> values you may see in a <code>4xx</code> response body — see <a href="#" data-tab-link="overview" class="doc-inline-link">Overview &rarr; Errors &amp; limits</a> for the response shape.</p></div>
+                            <div class="doc-table-wrap">
+                                <table class="doc-table">
+                                    <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>invalid_target_language</code></td><td>One of <code>targetLanguages</code> isn't a supported code.</td></tr>
+                                        <tr><td><code>source_unreachable</code></td><td>Octavia couldn't fetch the given <code>videoUrl</code>/<code>audioUrl</code>.</td></tr>
+                                        <tr><td><code>insufficient_credits</code></td><td>This job would exceed the workspace's remaining balance.</td></tr>
+                                        <tr><td><code>invalid_state_transition</code></td><td>The action doesn't apply to the job's current status (e.g. rendering a job that isn't <code>in_review</code>).</td></tr>
+                                        <tr><td><code>scope_missing</code></td><td>The API key doesn't have the required permission scope.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <!-- ================= CHANGELOG CONTENT ================= -->
+                    <div data-content="changelog" hidden>
+                        <section id="changelog-current" class="doc-section">
+                            <p class="doc-eyebrow">Changelog</p>
+                            <h1 class="text-3xl font-semibold tracking-tight font-display mb-5">Changelog</h1>
+                            <div class="doc-body">
+                                <p>The API is currently on <code>v1</code>, and it's the only version every endpoint in this reference targets. Changes within <code>v1</code> are additive and backward-compatible — new fields, new endpoints, new languages — nothing existing is renamed or removed without a new version prefix.</p>
+                            </div>
+                        </section>
+                        <section id="changelog-note" class="doc-section">
+                            <h2 class="text-xl font-semibold tracking-tight font-display mb-4">Release notes</h2>
+                            <div class="doc-body">
+                                <p>This page is a static reference and doesn't track dated release history automatically. For the live, dated changelog — new languages, endpoint additions, and fixes as they ship — check the in-app changelog or reach out through <a href="/contact" class="doc-inline-link">Contact</a> and we'll point you to what changed.</p>
+                            </div>
+                            <div class="doc-callout doc-callout-note">
+                                <p>Building against the API in production? Register a webhook for <code>dub.failed</code> so you notice breaking changes in your own pipeline immediately, rather than discovering them from a support ticket.</p>
+                            </div>
+                        </section>
+                    </div>
+
+                </main>
+
+                <!-- ============ ON THIS PAGE (TOC) ============ -->
+                <aside class="hidden lg:block">
+                    <div class="docs-sticky-aside sticky top-[92px] max-h-[calc(100vh-110px)] overflow-y-auto pl-2">
+                        <p class="docs-toc-label">On This Page</p>
+                        <nav id="docs-toc"></nav>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+
+        <!-- Newsletter Pill -->
+        <div class="flex -translate-y-1/2 z-30 mt-16 mb-16 pr-6 pl-6 absolute top-0 right-0 left-0 justify-center">
+            <div
+                class="bg-[#0A0A0A] border border-white/10 rounded-full py-3 pl-6 pr-2 flex items-center gap-4 shadow-2xl max-w-md w-full group hover:border-purple-500/50 transition-colors">
+                <input type="text" placeholder="Get started..."
+                    class="bg-transparent border-none outline-none text-white text-sm w-full placeholder:text-neutral-600 font-mono focus:ring-0">
+                <button
+                    class="nl-btn w-8 h-8 bg-white text-black rounded-full flex items-center justify-center hover:bg-purple-500 hover:text-white transition-colors shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        data-lucide="arrow-right" class="lucide lucide-arrow-right w-4 h-4">
+                        <path d="M5 12h14" class=""></path>
+                        <path d="m12 5 7 7-7 7" class=""></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <!-- Left -->
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+                <div class="footer-brands flex flex-wrap gap-8 opacity-40 hover:opacity-100 transition-opacity duration-500">
+                    <span class="font-display font-bold tracking-tighter text-xl text-white">YOUTUBE</span>
+                    <span class="font-display font-bold tracking-tighter text-xl text-white">NETFLIX</span>
+                    <span class="font-display font-bold tracking-tighter text-xl text-white">SPOTIFY</span>
+                    <span class="font-display font-bold tracking-tighter text-xl text-white">TWITCH</span>
+                </div>
+            </div>
+
+            <!-- Right (Purple Card) -->
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators
+                            using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Watermark -->
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          // Navbar scroll effect
+          const navbarBg = document.getElementById('navbar-bg');
+          window.addEventListener('scroll', () => {
+              if (window.scrollY > 50) {
+                  navbarBg.classList.remove('bg-transparent');
+                  navbarBg.classList.add('bg-black/50');
+              } else {
+                  navbarBg.classList.add('bg-transparent');
+                  navbarBg.classList.remove('bg-black/50');
+              }
+          });
+      });
+    </script>
+    <script src="assets/octavia-mobile-nav.js" defer></script>
+
+    <script>
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.doc-tab-btn'));
+      var sidebars = document.querySelectorAll('[data-sidebar]');
+      var contents = document.querySelectorAll('[data-content]');
+      var tocNav = document.getElementById('docs-toc');
+      var mobileJump = document.getElementById('docs-mobile-jump');
+      var searchInput = document.getElementById('docs-search-input');
+      var spyObserver = null;
+      var currentTab = 'overview';
+
+      // The docs sub-header (search + tabs) sits sticky below the fixed global
+      // navbar, and the sidebar/TOC stick below both. Navbar height isn't fixed
+      // (the follow-us row means it differs slightly by breakpoint), so measure
+      // it live instead of hard-coding an offset that would drift out of sync.
+      var navbarEl = document.getElementById('navbar-bg');
+      var subheaderEl = document.querySelector('.docs-subheader');
+      var scrollMarginStyleEl = document.createElement('style');
+      document.head.appendChild(scrollMarginStyleEl);
+
+      function syncStickyOffsets() {
+        if (!navbarEl || !subheaderEl) return;
+        var navH = navbarEl.getBoundingClientRect().height;
+        subheaderEl.style.top = navH + 'px';
+        var stickyTop = navH + subheaderEl.getBoundingClientRect().height;
+        document.querySelectorAll('.docs-sticky-aside').forEach(function (el) {
+          el.style.top = stickyTop + 'px';
+          el.style.maxHeight = 'calc(100vh - ' + (stickyTop + 20) + 'px)';
+        });
+        scrollMarginStyleEl.textContent = '.doc-section{ scroll-margin-top: ' + (stickyTop + 16) + 'px; }';
+      }
+      syncStickyOffsets();
+      window.addEventListener('resize', syncStickyOffsets);
+      if (window.ResizeObserver && navbarEl && subheaderEl) {
+        new ResizeObserver(syncStickyOffsets).observe(navbarEl);
+        new ResizeObserver(syncStickyOffsets).observe(subheaderEl);
+      }
+
+      function activeContentEl() {
+        return document.querySelector('[data-content="' + currentTab + '"]');
+      }
+      function activeSidebarEl() {
+        return document.querySelector('[data-sidebar="' + currentTab + '"]');
+      }
+
+      function buildToc() {
+        var content = activeContentEl();
+        tocNav.innerHTML = '';
+        if (!content) return;
+        var sections = content.querySelectorAll('.doc-section[id]');
+        sections.forEach(function (sec) {
+          var label = sec.querySelector('h1, h2');
+          if (!label) return;
+          var a = document.createElement('a');
+          a.href = '#' + sec.id;
+          a.className = 'docs-toc-link';
+          a.textContent = label.textContent.trim();
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.replaceState(null, '', '#' + sec.id);
+          });
+          tocNav.appendChild(a);
+        });
+      }
+
+      function buildMobileJump() {
+        var content = activeContentEl();
+        mobileJump.innerHTML = '';
+        if (!content) return;
+        var headings = content.querySelectorAll('.doc-section[id]');
+        headings.forEach(function (sec) {
+          var label = sec.querySelector('h1, h2');
+          if (!label) return;
+          var opt = document.createElement('option');
+          opt.value = sec.id;
+          opt.textContent = label.textContent.trim();
+          mobileJump.appendChild(opt);
+        });
+      }
+      mobileJump.addEventListener('change', function () {
+        var el = document.getElementById(mobileJump.value);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      // Scroll-position based rather than a raw IntersectionObserver: with short
+      // adjacent sections (the API reference has several one-paragraph ones),
+      // more than one section can be "intersecting" in the same batched callback,
+      // and whichever entry is processed last wins — flickering the highlight to
+      // the wrong link. Instead, on every scroll frame, pick the last section
+      // whose top has crossed the sticky-header line.
+      function initScrollSpy() {
+        if (spyObserver) window.removeEventListener('scroll', spyObserver);
+        var content = activeContentEl();
+        var sidebar = activeSidebarEl();
+        if (!content) { spyObserver = null; return; }
+        var sections = Array.prototype.slice.call(content.querySelectorAll('.doc-section[id]'));
+
+        function updateActive() {
+          var navH = navbarEl ? navbarEl.getBoundingClientRect().height : 92;
+          var subH = subheaderEl ? subheaderEl.getBoundingClientRect().height : 0;
+          var threshold = navH + subH + 24;
+          var current = sections[0];
+          for (var i = 0; i < sections.length; i++) {
+            if (sections[i].getBoundingClientRect().top - threshold <= 0) current = sections[i];
+            else break;
+          }
+          if (!current) return;
+          var id = current.id;
+          if (sidebar) sidebar.querySelectorAll('.docs-sidebar-link').forEach(function (l) {
+            l.classList.toggle('is-active', l.getAttribute('href') === '#' + id);
+          });
+          tocNav.querySelectorAll('.docs-toc-link').forEach(function (l) {
+            l.classList.toggle('is-active', l.getAttribute('href') === '#' + id);
+          });
+        }
+
+        var ticking = false;
+        spyObserver = function () {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () { updateActive(); ticking = false; });
+        };
+        window.addEventListener('scroll', spyObserver);
+        updateActive();
+      }
+
+      function switchTab(tab, opts) {
+        opts = opts || {};
+        currentTab = tab;
+        tabs.forEach(function (btn) { btn.classList.toggle('is-active', btn.getAttribute('data-tab') === tab); });
+        sidebars.forEach(function (el) { el.hidden = el.getAttribute('data-sidebar') !== tab; });
+        contents.forEach(function (el) { el.hidden = el.getAttribute('data-content') !== tab; });
+        buildToc();
+        buildMobileJump();
+        initScrollSpy();
+        if (searchInput) { searchInput.value = ''; filterSidebar(''); }
+        if (!opts.silent) {
+          var content = activeContentEl();
+          var first = content && content.querySelector('.doc-section');
+          if (first) window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+        }
+      }
+
+      tabs.forEach(function (btn) {
+        btn.addEventListener('click', function () { switchTab(btn.getAttribute('data-tab')); });
+      });
+
+      // Inline "jump to another tab" links (data-tab-link)
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('[data-tab-link]');
+        if (!link) return;
+        e.preventDefault();
+        switchTab(link.getAttribute('data-tab-link'));
+      });
+
+      function filterSidebar(query) {
+        var sidebar = activeSidebarEl();
+        if (!sidebar) return;
+        var q = query.trim().toLowerCase();
+        sidebar.querySelectorAll('.docs-sidebar-group').forEach(function (group) {
+          var anyVisible = false;
+          group.querySelectorAll('.docs-sidebar-link').forEach(function (link) {
+            var match = !q || link.textContent.toLowerCase().indexOf(q) !== -1;
+            link.style.display = match ? '' : 'none';
+            if (match) anyVisible = true;
+          });
+          group.style.display = anyVisible ? '' : 'none';
+        });
+      }
+      if (searchInput) {
+        searchInput.addEventListener('input', function () { filterSidebar(searchInput.value); });
+      }
+
+      // Deep-link support: #api-create-dub on load should open the API tab.
+      function tabForHash(hash) {
+        if (!hash) return 'overview';
+        var id = hash.replace('#', '');
+        if (document.querySelector('[data-content="api"] #' + CSS.escape(id))) return 'api';
+        if (document.querySelector('[data-content="changelog"] #' + CSS.escape(id))) return 'changelog';
+        return 'overview';
+      }
+
+      switchTab(tabForHash(window.location.hash), { silent: true });
+      if (window.location.hash) {
+        var target = document.getElementById(window.location.hash.replace('#', ''));
+        if (target) {
+          // A deep link should land on its target immediately, not visibly
+          // animate there — html.scroll-smooth is for in-page nav clicks
+          // after the page has settled, so it's suspended just for this jump.
+          var prevScrollBehavior = document.documentElement.style.scrollBehavior;
+          document.documentElement.style.scrollBehavior = 'auto';
+          setTimeout(function () {
+            target.scrollIntoView({ block: 'start' });
+            document.documentElement.style.scrollBehavior = prevScrollBehavior || '';
+          }, 50);
+        }
+      }
+    })();
+    </script>
+</body>
+
+</html>
