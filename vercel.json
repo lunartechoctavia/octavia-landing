@@ -1,6 +1,10 @@
 {
+  "buildCommand": "node scripts/blog/build.mjs --source=auto",
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/blog", "destination": "/blog.html" }
+  ],
   "headers": [
     {
       "source": "/assets/unicornStudio.umd.js",
@@ -28,6 +32,12 @@
     },
     {
       "source": "/assets/fonts/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/assets/blog/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]

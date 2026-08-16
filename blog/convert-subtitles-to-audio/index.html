@@ -1,0 +1,660 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>How to Turn Subtitles Into Natural-Sounding Audio Narration | Octavia</title>
+    <meta name="description" content="Convert subtitles to natural audio with the right script cleanup, voice, pacing, timing, pronunciation, mixing, and quality-review workflow.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/convert-subtitles-to-audio">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Turn Subtitles Into Natural-Sounding Audio Narration">
+    <meta property="og:description" content="Convert subtitles to natural audio with the right script cleanup, voice, pacing, timing, pronunciation, mixing, and quality-review workflow.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/convert-subtitles-to-audio">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/audio-waveform-bars.png">
+    <meta property="article:published_time" content="2026-06-11T09:00:00Z">
+    <meta property="article:modified_time" content="2026-06-11T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Turn Subtitles Into Natural-Sounding Audio Narration">
+    <meta name="twitter:description" content="Convert subtitles to natural audio with the right script cleanup, voice, pacing, timing, pronunciation, mixing, and quality-review workflow.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/audio-waveform-bars.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Turn Subtitles Into Natural-Sounding Audio Narration","description":"Convert subtitles to natural audio with the right script cleanup, voice, pacing, timing, pronunciation, mixing, and quality-review workflow.","image":"https://octavia.lunartech.ai/assets/blog/images/audio-waveform-bars.png","datePublished":"2026-06-11T09:00:00Z","dateModified":"2026-06-11T09:00:00Z","wordCount":2617,"timeRequired":"PT12M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/convert-subtitles-to-audio","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"How to Turn Subtitles Into Natural-Sounding Audio Narration","item":"https://octavia.lunartech.ai/blog/convert-subtitles-to-audio"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations (separate) -->
+                        <div class="p-5 border-l border-white/5 flex items-center">
+                          <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item w-full">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/translation-guides">Translation Guides</a>
+        <h1 class="article-title">How to Turn Subtitles Into Natural-Sounding Audio Narration</h1><p class="article-deck">Subtitle text can become useful narration, but a direct text-to-speech pass often sounds fragmented. Learn how to prepare timed captions, shape a spoken script, choose voices, synchronize delivery, and review the final mix.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-06-11T09:00:00Z">Jun 11, 2026</time><span class="article-meta-dot"></span><span>12 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/audio-waveform-bars.png" alt="How to Turn Subtitles Into Natural-Sounding Audio Narration" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#define-the-audio-you-are-trying-to-create">Define the audio you are trying to create</a></li><li><a class="toc-h3" data-toc-link href="#synchronized-replacement-dialogue">Synchronized replacement dialogue</a></li><li><a class="toc-h3" data-toc-link href="#voice-over-translation">Voice-over translation</a></li><li><a class="toc-h3" data-toc-link href="#continuous-narration">Continuous narration</a></li><li><a class="toc-h3" data-toc-link href="#listening-or-study-material">Listening or study material</a></li><li><a class="toc-h2" data-toc-link href="#know-what-subtitle-files-leave-out">Know what subtitle files leave out</a></li><li><a class="toc-h2" data-toc-link href="#prepare-subtitles-as-a-spoken-script">Prepare subtitles as a spoken script</a></li><li><a class="toc-h3" data-toc-link href="#join-sentence-fragments">Join sentence fragments</a></li><li><a class="toc-h3" data-toc-link href="#remove-text-that-should-not-be-spoken">Remove text that should not be spoken</a></li><li><a class="toc-h3" data-toc-link href="#expand-ambiguous-written-forms">Expand ambiguous written forms</a></li><li><a class="toc-h3" data-toc-link href="#restore-conversational-phrasing">Restore conversational phrasing</a></li><li><a class="toc-h2" data-toc-link href="#choose-a-voice-model-and-speaker-plan">Choose a voice model and speaker plan</a></li><li><a class="toc-h2" data-toc-link href="#select-the-right-timing-strategy">Select the right timing strategy</a></li><li><a class="toc-h3" data-toc-link href="#event-locked-timing">Event-locked timing</a></li><li><a class="toc-h3" data-toc-link href="#grouped-timing">Grouped timing</a></li><li><a class="toc-h3" data-toc-link href="#anchor-based-timing">Anchor-based timing</a></li><li><a class="toc-h3" data-toc-link href="#free-narration">Free narration</a></li><li><a class="toc-h2" data-toc-link href="#a-step-by-step-subtitle-to-audio-workflow">A step-by-step subtitle-to-audio workflow</a></li><li><a class="toc-h3" data-toc-link href="#1-verify-the-media-and-subtitle-match">1. Verify the media and subtitle match</a></li><li><a class="toc-h3" data-toc-link href="#2-validate-the-subtitle-structure">2. Validate the subtitle structure</a></li><li><a class="toc-h3" data-toc-link href="#3-build-a-speaker-map">3. Build a speaker map</a></li><li><a class="toc-h3" data-toc-link href="#4-convert-caption-segments-into-performance-units">4. Convert caption segments into performance units</a></li><li><a class="toc-h3" data-toc-link href="#5-normalize-spoken-forms">5. Normalize spoken forms</a></li><li><a class="toc-h3" data-toc-link href="#6-generate-a-representative-sample">6. Generate a representative sample</a></li><li><a class="toc-h3" data-toc-link href="#7-generate-and-align-the-full-track">7. Generate and align the full track</a></li><li><a class="toc-h3" data-toc-link href="#8-mix-with-the-source-program">8. Mix with the source program</a></li><li><a class="toc-h3" data-toc-link href="#9-review-language-and-audio-separately">9. Review language and audio separately</a></li><li><a class="toc-h3" data-toc-link href="#10-export-and-test-the-real-deliverable">10. Export and test the real deliverable</a></li><li><a class="toc-h2" data-toc-link href="#make-generated-narration-sound-less-synthetic">Make generated narration sound less synthetic</a></li><li><a class="toc-h2" data-toc-link href="#quality-checks-for-the-final-audio">Quality checks for the final audio</a></li><li><a class="toc-h3" data-toc-link href="#language-and-performance">Language and performance</a></li><li><a class="toc-h3" data-toc-link href="#timing-and-edit">Timing and edit</a></li><li><a class="toc-h3" data-toc-link href="#mix-and-delivery">Mix and delivery</a></li><li><a class="toc-h2" data-toc-link href="#practical-subtitle-to-audio-checklist">Practical subtitle-to-audio checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#can-i-convert-an-srt-file-directly-to-mp3">Can I convert an SRT file directly to MP3?</a></li><li><a class="toc-h3" data-toc-link href="#should-every-subtitle-event-become-a-separate-audio-clip">Should every subtitle event become a separate audio clip?</a></li><li><a class="toc-h3" data-toc-link href="#can-translated-subtitles-be-used-for-dubbing">Can translated subtitles be used for dubbing?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-i-keep-generated-audio-synchronized">How do I keep generated audio synchronized?</a></li><li><a class="toc-h3" data-toc-link href="#is-subtitle-to-audio-the-same-as-audio-description">Is subtitle-to-audio the same as audio description?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-more-than-one-voice">Do I need more than one voice?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Subtitle files contain much of what an audio workflow needs: dialogue, sequence, and timing. That makes them a practical starting point for narration, localized voice-over, learning material, and spoken versions of captioned media. Yet subtitles were written to be read, not performed. Sending every caption directly to a speech generator often produces clipped sentences, unnatural pauses, repeated speaker labels, and a voice that races to meet restrictive timecodes.</p>
+<p>The real answer to how to convert subtitles to audio is not simply &quot;open an SRT and choose a voice.&quot; It is to transform timed reading text into a coherent spoken script while deciding how closely the audio must follow the original media. A natural result depends on clean subtitle structure, language adaptation, pronunciation control, voice direction, timing, and a final mix that belongs in the program.</p>
+<p>This guide lays out that process for both same-language and translated subtitles. It also explains when subtitle-based narration is the right format, when a full dubbing workflow is more suitable, and how to review the finished audio with the listener in mind.</p>
+<h2 id="define-the-audio-you-are-trying-to-create">Define the audio you are trying to create</h2>
+<p>&quot;Subtitles to audio&quot; can describe several different deliverables. The production choices change depending on the goal.</p>
+<h3 id="synchronized-replacement-dialogue">Synchronized replacement dialogue</h3>
+<p>The generated speech follows the subtitle events and replaces or overlays the original dialogue. This is closest to dubbing. Speaker identity, scene timing, emotional delivery, and background sound matter. A <a href="/features/video-translation">video translation workflow</a> is usually more appropriate when the objective is a complete localized video rather than a standalone narration track.</p>
+<h3 id="voice-over-translation">Voice-over translation</h3>
+<p>Translated speech plays over reduced original dialogue. Timing still follows the source, but exact mouth synchronization may not be required. Interviews, reports, and documentary material often use this treatment because the audience can briefly hear the source voice before the translated performance.</p>
+<h3 id="continuous-narration">Continuous narration</h3>
+<p>Subtitle text is reorganized into a smoother spoken track that does not need to honor every caption boundary. This works for slides, explainers, text-led videos, recaps, and audio-first derivatives. The narrator may represent the program rather than individual on-screen speakers.</p>
+<h3 id="listening-or-study-material">Listening or study material</h3>
+<p>Captions become an audio file for review, pronunciation practice, language learning, or content reuse. Visual synchronization may be unimportant, while clarity, section navigation, and comfortable pacing matter more.</p>
+<p>Define which of these outcomes you need before editing. If the team expects frame-aligned dialogue but the editor creates continuous narration, neither the script nor the timing will be evaluated fairly.</p>
+<h2 id="know-what-subtitle-files-leave-out">Know what subtitle files leave out</h2>
+<p>SRT and VTT files provide text and time ranges, but they may not contain enough information to direct a performance. A caption such as &quot;That&#39;s fine&quot; does not reveal whether the speaker is reassured, sarcastic, frustrated, or trying to end a conversation. Speaker names may be missing. A sentence may be split across three events simply to fit the screen. Sound descriptions and on-screen labels may sit beside dialogue without a clear distinction.</p>
+<p>The video and source audio remain essential context. Before generating speech, identify:</p>
+<ul><li>Who speaks each line</li><li>Which events form one complete sentence</li><li>The intent and tone of the exchange</li><li>Whether pauses are dramatic, grammatical, or just caption boundaries</li><li>Which bracketed labels should be spoken, omitted, or handled separately</li><li>Whether on-screen text is part of the narration</li><li>Where music, effects, or silence must remain prominent</li></ul>
+<p>If the file itself is malformed or the text needs translation, repair those issues first. The workflow in <a href="/blog/how-to-translate-srt-files">how to translate SRT files</a> explains how to protect numbering and timecodes while adapting the words.</p>
+<h2 id="prepare-subtitles-as-a-spoken-script">Prepare subtitles as a spoken script</h2>
+<p>A natural voice needs language written for the ear. Caption conventions are often too compressed or fragmented to serve as a final script unchanged.</p>
+<h3 id="join-sentence-fragments">Join sentence fragments</h3>
+<p>Caption events are visual containers, not necessarily grammatical units. Combine adjacent fragments into a complete sentence for performance, while retaining the timing range that the full thought must occupy. This gives the speech system enough context to place emphasis and pauses naturally.</p>
+<p>For example, three events might read:</p>
+<p>text When the upload finishes, choose the target language and review the transcript.</p>
+<p>Treating each as a separate generation request may create three resets in pitch. Treating them as one sentence usually produces a more coherent delivery, which can then be aligned across the combined interval.</p>
+<h3 id="remove-text-that-should-not-be-spoken">Remove text that should not be spoken</h3>
+<p>Speaker labels, formatting tags, music symbols, and accessibility descriptions serve subtitle readers. They should not automatically become narration. Decide whether a label such as [phone rings] belongs in the audio. If the source sound already contains the ring, speaking the label would be redundant. If the audio is intended as an accessible alternative with no source effects, a descriptive treatment may require separate editorial planning.</p>
+<p>Do not assume ordinary subtitle-to-speech conversion creates audio description. Audio description explains relevant visual information that dialogue does not convey. It is a distinct writing and accessibility discipline.</p>
+<h3 id="expand-ambiguous-written-forms">Expand ambiguous written forms</h3>
+<p>Speech engines need unambiguous input for numbers, dates, abbreviations, symbols, and URLs. &quot;1/5&quot; might mean a date, a fraction, or one item out of five. &quot;Dr.&quot; may mean doctor or drive. Rewrite only the spoken form while retaining the intended meaning.</p>
+<p>Use a pronunciation dictionary for names, brands, technical terms, and acronyms. Phonetic guidance is often more reliable than changing spelling in the visible subtitle, because a workaround that helps speech can make the caption incorrect.</p>
+<h3 id="restore-conversational-phrasing">Restore conversational phrasing</h3>
+<p>Captions sometimes remove discourse words or compress a sentence to improve reading speed. Spoken narration may need contractions, connective phrases, or a more natural word order. Add only what the message and tone support. The goal is not to inflate the script; it is to make it sound as though a person intended to say it.</p>
+<h2 id="choose-a-voice-model-and-speaker-plan">Choose a voice model and speaker plan</h2>
+<p>Voice choice affects comprehension and credibility more than novelty. Start with the role the voice must play.</p>
+<p>A single narrator needs continuity, clear articulation, and a tone appropriate for the subject. A multi-speaker conversation needs distinct voices that listeners can tell apart without feeling that the cast belongs to different productions. A recurring presenter may benefit from an authorized clone, while a neutral training module may work better with a stable library voice.</p>
+<p>Evaluate voices using representative lines rather than a polished demo sentence. Include a long explanation, a short reaction, a name, a number, and a line with the emotional range the project requires. Listen for:</p>
+<ul><li>Natural stress and sentence endings</li><li>Clear consonants without exaggerated diction</li><li>Appropriate energy and apparent distance from the microphone</li><li>Consistent pronunciation across repeated terms</li><li>Performance at both normal and slightly constrained timing</li><li>Fit with the visible speaker or narrator role</li></ul>
+<p>If using a cloned voice, obtain explicit authorization and define its permitted use before processing source recordings. The <a href="/blog/ethical-voice-cloning">ethical voice cloning guide</a> covers consent, access, retention, and review in more depth.</p>
+<p>Octavia&#39;s <a href="/features/speech-generation">speech generation tools</a> can create standalone narration, while its <a href="/features/subtitle-to-audio">subtitle-to-audio workflow</a> retains the relationship between caption segments and generated speech.</p>
+<h2 id="select-the-right-timing-strategy">Select the right timing strategy</h2>
+<p>Naturalness and synchronization can pull in opposite directions. Choose a timing mode deliberately instead of forcing every project into exact caption duration.</p>
+<h3 id="event-locked-timing">Event-locked timing</h3>
+<p>Each generated segment starts and ends within its subtitle event. This protects close synchronization but can make longer target-language lines sound rushed. It works best when subtitles already align with complete phrases and the script comfortably fits.</p>
+<h3 id="grouped-timing">Grouped timing</h3>
+<p>Several adjacent events become one performance unit. The audio follows the broader scene interval while preserving internal pauses. This often improves prosody because the model sees complete sentences. It is useful for translated voice-over and explanatory speech.</p>
+<h3 id="anchor-based-timing">Anchor-based timing</h3>
+<p>Important entrances, exits, slide changes, or visible actions stay fixed, while the narration moves naturally between them. This gives the editor flexibility without letting the track drift away from the video.</p>
+<h3 id="free-narration">Free narration</h3>
+<p>The script is reorganized for listening, and subtitle timing acts only as a reference. This is suitable for an audio derivative or a new voice track over flexible visuals. It is not appropriate when viewers expect dialogue to match visible speech.</p>
+<p>When a line exceeds its available time, revise the language before increasing speed. Remove repetition, choose a concise equivalent, or redistribute information across a wider interval. Small speed adjustments can be acceptable, but aggressive compression makes breathing, emphasis, and emotion sound unnatural.</p>
+<h2 id="a-step-by-step-subtitle-to-audio-workflow">A step-by-step subtitle-to-audio workflow</h2>
+<h3 id="1-verify-the-media-and-subtitle-match">1. Verify the media and subtitle match</h3>
+<p>Confirm the subtitle file belongs to the final edit. Test events near the beginning, middle, and end for drift. A script based on an older cut will create synchronization problems that voice settings cannot fix.</p>
+<h3 id="2-validate-the-subtitle-structure">2. Validate the subtitle structure</h3>
+<p>Check event numbering, timestamps, missing text, overlapping events, and encoding. Preserve an untouched master. If translating, complete and review the target-language subtitles before audio generation so the spoken and written versions share terminology.</p>
+<h3 id="3-build-a-speaker-map">3. Build a speaker map</h3>
+<p>Assign every event to a speaker or narrator. Resolve unclear exchanges by watching the scene. Store one approved target voice per speaker and make deliberate exceptions for telephone filters, quoted speech, or off-screen narration.</p>
+<h3 id="4-convert-caption-segments-into-performance-units">4. Convert caption segments into performance units</h3>
+<p>Join fragments that form complete thoughts. Mark intentional pauses, interruptions, and emphasis. Separate dialogue from labels and visual notes. This performance script can remain linked to original event IDs so later corrections are traceable.</p>
+<h3 id="5-normalize-spoken-forms">5. Normalize spoken forms</h3>
+<p>Review numbers, units, initials, names, web addresses, and domain vocabulary. Add pronunciation guidance outside the visible subtitle text. Confirm how the target locale says dates and measurements rather than copying source conventions.</p>
+<h3 id="6-generate-a-representative-sample">6. Generate a representative sample</h3>
+<p>Do not render the full program immediately. Test a short section containing more than one speaker, a difficult term, a long sentence, and background sound. Approve the voice, delivery, and timing method on that sample.</p>
+<h3 id="7-generate-and-align-the-full-track">7. Generate and align the full track</h3>
+<p>Create audio by performance unit, then position each segment according to the selected timing strategy. Listen across segment boundaries. Independent clips often need adjusted pauses or fades so they feel like one recording.</p>
+<h3 id="8-mix-with-the-source-program">8. Mix with the source program</h3>
+<p>Decide whether to replace, lower, or retain original dialogue. Preserve music and effects where possible. Match the new voice to the environment with restrained processing; narration should be clear without sounding pasted on top of the scene.</p>
+<h3 id="9-review-language-and-audio-separately">9. Review language and audio separately</h3>
+<p>A target-language reviewer should confirm meaning, terminology, and natural phrasing. An audio review should check pronunciation, pacing, edits, noise, loudness consistency, and sync. One person can perform both roles if qualified, but the checklist should keep the concerns distinct.</p>
+<h3 id="10-export-and-test-the-real-deliverable">10. Export and test the real deliverable</h3>
+<p>Export the requested file type, sample rate, channel layout, and duration. Test the audio in the destination player and, for video, watch the final encoded version. Platform transcoding can expose level or synchronization issues that were not obvious in the editor.</p>
+<h2 id="make-generated-narration-sound-less-synthetic">Make generated narration sound less synthetic</h2>
+<p>Most improvements come from better input and direction rather than adding effects afterward.</p>
+<p>Use punctuation to express real phrasing, not to manipulate the model with a page full of artificial commas. Split sentences where the speaker would genuinely reset. Replace text-heavy parenthetical constructions with direct spoken language. If the system supports style or emotion controls, apply them at the scene level and compare them at normal playback speed.</p>
+<p>Vary pacing according to meaning. Instructions need enough space for the listener to follow a step. A reaction may be quick. A conclusion may need a pause before the final point. Uniform timing across every segment is a common reason generated tracks feel mechanical.</p>
+<p>Keep breaths and silence purposeful. Removing all gaps produces exhausting narration; inserting a fixed gap after every subtitle produces a stop-start rhythm. Listen to complete paragraphs and conversations, not only individual clips.</p>
+<p>Finally, regenerate weak lines instead of processing them beyond recognition. A clearer script or better pronunciation rule usually sounds more natural than heavy time stretching, equalization, or pitch correction.</p>
+<h2 id="quality-checks-for-the-final-audio">Quality checks for the final audio</h2>
+<p>Review the finished program from beginning to end, then inspect problem areas closely.</p>
+<h3 id="language-and-performance">Language and performance</h3>
+<ul><li>Meaning matches the approved subtitle or localized script.</li><li>Names, numbers, and terminology are pronounced consistently.</li><li>Emotion and formality fit the scene.</li><li>Each speaker retains a stable voice.</li><li>Sentences flow across former caption boundaries.</li></ul>
+<h3 id="timing-and-edit">Timing and edit</h3>
+<ul><li>Entrances do not cut off initial consonants.</li><li>Endings do not collide with the next speaker or scene.</li><li>Pauses support comprehension rather than exposing clip boundaries.</li><li>Important visual actions and slide changes remain aligned.</li><li>Speed changes do not create rushed or distorted speech.</li></ul>
+<h3 id="mix-and-delivery">Mix and delivery</h3>
+<ul><li>Dialogue remains intelligible over music and effects.</li><li>The new track does not jump abruptly in level or tone.</li><li>Original speech is handled consistently according to the chosen style.</li><li>Exports contain no clicks, unexpected silence, clipping, or missing segments.</li><li>The final file works in its publishing environment.</li></ul>
+<p>For audio-only source material, Octavia&#39;s <a href="/features/audio-translation">audio translation workflow</a> can keep speaker separation, translation, and voice generation within the same project rather than rebuilding context from subtitles alone.</p>
+<h2 id="practical-subtitle-to-audio-checklist">Practical subtitle-to-audio checklist</h2>
+<ul><li>Define replacement dialogue, voice-over, continuous narration, or listening audio.</li><li>Confirm the subtitles match the final media.</li><li>Validate event structure and preserve a master copy.</li><li>Review the text or translation before generating speech.</li><li>Create a complete and consistent speaker map.</li><li>Join fragmented captions into natural performance units.</li><li>Remove tags and labels that should not be spoken.</li><li>Normalize names, abbreviations, dates, numbers, and symbols.</li><li>Approve voices with representative project lines.</li><li>Document permission for any cloned voice.</li><li>Choose event-locked, grouped, anchor-based, or free timing.</li><li>Test a difficult sample before full generation.</li><li>Listen across edits, not only to isolated segments.</li><li>Mix the voice with source music, effects, and room tone.</li><li>Complete target-language, audio, and destination-platform review.</li><li>Archive scripts, voice assignments, pronunciation rules, and approvals.</li></ul>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="can-i-convert-an-srt-file-directly-to-mp3">Can I convert an SRT file directly to MP3?</h3>
+<p>Yes, a tool can read SRT text, generate speech, position it on a timeline, and export an MP3. The direct result may still need script cleanup, speaker assignment, pronunciation work, and timing review to sound natural.</p>
+<h3 id="should-every-subtitle-event-become-a-separate-audio-clip">Should every subtitle event become a separate audio clip?</h3>
+<p>Not always. Events often split a single sentence for reading. Grouping related events usually creates smoother prosody, provided the resulting audio remains aligned with the scene.</p>
+<h3 id="can-translated-subtitles-be-used-for-dubbing">Can translated subtitles be used for dubbing?</h3>
+<p>They are a useful starting point, but subtitle wording may be too compressed or segmented for spoken performance. Adapt the target text for speech, confirm speakers and tone, and review timing against visible dialogue.</p>
+<h3 id="how-do-i-keep-generated-audio-synchronized">How do I keep generated audio synchronized?</h3>
+<p>Retain source timestamps as anchors, group events into complete thoughts, and align generated segments to important starts, endings, and scene actions. Revise long lines before relying on strong speed changes.</p>
+<h3 id="is-subtitle-to-audio-the-same-as-audio-description">Is subtitle-to-audio the same as audio description?</h3>
+<p>No. Subtitle-to-audio voices existing text. Audio description adds narration about relevant visual information for people who cannot see it. A true audio-description track needs dedicated writing, timing, and accessibility review.</p>
+<h3 id="do-i-need-more-than-one-voice">Do I need more than one voice?</h3>
+<p>A single narrator can work for summaries, courses, and some voice-over formats. Conversations are usually easier to follow with distinct, consistent voices. Base the choice on the intended listening experience, not the number of names in the file alone.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Knowing how to convert subtitles to audio means recognizing that captions are source material, not a finished voice script. Natural narration comes from joining fragments, restoring spoken phrasing, directing pronunciation and performance, choosing an appropriate timing strategy, and listening to the track in its full audiovisual context.</p>
+<p>Start with a short representative sample, approve the creative and technical choices, and then scale the workflow. When subtitles, voices, timing, and review stay connected, the resulting audio can sound like a purposeful production rather than a sequence of text boxes read aloud.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fconvert-subtitles-to-audio" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fconvert-subtitles-to-audio&amp;text=How%20to%20Turn%20Subtitles%20Into%20Natural-Sounding%20Audio%20Narration" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fconvert-subtitles-to-audio" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/translation-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/how-to-translate-video-with-ai" aria-label="Read How to Translate a Video With AI: A Step-by-Step Guide"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/speaker-ai-convergence.png" alt="How to Translate a Video With AI: A Step-by-Step Guide" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Translate a Video With AI: A Step-by-Step Guide</h2><p class="blog-card-description">Turn one source video into polished versions for new language markets. This guide covers file preparation, transcription, translation, voice generation, background-audio preservation, timing, review, and publishing.</p>
+      <time class="blog-card-date" datetime="2026-07-16T09:00:00Z">Jul 16, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/how-to-translate-a-podcast" aria-label="Read How to Translate a Podcast Without Losing Each Speaker’s Voice"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/voice-portal-quartet.png" alt="How to Translate a Podcast Without Losing Each Speaker’s Voice" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Translate a Podcast Without Losing Each Speaker’s Voice</h2><p class="blog-card-description">Podcast translation must preserve the relationship between voices, not merely the words they say. Learn how to handle multiple speakers, accents, music, terminology, pacing, cloned voices, and final audio mastering.</p>
+      <time class="blog-card-date" datetime="2026-07-09T09:00:00Z">Jul 9, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/how-to-translate-subtitles" aria-label="Read How to Translate Subtitles Without Breaking Timing or Formatting"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/signal-glitch-portal.png" alt="How to Translate Subtitles Without Breaking Timing or Formatting" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Translate Subtitles Without Breaking Timing or Formatting</h2><p class="blog-card-description">Subtitle translation requires linguistic accuracy and strict technical discipline. Learn how to preserve timing, reading speed, line length, speaker labels, formatting tags, and cultural meaning across languages.</p>
+      <time class="blog-card-date" datetime="2026-07-02T09:00:00Z">Jul 2, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,637 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>How to Localize Employee Training Videos at Scale | Octavia</title>
+    <meta name="description" content="Create multilingual training videos at scale with a repeatable workflow for scripts, terminology, dubbing, captions, LMS delivery, QA, and updates.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/localize-employee-training-videos">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Localize Employee Training Videos at Scale">
+    <meta property="og:description" content="Create multilingual training videos at scale with a repeatable workflow for scripts, terminology, dubbing, captions, LMS delivery, QA, and updates.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/localize-employee-training-videos">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/silk-wave-ribbon.png">
+    <meta property="article:published_time" content="2026-04-09T09:00:00Z">
+    <meta property="article:modified_time" content="2026-04-09T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Localize Employee Training Videos at Scale">
+    <meta name="twitter:description" content="Create multilingual training videos at scale with a repeatable workflow for scripts, terminology, dubbing, captions, LMS delivery, QA, and updates.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/silk-wave-ribbon.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Localize Employee Training Videos at Scale","description":"Create multilingual training videos at scale with a repeatable workflow for scripts, terminology, dubbing, captions, LMS delivery, QA, and updates.","image":"https://octavia.lunartech.ai/assets/blog/images/silk-wave-ribbon.png","datePublished":"2026-04-09T09:00:00Z","dateModified":"2026-04-09T09:00:00Z","wordCount":2438,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/localize-employee-training-videos","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"How to Localize Employee Training Videos at Scale","item":"https://octavia.lunartech.ai/blog/localize-employee-training-videos"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations (separate) -->
+                        <div class="p-5 border-l border-white/5 flex items-center">
+                          <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item w-full">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">How to Localize Employee Training Videos at Scale</h1><p class="article-deck">Scaling training localization requires more than translating narration. Learn how to prepare source lessons, manage terminology, coordinate reviewers, package LMS-ready files, and keep every language current as policies and products change.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-04-09T09:00:00Z">Apr 9, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/silk-wave-ribbon.png" alt="How to Localize Employee Training Videos at Scale" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#define-the-learning-outcome-before-the-language-list">Define the learning outcome before the language list</a></li><li><a class="toc-h2" data-toc-link href="#prioritize-the-training-catalog">Prioritize the training catalog</a></li><li><a class="toc-h2" data-toc-link href="#make-source-training-localization-ready">Make source training localization-ready</a></li><li><a class="toc-h3" data-toc-link href="#use-plain-specific-source-language">Use plain, specific source language</a></li><li><a class="toc-h3" data-toc-link href="#build-from-an-approved-transcript">Build from an approved transcript</a></li><li><a class="toc-h3" data-toc-link href="#design-for-expansion-and-timing">Design for expansion and timing</a></li><li><a class="toc-h2" data-toc-link href="#establish-terminology-and-style-before-production">Establish terminology and style before production</a></li><li><a class="toc-h2" data-toc-link href="#build-a-repeatable-production-workflow">Build a repeatable production workflow</a></li><li><a class="toc-h3" data-toc-link href="#1-intake-and-readiness-review">1. Intake and readiness review</a></li><li><a class="toc-h3" data-toc-link href="#2-translation-for-spoken-learning">2. Translation for spoken learning</a></li><li><a class="toc-h3" data-toc-link href="#3-dubbing-and-voice-consistency">3. Dubbing and voice consistency</a></li><li><a class="toc-h3" data-toc-link href="#4-captions-and-transcripts">4. Captions and transcripts</a></li><li><a class="toc-h3" data-toc-link href="#5-visual-and-assessment-localization">5. Visual and assessment localization</a></li><li><a class="toc-h3" data-toc-link href="#6-in-context-quality-assurance">6. In-context quality assurance</a></li><li><a class="toc-h2" data-toc-link href="#coordinate-reviewers-without-creating-a-bottleneck">Coordinate reviewers without creating a bottleneck</a></li><li><a class="toc-h2" data-toc-link href="#package-content-for-the-learning-environment">Package content for the learning environment</a></li><li><a class="toc-h2" data-toc-link href="#keep-every-language-current">Keep every language current</a></li><li><a class="toc-h2" data-toc-link href="#measure-learning-and-operational-performance">Measure learning and operational performance</a></li><li><a class="toc-h2" data-toc-link href="#practical-multilingual-training-checklist">Practical multilingual training checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#should-training-videos-use-dubbing-or-subtitles">Should training videos use dubbing or subtitles?</a></li><li><a class="toc-h3" data-toc-link href="#can-one-translation-be-used-for-every-region-that-shares-a-language">Can one translation be used for every region that shares a language?</a></li><li><a class="toc-h3" data-toc-link href="#how-often-should-localized-courses-be-reviewed">How often should localized courses be reviewed?</a></li><li><a class="toc-h3" data-toc-link href="#what-should-happen-when-only-one-sentence-changes">What should happen when only one sentence changes?</a></li><li><a class="toc-h3" data-toc-link href="#is-ai-generated-training-audio-appropriate-for-internal-use">Is AI-generated training audio appropriate for internal use?</a></li><li><a class="toc-h3" data-toc-link href="#how-can-a-team-start-without-localizing-the-full-library">How can a team start without localizing the full library?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Employee training works only when people can understand it, apply it, and return to it when a real task begins. A translated slide deck or caption file may help, but a complete learning experience includes narration, demonstrations, on-screen instructions, assessments, links, and the systems used to assign and track the course. If those pieces drift apart, learners encounter mixed languages or guidance that no longer matches the product.</p>
+<p>Multilingual training videos are therefore a content-operations challenge as much as a translation project. The organization needs a reliable way to select lessons, prepare accurate source material, reuse approved terminology, review each language, publish to the learning environment, and update every affected version when the source changes.</p>
+<p>This guide explains how to create that system and scale it without turning every course revision into a manual reconstruction.</p>
+<h2 id="define-the-learning-outcome-before-the-language-list">Define the learning outcome before the language list</h2>
+<p>Start with what employees should know or do after the training. A safety procedure, software walkthrough, manager conversation, and company introduction demand different localization choices. The intended action determines which details must remain exact, where a demonstration needs adaptation, and how understanding will be checked.</p>
+<p>Document the audience by role, location, existing knowledge, work environment, and preferred language. “Global employees” is too broad to guide production. A frontline team watching on a shared device has different needs from analysts completing a desktop course. Consider bandwidth, sound availability, mobile use, shift schedules, and whether the learning system supports selectable audio and caption tracks.</p>
+<p>Then define the localization scope. It may include:</p>
+<ul><li>spoken narration and dialogue;</li><li>captions and downloadable transcripts;</li><li>titles, descriptions, and learning objectives;</li><li>on-screen labels, callouts, and interface text;</li><li>worksheets, reference documents, and knowledge checks;</li><li>course navigation, email notifications, and completion messages;</li><li>alt text and other accessibility information.</li></ul>
+<p>A scope matrix prevents teams from dubbing the video while leaving the assessment or job aid in the source language. It also makes estimates comparable across courses.</p>
+<h2 id="prioritize-the-training-catalog">Prioritize the training catalog</h2>
+<p>Do not begin by sending the entire library into production. Inventory each course with owner, audience, languages, duration, format, source files, last review date, update frequency, completion requirement, and business importance. Flag content that is obsolete, duplicated, or awaiting a policy change.</p>
+<p>Prioritize stable, high-use courses that solve a clear employee need. A frequently changing tutorial may still be important, but it should use a modular localization approach. Courses near retirement should not consume the same effort as long-lived onboarding or essential role training.</p>
+<p>Create tiers based on consequence and longevity. A short culture overview might use standard linguistic and playback review. A detailed equipment procedure may require a subject specialist, in-context verification, and formal approval. Tiering helps the team spend review time according to the risk of misunderstanding rather than the prestige of the requesting department.</p>
+<h2 id="make-source-training-localization-ready">Make source training localization-ready</h2>
+<p>The quality and structure of the original course determine how easily it can be translated. Fixing source ambiguity once is more efficient than asking every language reviewer to interpret it independently.</p>
+<h3 id="use-plain-specific-source-language">Use plain, specific source language</h3>
+<p>Prefer direct instructions, defined terms, and visible references. Replace phrases such as “click over there” with the actual control name. Avoid unexplained idioms, humor that carries the lesson, and strings of nouns that can be parsed several ways. Expand an acronym on first use and keep the same name for the same concept throughout the course.</p>
+<p>Plain language is not simplistic language. Technical training still needs precise terminology. The objective is to remove accidental difficulty so translators can focus on meaning and learners can focus on the task.</p>
+<h3 id="build-from-an-approved-transcript">Build from an approved transcript</h3>
+<p>Generate a timestamped transcript, identify speakers, and compare it with the final source video. Correct product names, numbers, warnings, keyboard commands, and references to on-screen actions. Octavia&#39;s <a href="/features/subtitle-generation">subtitle generation tools</a> can create a structured starting point, but the course owner should confirm the actual instruction before translation begins.</p>
+<p>The transcript should distinguish spoken words from production notes. Mark text that appears on screen, words that must remain in the source language, pronunciation hints, and pauses required for a demonstration. If the narrator improvises away from the approved script, resolve the difference instead of treating both versions as authoritative.</p>
+<h3 id="design-for-expansion-and-timing">Design for expansion and timing</h3>
+<p>Translated speech and on-screen text may be longer or shorter than the source. Leave room in graphics, avoid rapid sequences of small labels, and give the narrator enough time to explain a visible action. If the source races through a procedure, a target-language voice may sound unnatural when forced into the same duration.</p>
+<p>Break long lessons into modules organized around one outcome. Modular videos are easier to update, reassign, and relocalize. A change to one product step should not require rendering an unrelated twenty-minute course again.</p>
+<h2 id="establish-terminology-and-style-before-production">Establish terminology and style before production</h2>
+<p>A training glossary connects official organizational language with natural employee language. Include product features, role names, department names, policies, acronyms, interface labels, commands, and terms that must not be translated. Add definitions and context screenshots; a word without context can still be ambiguous.</p>
+<p>Create a language-specific style guide covering tone, formality, punctuation, numbers, units, inclusive language, and how to address the learner. Decide whether software labels remain in the interface language or are translated in the narration. If regional teams use different terms, document the approved variant rather than allowing each course to decide independently.</p>
+<p>Assign ownership. Language reviewers can propose additions, subject experts confirm meaning, and the localization manager publishes the approved version. Record changes and effective dates so an older course can be understood in the context of the terminology available when it was produced.</p>
+<h2 id="build-a-repeatable-production-workflow">Build a repeatable production workflow</h2>
+<p>The workflow should use the same stages for every course, with additional reviews added by tier. Clear entry and exit criteria reduce waiting and prevent work from moving forward on an unapproved source.</p>
+<h3 id="1-intake-and-readiness-review">1. Intake and readiness review</h3>
+<p>The requester supplies the master video, approved script, target audiences, languages, learning objective, course owner, deadline, destination, glossary, and source files for graphics. The localization team verifies that the content is current and technically usable. Assign a stable course and source-version ID.</p>
+<p>Do not begin translation while the source team is still rewriting major sections. If a deadline requires overlap, freeze segments in planned batches and make the added revision risk visible.</p>
+<h3 id="2-translation-for-spoken-learning">2. Translation for spoken learning</h3>
+<p>Translate for comprehension and action, not word-for-word correspondence. The target script should preserve instructions, conditions, warnings, and sequence while sounding natural aloud. Reviewers need the video, learning objective, glossary, and interface context.</p>
+<p>Ask the subject expert to resolve source questions before the language reviewer polishes style. Track comments at the segment and timestamp level. Update recurring terminology centrally rather than fixing the same phrase in every file.</p>
+<h3 id="3-dubbing-and-voice-consistency">3. Dubbing and voice consistency</h3>
+<p>Choose voices appropriate for the audience and course tone. Consistency matters across a learning path: a recurring narrator should not change voice between adjacent modules without reason. For conversations, preserve distinct speakers so learners can follow who is asking and answering.</p>
+<p>An <a href="/features/video-translation">AI video translation workflow</a> can connect translation, speech generation, and timing in one project. If using an authorized clone of an employee&#39;s voice, document approval and permitted use. A suitable library voice is often simpler when preserving a particular identity is not essential to the learning outcome.</p>
+<p>Listen for pronunciation, emphasis, pace, and pauses around demonstrations. A technically correct voice that rushes through a critical step still produces weak training.</p>
+<h3 id="4-captions-and-transcripts">4. Captions and transcripts</h3>
+<p>Provide captions even when the course is dubbed. Employees may learn in noisy or quiet environments, use captions to confirm a term, or need text as an access accommodation. Captions should represent the target audio rather than display a different translation.</p>
+<p>Apply readable line breaks, accurate timing, speaker identification where needed, and appropriate sound information. A downloadable transcript can support review and reference, but it should not be treated as a complete substitute for synchronized captions.</p>
+<h3 id="5-visual-and-assessment-localization">5. Visual and assessment localization</h3>
+<p>Replace embedded text, callouts, diagrams, and screenshots when they are part of the instruction. If the product interface is not available in the target language, state what learners will actually see and use consistent labels in narration. Avoid showing one command while speaking another.</p>
+<p>Translate knowledge checks, answer feedback, and completion instructions with the same glossary. Verify that the assessment still measures the intended skill after adaptation. A translated question can accidentally reveal the answer or introduce an ambiguity that did not exist in the source.</p>
+<h3 id="6-in-context-quality-assurance">6. In-context quality assurance</h3>
+<p>Review language, audio, captions, visuals, interactions, and technical behavior in the assembled course. Test on representative devices and within the learning management system, not only in a local media player. Confirm that audio tracks and caption labels display the correct language and regional code.</p>
+<p>Record issues with course ID, language, timestamp or screen, severity, owner, and resolution. Require reviewers to approve a named version. Save the final approval record with the published package.</p>
+<h2 id="coordinate-reviewers-without-creating-a-bottleneck">Coordinate reviewers without creating a bottleneck</h2>
+<p>Choose reviewers for subject knowledge, language fluency, and availability. A senior regional leader is not automatically the best line-by-line reviewer. The role needs protected time and a clear standard.</p>
+<p>Give reviewers a structured rubric: accuracy, terminology, naturalness, instruction clarity, pronunciation, timing, visual consistency, and assessment integrity. Separate blocking errors from preferences. Set deadlines and an escalation path for conflicting feedback.</p>
+<p>For recurring languages, maintain a primary reviewer and a backup. Hold short calibration sessions using real examples, especially when launching a new program. The goal is not identical personal style; it is consistent application of the approved learning and language standards.</p>
+<h2 id="package-content-for-the-learning-environment">Package content for the learning environment</h2>
+<p>Define a naming convention that includes course, module, source version, language, and output version. Use standard language tags supported by the destination. Keep masters, review renders, caption files, transcripts, and publish-ready packages in distinct locations.</p>
+<p>Confirm how the LMS handles multiple languages. Some systems support one course shell with language variants; others require separate assignments or packages. Test enrollment, navigation, progress tracking, completion, assessment scores, certificates, and reporting for each design. A video that plays correctly outside the LMS may still fail to report completion inside it.</p>
+<p>Use root-absolute, durable links for referenced resources. If a localized video sends learners to a source-language document, label that clearly or localize the destination. Broken or inaccessible resources undermine the lesson even when the video itself is excellent.</p>
+<h2 id="keep-every-language-current">Keep every language current</h2>
+<p>Localization debt grows when source changes are not connected to existing variants. Require course owners to submit a change notice with the new source version and a summary of affected segments. Classify changes as editorial, visual, instructional, or critical so the team can choose the appropriate response.</p>
+<p>Segment-level scripts and timestamps allow targeted updates. Reuse approved translations only when the source meaning and context truly remain the same. Regenerate audio, captions, visuals, and assessments together when a change affects them.</p>
+<p>Maintain a language-version matrix showing what is current, in review, scheduled for retirement, or temporarily out of sync. For time-sensitive material, define whether the older localized course should remain visible while an update is prepared. The content owner, not the translation vendor, should make that release decision.</p>
+<h2 id="measure-learning-and-operational-performance">Measure learning and operational performance</h2>
+<p>Track localization throughput, review time, correction cycles, on-time publication, reuse of approved segments, and post-release defects. These metrics show where the process needs attention. A rising correction rate may point to weak source scripts or missing terminology rather than poor voice generation.</p>
+<p>Also measure the learning outcome: starts, completion, assessment performance, repeat attempts, search behavior, learner feedback, and relevant workplace indicators. Interpret differences carefully. Assignment rules, manager follow-up, device access, and course difficulty can influence results alongside language.</p>
+<p>Invite specific feedback instead of asking whether the translation was “good.” Ask whether instructions were understandable, terms matched the workplace, captions were usable, and any step differed from the actual task. Feed recurring issues into source design, glossary, and reviewer guidance.</p>
+<h2 id="practical-multilingual-training-checklist">Practical multilingual training checklist</h2>
+<p>Before publishing a localized course, confirm that:</p>
+<ul><li>the learning objective and audience are explicit;</li><li>the source video and script share the same approved version;</li><li>names, numbers, warnings, and interface labels are verified;</li><li>a glossary and language style guide are available;</li><li>target speech is natural and preserves instructional meaning;</li><li>voice use is authorized and consistent across the course;</li><li>captions match the final target-language audio;</li><li>on-screen text, screenshots, links, and assessments are aligned;</li><li>language and media reviews are complete in context;</li><li>the LMS package works on representative devices;</li><li>completion and assessment reporting have been tested;</li><li>files use consistent language and version identifiers;</li><li>the course has an owner, review date, and update process;</li><li>learners know where to ask language-specific questions.</li></ul>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="should-training-videos-use-dubbing-or-subtitles">Should training videos use dubbing or subtitles?</h3>
+<p>Use the format that supports the task and learner environment. Dubbing lets employees listen while watching a procedure, while subtitles preserve the original voice and can be faster to produce. Many programs benefit from both dubbed audio and accurate target-language captions.</p>
+<h3 id="can-one-translation-be-used-for-every-region-that-shares-a-language">Can one translation be used for every region that shares a language?</h3>
+<p>Sometimes, but validate terminology, formality, examples, units, and workplace expectations with regional reviewers. A neutral shared version may work for broad material; safety, policy, or customer-facing training may need regional adaptation.</p>
+<h3 id="how-often-should-localized-courses-be-reviewed">How often should localized courses be reviewed?</h3>
+<p>Set review frequency according to content change and consequence, not one universal calendar. Product and process lessons may need review at every release. Stable cultural or foundational content can follow a longer cycle, with an owner responsible for confirming continued accuracy.</p>
+<h3 id="what-should-happen-when-only-one-sentence-changes">What should happen when only one sentence changes?</h3>
+<p>Assess every artifact connected to that segment: translation, audio, captions, visuals, transcript, assessment, and timing. A modular workflow can replace only the affected elements, but the final assembled course still needs regression review.</p>
+<h3 id="is-ai-generated-training-audio-appropriate-for-internal-use">Is AI-generated training audio appropriate for internal use?</h3>
+<p>It can be, provided the voice, security, quality, and approval requirements fit the content. Review pronunciation and instructional pacing, document any voice authorization, and offer another production path when the material or speaker context calls for it.</p>
+<h3 id="how-can-a-team-start-without-localizing-the-full-library">How can a team start without localizing the full library?</h3>
+<p>Choose one high-use, stable learning path and one or two languages with known employee demand. Establish the glossary, reviewer model, and LMS packaging process, then expand after the pilot produces a repeatable standard.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Multilingual training videos scale when the organization designs for maintenance from the beginning. Define the learning outcome, clean the source, centralize terminology, and move every course through consistent translation, voice, caption, visual, assessment, and in-context review stages. Package the result carefully, connect source updates to every language, and measure whether employees can apply what they learned. That operating discipline turns localization from a recurring emergency into a durable part of learning delivery.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flocalize-employee-training-videos" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flocalize-employee-training-videos&amp;text=How%20to%20Localize%20Employee%20Training%20Videos%20at%20Scale" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flocalize-employee-training-videos" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/enterprise-video-localization" aria-label="Read Enterprise Video Localization: Building a Secure, Scalable Workflow"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/particle-terrain-wave.png" alt="Enterprise Video Localization: Building a Secure, Scalable Workflow" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Enterprise Video Localization: Building a Secure, Scalable Workflow</h2><p class="blog-card-description">Enterprise localization succeeds when content operations, security, language quality, and publishing systems work as one governed process. This guide explains how to design that process from intake through distribution.</p>
+      <time class="blog-card-date" datetime="2026-04-16T09:00:00Z">Apr 16, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-dubbing-explained" aria-label="Read AI Dubbing Explained: How It Works, Benefits, and Best Uses"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/ai-voice-portal.png" alt="AI Dubbing Explained: How It Works, Benefits, and Best Uses" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Dubbing Explained: How It Works, Benefits, and Best Uses</h2><p class="blog-card-description">AI dubbing combines speech recognition, translation, voice synthesis, and synchronization to recreate spoken content in another language. This complete guide explains the technology, ideal use cases, quality factors, limitations, and evaluation criteria.</p>
+      <time class="blog-card-date" datetime="2026-08-06T09:00:00Z">Aug 6, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-dubbing-vs-traditional-dubbing" aria-label="Read AI Dubbing vs Traditional Dubbing: Cost, Speed, Quality, and Control"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/dual-ai-dialogue.png" alt="AI Dubbing vs Traditional Dubbing: Cost, Speed, Quality, and Control" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Dubbing vs Traditional Dubbing: Cost, Speed, Quality, and Control</h2><p class="blog-card-description">AI and studio dubbing solve the same localization problem in very different ways. Compare production stages, budgets, turnaround, creative control, consistency, and quality to choose the right model for each project.</p>
+      <time class="blog-card-date" datetime="2026-07-30T09:00:00Z">Jul 30, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>
