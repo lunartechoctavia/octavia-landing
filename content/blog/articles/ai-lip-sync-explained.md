@@ -8,7 +8,7 @@
   "excerpt": "Mismatched mouth movement is the artifact viewers notice fastest in a dub, even when they can't name it. Here is what AI lip sync actually does, and when it is worth turning on.",
   "publishedAt": "2026-08-02T09:00:00Z",
   "updatedAt": "2026-08-02T09:00:00Z",
-  "heroImage": "/assets/blog/images/motion-blur-figure.png",
+  "heroImage": "/assets/blog/images/synced-glass-waveforms.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

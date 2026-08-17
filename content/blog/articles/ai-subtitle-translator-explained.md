@@ -8,7 +8,7 @@
   "excerpt": "Translating subtitle text is not the same problem as translating a document. Here is what actually happens inside a competent AI subtitle translator, and how to tell when one is cutting corners.",
   "publishedAt": "2026-08-04T09:00:00Z",
   "updatedAt": "2026-08-04T09:00:00Z",
-  "heroImage": "/assets/blog/images/parabolic-light-tunnel.png",
+  "heroImage": "/assets/blog/images/layered-caption-ribbons.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

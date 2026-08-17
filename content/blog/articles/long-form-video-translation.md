@@ -8,7 +8,7 @@
   "excerpt": "A ninety-minute lecture or a three-hour conference recording breaks the assumptions built into most translation workflows. Here is how to plan, prepare, and review long-form content without the quality drifting halfway through.",
   "publishedAt": "2026-07-31T09:00:00Z",
   "updatedAt": "2026-07-31T09:00:00Z",
-  "heroImage": "/assets/blog/images/ai-helmet-profile.png",
+  "heroImage": "/assets/blog/images/deep-ring-recession.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

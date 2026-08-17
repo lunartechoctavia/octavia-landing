@@ -8,7 +8,7 @@
   "excerpt": "Turning a video into an accurate transcript takes more than pressing a button. Here is the practical process, from audio prep to review, that produces a text file you can actually use.",
   "publishedAt": "2026-08-05T09:00:00Z",
   "updatedAt": "2026-08-05T09:00:00Z",
-  "heroImage": "/assets/blog/images/light-speed-tunnel.png",
+  "heroImage": "/assets/blog/images/streaming-transcript-ribbon.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

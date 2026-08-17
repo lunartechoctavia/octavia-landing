@@ -8,7 +8,7 @@
   "excerpt": "Auto-generated subtitles are only as useful as the format you export and the checks you run before publishing. This guide covers both.",
   "publishedAt": "2026-08-03T09:00:00Z",
   "updatedAt": "2026-08-03T09:00:00Z",
-  "heroImage": "/assets/blog/images/halo-ring-solo.png",
+  "heroImage": "/assets/blog/images/condensing-particle-frame.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

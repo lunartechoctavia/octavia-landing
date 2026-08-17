@@ -8,7 +8,7 @@
   "excerpt": "Not every tool that calls itself an AI voice translator does the same job. One kind is built for live conversation, the other for polished recordings, and confusing them leads to disappointing results.",
   "publishedAt": "2026-08-06T09:00:00Z",
   "updatedAt": "2026-08-06T09:00:00Z",
-  "heroImage": "/assets/blog/images/ai-voice-portal-alt.png",
+  "heroImage": "/assets/blog/images/opposing-crescent-glass.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

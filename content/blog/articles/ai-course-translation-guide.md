@@ -8,7 +8,7 @@
   "excerpt": "A single translated lecture is easy. A twelve-module course that has to stay consistent, teachable, and accurate in six languages is a different problem entirely.",
   "publishedAt": "2026-07-30T09:00:00Z",
   "updatedAt": "2026-07-30T09:00:00Z",
-  "heroImage": "/assets/blog/images/cascade-light-prism.png",
+  "heroImage": "/assets/blog/images/stacked-lesson-tablets.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

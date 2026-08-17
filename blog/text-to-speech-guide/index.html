@@ -1,0 +1,633 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Text to Speech: How AI Voice Generation Actually Works | Octavia</title>
+    <meta name="description" content="A practical guide to text to speech: how neural voice generation works, what makes it sound natural, and what to check before choosing a tool.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/text-to-speech-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Text to Speech: How AI Voice Generation Actually Works">
+    <meta property="og:description" content="A practical guide to text to speech: how neural voice generation works, what makes it sound natural, and what to check before choosing a tool.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/text-to-speech-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/waveform-emergence-glass.png">
+    <meta property="article:published_time" content="2026-07-28T09:00:00Z">
+    <meta property="article:modified_time" content="2026-07-28T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Text to Speech: How AI Voice Generation Actually Works">
+    <meta name="twitter:description" content="A practical guide to text to speech: how neural voice generation works, what makes it sound natural, and what to check before choosing a tool.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/waveform-emergence-glass.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Text to Speech: How AI Voice Generation Actually Works","description":"A practical guide to text to speech: how neural voice generation works, what makes it sound natural, and what to check before choosing a tool.","image":"https://octavia.lunartech.ai/assets/blog/images/waveform-emergence-glass.png","datePublished":"2026-07-28T09:00:00Z","dateModified":"2026-07-28T09:00:00Z","wordCount":3008,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/text-to-speech-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Text to Speech: How AI Voice Generation Actually Works","item":"https://octavia.lunartech.ai/blog/text-to-speech-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/voice-ai">Voice AI</a>
+        <h1 class="article-title">Text to Speech: How AI Voice Generation Actually Works</h1><p class="article-deck">Modern text to speech no longer sounds like a robot reading a manual. Here is what actually changed, where the technology fits, and how to judge whether a voice is good enough for your project.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-07-28T09:00:00Z">Jul 28, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/waveform-emergence-glass.png" alt="Text to Speech: How AI Voice Generation Actually Works" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-text-to-speech-actually-is">What text to speech actually is</a></li><li><a class="toc-h2" data-toc-link href="#why-modern-neural-tts-sounds-different-from-old-style-synthesis">Why modern neural TTS sounds different from old-style synthesis</a></li><li><a class="toc-h2" data-toc-link href="#the-main-use-cases-for-text-to-speech">The main use cases for text to speech</a></li><li><a class="toc-h2" data-toc-link href="#what-determines-whether-a-generated-voice-sounds-natural">What determines whether a generated voice sounds natural</a></li><li><a class="toc-h2" data-toc-link href="#practical-considerations-when-choosing-a-tts-voice-for-a-project">Practical considerations when choosing a TTS voice for a project</a></li><li><a class="toc-h2" data-toc-link href="#text-to-speech-versus-generating-speech-that-matches-a-performance">Text to speech versus generating speech that matches a performance</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#is-text-to-speech-the-same-as-an-ai-voice">Is text to speech the same as an AI voice?</a></li><li><a class="toc-h3" data-toc-link href="#can-text-to-speech-sound-indistinguishable-from-a-real-recording">Can text to speech sound indistinguishable from a real recording?</a></li><li><a class="toc-h3" data-toc-link href="#does-punctuation-actually-affect-how-a-tts-voice-sounds">Does punctuation actually affect how a TTS voice sounds?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-difference-between-speed-and-naturalness-in-a-tts-voice">What is the difference between speed and naturalness in a TTS voice?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-different-tts-voices-for-different-types-of-content">Do I need different TTS voices for different types of content?</a></li><li><a class="toc-h3" data-toc-link href="#is-text-to-speech-useful-for-multilingual-projects">Is text to speech useful for multilingual projects?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Text to speech is the process of converting written words into spoken audio, and it has quietly become one of the most widely used applications of AI. It shows up in navigation apps, audiobook platforms, customer service phone lines, e-learning courses, and video narration, often without the listener thinking much about it. That is a sign of how far the technology has come: the best systems no longer call attention to themselves.</p>
+<p>For most of its history, text to speech had a distinctive, mechanical quality that made it easy to identify within a few words. That is no longer a given. Neural text to speech systems can now produce audio with natural pacing, believable emphasis, and intonation that rises and falls the way a person&#39;s voice actually does. The gap between &quot;generated&quot; and &quot;recorded&quot; has narrowed enough that the choice of TTS system, not just the decision to use TTS at all, has become the more important question.</p>
+<p>This guide explains what text to speech actually is, how modern systems differ from the synthesis of a decade ago, where the technology is used, what determines whether a generated voice sounds convincing, and what to look for when picking a tool for a real project. It also draws a clear line between text to speech and a related but different technology: generating speech that matches an existing performance, which is the foundation of AI dubbing rather than TTS itself.</p>
+<h2 id="what-text-to-speech-actually-is">What text to speech actually is</h2>
+<p>At its core, text to speech takes a string of written text and produces an audio waveform of that text being spoken. The system has to make a series of decisions the written word does not fully specify: how to pronounce each word, where to place stress within a sentence, how long to pause at a comma versus a period, and what pitch contour makes a sentence sound like a statement rather than a question. Written text carries some of this information through punctuation and capitalization, but a lot of it is implicit, which is exactly why TTS is a harder problem than it looks.</p>
+<p>Early text to speech systems, going back to the 1980s and 1990s, generally used one of two approaches. Formant synthesis generated speech from rules about how vowels and consonants are physically produced, which was flexible but sounded distinctly synthetic. Concatenative synthesis instead spliced together short recorded fragments of a real voice, which sounded more human on individual words but often produced awkward transitions and a flat, robotic rhythm across full sentences. Both approaches treated speech largely as a sequence of sounds to be assembled, rather than as a continuous performance with its own shape.</p>
+<p>Neural text to speech changed the underlying model. Instead of assembling pre-recorded fragments or applying acoustic rules, modern systems are trained on large amounts of recorded speech paired with text, and they learn to predict an entire spoken utterance as a connected whole. That shift is what makes contemporary TTS sound different from its predecessors, and it is worth understanding in more detail because it explains why some generated voices still sound stiff while others sound close to natural.</p>
+<h2 id="why-modern-neural-tts-sounds-different-from-old-style-synthesis">Why modern neural TTS sounds different from old-style synthesis</h2>
+<p>The most noticeable improvement in neural text to speech is prosody: the rhythm, stress, and pitch pattern of speech. Older systems tended to apply a fairly uniform pace and pitch contour regardless of sentence content, which is what produced the flat, monotone quality most people associate with &quot;computer voices.&quot; A neural model, by contrast, learns statistical patterns from real speech about how pitch tends to rise before a comma, fall at the end of a declarative sentence, and shift for a question or an exclamation.</p>
+<p>A few specific differences stand out:</p>
+<ul><li><strong>Intonation</strong> varies appropriately across a sentence instead of staying flat, so statements, questions, and lists each get a distinct shape.</li><li><strong>Pacing</strong> slows and speeds naturally around punctuation and clause boundaries rather than reading every word at the same fixed rate.</li><li><strong>Emphasis</strong> can land on the word that carries meaning in context, instead of stressing syllables mechanically.</li><li><strong>Transitions between sounds</strong> are generated as continuous audio rather than stitched from separate recorded fragments, which removes the clicks and seams common in older concatenative speech.</li><li><strong>Breath and micro-pauses</strong> are often modeled implicitly, giving longer passages a more human sense of phrasing rather than a single unbroken stream of sound.</li></ul>
+<p>None of this means every neural TTS voice sounds equally good. Quality still varies a great deal between systems and even between voices within the same system, for reasons covered later in this guide. But the baseline capability of the technology has moved from &quot;recognizably synthetic&quot; to &quot;capable of sounding natural when done well,&quot; and that shift is what has made TTS viable for far more serious use cases than it was a decade ago.</p>
+<h2 id="the-main-use-cases-for-text-to-speech">The main use cases for text to speech</h2>
+<p>Text to speech earns its place in a workflow whenever there is written content that needs to become spoken audio, and no existing recording to work from. That distinction matters and is discussed more in the final section of this guide, but it is the reason TTS shows up in such a wide range of contexts.</p>
+<p><strong>Voiceovers for video and audio content.</strong> When a script exists but no one has recorded it yet, TTS can generate the narration directly. This is common for explainer videos, product walkthroughs, internal training clips, and marketing content where a full studio voice recording session is not practical for every version or update.</p>
+<p><strong>Accessibility and screen-reader-adjacent content.</strong> TTS is a core part of making digital content usable for people who are blind, have low vision, or otherwise benefit from hearing content rather than reading it. It also helps with situational accessibility, like listening to an article while driving or exercising, where reading is not an option even for a fully sighted person.</p>
+<p><strong>IVR and phone systems.</strong> Interactive voice response systems that guide callers through menus, confirm order details, or read account information back to a customer rely heavily on TTS, particularly for dynamic content like order numbers or addresses that cannot be pre-recorded in every possible combination.</p>
+<p><strong>Audiobooks and long-form narration.</strong> TTS makes it economically possible to produce audio versions of content that would not otherwise justify a human narrator&#39;s time, including large backlists, niche publications, and frequently updated material like documentation or reports.</p>
+<p><strong>Product and in-app narration.</strong> Apps and devices that speak instructions, confirmations, or feedback to users, from smart home devices to onboarding flows, generate that speech from text rather than from a fixed set of recordings, which lets the content stay flexible.</p>
+<p><strong>Video voiceover when there is no source recording to dub.</strong> This is a distinct case from dubbing an existing video. When a video is built from a script, screen recording, or slide deck rather than a recorded human performance, there is no original voice to translate or match. Text to speech generates the narration directly from the written script, which is a simpler and more direct workflow than trying to replicate a performance that never existed. Octavia&#39;s <a href="/features/speech-generation">speech generation</a> workflow is built for exactly this case, turning a written script into natural-sounding speech in a chosen target language without requiring a source recording.</p>
+<h2 id="what-determines-whether-a-generated-voice-sounds-natural">What determines whether a generated voice sounds natural</h2>
+<p>Two systems can use similar underlying technology and still produce noticeably different results. A handful of factors tend to explain most of the gap.</p>
+<p><strong>Training data quality.</strong> A neural TTS voice is only as good as the recordings it learned from. A voice trained on clean, well-articulated, emotionally varied recordings will generally sound more natural than one trained on a narrow, monotone dataset. This is also why some voices sound great reading a calm paragraph but strange reading an exclamation or a question, if the training data did not include much variation in tone.</p>
+<p><strong>Text normalization and punctuation handling.</strong> Before a system can decide how to speak a sentence, it has to interpret the raw text correctly. That includes expanding abbreviations, reading numbers and dates the right way, handling acronyms, and using punctuation as a signal for pacing and pitch. A system that treats a comma as a meaningful pause and a period as a falling pitch will sound more natural than one that reads text at a uniform pace regardless of punctuation. This is also why poorly formatted or punctuation-light source text tends to produce flatter-sounding output, even from a strong TTS engine.</p>
+<p><strong>Emphasis and contextual stress.</strong> Good systems can shift emphasis based on what a sentence is actually saying, putting stress on the word that carries new information rather than stressing syllables in a fixed pattern. This is subtle, but it is one of the clearest tells between a voice that sounds like it understands what it is saying and one that is reading mechanically.</p>
+<p><strong>Tone adaptability across content types.</strong> A voice that works for calm narration may sound wrong for an energetic product announcement, and vice versa. Systems that can vary tone and register for different kinds of content, rather than applying one fixed delivery style to everything, are more useful across a real content pipeline that includes tutorials, marketing copy, and formal documentation alike.</p>
+<p><strong>Audio fidelity of the output itself.</strong> Beyond the speech pattern, the raw audio quality of the generated waveform matters. Artifacts, a thin or synthetic timbre, or audible seams between segments can undercut an otherwise well-paced performance. This is a separate axis from prosody and is worth listening for specifically when comparing tools.</p>
+<h2 id="practical-considerations-when-choosing-a-tts-voice-for-a-project">Practical considerations when choosing a TTS voice for a project</h2>
+<p>Once the underlying technology clears a reasonable quality bar, the decision usually comes down to fit for a specific project rather than which system is abstractly &quot;best.&quot; A few questions are worth working through before committing to a tool.</p>
+<ol><li><strong>Language and accent coverage.</strong> Confirm the tool actually supports the language and regional variant your audience expects, not just a related language. A voice that speaks the right language with the wrong accent for the intended market can feel just as jarring as one that mispronounces words outright.</li><li><strong>Voice variety.</strong> Check whether the platform offers multiple voice options with different genders, ages, and tonal qualities, rather than a single default voice per language. Having options matters for matching a voice to the register of the content, and for avoiding listener fatigue on longer projects that use the same voice repeatedly.</li><li><strong>Adjustable pacing and speed.</strong> Look for control over speaking rate and, ideally, pause length. Content read for a busy tutorial should typically move faster than content read for a reflective narrative, and a fixed, unchangeable pace limits how well a single voice can serve different formats.</li><li><strong>Output audio quality and format.</strong> Verify the exported audio meets the technical bar for its destination, including sample rate, file format, and whether the output is clean enough to sit under video, mix with music, or play over a phone line without additional processing.</li><li><strong>Consistency across a long script.</strong> For long-form content like an audiobook chapter or an extended course module, check that pacing and tone stay stable from the first sentence to the last rather than drifting or becoming repetitive over time.</li><li><strong>Workflow fit.</strong> Consider how the tool fits into the rest of a production pipeline: whether scripts can be uploaded in bulk, whether output integrates with existing video or audio editing tools, and whether the platform supports the languages a broader localization effort will eventually need.</li></ol>
+<p>Octavia supports more than 60 languages across its workflows, and speech generation projects can use either a faster render mode for quick drafts or a higher-quality mode for final output, which is available on all paid tiers. Credits work as a single shared currency across Octavia&#39;s workflows, so a project that starts as pure text to speech and later expands into translated video or dubbed audio does not require switching to a separate billing system. Teams evaluating options more broadly may also find it useful to compare approaches in this <a href="/blog/ai-voice-generator-guide">guide to choosing an AI voice generator</a>.</p>
+<h2 id="text-to-speech-versus-generating-speech-that-matches-a-performance">Text to speech versus generating speech that matches a performance</h2>
+<p>It is worth being precise about a distinction that gets blurred in casual conversation about &quot;AI voices.&quot; Text to speech generates audio from written text alone. There is no original spoken performance involved; the system is composing speech from scratch based on the words and, in some systems, a few style or emotion controls. This is the right tool when a script exists but no recording does, which covers most of the use cases described earlier in this guide.</p>
+<p>A related but distinct technology generates speech that matches an existing performance, meaning it works from a real recording and aims to produce a new spoken track that follows that performance&#39;s timing, delivery, and speaker changes, typically in a different language. This is the foundation of AI dubbing rather than of TTS. Dubbing has to account for information that pure text to speech never has to consider, including where the original speaker paused, when their pace sped up or slowed down, and how their delivery lined up with what is happening on screen.</p>
+<p>The two technologies share components. Both rely on neural speech generation, and both benefit from the same advances in prosody and naturalness described earlier in this guide. But choosing between them is really a question about your source material. If you are starting from a script with no recording behind it, text to speech is the direct and appropriate tool. If you already have a video or audio recording in one language and want a version in another that follows the original performance, that calls for a dubbing workflow instead. Octavia separates these two paths deliberately: <a href="/features/speech-generation">speech generation</a> covers the pure text-to-speech case, while the platform&#39;s broader <a href="/features/video-translation">video translation</a> and <a href="/features/audio-translation">audio translation</a> workflows handle the case of matching an existing performance. For a fuller explanation of how that second path works end to end, see <a href="/blog/ai-dubbing-explained">AI Dubbing Explained</a>.</p>
+<p>It is also worth separating both of these from voice cloning, which is a technology for modeling a specific person&#39;s vocal characteristics so new speech can resemble that individual. Voice cloning can be one component used inside a dubbing workflow, but it is not the same thing as either general text to speech or dubbing itself, and it raises its own considerations around consent and authorization. <a href="/blog/what-is-ai-voice-cloning">What Is AI Voice Cloning?</a> covers that topic in more depth for readers who want to understand where it fits relative to TTS.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="is-text-to-speech-the-same-as-an-ai-voice">Is text to speech the same as an AI voice?</h3>
+<p>Not exactly. &quot;AI voice&quot; is often used loosely to describe any synthetic voice, whether it comes from text to speech, dubbing, or voice cloning. Text to speech specifically refers to generating audio from written text, without an existing spoken performance to draw from.</p>
+<h3 id="can-text-to-speech-sound-indistinguishable-from-a-real-recording">Can text to speech sound indistinguishable from a real recording?</h3>
+<p>For short, well-formatted passages read in a neutral tone, many modern systems come close. Longer content, emotionally complex material, and text with unusual formatting or heavy jargon are more likely to reveal that the voice is generated, particularly in emphasis and pacing.</p>
+<h3 id="does-punctuation-actually-affect-how-a-tts-voice-sounds">Does punctuation actually affect how a TTS voice sounds?</h3>
+<p>Yes, significantly. Commas, periods, question marks, and paragraph breaks are the main signals a TTS system uses to decide where to pause and how pitch should move. A script written with careful punctuation will generally produce more natural-sounding output than one written as a dense, unpunctuated block of text.</p>
+<h3 id="what-is-the-difference-between-speed-and-naturalness-in-a-tts-voice">What is the difference between speed and naturalness in a TTS voice?</h3>
+<p>Speed is simply how fast the voice talks, which is usually adjustable. Naturalness refers to whether the rhythm, emphasis, and pitch pattern sound like real speech at whatever speed is chosen. A voice can be adjusted to speak quickly and still sound natural, or read at a normal pace and still sound stilted, depending on the underlying model quality.</p>
+<h3 id="do-i-need-different-tts-voices-for-different-types-of-content">Do I need different TTS voices for different types of content?</h3>
+<p>Often, yes. A voice well suited to calm instructional narration may not suit an energetic announcement or a customer-facing IVR greeting. Platforms that offer multiple voices and tone options make it easier to match the delivery to the content rather than forcing one voice to serve every purpose.</p>
+<h3 id="is-text-to-speech-useful-for-multilingual-projects">Is text to speech useful for multilingual projects?</h3>
+<p>It can be, when the goal is generating narration directly in each target language from a translated script. That is different from dubbing an existing recording into other languages, which needs a workflow built to follow an original performance rather than to generate speech from text alone. Readers building out a broader multilingual voice strategy may also want to review this <a href="/blog/voice-translation-software-guide">guide to voice translation software</a>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Text to speech has moved a long way from the flat, mechanical voices most people picture when they hear the term. Neural systems now model prosody, pacing, and emphasis well enough to produce narration that holds up in real production contexts, from accessibility tools to audiobooks to product voiceovers. The technology is not uniform across providers, though, and the differences that matter most are usually about training data quality, how punctuation and emphasis are handled, and how much control a project has over pacing and voice selection.</p>
+<p>The clearest way to evaluate any TTS tool is to test it against your actual content rather than a demo script, since prosody quality often reveals itself only on the sentence structures and vocabulary a real project actually uses. It is also worth being clear, going in, about whether a project needs speech generated from text alone or speech that matches an existing recorded performance, since those are related but genuinely different problems with different tools built for each.</p>
+<p>For projects that start from a written script rather than an existing recording, Octavia&#39;s <a href="/features/speech-generation">speech generation</a> workflow generates natural-sounding speech directly from text in more than 60 languages, without requiring a source recording to work from.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftext-to-speech-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftext-to-speech-guide&amp;text=Text%20to%20Speech%3A%20How%20AI%20Voice%20Generation%20Actually%20Works" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftext-to-speech-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/voice-ai">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-voice-translator-explained" aria-label="Read AI Voice Translator: How Real-Time and Batch Translation Work"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/opposing-crescent-glass.png" alt="AI Voice Translator: How Real-Time and Batch Translation Work" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Voice Translator: How Real-Time and Batch Translation Work</h2><p class="blog-card-description">Not every tool that calls itself an AI voice translator does the same job. One kind is built for live conversation, the other for polished recordings, and confusing them leads to disappointing results.</p>
+      <time class="blog-card-date" datetime="2026-08-06T09:00:00Z">Aug 6, 2026 · 15 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-voice-generator-guide" aria-label="Read AI Voice Generator: What to Look For Before You Choose One"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/layered-voice-spectrum.png" alt="AI Voice Generator: What to Look For Before You Choose One" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Voice Generator: What to Look For Before You Choose One</h2><p class="blog-card-description">A practical framework for picking an AI voice generator, built around what actually differs between tools once you get past the demo reel.</p>
+      <time class="blog-card-date" datetime="2026-07-27T09:00:00Z">Jul 27, 2026 · 13 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/voice-changer-explained" aria-label="Read Voice Changer Apps: How They Work and What They&#39;re Actually For"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/shifting-prism-facets.png" alt="Voice Changer Apps: How They Work and What They&#39;re Actually For" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Voice Changer Apps: How They Work and What They&#39;re Actually For</h2><p class="blog-card-description">Voice changer apps are everywhere in gaming, streaming, and content creation, but the category is often confused with dubbing, cloning, and text-to-speech. Here is what actually separates them.</p>
+      <time class="blog-card-date" datetime="2026-07-26T09:00:00Z">Jul 26, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

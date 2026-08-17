@@ -8,7 +8,7 @@
   "excerpt": "Before committing budget to translated video at scale, most teams need answers to three questions: what it actually costs, how fast it moves, and how to tell a strong vendor from a risky one.",
   "publishedAt": "2026-07-29T09:00:00Z",
   "updatedAt": "2026-07-29T09:00:00Z",
-  "heroImage": "/assets/blog/images/twin-voice-halo.png",
+  "heroImage": "/assets/blog/images/aligned-glass-pillars.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

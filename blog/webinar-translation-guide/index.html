@@ -1,0 +1,636 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Webinar Translation: Localizing Recorded and Live Business Content | Octavia</title>
+    <meta name="description" content="A practical guide to webinar translation: live versus recorded, handling Q&amp;A and slides, and turning translated webinars into on-demand content.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/webinar-translation-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Webinar Translation: Localizing Recorded and Live Business Content">
+    <meta property="og:description" content="A practical guide to webinar translation: live versus recorded, handling Q&amp;A and slides, and turning translated webinars into on-demand content.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/webinar-translation-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/presentation-glass-screen.png">
+    <meta property="article:published_time" content="2026-07-12T09:00:00Z">
+    <meta property="article:modified_time" content="2026-07-12T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Webinar Translation: Localizing Recorded and Live Business Content">
+    <meta name="twitter:description" content="A practical guide to webinar translation: live versus recorded, handling Q&amp;A and slides, and turning translated webinars into on-demand content.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/presentation-glass-screen.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Webinar Translation: Localizing Recorded and Live Business Content","description":"A practical guide to webinar translation: live versus recorded, handling Q&A and slides, and turning translated webinars into on-demand content.","image":"https://octavia.lunartech.ai/assets/blog/images/presentation-glass-screen.png","datePublished":"2026-07-12T09:00:00Z","dateModified":"2026-07-12T09:00:00Z","wordCount":3324,"timeRequired":"PT15M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/webinar-translation-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Webinar Translation: Localizing Recorded and Live Business Content","item":"https://octavia.lunartech.ai/blog/webinar-translation-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">Webinar Translation: Localizing Recorded and Live Business Content</h1><p class="article-deck">Webinars are marketing assets first and recordings second, which changes how they should be translated. Here is how to handle the live-versus-recorded decision, messy Q&amp;A audio, and slide text without slowing down a campaign.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-07-12T09:00:00Z">Jul 12, 2026</time><span class="article-meta-dot"></span><span>15 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/presentation-glass-screen.png" alt="Webinar Translation: Localizing Recorded and Live Business Content" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-makes-webinars-a-distinct-translation-case">What Makes Webinars a Distinct Translation Case</a></li><li><a class="toc-h2" data-toc-link href="#live-interpretation-versus-translating-the-recording">Live Interpretation Versus Translating the Recording</a></li><li><a class="toc-h2" data-toc-link href="#the-hardest-parts-of-a-webinar-to-translate-cleanly">The Hardest Parts of a Webinar to Translate Cleanly</a></li><li><a class="toc-h3" data-toc-link href="#q-a-segments-with-multiple-unscripted-speakers">Q&amp;A segments with multiple unscripted speakers</a></li><li><a class="toc-h3" data-toc-link href="#on-screen-slide-text-and-product-terminology">On-screen slide text and product terminology</a></li><li><a class="toc-h3" data-toc-link href="#host-banter-and-off-script-asides">Host banter and off-script asides</a></li><li><a class="toc-h2" data-toc-link href="#repurposing-a-translated-webinar">Repurposing a Translated Webinar</a></li><li><a class="toc-h2" data-toc-link href="#webinar-translation-workflow-from-recording-to-distribution">Webinar Translation Workflow: From Recording to Distribution</a></li><li><a class="toc-h2" data-toc-link href="#choosing-the-right-octavia-workflow-for-webinar-content">Choosing the Right Octavia Workflow for Webinar Content</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#should-i-translate-a-webinar-live-or-translate-the-recording-afterward">Should I translate a webinar live or translate the recording afterward?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-i-handle-q-a-segments-with-multiple-speakers-and-poor-audio">How do I handle Q&amp;A segments with multiple speakers and poor audio?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-i-keep-translated-webinars-consistent-with-our-other-translated-marketing-content">How do I keep translated webinars consistent with our other translated marketing content?</a></li><li><a class="toc-h3" data-toc-link href="#how-fast-can-i-get-a-translated-webinar-ready-after-the-live-event">How fast can I get a translated webinar ready after the live event?</a></li><li><a class="toc-h3" data-toc-link href="#should-i-keep-host-banter-and-small-talk-in-a-translated-webinar">Should I keep host banter and small talk in a translated webinar?</a></li><li><a class="toc-h3" data-toc-link href="#what-can-i-do-with-a-translated-webinar-besides-publish-the-full-recording">What can I do with a translated webinar besides publish the full recording?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A webinar is not just a long video with a presenter talking. It is usually a marketing or sales asset built around a specific campaign, tied to a product launch or a quarterly push, and designed from the start to be reused after the live event ends. That combination of purpose and reuse is exactly what makes webinar translation a different problem from translating a lecture, a tutorial, or a piece of long-form video content in general. The goal is not just an accurate translation; it is a translated asset that still functions as a lead-generation or sales-enablement tool in a market where the original never ran.</p>
+<p>Most teams that need webinar translation are not trying to translate a single one-off recording. They are trying to build a repeatable pipeline: run a webinar, capture it, translate it into the languages the sales and marketing teams need, and get it back into rotation as gated content, a nurture email asset, or a set of social clips, before the campaign it supports has moved on to the next thing. That timing pressure, combined with the mixed format of a typical webinar (a talking head, screen-shared slides, and an unscripted Q&amp;A segment), is what this guide focuses on.</p>
+<p>This is a practical guide to the decisions specific to webinar content: whether to translate the live event or the recording afterward, how to handle the segments of a webinar that resist clean translation, how to get more mileage out of a translated webinar once it exists, and how to keep the whole process fast enough to still matter to the campaign it was built for.</p>
+<h2 id="what-makes-webinars-a-distinct-translation-case">What Makes Webinars a Distinct Translation Case</h2>
+<p>Webinars share some traits with other long-form video, but three things set them apart in ways that matter for translation planning.</p>
+<p>First, webinars are produced to be repurposed. A conference keynote or a university lecture is often translated because an audience wants access to that specific content. A webinar, by contrast, is frequently designed from the outset as a piece of a larger funnel: it generates the recording that becomes gated on-demand content, the clips that get shared on social, and the transcript that becomes a blog post or a set of sales talking points. Translating a webinar well means thinking about the whole downstream chain, not just the ninety minutes of source video.</p>
+<p>Second, webinars are structurally mixed in a way that a single-speaker video is not. A typical session includes a presenter talking directly to camera, a screen share with slides full of product names and statistics, and a live Q&amp;A block where the presenter is joined by attendee questions that were never scripted. Each of those segments behaves differently when translated, and treating the whole recording as one uniform block of speech tends to produce weaker results on the slide and Q&amp;A portions specifically.</p>
+<p>Third, webinars run on a campaign clock. A webinar tied to a product launch has a shelf life measured in weeks, not months. A translated version that lands after the campaign has moved on has lost most of its value, even if the translation itself is flawless. That deadline pressure is present in a way it usually is not for a lecture archive or a training library, where &quot;eventually&quot; is often an acceptable turnaround.</p>
+<h2 id="live-interpretation-versus-translating-the-recording">Live Interpretation Versus Translating the Recording</h2>
+<p>The first real decision in any webinar translation project is whether the target-language audience needs the live event itself, translated in real time, or whether a translated version of the recording delivered afterward will do the job. These are genuinely different disciplines, and conflating them leads to the wrong tool or the wrong vendor for the job.</p>
+<p>Live interpretation of a webinar, where a translated audio feed runs in real time alongside the original presentation, is a specialized service built around simultaneous or consecutive interpretation. It requires a human interpreter (or a real-time interpretation system) working live, with no ability to pause, correct a mistranslation, or re-render a slide. It is the right choice when an audience genuinely needs to participate in the live session itself, ask questions in real time in their own language, or be present for a launch event that is inherently time-bound.</p>
+<p>For most companies running webinars as marketing or sales content, though, that is not actually the requirement. The live session is attended by whoever happens to be available at that time zone and that hour, and the far larger audience is the one that watches the recording afterward, on demand, whenever it is convenient for them. That audience does not need live interpretation. It needs a well-translated, well-produced version of the recording, available in its own language, published after the fact.</p>
+<p>This is the case AI-driven dubbing and subtitling tools are built for. Translating the recording after the event is a batch, post-production process: transcribe the original audio, translate it with attention to terminology and context, generate speech or subtitles in the target language, and review before publishing. There is no real-time constraint, which means there is room to catch and fix errors, apply a glossary, and get the terminology right, none of which is realistic in a live-interpretation setting. Octavia is built specifically for this batch, post-production case. It works on pre-recorded content rather than providing in-session interpretation, which makes it a fit for translating the webinar recording rather than the live event itself. For most webinar programs, that is also simply the more common need: the live session is a single moment, but the recording is the asset that keeps generating leads and views for months.</p>
+<h2 id="the-hardest-parts-of-a-webinar-to-translate-cleanly">The Hardest Parts of a Webinar to Translate Cleanly</h2>
+<p>Once a team commits to translating the recording, the difficulty is rarely the main presentation. A single presenter reading from prepared slides, at a normal pace, in reasonably clean audio, is the easy part of most webinars. The parts that cause problems are more specific.</p>
+<h3 id="q-a-segments-with-multiple-unscripted-speakers">Q&amp;A segments with multiple unscripted speakers</h3>
+<p>Almost every webinar ends with a Q&amp;A block, and it is usually the least predictable part of the recording. Questions come from attendees who may be speaking through a laptop microphone, over an imperfect connection, in a room with background noise. The presenter is responding without a script, sometimes repeating the question before answering it, sometimes not. There may be a moderator reading submitted questions aloud, adding a third voice to a segment that was previously just one.</p>
+<p>Translating this well starts with correctly identifying who is speaking. A Q&amp;A segment with a presenter, a moderator, and one or more attendee voices needs those speakers separated and tracked, both so the translation reflects who is actually asking and answering, and so any dubbed or subtitled output attributes lines correctly. This is exactly where multi-speaker detection and separation matters, and on Octavia it is available on Pro plans and above, which is the tier most teams handling live-audience Q&amp;A segments should plan around.</p>
+<p>Poor audio compounds the problem. An attendee question captured through a weak microphone is harder to transcribe accurately in the first place, and a transcription error at that stage carries straight through to the translation. Reviewing the transcript of the Q&amp;A section specifically, rather than assuming the same accuracy holds across the whole recording, is worth the extra few minutes it takes.</p>
+<h3 id="on-screen-slide-text-and-product-terminology">On-screen slide text and product terminology</h3>
+<p>Webinar slides are dense with exactly the kind of language that needs to match other translated marketing materials: product names, feature names, pricing tiers, statistics, and taglines. A presenter narrating over a slide will often use slightly different phrasing than what is written on the slide itself, and a translation system working purely from the audio has no visibility into what text is actually on screen.</p>
+<p>The practical risk here is inconsistency, not inaccuracy. If a product feature is called one thing on the translated marketing site and something slightly different in the dubbed narration of the webinar, that mismatch is the kind of detail a careful prospect notices. This is where a glossary, built from the same terminology already used in a company&#39;s other translated materials, pays off directly. Feeding that glossary into the translation step, and then using a manual transcript review pass to check it against the actual on-screen terms, catches mismatches before they ship. Octavia&#39;s manual transcript review, available on Starter plans and above, is the right point in the workflow to make this check: it happens on the text before rendering, so a product name can be corrected once in the transcript rather than caught later in finished audio.</p>
+<h3 id="host-banter-and-off-script-asides">Host banter and off-script asides</h3>
+<p>Webinar hosts frequently open with small talk, make asides about the platform or the audience size, or crack a joke that landed with the live audience but depends on context that will not travel into a translated, on-demand version watched months later in a different market. None of this is wrong to include in the original recording, but it is worth a deliberate decision rather than a default one when translating.</p>
+<p>Some banter is worth keeping because it establishes tone and makes the presenter feel human rather than scripted. Some of it is worth trimming because it references a specific date, a technical hiccup that has since been fixed, or a joke that simply will not land once translated. There is no universal rule here; the right call depends on how the translated version will be used and how much editorial control the team wants to exercise before it publishes. What matters is making the decision on purpose, segment by segment, rather than translating everything literally by default and hoping it lands the same way in a different language and a different viewing context.</p>
+<h2 id="repurposing-a-translated-webinar">Repurposing a Translated Webinar</h2>
+<p>Once a webinar recording has been translated, most of its value is not in the ninety-minute file itself. It is in everything that gets built from it. A translated webinar is raw material for several other assets, and planning for that reuse from the start makes the translation work pay off more than once.</p>
+<ul><li><strong>Clipped highlights.</strong> Short, translated segments pulled from the strongest parts of the presentation work well as social clips, sales collateral, or landing-page previews in the target language, and they generally get more views than the full recording ever will.</li><li><strong>On-demand publication.</strong> The translated recording can be published the same way the original often is: gated behind a form for lead generation, or ungated as an evergreen resource that continues to attract organic traffic in that language long after the live event.</li><li><strong>Localized transcript content.</strong> The translated transcript is a starting point for a blog post, a summary article, or a set of key takeaways published natively in the target language, extending the reach of the webinar well beyond people willing to watch or listen to the full recording.</li><li><strong>Sales enablement material.</strong> A translated Q&amp;A section in particular is often useful on its own, since it surfaces the objections and questions a target-language audience actually raises, which a sales team in that market can use directly.</li><li><strong>Follow-on campaigns.</strong> A translated webinar recording can anchor a nurture sequence or a retargeting campaign in a new market, using the same asset that already justified its own production cost once in the original language.</li></ul>
+<p>Treating the translated webinar as a single deliverable, rather than as the source for several smaller ones, tends to undersell the return on the translation work. A team that plans the clips, the blog adaptation, and the gated landing page before translation even starts usually gets more use out of the same file than a team that translates first and figures out distribution later.</p>
+<h2 id="webinar-translation-workflow-from-recording-to-distribution">Webinar Translation Workflow: From Recording to Distribution</h2>
+<p>A practical webinar translation workflow has to satisfy two constraints at once: it has to move fast enough to still be relevant to the campaign it supports, and it has to hold terminology steady against everything else the company has already translated. Those two goals pull against each other if the process is not set up deliberately.</p>
+<p>Speed starts with not waiting for the live event to finish before planning the translation. The moment a webinar is scheduled, the target languages, the glossary, and the intended repurposing (clips, gated on-demand page, blog adaptation) can all be decided in advance, so the only thing left to do once the recording exists is run it through the pipeline. Most business webinars run somewhere between thirty and ninety minutes, comfortably inside the length limits of Octavia&#39;s mid-tier and higher plans, so the length of the source file is rarely the bottleneck. A quick first pass in Fast mode, available on every paid tier, is a useful way to check translation and pacing before committing to a full-quality render, which matters when a campaign deadline does not leave room to discover a problem only after the final render is done.</p>
+<p>Terminology consistency comes from treating the webinar&#39;s glossary as an extension of the company&#39;s existing translated marketing materials rather than a fresh document built from scratch. Product names, feature names, and campaign-specific terms that already have an approved translation elsewhere should carry over directly, and the manual transcript review step is the checkpoint where a reviewer confirms the webinar transcript actually uses them. This matters more for webinars than for many other video formats precisely because a webinar is usually part of a broader, coordinated campaign; a mismatch between the translated webinar and the translated landing page it links to undercuts both.</p>
+<p>A few workflow habits keep this manageable across a regular webinar cadence rather than as a one-off project:</p>
+<ol><li>Lock the glossary before the webinar airs, not after, using the same terminology already approved for other translated assets in that market.</li><li>Segment the review by content type: main presentation, slide text, and Q&amp;A, since each carries a different level of risk and needs a different kind of check.</li><li>Run a Fast-mode pass first to validate translation and timing before committing to the final render, particularly under deadline pressure.</li><li>Decide on banter and asides deliberately per segment rather than translating everything literally by default.</li><li>Plan the repurposed assets (clips, transcript-based blog post, gated landing page) at the same time as the translation itself, not as an afterthought once the main file is done.</li></ol>
+<h2 id="choosing-the-right-octavia-workflow-for-webinar-content">Choosing the Right Octavia Workflow for Webinar Content</h2>
+<p>Because a webinar is a mixed-format asset, different parts of the same recording can benefit from different Octavia workflows rather than forcing everything through a single pipeline. Full <a href="/features/video-translation">video translation</a> with dubbing is generally the right choice for the main presentation and the Q&amp;A, since it produces generated speech that matches the original speaker&#39;s tone, pacing, and delivery, well suited to a recording meant to be watched or played passively as on-demand content. For teams that only need a translated audio track without touching video, <a href="/features/audio-translation">audio translation</a> covers the same ground for audio-only or podcast-style webinar recordings.</p>
+<p>Where the translated webinar will primarily be used as searchable, skimmable reference content, or as gated content where subtitles are sufficient, <a href="/features/subtitle-generation">subtitle generation</a> and <a href="/features/subtitle-translation">subtitle translation</a> are faster and less costly than a full dub. Some teams use both: subtitles for a quick, low-cost version to validate demand in a new market, followed by full dubbing once the translated webinar proves itself as worth the fuller investment. A <a href="/features/subtitle-to-audio">subtitle-to-audio</a> pass is useful if a team starts from an already-translated transcript, such as one produced for a companion blog post, and later wants a spoken version without redoing the translation work.</p>
+<p>Teams running a regular webinar cadence across a training or product-education program may also find it useful to see how a related format is handled in <a href="/blog/long-form-video-translation">Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content</a>, which covers the budgeting and turnaround planning that applies to longer recordings generally. And for webinars built around a Q&amp;A or interview-style segment specifically, <a href="/blog/interview-translation-guide">How to Translate a Video Interview Without Losing Nuance</a> covers many of the same unscripted-speech challenges that show up in a webinar&#39;s question-and-answer block.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="should-i-translate-a-webinar-live-or-translate-the-recording-afterward">Should I translate a webinar live or translate the recording afterward?</h3>
+<p>For most business webinars, translating the recording afterward is the more practical and more common approach, since the majority of the audience watches on demand rather than attending the live session. Live interpretation is a separate, real-time discipline suited to cases where an audience genuinely needs to participate in the live event itself, and it is not something a post-production dubbing platform like Octavia is built to provide.</p>
+<h3 id="how-do-i-handle-q-a-segments-with-multiple-speakers-and-poor-audio">How do I handle Q&amp;A segments with multiple speakers and poor audio?</h3>
+<p>Use multi-speaker detection to correctly separate the presenter, moderator, and attendee voices, which is available on Octavia&#39;s Pro plans and above. Review the Q&amp;A transcript specifically, since attendee audio quality is often worse than the main presentation and transcription errors there carry through into the translation if not caught early.</p>
+<h3 id="how-do-i-keep-translated-webinars-consistent-with-our-other-translated-marketing-content">How do I keep translated webinars consistent with our other translated marketing content?</h3>
+<p>Build a glossary from the terminology already approved in existing translated materials, rather than creating new terms from scratch for each webinar. Use the manual transcript review step, available on Starter plans and above, to check the webinar transcript against that glossary before rendering.</p>
+<h3 id="how-fast-can-i-get-a-translated-webinar-ready-after-the-live-event">How fast can I get a translated webinar ready after the live event?</h3>
+<p>That depends on the recording&#39;s length and the plan tier, but a Fast-mode pass can validate translation and pacing quickly before committing to a full-quality render, which shortens the feedback loop under campaign deadlines. Most business webinars run thirty to ninety minutes, well within the length limits of Octavia&#39;s mid-tier and higher plans, so turnaround is generally driven by review time rather than processing time.</p>
+<h3 id="should-i-keep-host-banter-and-small-talk-in-a-translated-webinar">Should I keep host banter and small talk in a translated webinar?</h3>
+<p>It depends on whether the banter adds tone and personality or depends on context that will not carry into a different market or a later viewing date. Treat it as a deliberate, segment-by-segment editorial decision rather than translating everything literally by default.</p>
+<h3 id="what-can-i-do-with-a-translated-webinar-besides-publish-the-full-recording">What can I do with a translated webinar besides publish the full recording?</h3>
+<p>A translated webinar is a source for clipped highlights, a gated or ungated on-demand landing page, a blog post adapted from the translated transcript, and sales enablement material drawn from the Q&amp;A section. Planning these repurposed assets before translation starts generally gets more value out of the same file than translating first and deciding on distribution afterward.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Webinar translation is not simply long-form video translation with a different name. Webinars are built to be repurposed, they mix a scripted presentation with unscripted Q&amp;A and dense slide text, and they run on a campaign clock that makes turnaround time a real constraint rather than a nice-to-have. Treating a webinar recording the same way as a lecture archive or a training video misses the parts of the job that actually determine whether the translated version does its job as a marketing or sales asset.</p>
+<p>The practical path for most teams is to translate the recording rather than the live event, since that is the batch, post-production process that AI-driven dubbing and subtitling tools like Octavia are built for. From there, the work is mostly about discipline: separating speakers correctly in the Q&amp;A, keeping slide terminology aligned with everything else the company has already translated, deciding deliberately what banter is worth keeping, and planning the clips, transcripts, and landing pages a translated webinar can become before the translation itself is even finished.</p>
+<p>Teams that build this into a repeatable process, rather than treating each webinar as a one-off translation job, tend to get a translated asset back fast enough to still matter to the campaign that produced it. To see how the dubbing workflow handles a typical webinar recording end to end, visit <a href="/features/video-translation">video translation</a>.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fwebinar-translation-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fwebinar-translation-guide&amp;text=Webinar%20Translation%3A%20Localizing%20Recorded%20and%20Live%20Business%20Content" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fwebinar-translation-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/long-form-video-translation" aria-label="Read Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/deep-ring-recession.png" alt="Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content</h2><p class="blog-card-description">A ninety-minute lecture or a three-hour conference recording breaks the assumptions built into most translation workflows. Here is how to plan, prepare, and review long-form content without the quality drifting halfway through.</p>
+      <time class="blog-card-date" datetime="2026-07-31T09:00:00Z">Jul 31, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-course-translation-guide" aria-label="Read AI Course Translation: Localizing Online Courses Without Losing Quality"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/stacked-lesson-tablets.png" alt="AI Course Translation: Localizing Online Courses Without Losing Quality" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Course Translation: Localizing Online Courses Without Losing Quality</h2><p class="blog-card-description">A single translated lecture is easy. A twelve-module course that has to stay consistent, teachable, and accurate in six languages is a different problem entirely.</p>
+      <time class="blog-card-date" datetime="2026-07-30T09:00:00Z">Jul 30, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/enterprise-video-translation-roi" aria-label="Read Enterprise Video Translation: How to Evaluate Vendors and ROI"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/aligned-glass-pillars.png" alt="Enterprise Video Translation: How to Evaluate Vendors and ROI" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Enterprise Video Translation: How to Evaluate Vendors and ROI</h2><p class="blog-card-description">Before committing budget to translated video at scale, most teams need answers to three questions: what it actually costs, how fast it moves, and how to tell a strong vendor from a risky one.</p>
+      <time class="blog-card-date" datetime="2026-07-29T09:00:00Z">Jul 29, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

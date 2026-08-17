@@ -8,7 +8,7 @@
   "excerpt": "Choosing AI video localization software is a technical evaluation, not a feature demo. Here is what to test before your organization commits to a platform.",
   "publishedAt": "2026-08-07T09:00:00Z",
   "updatedAt": "2026-08-07T09:00:00Z",
-  "heroImage": "/assets/blog/images/dark-orbs-cluster.png",
+  "heroImage": "/assets/blog/images/networked-glass-nodes.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }

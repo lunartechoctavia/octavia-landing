@@ -8,7 +8,7 @@
   "excerpt": "Producing one multilingual video is a project. Producing a hundred a month across a dozen languages is an operation, and it needs its own workflow.",
   "publishedAt": "2026-08-01T09:00:00Z",
   "updatedAt": "2026-08-01T09:00:00Z",
-  "heroImage": "/assets/blog/images/black-silk-wave.png",
+  "heroImage": "/assets/blog/images/fanning-light-spectrum.png",
   "featured": false,
   "author": "Octavia Editorial Team"
 }
