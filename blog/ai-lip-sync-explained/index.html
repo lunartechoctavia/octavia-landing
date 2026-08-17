@@ -1,0 +1,639 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>AI Lip Sync Explained: How It Works and Why It Matters | Octavia</title>
+    <meta name="description" content="AI lip sync maps generated speech to mouth movement in dubbed video. Learn how it works, where it matters, and when to skip it.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/ai-lip-sync-explained">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AI Lip Sync Explained: How It Works and Why It Matters">
+    <meta property="og:description" content="AI lip sync maps generated speech to mouth movement in dubbed video. Learn how it works, where it matters, and when to skip it.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/ai-lip-sync-explained">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/motion-blur-figure.png">
+    <meta property="article:published_time" content="2026-08-02T09:00:00Z">
+    <meta property="article:modified_time" content="2026-08-02T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Lip Sync Explained: How It Works and Why It Matters">
+    <meta name="twitter:description" content="AI lip sync maps generated speech to mouth movement in dubbed video. Learn how it works, where it matters, and when to skip it.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/motion-blur-figure.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI Lip Sync Explained: How It Works and Why It Matters","description":"AI lip sync maps generated speech to mouth movement in dubbed video. Learn how it works, where it matters, and when to skip it.","image":"https://octavia.lunartech.ai/assets/blog/images/motion-blur-figure.png","datePublished":"2026-08-02T09:00:00Z","dateModified":"2026-08-02T09:00:00Z","wordCount":2551,"timeRequired":"PT12M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/ai-lip-sync-explained","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"AI Lip Sync Explained: How It Works and Why It Matters","item":"https://octavia.lunartech.ai/blog/ai-lip-sync-explained"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/ai-dubbing">AI Dubbing</a>
+        <h1 class="article-title">AI Lip Sync Explained: How It Works and Why It Matters</h1><p class="article-deck">Mismatched mouth movement is the artifact viewers notice fastest in a dub, even when they can&#39;t name it. Here is what AI lip sync actually does, and when it is worth turning on.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-02T09:00:00Z">Aug 2, 2026</time><span class="article-meta-dot"></span><span>12 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/motion-blur-figure.png" alt="AI Lip Sync Explained: How It Works and Why It Matters" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-ai-lip-sync-actually-does">What AI lip sync actually does</a></li><li><a class="toc-h2" data-toc-link href="#why-mismatched-lip-movement-is-so-noticeable">Why mismatched lip movement is so noticeable</a></li><li><a class="toc-h2" data-toc-link href="#how-ai-lip-sync-differs-from-traditional-dubbing-s-lip-flap-approximation">How AI lip sync differs from traditional dubbing&#39;s lip-flap approximation</a></li><li><a class="toc-h2" data-toc-link href="#where-lip-sync-matters-most">Where lip sync matters most</a></li><li><a class="toc-h2" data-toc-link href="#where-lip-sync-matters-least">Where lip sync matters least</a></li><li><a class="toc-h2" data-toc-link href="#realistic-limitations-of-current-lip-sync-technology">Realistic limitations of current lip-sync technology</a></li><li><a class="toc-h2" data-toc-link href="#deciding-whether-to-enable-lip-sync-for-a-project">Deciding whether to enable lip sync for a project</a></li><li><a class="toc-h3" data-toc-link href="#ask-what-the-camera-is-actually-showing">Ask what the camera is actually showing</a></li><li><a class="toc-h3" data-toc-link href="#ask-how-the-content-will-be-judged">Ask how the content will be judged</a></li><li><a class="toc-h3" data-toc-link href="#ask-about-turnaround-and-iteration-needs">Ask about turnaround and iteration needs</a></li><li><a class="toc-h3" data-toc-link href="#ask-whether-the-source-footage-fits-the-difficult-cases-above">Ask whether the source footage fits the difficult cases above</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#does-ai-lip-sync-change-the-speaker-s-face">Does AI lip sync change the speaker&#39;s face?</a></li><li><a class="toc-h3" data-toc-link href="#will-ai-lip-sync-work-on-any-video">Will AI lip sync work on any video?</a></li><li><a class="toc-h3" data-toc-link href="#is-lip-sync-required-for-a-dub-to-sound-good">Is lip sync required for a dub to sound good?</a></li><li><a class="toc-h3" data-toc-link href="#how-is-ai-lip-sync-different-from-adaptation-in-traditional-dubbing">How is AI lip sync different from adaptation in traditional dubbing?</a></li><li><a class="toc-h3" data-toc-link href="#should-lip-sync-always-be-turned-on-by-default">Should lip sync always be turned on by default?</a></li><li><a class="toc-h3" data-toc-link href="#can-lip-sync-be-added-later-after-audio-is-finalized">Can lip sync be added later after audio is finalized?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Watch a dubbed video with the sound muted and it is often still possible to tell something is off. The mouth opens when it should be closed, closes on a vowel that should be wide open, or keeps moving after the audio has already stopped. Viewers rarely stop to diagnose the problem, but they feel it, and that feeling reads as low quality even when the translation and voice performance are excellent. This is the gap that <strong>AI lip sync</strong> exists to close.</p>
+<p>Lip sync is a narrow piece of the larger dubbing pipeline, but it carries an outsized share of how &quot;finished&quot; a localized video feels. Translation quality is judged sentence by sentence; lip sync is judged in real time, frame by frame, by a viewer&#39;s peripheral vision. Get it right and nobody mentions it. Get it wrong and it is the only thing anyone remembers.</p>
+<p>This article stays focused on that one component. For the full path from raw footage to a finished localized export, see <a href="/blog/ai-dubbing-workflow">the AI dubbing workflow</a>; here, the subject is specifically how the mouth gets matched to the new audio, why that match matters, and when it is worth the extra processing.</p>
+<h2 id="what-ai-lip-sync-actually-does">What AI lip sync actually does</h2>
+<p>At a technical level, lip sync is a mapping problem. The dubbing pipeline has already produced a new audio track: transcription with speaker separation, translation, and generated speech that follows the original speaker&#39;s tone and pacing. That new audio has its own timing, its own phonemes, and its own rhythm, which almost never lines up with the mouth movements recorded in the original footage. Someone said &quot;hello&quot; on camera; the dubbed line might be four syllables longer or shorter, in a different language with entirely different mouth shapes.</p>
+<p>AI lip sync analyzes the new speech at the phoneme level, identifies the mouth shapes (visemes) each sound should visually produce, and then adjusts or regenerates the mouth region of the video frame by frame so the visible motion tracks the new audio instead of the old. Practically, that means detecting the face and mouth region across the clip, modeling how the jaw, lips, and surrounding muscles should move for the target speech, and rendering that motion back into the original footage while leaving the rest of the frame, the lighting, the background, the rest of the face, untouched.</p>
+<p>The result is not a swapped face or a synthetic actor. It is a targeted correction to one region of the frame so that mouth motion is consistent with the audio actually playing. Everything else in the shot, including the speaker&#39;s expressions, gestures, and the surrounding scene, stays as it was filmed.</p>
+<h2 id="why-mismatched-lip-movement-is-so-noticeable">Why mismatched lip movement is so noticeable</h2>
+<p>Human perception is unusually sensitive to audiovisual timing around faces. People spend a large part of daily life reading mouths, even without realizing it, because mouth shape carries information that helps disambiguate speech, especially in noisy environments. This is part of why a slight delay between audio and video, well under half a second, is enough to feel wrong even when a viewer cannot say what changed.</p>
+<p>That sensitivity is also why lip mismatch reads differently than other localization shortcomings. A slightly awkward translated phrase requires a viewer to understand the source language to notice. A mispronounced name requires familiarity with the name. But a mouth that closes on an open vowel is visible to anyone watching the screen, regardless of which languages they speak. It is one of the few dubbing artifacts that is language-independent, which is part of why it tends to dominate viewer feedback on dubbed content.</p>
+<p>There is also a trust dimension. Video that looks assembled rather than filmed can undercut the credibility of the content itself, particularly for corporate training, executive communications, or educational material where the speaker is meant to be read as an authority. A visibly desynced mouth can make a well-translated, well-performed dub feel like a lower-effort product than it actually is.</p>
+<h2 id="how-ai-lip-sync-differs-from-traditional-dubbing-s-lip-flap-approximation">How AI lip sync differs from traditional dubbing&#39;s lip-flap approximation</h2>
+<p>Traditional dubbing has never ignored this problem, it has just solved it differently, through the script rather than the video. Dubbing translators practice a specialized skill called <strong>adaptation</strong>, where a line is not just translated for meaning but rewritten to approximate the mouth shapes and syllable count of the original performance, particularly around bilabial sounds like &quot;m,&quot; &quot;b,&quot; and &quot;p&quot; that are highly visible on screen. A good adaptor will trade a slightly less literal translation for a line that plausibly matches the actor&#39;s lip-flap on camera.</p>
+<p>This approach works, and decades of dubbed film and television rely on it, but it has real limits. Adaptation is constrained by what the target language can actually say in roughly the same shape as the source; some meanings simply cannot be compressed or stretched to fit a mouth shape without sacrificing accuracy. It also requires a skilled, language-pair-specific adaptor for every project, which adds cost and time and is not something automated translation replicates well.</p>
+<p>AI lip sync takes the opposite approach. Instead of constraining the translation to fit the original mouth movements, it adjusts the visual mouth movements to fit the translation. The script can be translated for accuracy and natural phrasing first; the video is then brought into alignment with that audio afterward. This does not eliminate the value of a good translation and natural-sounding delivery, generated speech that follows tone and pacing still matters enormously, but it removes the constraint that a translated line has to visually resemble the original dialogue in order to look right on screen.</p>
+<h2 id="where-lip-sync-matters-most">Where lip sync matters most</h2>
+<p>Not all footage benefits equally from this processing, and treating it as a blanket setting wastes effort on shots where nobody is watching the mouth in the first place. Lip sync earns its cost in specific, predictable situations:</p>
+<ul><li><strong>Close-up talking-head content</strong>, including interviews, presenter-to-camera video, vlogs, and executive messages, where the face and mouth fill a meaningful part of the frame</li><li><strong>Scripted dialogue in narrative content</strong>, where characters are shown speaking their lines and the camera lingers on them</li><li><strong>Product demos and tutorials with a visible presenter</strong>, especially when the presenter speaks directly to the audience rather than narrating over screen capture</li><li><strong>Marketing and social video featuring a spokesperson</strong>, where the on-camera delivery is central to the message</li><li><strong>Any shot where a name, brand term, or key phrase lands on a visible mouth close-up</strong>, since mismatches are most obvious exactly where attention is highest</li></ul>
+<p>The common thread is visibility: the more prominent and legible the speaker&#39;s mouth is on screen, the more a mismatch will register, and the more a correction will be appreciated even if nobody consciously credits it.</p>
+<h2 id="where-lip-sync-matters-least">Where lip sync matters least</h2>
+<p>Just as clearly, some content gains little from lip-sync processing, and skipping it is a legitimate production choice rather than a shortcut.</p>
+<p>Wide shots where faces are small in the frame do not show enough mouth detail for mismatch to be noticeable. Voice-over-style narration, where the original speaker is heard but not shown speaking on camera, documentary narration, screen-capture tutorials with an off-camera voice, has no mouth to sync against in the first place. B-roll-heavy sequences, animation without close synchronization requirements, and any footage where the speaker is off-screen, turned away, or replaced by graphics for most of the segment fall into the same category.</p>
+<p>For this kind of material, a dubbed audio track composited cleanly over the original video, without touching the visual mouth region at all, is often the better choice. It is faster to produce, avoids any risk of visual artifacts in footage where they were never going to pay off, and delivers exactly the same viewer experience as a fully lip-synced version, because there was nothing to mismatch to begin with.</p>
+<h2 id="realistic-limitations-of-current-lip-sync-technology">Realistic limitations of current lip-sync technology</h2>
+<p>Lip sync is not a solved problem for every kind of footage, and it is worth being direct about where current technology, including Octavia&#39;s, performs less reliably than a front-facing, well-lit, single-speaker shot.</p>
+<p><strong>Side and three-quarter profiles</strong> show less of the mouth and jaw than a front-facing shot, which gives the model less visual information to work with and generally produces less convincing results than direct-to-camera footage.</p>
+<p><strong>Obscured faces</strong>, whether from a hand gesture, a microphone, hair, low lighting, or a mask, similarly limit how much of the mouth region is visible to model, and heavy obstruction can reduce sync quality noticeably.</p>
+<p><strong>Fast head movement</strong> compresses the time available to track and render the mouth region accurately from frame to frame, and rapid motion blur can make the correction harder to apply cleanly.</p>
+<p><strong>Multiple overlapping faces in frame</strong>, such as a group shot with several people talking near each other, or a shot where faces are close together and small, make it harder to isolate which mouth belongs to which line of dialogue, and can produce inconsistent results across speakers.</p>
+<p><strong>Extreme close-ups with unusual framing</strong>, heavy stylization, or non-standard lighting can also fall outside the conditions the underlying models were built to generalize well to.</p>
+<p>None of this means lip sync is unusable in these situations, only that expectations should be calibrated to the shot. A front-facing, evenly lit, single-speaker interview is close to a best case. A handheld group conversation with people turning toward and away from camera is closer to a worst case. Reviewing a representative sample of difficult shots before committing to lip sync for an entire program is a reasonable way to set that expectation early, an approach also worth applying more broadly, as described in <a href="/blog/ai-dubbing-workflow">the AI dubbing workflow</a>.</p>
+<h2 id="deciding-whether-to-enable-lip-sync-for-a-project">Deciding whether to enable lip sync for a project</h2>
+<p>The decision is not really about whether lip sync &quot;works,&quot; it is about whether the shot composition and content type make the correction worth applying. A few practical guidelines help make that call project by project rather than defaulting one way for everything.</p>
+<h3 id="ask-what-the-camera-is-actually-showing">Ask what the camera is actually showing</h3>
+<p>If the speaker&#39;s mouth is visible and reasonably prominent for most of the runtime, lip sync is likely worth enabling. If the speaker is rarely shown talking on screen, off-camera narration, screen capture, heavy B-roll, it is not.</p>
+<h3 id="ask-how-the-content-will-be-judged">Ask how the content will be judged</h3>
+<p>Corporate training, executive video, marketing featuring a spokesperson, and narrative dialogue tend to be judged partly on production polish, where mismatched lips stand out. Internal working documents, quick social clips consumed at low attention, and narration-driven explainers are judged mainly on clarity of information, where lip sync adds less.</p>
+<h3 id="ask-about-turnaround-and-iteration-needs">Ask about turnaround and iteration needs</h3>
+<p>Lip-sync processing adds rendering time on top of transcription, translation, and speech generation. For an early draft meant to check translation accuracy, pacing, and voice quality, it is often faster to review a version without lip sync first and add it once the script and voice are approved. Octavia supports both a <strong>fast</strong> and a <strong>quality</strong> render mode on paid tiers; fast mode is well suited to checking translation and pacing before lip sync is finalized, while quality mode is the better choice for the final lip-synced export.</p>
+<h3 id="ask-whether-the-source-footage-fits-the-difficult-cases-above">Ask whether the source footage fits the difficult cases above</h3>
+<p>A project dominated by side angles, obscured faces, fast-moving handheld footage, or group shots with overlapping speakers is a weaker candidate for lip sync than one built from stable, front-facing interview setups. In those cases, a well-mixed dubbed audio track without visual resync can be the more dependable deliverable.</p>
+<p>In Octavia&#39;s <a href="/features/video-translation">video translation</a> workflow, lip sync is generated by default for video sources but can be turned off, producing a dubbed audio track composited over the original video without resyncing the mouth. That toggle exists precisely because the right answer depends on the shot, not on a fixed rule, and creators moving between talking-head interviews and voice-over-driven explainers in the same channel often make different calls from one project to the next. Teams weighing AI-driven lip sync against the traditional adaptation approach described earlier may also find it useful to compare the two paths directly in <a href="/blog/ai-dubbing-vs-traditional-dubbing">AI dubbing vs traditional dubbing</a>.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="does-ai-lip-sync-change-the-speaker-s-face">Does AI lip sync change the speaker&#39;s face?</h3>
+<p>No. The correction is limited to the mouth and immediate surrounding region needed to match the new audio&#39;s phonemes. Expressions, gestures, lighting, and the rest of the frame are left as filmed.</p>
+<h3 id="will-ai-lip-sync-work-on-any-video">Will AI lip sync work on any video?</h3>
+<p>It works best on front-facing, well-lit, single-speaker footage where the mouth is clearly visible. Side profiles, obscured faces, fast head movement, and multiple overlapping faces are harder cases and may produce less convincing results.</p>
+<h3 id="is-lip-sync-required-for-a-dub-to-sound-good">Is lip sync required for a dub to sound good?</h3>
+<p>No. Lip sync affects the visual match between mouth and audio; it has no bearing on translation accuracy or how natural the generated speech sounds. A dub without lip sync can still be linguistically accurate and well-paced, which is why voice-over-style content skips lip sync without any loss in audio quality.</p>
+<h3 id="how-is-ai-lip-sync-different-from-adaptation-in-traditional-dubbing">How is AI lip sync different from adaptation in traditional dubbing?</h3>
+<p>Adaptation adjusts the translated script to approximate the original actor&#39;s mouth shapes, which can require sacrificing some translation precision. AI lip sync instead adjusts the video&#39;s mouth movement to match an accurately translated line, so the translation does not need to be compromised for visual fit.</p>
+<h3 id="should-lip-sync-always-be-turned-on-by-default">Should lip sync always be turned on by default?</h3>
+<p>Not necessarily. It is most valuable for close-up talking-head content and scripted dialogue, and adds little for wide shots, off-camera narration, or content where the speaker is not shown speaking. Many teams review a fast, non-lip-synced draft first, then enable it only for the final export of shots where it matters.</p>
+<h3 id="can-lip-sync-be-added-later-after-audio-is-finalized">Can lip sync be added later after audio is finalized?</h3>
+<p>Yes, in a typical pipeline lip sync is applied once the translated script and generated speech are approved, since resyncing after further audio changes would require reprocessing the video. Locking the audio first and applying lip sync as a later step is the more efficient order for most projects.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Lip sync solves a problem that is easy to underestimate until it is missing: the mouth on screen has to plausibly belong to the words being heard, and viewers notice the gap even when they cannot name it. AI lip sync handles this by mapping the phonemes of newly generated speech to mouth-shape motion and applying that motion back onto the original footage, an approach that frees the translation from the constraints traditional dubbing&#39;s lip-flap adaptation has always worked within.</p>
+<p>It is not a universal requirement. Close-up, front-facing, scripted talking-head content benefits the most; wide shots, off-camera narration, and content where the speaker is not shown speaking gain little from it, and current lip-sync technology still handles some conditions, profile angles, obscured faces, fast motion, overlapping speakers, less reliably than a clean single-speaker interview. Treating it as a deliberate, shot-by-shot decision rather than a fixed default produces better results than applying it uniformly across every project.</p>
+<p>For teams weighing when to use it, the practical test is simple: if the mouth is visible and prominent, lip sync is usually worth the render time; if it is not, a dubbed audio track alone will look and sound just as finished. Try it on a representative clip in <a href="/features/video-translation">Octavia&#39;s video translation workflow</a> before committing to a full program.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-lip-sync-explained" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-lip-sync-explained&amp;text=AI%20Lip%20Sync%20Explained%3A%20How%20It%20Works%20and%20Why%20It%20Matters" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-lip-sync-explained" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/ai-dubbing">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-dubbing-explained" aria-label="Read AI Dubbing Explained: How It Works, Benefits, and Best Uses"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/ai-voice-portal.png" alt="AI Dubbing Explained: How It Works, Benefits, and Best Uses" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Dubbing Explained: How It Works, Benefits, and Best Uses</h2><p class="blog-card-description">AI dubbing combines speech recognition, translation, voice synthesis, and synchronization to recreate spoken content in another language. This complete guide explains the technology, ideal use cases, quality factors, limitations, and evaluation criteria.</p>
+      <time class="blog-card-date" datetime="2026-08-06T09:00:00Z">Aug 6, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-dubbing-software-guide" aria-label="Read The 2026 Buyer&#39;s Guide to AI Dubbing Software"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/layered-glass-panels.png" alt="The 2026 Buyer&#39;s Guide to AI Dubbing Software" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">The 2026 Buyer&#39;s Guide to AI Dubbing Software</h2><p class="blog-card-description">A practical evaluation framework for teams comparing AI dubbing software, built around the criteria that actually predict whether a vendor holds up on real work.</p>
+      <time class="blog-card-date" datetime="2026-08-17T09:00:00Z">Aug 17, 2026 · 15 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-dubbing-101" aria-label="Read Video Dubbing 101: Methods, Costs, and When to Use AI"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/voice-ring-cascade.png" alt="Video Dubbing 101: Methods, Costs, and When to Use AI" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Dubbing 101: Methods, Costs, and When to Use AI</h2><p class="blog-card-description">If you&#39;ve never commissioned a dub before, the terminology and tradeoffs can be confusing. This guide walks through what video dubbing actually involves, from studio recording to AI-driven pipelines, so you can make an informed first decision.</p>
+      <time class="blog-card-date" datetime="2026-08-14T09:00:00Z">Aug 14, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

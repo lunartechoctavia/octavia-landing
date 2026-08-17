@@ -472,7 +472,7 @@
 <p>This guide explains that workflow from source preparation through final validation. It works whether you translate manually, use a subtitle editor, or begin with an automated translation and review it with a qualified language specialist.</p>
 <h2 id="understand-the-srt-structure-before-editing">Understand the SRT structure before editing</h2>
 <p>Each subtitle event usually contains three parts:</p>
-<p>text 42 00:03:18,240 --&gt; 00:03:21,600 We need to review the final version.</p>
+<p>``<code>text 42 00:03:18,240 --&gt; 00:03:21,600 We need to review the final version. </code>``</p>
 <p>The first line is the event number. The second line tells the player when to show and hide the subtitle. SRT timestamps normally use hours, minutes, seconds, and milliseconds, with a comma before the milliseconds. The arrow between the two timestamps uses two hyphens and a greater-than symbol. The following line or lines contain the text, and a blank line separates one event from the next.</p>
 <p>Only the dialogue usually needs translation. Event numbers and timestamps should remain unchanged unless the project also includes retiming. Some files contain simple formatting tags, speaker labels, sound descriptions, or position cues. Those elements require deliberate handling; they should not be casually removed just because they are not spoken words.</p>
 <p>The SRT format does not carry the same rich styling and metadata as some other caption formats. That makes it widely compatible, but it also means the relationship between the text and its numbered timestamp block is critical. One missing blank line can cause an importer to combine events. A malformed timestamp can make a subtitle disappear or prevent the file from loading.</p>
@@ -484,7 +484,7 @@
 <h2 id="prepare-a-clean-source-file">Prepare a clean source file</h2>
 <p>Do not begin with the first SRT you can find in a download folder. Confirm that it matches the final video cut. Play several points near the beginning, middle, and end, checking that the subtitle text corresponds to the scene and that the timing has not drifted. If the source subtitles are inaccurate, translation will multiply those mistakes.</p>
 <p>Review names, numbers, acronyms, and specialized terms before sending the file into a multilingual workflow. Fixing a product name once in the source is safer than correcting it independently in every language. If no reliable subtitles exist, create a reviewed master with Octavia&#39;s <a href="/features/subtitle-generation">subtitle generation workflow</a> before translating it.</p>
-<p>Save an untouched copy with an obvious name such as episode-04.en.master.srt. Work on a duplicate, and use a target-language code in the new filename, for example episode-04.es.srt. Clear naming keeps the source from being overwritten and helps publishing tools associate the right file with the right language.</p>
+<p>Save an untouched copy with an obvious name such as <code>episode-04.en.master.srt</code>. Work on a duplicate, and use a target-language code in the new filename, for example <code>episode-04.es.srt</code>. Clear naming keeps the source from being overwritten and helps publishing tools associate the right file with the right language.</p>
 <p>Finally, confirm the text encoding. UTF-8 is a practical default for multilingual subtitle work because it supports the scripts, accents, and punctuation used by many languages. Encoding problems can turn readable characters into question marks or garbled sequences even when the translation itself is correct.</p>
 <h2 id="translate-for-the-scene-not-the-text-box">Translate for the scene, not the text box</h2>
 <p>Subtitles are read while something else is happening on screen. A good translation must be accurate, but it must also be concise enough to follow at viewing speed. That often requires adaptation rather than a word-for-word transfer.</p>
@@ -494,7 +494,7 @@
 <h2 id="use-a-structure-safe-translation-workflow">Use a structure-safe translation workflow</h2>
 <p>The following sequence reduces both linguistic and technical errors.</p>
 <h3 id="1-duplicate-and-identify-the-file">1. Duplicate and identify the file</h3>
-<p>Keep the original master read-only. Name the working file with its target locale, not just a generic word such as translated. Distinguish regional variants when they matter, because language choices and publishing metadata may differ.</p>
+<p>Keep the original master read-only. Name the working file with its target locale, not just a generic word such as <code>translated</code>. Distinguish regional variants when they matter, because language choices and publishing metadata may differ.</p>
 <h3 id="2-import-into-an-srt-aware-environment">2. Import into an SRT-aware environment</h3>
 <p>Use a subtitle editor or localization platform that recognizes numbered events and timestamps as structure. A plain text editor can work for a small correction, but it offers little protection against accidentally changing syntax. Avoid pasting the entire raw file into a document editor that may replace straight characters, normalize arrows, or remove blank lines.</p>
 <h3 id="3-protect-timecode-fields">3. Protect timecode fields</h3>
@@ -506,14 +506,14 @@
 <h3 id="6-check-length-and-line-breaks">6. Check length and line breaks</h3>
 <p>Look for subtitles that became much longer than their source. Length alone is not a quality score, but sudden expansion can signal a line that will be hard to read in its available duration. Break lines at natural phrase boundaries. Avoid separating an article from its noun, a name from its title, or a short preposition from the phrase it introduces.</p>
 <h3 id="7-preserve-intentional-markup">7. Preserve intentional markup</h3>
-<p>Keep supported emphasis tags balanced, and translate accessibility labels consistently. If the source uses labels such as [door closes], follow the project&#39;s target-language style instead of deleting them. Confirm which tags the destination player accepts; unsupported markup may appear as visible text.</p>
+<p>Keep supported emphasis tags balanced, and translate accessibility labels consistently. If the source uses labels such as <code>[door closes]</code>, follow the project&#39;s target-language style instead of deleting them. Confirm which tags the destination player accepts; unsupported markup may appear as visible text.</p>
 <h3 id="8-export-as-srt-with-the-correct-encoding">8. Export as SRT with the correct encoding</h3>
 <p>Choose SRT explicitly rather than renaming another format&#39;s extension. Export in UTF-8 unless the delivery specification requires something else. Open the exported file once in a text editor to confirm that characters, event spacing, and timestamp syntax survived the round trip.</p>
 <h2 id="validate-structure-before-reviewing-language">Validate structure before reviewing language</h2>
 <p>Technical validation should happen before a reviewer spends time polishing wording. At minimum, compare the source and target files for the following:</p>
 <ul><li>The event count is identical.</li><li>Every event number is present once and remains in sequence.</li><li>Every timestamp follows the expected pattern.</li><li>Each start time precedes its end time.</li><li>Events remain in chronological order.</li><li>Blank lines separate the blocks.</li><li>No dialogue field is accidentally empty.</li><li>Formatting tags are balanced and supported.</li><li>The file is readable in the intended character encoding.</li></ul>
 <p>An automated validator can catch these mechanical issues quickly. It should report differences rather than silently rewriting the file, because not every unusual event is wrong. For example, brief overlaps may be intentional when two speakers interrupt each other.</p>
-<p>Avoid validating by extension alone. A file named .srt can still contain WebVTT headers, period-based milliseconds, or malformed arrows. Test the actual syntax, then import the result into the player or publishing platform that will use it.</p>
+<p>Avoid validating by extension alone. A file named <code>.srt</code> can still contain WebVTT headers, period-based milliseconds, or malformed arrows. Test the actual syntax, then import the result into the player or publishing platform that will use it.</p>
 <h2 id="review-subtitles-inside-the-video">Review subtitles inside the video</h2>
 <p>A clean parser result does not prove that the subtitles work. Watch the full target-language version with sound and picture. Confirm that each line belongs to the visible speaker, appears when the thought begins, and disappears without covering the next important action.</p>
 <p>During the watch-through, listen for meaning that the source text did not capture. Irony, hesitation, and emphasis can change the best target phrasing. Check on-screen graphics as well: a subtitle that repeats a translated title card may be unnecessary, while one that contradicts an untranslated interface can confuse the viewer.</p>
@@ -566,27 +566,27 @@
       <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
     </div>
     <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
-    <a class="blog-card-link" href="/blog/ai-dubbing-explained" aria-label="Read AI Dubbing Explained: How It Works, Benefits, and Best Uses"></a>
-    <div class="blog-card-media"><img src="../../assets/blog/images/ai-voice-portal.png" alt="AI Dubbing Explained: How It Works, Benefits, and Best Uses" loading="lazy" decoding="async"></div>
-    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
-      <h2 class="blog-card-title">AI Dubbing Explained: How It Works, Benefits, and Best Uses</h2><p class="blog-card-description">AI dubbing combines speech recognition, translation, voice synthesis, and synchronization to recreate spoken content in another language. This complete guide explains the technology, ideal use cases, quality factors, limitations, and evaluation criteria.</p>
-      <time class="blog-card-date" datetime="2026-08-06T09:00:00Z">Aug 6, 2026 · 11 min read</time>
+    <a class="blog-card-link" href="/blog/how-automatic-video-translation-works" aria-label="Read How Automatic Video Translation Actually Works"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/signal-relay-nodes.png" alt="How Automatic Video Translation Actually Works" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How Automatic Video Translation Actually Works</h2><p class="blog-card-description">Automatic video translation looks like a single button press, but underneath it is a chain of distinct systems handing work to one another. Here is what actually happens at each stage.</p>
+      <time class="blog-card-date" datetime="2026-08-13T09:00:00Z">Aug 13, 2026 · 14 min read</time>
     </div></div>
   </article>
 <article class="blog-card">
-    <a class="blog-card-link" href="/blog/ai-dubbing-vs-traditional-dubbing" aria-label="Read AI Dubbing vs Traditional Dubbing: Cost, Speed, Quality, and Control"></a>
-    <div class="blog-card-media"><img src="../../assets/blog/images/dual-ai-dialogue.png" alt="AI Dubbing vs Traditional Dubbing: Cost, Speed, Quality, and Control" loading="lazy" decoding="async"></div>
-    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
-      <h2 class="blog-card-title">AI Dubbing vs Traditional Dubbing: Cost, Speed, Quality, and Control</h2><p class="blog-card-description">AI and studio dubbing solve the same localization problem in very different ways. Compare production stages, budgets, turnaround, creative control, consistency, and quality to choose the right model for each project.</p>
-      <time class="blog-card-date" datetime="2026-07-30T09:00:00Z">Jul 30, 2026 · 11 min read</time>
+    <a class="blog-card-link" href="/blog/video-to-transcript-guide" aria-label="Read Video to Transcript: The Fastest Ways to Convert Video to Text"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/light-speed-tunnel.png" alt="Video to Transcript: The Fastest Ways to Convert Video to Text" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video to Transcript: The Fastest Ways to Convert Video to Text</h2><p class="blog-card-description">Turning a video into an accurate transcript takes more than pressing a button. Here is the practical process, from audio prep to review, that produces a text file you can actually use.</p>
+      <time class="blog-card-date" datetime="2026-08-05T09:00:00Z">Aug 5, 2026 · 13 min read</time>
     </div></div>
   </article>
 <article class="blog-card">
-    <a class="blog-card-link" href="/blog/ai-dubbing-workflow" aria-label="Read The AI Dubbing Workflow: From Raw Video to Lip-Synced Export"></a>
-    <div class="blog-card-media"><img src="../../assets/blog/images/glass-corridor-portal.png" alt="The AI Dubbing Workflow: From Raw Video to Lip-Synced Export" loading="lazy" decoding="async"></div>
-    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
-      <h2 class="blog-card-title">The AI Dubbing Workflow: From Raw Video to Lip-Synced Export</h2><p class="blog-card-description">A strong dub depends on much more than translated text. Follow every stage of a production-ready AI dubbing workflow, including source preparation, speaker detection, terminology, voice selection, synchronization, review, and delivery.</p>
-      <time class="blog-card-date" datetime="2026-07-23T09:00:00Z">Jul 23, 2026 · 11 min read</time>
+    <a class="blog-card-link" href="/blog/ai-subtitle-generator-guide" aria-label="Read AI Subtitle Generator: Accuracy, Formats, and What to Check"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/halo-ring-solo.png" alt="AI Subtitle Generator: Accuracy, Formats, and What to Check" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Subtitle Generator: Accuracy, Formats, and What to Check</h2><p class="blog-card-description">Auto-generated subtitles are only as useful as the format you export and the checks you run before publishing. This guide covers both.</p>
+      <time class="blog-card-date" datetime="2026-08-03T09:00:00Z">Aug 3, 2026 · 13 min read</time>
     </div></div>
   </article></div></section>
     </main>

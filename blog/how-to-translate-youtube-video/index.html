@@ -1,0 +1,636 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>How to Translate a YouTube Video (Step-by-Step) | Octavia</title>
+    <meta name="description" content="Learn how to translate a YouTube video with multi-language audio tracks, subtitles, or separate uploads, plus a step-by-step production workflow.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/how-to-translate-youtube-video">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Translate a YouTube Video (Step-by-Step)">
+    <meta property="og:description" content="Learn how to translate a YouTube video with multi-language audio tracks, subtitles, or separate uploads, plus a step-by-step production workflow.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/how-to-translate-youtube-video">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/play-button-glass-monolith.png">
+    <meta property="article:published_time" content="2026-08-11T09:00:00Z">
+    <meta property="article:modified_time" content="2026-08-11T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Translate a YouTube Video (Step-by-Step)">
+    <meta name="twitter:description" content="Learn how to translate a YouTube video with multi-language audio tracks, subtitles, or separate uploads, plus a step-by-step production workflow.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/play-button-glass-monolith.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Translate a YouTube Video (Step-by-Step)","description":"Learn how to translate a YouTube video with multi-language audio tracks, subtitles, or separate uploads, plus a step-by-step production workflow.","image":"https://octavia.lunartech.ai/assets/blog/images/play-button-glass-monolith.png","datePublished":"2026-08-11T09:00:00Z","dateModified":"2026-08-11T09:00:00Z","wordCount":2842,"timeRequired":"PT13M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/how-to-translate-youtube-video","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"How to Translate a YouTube Video (Step-by-Step)","item":"https://octavia.lunartech.ai/blog/how-to-translate-youtube-video"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/creator-growth">Creator Growth</a>
+        <h1 class="article-title">How to Translate a YouTube Video (Step-by-Step)</h1><p class="article-deck">Translating a YouTube video is less about picking a tool and more about picking a distribution path. This walkthrough covers the three real options and how to execute each one correctly.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-11T09:00:00Z">Aug 11, 2026</time><span class="article-meta-dot"></span><span>13 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/play-button-glass-monolith.png" alt="How to Translate a YouTube Video (Step-by-Step)" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-three-paths-for-translating-a-youtube-video">The three paths for translating a YouTube video</a></li><li><a class="toc-h2" data-toc-link href="#multi-language-audio-tracks-vs-separate-uploads-the-real-tradeoff">Multi-language audio tracks vs. separate uploads: the real tradeoff</a></li><li><a class="toc-h2" data-toc-link href="#step-by-step-translating-a-youtube-video-from-source-to-published-result">Step-by-step: translating a YouTube video from source to published result</a></li><li><a class="toc-h3" data-toc-link href="#1-prepare-the-source-video">1. Prepare the source video</a></li><li><a class="toc-h3" data-toc-link href="#2-get-an-accurate-transcript">2. Get an accurate transcript</a></li><li><a class="toc-h3" data-toc-link href="#3-translate-the-transcript">3. Translate the transcript</a></li><li><a class="toc-h3" data-toc-link href="#4-generate-or-record-the-target-language-audio">4. Generate or record the target-language audio</a></li><li><a class="toc-h3" data-toc-link href="#5-review-before-finalizing">5. Review before finalizing</a></li><li><a class="toc-h3" data-toc-link href="#6-upload-or-attach-the-result-on-youtube">6. Upload or attach the result on YouTube</a></li><li><a class="toc-h2" data-toc-link href="#how-translated-titles-descriptions-and-tags-affect-discoverability">How translated titles, descriptions, and tags affect discoverability</a></li><li><a class="toc-h2" data-toc-link href="#common-mistakes-to-avoid">Common mistakes to avoid</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#should-i-use-multi-language-audio-tracks-or-a-separate-upload-for-my-first-translated-video">Should I use multi-language audio tracks or a separate upload for my first translated video?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-to-dub-the-audio-or-are-subtitles-enough">Do I need to dub the audio, or are subtitles enough?</a></li><li><a class="toc-h3" data-toc-link href="#can-i-add-multiple-language-audio-tracks-to-a-video-that-is-already-published">Can I add multiple language audio tracks to a video that is already published?</a></li><li><a class="toc-h3" data-toc-link href="#how-long-does-it-take-to-translate-and-dub-a-youtube-video">How long does it take to translate and dub a YouTube video?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-difference-between-youtube-s-automatic-captions-and-proper-translated-subtitles">What is the difference between YouTube&#39;s automatic captions and proper translated subtitles?</a></li><li><a class="toc-h3" data-toc-link href="#will-translating-my-video-hurt-my-channel-s-overall-analytics">Will translating my video hurt my channel&#39;s overall analytics?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Creators usually ask how to translate a YouTube video expecting a single answer, but YouTube actually supports three different ways to reach non-English viewers, and each one changes how the video is discovered, watched, and measured. Picking the wrong path is the most common reason a translation project stalls halfway through: a creator dubs a video, uploads it as a separate file, watches it get zero views, and concludes dubbing does not work, when the real problem was a distribution decision made before any translation happened.</p>
+<p>This guide walks through the three paths in plain terms, then gives a concrete production sequence for taking a video from source language to a published, translated result: transcript, translation, target-language audio, and correct upload or attachment on YouTube. It also covers what translated titles, descriptions, and tags actually do for discoverability per language, and the mistakes that quietly waste a translation budget even when the audio and subtitles themselves are accurate.</p>
+<p>None of this requires guessing. The tradeoffs between multi-language audio tracks, translated subtitles, and separate uploads are structural, not a matter of taste, and the right choice usually depends on whether a creator is protecting an existing video&#39;s view count or trying to build a presence in a new language&#39;s search results from scratch.</p>
+<h2 id="the-three-paths-for-translating-a-youtube-video">The three paths for translating a YouTube video</h2>
+<p>Before any transcript or translation work starts, decide which of these three you are building toward. They are not stages of the same process; they are alternatives with different outcomes.</p>
+<p><strong>Multi-language audio tracks.</strong> YouTube Studio lets creators attach additional audio tracks in other languages to a single video. The video, its URL, its view count, its likes, and its comment section stay unified. A viewer in Mexico City and a viewer in São Paulo watch the same upload; YouTube serves each of them the audio track that matches their account or device language settings, and viewers can usually switch tracks manually from the player. This is the closest thing YouTube has to native dubbing support, and it is the option most large channels use once they commit to multiple languages.</p>
+<p><strong>Translated subtitles and closed captions.</strong> Instead of replacing the audio, you attach a caption track in another language. The original audio keeps playing, and viewers who want the translation read it as on-screen text. This is the lowest-effort path and the only one that works for every viewer regardless of what audio track is attached, but it asks more of the viewer than dubbed audio does, since they are reading and watching at once.</p>
+<p><strong>Separate translated uploads.</strong> Instead of attaching anything to the original video, you publish a second, fully independent video: translated title, translated description, dubbed or subtitled body, its own URL. This is effectively treating the translated version as a new piece of content aimed at a new audience.</p>
+<h2 id="multi-language-audio-tracks-vs-separate-uploads-the-real-tradeoff">Multi-language audio tracks vs. separate uploads: the real tradeoff</h2>
+<p>This is the decision that matters most, and it is worth spelling out plainly because the two paths pull in opposite directions.</p>
+<p>Multi-language audio tracks keep everything consolidated. One video, one comment thread, one view count that keeps compounding regardless of which language a viewer hears. That consolidation is valuable for a channel with a smaller catalog, because it means every language you add reinforces the same video&#39;s ranking signals instead of splitting them across duplicates. The tradeoff is that you cannot fully optimize the title, description, or tags for each language individually in the way a dedicated upload allows, and the audio tracks have to be produced and attached to an already-published video, which adds a step to your workflow for every new video going forward.</p>
+<p>Separate uploads flip that. Each translated version gets its own title, description, tags, thumbnail, and chapter markers, all written natively for that language&#39;s search behavior rather than translated as an afterthought. That means a separate Spanish upload can rank for Spanish-language search queries far better than an English video with a Spanish audio track attached, because YouTube&#39;s discovery systems weight the text metadata heavily and a translated title genuinely written for Spanish search intent outperforms a literal translation bolted onto an English-first video. The cost is that you now have two (or five, or ten) videos competing for attention instead of one, your view count and social proof are split across all of them, and every language needs its own SEO, thumbnail, and community management going forward. <a href="/blog/best-languages-to-translate-youtube-videos">Which languages should you translate first</a> is worth deciding before you commit to this path, since splitting your catalog into more languages than your channel can actively support tends to dilute effort rather than multiply reach.</p>
+<p>Translated subtitles sit outside this tradeoff because they are additive rather than a choice between consolidation and duplication. You can layer subtitles onto either a multi-audio-track video or a separate upload, and they cost far less to produce than a full dub. Most channels that eventually build dubbed multi-language libraries start by subtitling their entire catalog first, since it is faster to justify and gives an early read on which languages actually generate watch time before committing to dubbing.</p>
+<p>A reasonable default: use multi-language audio tracks when you are translating an existing catalog and want to protect the view counts and comment history those videos already have. Use separate uploads when you are launching in a new language deliberately, want full control over that language&#39;s title and thumbnail, and are prepared to run SEO and community management for it as its own channel presence. For a deeper look at running several languages on one channel at scale, see <a href="/blog/multilingual-youtube-channel">how to build a multilingual YouTube channel</a>.</p>
+<h2 id="step-by-step-translating-a-youtube-video-from-source-to-published-result">Step-by-step: translating a YouTube video from source to published result</h2>
+<p>The production sequence is the same regardless of which distribution path you choose. What changes is only the last step.</p>
+<h3 id="1-prepare-the-source-video">1. Prepare the source video</h3>
+<p>Start from the best available version of the video, not a compressed export downloaded back off YouTube. If you have separated tracks for the host&#39;s voice, guests, background music, and sound effects, keep them separate going into the translation process. Preserved tracks give you far more control over the final dub mix than a single flattened audio file, since you can lower music under dialogue or duck sound effects without touching the translated voice.</p>
+<p>Note anything a translator or dubbing tool needs context for before you start: speaker names, brand terms, product names, and any phrase that should stay untranslated. Write these down. This list becomes your glossary for every later language, not just the first one.</p>
+<h3 id="2-get-an-accurate-transcript">2. Get an accurate transcript</h3>
+<p>Every translation, dub, and subtitle track is only as good as the transcript underneath it. If the video has multiple speakers, use a transcription process that separates them individually rather than producing one undifferentiated block of text, since speaker separation is what lets a later dubbing step assign a consistent voice per speaker instead of blending everyone into one narrator. <a href="/features/subtitle-generation">Subtitle generation</a> tools built for this handle punctuation, timing, and speaker labeling automatically, but any transcript should still get a manual pass before translation starts. Errors at this stage compound: a mistranscribed word becomes a mistranslated sentence becomes a wrong line of dubbed audio.</p>
+<h3 id="3-translate-the-transcript">3. Translate the transcript</h3>
+<p>Translate the reviewed transcript into your target language, keeping the glossary from step one in front of whoever or whatever is doing the translation. Context-aware translation matters more here than in general document translation, because spoken dialogue includes idioms, incomplete sentences, and timing constraints that a literal word-for-word pass will not respect. A sentence that is accurate in isolation can still run too long or too short to match the original speaker&#39;s pacing once it needs to be spoken aloud. <a href="/features/subtitle-translation">Subtitle translation</a> workflows are built specifically to preserve timing alongside meaning, which matters whether the output ends up as captions or as the script for dubbed audio.</p>
+<h3 id="4-generate-or-record-the-target-language-audio">4. Generate or record the target-language audio</h3>
+<p>If you are producing dubbed audio rather than subtitles, this is where the translated script becomes speech. Octavia&#39;s dubbing pipeline runs transcription with speaker separation, context-aware translation, and generated speech that follows each speaker&#39;s tone and pacing, followed by frame-accurate lip-sync for video. The generated speech is built to match the original speaker&#39;s delivery rather than replace it with a generic narrator voice, so a fast, energetic host still sounds fast and energetic in the dubbed track. Multi-speaker detection and separation, which keeps each speaker&#39;s voice consistent across the video, is available on Pro plans and above, and speaker assignment can be adjusted during review if the automatic detection needs a correction.</p>
+<p>If you are producing subtitles instead, skip audio generation and move the translated, time-aligned text directly into a caption file.</p>
+<h3 id="5-review-before-finalizing">5. Review before finalizing</h3>
+<p>Read or listen through the full translated output before it goes anywhere near YouTube. Check pronunciation of names, confirm brand terms were left alone, and verify the pacing of dubbed lines still matches the video. On Starter plans and above, Octavia supports manual transcript review before rendering, which is the point in the process where catching an error is cheapest; catching the same error after a video is published means re-uploading or re-attaching a corrected file.</p>
+<h3 id="6-upload-or-attach-the-result-on-youtube">6. Upload or attach the result on YouTube</h3>
+<p>This is where the earlier distribution decision comes back into play.</p>
+<ul><li>For a multi-language audio track, go to the existing video in YouTube Studio and add the translated audio track as an additional language on that same upload. The original audio and any other languages you have already added stay intact; you are adding to the set, not replacing anything.</li><li>For translated subtitles, upload the caption file to the existing video, either as an addition to a multi-audio-track video or on its own.</li><li>For a separate upload, publish the dubbed or subtitled version as a new video with its own translated title, description, tags, and thumbnail, following the metadata guidance below.</li></ul>
+<h2 id="how-translated-titles-descriptions-and-tags-affect-discoverability">How translated titles, descriptions, and tags affect discoverability</h2>
+<p>Dubbing the body of a video and stopping there leaves most of the discoverability value on the table, because YouTube&#39;s search and recommendation systems still lean heavily on text metadata to understand what a video is about and who is likely to watch it.</p>
+<p>For a multi-language audio track video, YouTube Studio also supports translated (localized) versions of the title and description that display to viewers browsing in that language, separate from the audio track itself. Filling these in is not optional if you want the video to be findable by people searching in that language; without them, the video shows an English title to a Spanish-language search even though a Spanish audio track is available, and most viewers will not click a video whose title they cannot read.</p>
+<p>For a separate upload, the title, description, and tags should be written natively for that language&#39;s search intent rather than translated literally from the English original. A literal translation of an English title often uses phrasing no one actually searches for. Think about how a native speaker of the target language would phrase the query, not just how the English title reads translated word for word.</p>
+<p>Tags matter less than they used to for YouTube&#39;s ranking, but they still help categorize a video correctly, and translated tags should reflect terms and spelling variants actually used in that language rather than a direct translation of the English tag list.</p>
+<h2 id="common-mistakes-to-avoid">Common mistakes to avoid</h2>
+<p>A handful of mistakes show up repeatedly in creator workflows, and most of them are easy to avoid once you know to check for them.</p>
+<ul><li><strong>Translating the title and description but not the content itself.</strong> A translated title draws in a viewer who then hits English audio and English subtitles and leaves within seconds. This actively hurts a video&#39;s performance with that language&#39;s audience, since a high early drop-off rate is a negative signal to YouTube&#39;s recommendation system. If the content is not translated, do not translate the metadata either.</li><li><strong>Ignoring speaker names and brand terms.</strong> Automated translation without a glossary will sometimes translate or mangle a person&#39;s name, a product name, or a branded phrase that should stay exactly as-is across every language. This is avoidable with the glossary step covered above, and it is worth catching before publishing rather than after.</li><li><strong>Forgetting thumbnails may need localized text.</strong> A thumbnail with English text on it undercuts a translated title and dubbed audio, since it is often the first thing a viewer evaluates before clicking. If a thumbnail includes any on-screen text, produce a localized version for each language you are targeting with a separate upload.</li><li><strong>Splitting a small catalog across too many languages at once.</strong> Producing five separate uploads in five languages for a channel with modest existing traffic spreads views, comments, and algorithmic signal thin across all five, and none of them build momentum. Starting with multi-language audio tracks on one or two priority languages tends to perform better than spreading a small library across many separate uploads.</li><li><strong>Skipping review because the automated output sounds fluent.</strong> Fluent output is not the same as correct output. A dub can sound natural and still mispronounce a name, drop a qualifying phrase, or run out of sync with an on-screen graphic. Review before publishing catches these before an audience does.</li></ul>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="should-i-use-multi-language-audio-tracks-or-a-separate-upload-for-my-first-translated-video">Should I use multi-language audio tracks or a separate upload for my first translated video?</h3>
+<p>For most creators translating an existing video into one or two new languages, multi-language audio tracks are the better starting point, since they protect the video&#39;s existing view count and comments while adding language options. Move to separate uploads once you are deliberately building a presence in a specific language&#39;s search results and are prepared to run SEO and community management for that language independently.</p>
+<h3 id="do-i-need-to-dub-the-audio-or-are-subtitles-enough">Do I need to dub the audio, or are subtitles enough?</h3>
+<p>It depends on the audience and the content. Subtitles are faster and cheaper to produce and work for viewers who prefer reading along, but dubbed audio generally holds attention better for narrative, tutorial, or entertainment content where viewers want to watch rather than read. Many channels start with subtitles across their whole catalog, then add dubbed audio for videos that prove they get sustained watch time in a given language.</p>
+<h3 id="can-i-add-multiple-language-audio-tracks-to-a-video-that-is-already-published">Can I add multiple language audio tracks to a video that is already published?</h3>
+<p>Yes. Multi-language audio tracks can be added to an existing, already-published video through YouTube Studio without needing to re-upload the video file itself. This is one of the main advantages of this path over a separate upload, since it does not disturb the video&#39;s existing performance history.</p>
+<h3 id="how-long-does-it-take-to-translate-and-dub-a-youtube-video">How long does it take to translate and dub a YouTube video?</h3>
+<p>It depends heavily on video length, number of speakers, and how much manual review you build into the process. A short single-speaker video can move from transcript to translated, dubbed audio in well under an hour with an automated pipeline plus a review pass; longer, multi-speaker videos take proportionally longer, mostly in the review step rather than the automated generation step.</p>
+<h3 id="what-is-the-difference-between-youtube-s-automatic-captions-and-proper-translated-subtitles">What is the difference between YouTube&#39;s automatic captions and proper translated subtitles?</h3>
+<p>YouTube&#39;s automatic captions are speech-to-text in the original language, not a translation, and they are known to make frequent errors with names, technical terms, and background noise. Proper translated subtitles start from a reviewed, accurate transcript and are translated with attention to timing and meaning, which is a materially different (and more reliable) result than relying on autogenerated captions alone.</p>
+<h3 id="will-translating-my-video-hurt-my-channel-s-overall-analytics">Will translating my video hurt my channel&#39;s overall analytics?</h3>
+<p>Multi-language audio tracks keep all view and engagement data unified under the original video, so no, this path does not fragment your analytics. Separate uploads do split analytics across each video, which is expected and manageable as long as you are tracking performance per language deliberately rather than being surprised by lower individual view counts on each translated upload.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Translating a YouTube video is a distribution decision wearing a translation problem&#39;s clothes. The transcript, translation, and audio generation steps are largely the same regardless of which path you choose; what actually determines whether the work pays off is whether you attach the result to your existing video as a multi-language audio track, layer it on as subtitles, or publish it as a fully separate upload built for that language&#39;s own search behavior.</p>
+<p>Get the distribution choice right first, then run the production sequence: a clean source, an accurate reviewed transcript, a context-aware translation that respects your glossary, generated or recorded audio that matches the original speaker&#39;s tone and pacing, and a final review before anything goes live. Skipping steps to move faster tends to show up later as mispronounced names, mistimed dubs, or a translated title sitting in front of untranslated content, all of which cost more to fix after publishing than to catch before.</p>
+<p>For creators ready to move from a single translated video to a repeatable process across a growing catalog, see how <a href="/features/video-translation">video translation with lip-sync</a> handles the transcription, translation, and dubbing steps in one workflow.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fhow-to-translate-youtube-video" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fhow-to-translate-youtube-video&amp;text=How%20to%20Translate%20a%20YouTube%20Video%20(Step-by-Step)" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fhow-to-translate-youtube-video" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/creator-growth">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/youtube-dubbing-guide" aria-label="Read YouTube Dubbing: How to Add Multi-Language Audio Tracks"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/parallel-audio-strands.png" alt="YouTube Dubbing: How to Add Multi-Language Audio Tracks" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">YouTube Dubbing: How to Add Multi-Language Audio Tracks</h2><p class="blog-card-description">YouTube&#39;s multi-audio-track feature lets a single upload carry several dubbed languages at once. Here is how the system works and how to produce dubs efficiently at channel scale.</p>
+      <time class="blog-card-date" datetime="2026-08-10T09:00:00Z">Aug 10, 2026 · 12 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/youtube-translator-tools" aria-label="Read YouTube Translator Tools: What Actually Works"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/scattered-glass-fragments.png" alt="YouTube Translator Tools: What Actually Works" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">YouTube Translator Tools: What Actually Works</h2><p class="blog-card-description">Searching for a YouTube translator turns up browser extensions, built-in auto-translate, subtitle tools, and dubbing platforms. Here is what each one actually does, and which one your channel needs.</p>
+      <time class="blog-card-date" datetime="2026-08-09T09:00:00Z">Aug 9, 2026 · 15 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/multilingual-youtube-channel" aria-label="Read How to Build a Multilingual YouTube Channel"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="How to Build a Multilingual YouTube Channel" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Build a Multilingual YouTube Channel</h2><p class="blog-card-description">Structuring a multilingual YouTube channel is a multi-year decision, not a single upload. Here is how to choose an architecture, prioritize languages, and keep production sustainable as you scale.</p>
+      <time class="blog-card-date" datetime="2026-08-08T09:00:00Z">Aug 8, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

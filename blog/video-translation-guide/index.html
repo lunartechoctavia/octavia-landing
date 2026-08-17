@@ -1,0 +1,643 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Video Translation: The Complete Guide | Octavia</title>
+    <meta name="description" content="A complete guide to video translation: what it means, every method available, real cost and turnaround tradeoffs, and how to choose the right one.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/video-translation-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Video Translation: The Complete Guide">
+    <meta property="og:description" content="A complete guide to video translation: what it means, every method available, real cost and turnaround tradeoffs, and how to choose the right one.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/video-translation-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/radiant-globe-lines.png">
+    <meta property="article:published_time" content="2026-08-16T09:00:00Z">
+    <meta property="article:modified_time" content="2026-08-16T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Video Translation: The Complete Guide">
+    <meta name="twitter:description" content="A complete guide to video translation: what it means, every method available, real cost and turnaround tradeoffs, and how to choose the right one.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/radiant-globe-lines.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Video Translation: The Complete Guide","description":"A complete guide to video translation: what it means, every method available, real cost and turnaround tradeoffs, and how to choose the right one.","image":"https://octavia.lunartech.ai/assets/blog/images/radiant-globe-lines.png","datePublished":"2026-08-16T09:00:00Z","dateModified":"2026-08-16T09:00:00Z","wordCount":3546,"timeRequired":"PT16M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/video-translation-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Video Translation: The Complete Guide","item":"https://octavia.lunartech.ai/blog/video-translation-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/translation-guides">Translation Guides</a>
+        <h1 class="article-title">Video Translation: The Complete Guide</h1><p class="article-deck">Video translation is not one product but a category of choices between subtitles, dubbed audio, and voice-over. This guide maps the whole landscape so you can pick the right method for your project.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-16T09:00:00Z">Aug 16, 2026</time><span class="article-meta-dot"></span><span>16 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/radiant-globe-lines.png" alt="Video Translation: The Complete Guide" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-video-translation-actually-covers">What &quot;video translation&quot; actually covers</a></li><li><a class="toc-h2" data-toc-link href="#the-landscape-of-methods">The landscape of methods</a></li><li><a class="toc-h2" data-toc-link href="#what-actually-happens-technically">What actually happens technically</a></li><li><a class="toc-h2" data-toc-link href="#how-to-decide-which-method-fits-your-project">How to decide which method fits your project</a></li><li><a class="toc-h3" data-toc-link href="#a-quick-decision-checklist">A quick decision checklist</a></li><li><a class="toc-h2" data-toc-link href="#realistic-cost-and-turnaround-expectations">Realistic cost and turnaround expectations</a></li><li><a class="toc-h2" data-toc-link href="#common-mistakes-teams-make">Common mistakes teams make</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#is-video-translation-the-same-thing-as-dubbing">Is video translation the same thing as dubbing?</a></li><li><a class="toc-h3" data-toc-link href="#how-is-video-translation-different-from-video-localization">How is video translation different from video localization?</a></li><li><a class="toc-h3" data-toc-link href="#can-one-video-be-translated-into-subtitles-and-dubbed-audio-at-the-same-time">Can one video be translated into subtitles and dubbed audio at the same time?</a></li><li><a class="toc-h3" data-toc-link href="#how-long-does-video-translation-typically-take">How long does video translation typically take?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-lip-sync-for-every-translated-video">Do I need lip-sync for every translated video?</a></li><li><a class="toc-h3" data-toc-link href="#how-many-languages-should-i-translate-a-video-into-at-once">How many languages should I translate a video into at once?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Search for &quot;video translation&quot; and you will find dubbing tools, subtitle generators, freelance translator marketplaces, and full-service localization agencies, all claiming to solve the same problem. They do not. Video translation is a category, not a single deliverable, and the term covers several genuinely different outputs: timed text overlaid on the original audio, narration placed alongside it, or full replacement of the spoken dialogue in a new language. Each of these solves a different viewing problem, costs differently, and takes a different amount of time to produce well.</p>
+<p>The confusion is understandable. A marketing team asking to &quot;get this video translated into Spanish&quot; might mean subtitles for a social clip, a dubbed training video for a new regional office, or a voice-over for an executive presentation. The right answer depends on who is watching, where they are watching, and how much production quality the moment demands. Picking a method before understanding these tradeoffs tends to produce either overspending on a simple clip or underspending on content that needed a real production process.</p>
+<p>This guide walks through what video translation actually means as a category, the full landscape of methods available to produce it, how the underlying technical pipeline works regardless of who or what is doing the work, and how to decide which approach fits a given project. It is written for teams who know they need translated video but have not yet decided on a method, a vendor, or a tool.</p>
+<h2 id="what-video-translation-actually-covers">What &quot;video translation&quot; actually covers</h2>
+<p>At its broadest, video translation is the process of making a video&#39;s spoken and written content understandable in a language other than the one it was made in. That single sentence hides three distinct deliverables that people often use the term interchangeably to mean.</p>
+<p><strong>Subtitles</strong> display translated text on screen while the original audio track continues to play. They are the fastest and least invasive form of video translation, and they preserve the original performance, voice, and emotional tone exactly as recorded. Subtitles ask the viewer to read and listen at the same time, which works well for many contexts but is not ideal for content meant to be consumed passively, such as social feeds played without a screen in view or long-form video where reading fatigue sets in.</p>
+<p><strong>Voice-over</strong> adds a new narration track, usually mixed at a lower volume alongside or over the original audio, or replacing it entirely without matching lip movement. It is common in documentary and news production, where a translated voice narrates over footage while the original speaker&#39;s voice remains faintly audible underneath. Voice-over is less demanding to produce than full dubbing because it does not need to match mouth movements, but it still requires a translated script and a voice performance.</p>
+<p><strong>Dubbing</strong> replaces the original dialogue with new spoken audio in the target language, timed to match the pacing and, ideally, the lip movements of the speakers on screen. It is the most immersive option and the closest to a native production in the target language, but it is also the most technically demanding, since translated speech has to fit the same time window as the original while still sounding natural.</p>
+<p>Choosing among these is a production decision, not a translation decision. A tutorial where the presenter&#39;s face fills the frame benefits from dubbing because mismatched lip movement is distracting. A screen-recorded product demo where the presenter is rarely visible may do just as well with a voice-over or even subtitles alone. A short-form social clip watched with the sound off needs subtitles regardless of what else is produced, because most viewers will never hear the audio track at all. Many projects end up needing more than one deliverable from the same source video, which is worth planning for before production starts rather than after.</p>
+<h2 id="the-landscape-of-methods">The landscape of methods</h2>
+<p>Once the deliverable is chosen, there is still the question of how to produce it. Four broad approaches dominate the market, and they differ mainly in who or what does the transcription, translation, and voice work, and how tightly those steps are coordinated.</p>
+<p><strong>Human translation agencies</strong> offer full-service localization: a dedicated project manager, professional linguists, and often in-house or contracted voice talent, all coordinated through an established quality process. This is the traditional route for high-stakes content such as feature films, major ad campaigns, and regulated training material. Agencies typically quote per minute of finished video and require a longer lead time because each stage, from translation through casting through recording through mixing, involves scheduling real people. The quality ceiling is high when the agency and talent are well matched to the subject matter, but so is the cost, and turnaround is measured in days or weeks rather than hours.</p>
+<p><strong>Freelance translators paired with separate voice talent</strong> is a lighter-weight version of the agency model, usually assembled directly by the content owner through freelance marketplaces or personal networks. A translator produces the script, and a separate voice actor or narrator records it, sometimes with a video editor handling final sync. This route can be less expensive than a full agency and gives more direct control over casting, but it also puts the coordination burden on whoever is managing the project. Quality varies more widely because there is no single accountable process tying the stages together, and revisions can be slower since they route through multiple independent contractors.</p>
+<p><strong>Subtitle-only services</strong> focus narrowly on transcription and translated captioning, sometimes through software, sometimes through human captioners, sometimes a mix of both. These are typically the fastest and least expensive route to translated video because they skip voice production entirely. They are a strong fit when subtitles are the actual deliverable, but they are not a substitute for dubbing when the project calls for spoken translated audio.</p>
+<p><strong>AI-driven platforms</strong> combine transcription, translation, voice generation, and synchronization into a single automated pipeline, often producing a first pass in minutes rather than days. This is the newest category, and it has closed much of the gap with human production for many use cases, particularly where turnaround and volume matter more than the highest achievable artistic ceiling. Octavia falls into this category: its <a href="/features/video-translation">video translation workflow</a> runs transcription with speaker separation, context-aware translation, generated speech that follows each speaker&#39;s tone and pacing, and frame-accurate lip-sync, all inside one pipeline rather than a chain of separate vendors. The tradeoff is that AI output still benefits from human review before publishing, particularly for idiomatic language, terminology, and named entities, which is why most serious AI workflows build in a review step rather than treating the first render as final.</p>
+<p>These categories are not mutually exclusive in practice. Some teams use an AI platform to produce a fast first draft and a human linguist to review and adjust it, which combines the speed of automation with a human quality check. Others use subtitle-only services for high-volume social content and reserve full agency dubbing for flagship campaigns. The <a href="/blog/ai-dubbing-vs-traditional-dubbing">comparison between AI dubbing and traditional dubbing</a> covers this tradeoff in more depth, and the <a href="/blog/ai-dubbing-software-guide">AI dubbing software buyer&#39;s guide</a> is a useful next read if an AI-driven platform looks like the right direction for your volume and timeline.</p>
+<h2 id="what-actually-happens-technically">What actually happens technically</h2>
+<p>Regardless of which method produces it, translated video goes through the same underlying technical stages. Understanding them helps explain why certain projects are harder than others and where quality tends to break down.</p>
+<p>The process starts with <strong>transcription</strong>: converting the spoken audio into text in the source language. This step also needs to identify who is speaking when there are multiple voices, since a translation that merges two speakers into one voice, or assigns the wrong line to the wrong person, undermines everything that follows. Good transcription captures not just words but timing, so that each phrase can later be matched to the moment it occurs on screen.</p>
+<p>Next comes <strong>translation</strong>, converting the transcribed text into the target language. This is where context matters most. A literal, word-for-word translation frequently produces phrasing that is technically accurate but unnatural, and it can also run longer or shorter than the original line, which matters enormously when the translated audio or text needs to fit the same time window as the source. Context-aware translation accounts for tone, idiom, and the constraints of spoken delivery rather than treating the transcript as a generic document.</p>
+<p>From there, the path diverges depending on the deliverable. For <strong>subtitles</strong>, the translated text is timed against the original audio and either burned directly into the video frames or delivered as a separate caption file that a video player displays on top of the footage. Burned-in subtitles are permanent and guaranteed to display correctly everywhere; separate caption files are more flexible, since they can be toggled, edited, or translated into additional languages without re-touching the video itself.</p>
+<p>For <strong>dubbed audio</strong>, the translated script is turned into spoken audio, either recorded by a voice actor or generated by AI systems trained to produce natural speech that follows the tone and pacing of the original speaker. That new audio track is then time-aligned to the video, and for full dubbing, an additional <strong>lip-sync</strong> step adjusts either the timing of the speech or, in AI pipelines, the mouth movements themselves so dialogue and visuals feel matched rather than obviously overdubbed. This lip-sync stage is what separates dubbing from voice-over and is generally the most technically demanding part of the entire pipeline, which is also why it is usually offered as a video-only feature rather than something applied to audio-only files.</p>
+<p>Every one of these stages can introduce errors that compound downstream. A transcription mistake produces a translation of the wrong words. A translation that ignores context produces a technically correct but tone-deaf line. A rushed sync produces audio that drifts out of alignment with the picture by the end of a long scene. This is why review checkpoints between stages, not just at the very end, tend to catch far more problems than a single pass at final delivery.</p>
+<h2 id="how-to-decide-which-method-fits-your-project">How to decide which method fits your project</h2>
+<p>There is no universally correct method: the right choice depends on five factors that are worth evaluating together rather than one at a time.</p>
+<p><strong>Budget</strong> sets the outer boundary. Full-service agency dubbing sits at the high end of cost per finished minute; freelance-assembled translation and voice work is generally less expensive but less predictable; subtitle-only services are the cheapest route to a translated deliverable; AI-driven platforms typically charge per minute of source content processed, at a fraction of what agency production costs, which changes the calculation for teams translating regularly rather than once.</p>
+<p><strong>Turnaround time</strong> often matters as much as budget. Agencies and freelance-coordinated projects are measured in days to weeks because they depend on human scheduling at every stage. AI platforms can produce a usable first pass in a fraction of that time, which matters enormously for time-sensitive content like product launches, breaking news, or live-adjacent programming where a translated version delivered two weeks late has largely lost its value.</p>
+<p><strong>Volume</strong> changes which method is economically sensible. Translating one flagship video into one language is a fundamentally different problem than translating a weekly video series into a dozen languages on an ongoing basis. High-volume, recurring translation almost always favors a platform-based approach, simply because per-project agency coordination does not scale linearly with the number of videos or languages involved. The guide to <a href="/blog/multilingual-video-content">creating multilingual video content at scale</a> goes deeper into the operational side of this problem.</p>
+<p><strong>Quality bar</strong> depends on what the content is for. A regulated compliance training video, a theatrical release, or a brand&#39;s flagship campaign justifies the highest achievable production quality and the review layers that come with it. An internal update, a support video, or a social clip with a short shelf life generally does not need the same investment, and treating every video as if it does wastes budget that could translate more content instead.</p>
+<p><strong>Number of target languages</strong> compounds every other factor. A single target language is manageable through almost any method. Ten or twenty target languages make coordination overhead, cost per language, and turnaround consistency the dominant concerns, and this is usually where automated pipelines pull decisively ahead of manually coordinated production, simply because the marginal cost and time of an additional language stays comparatively low.</p>
+<h3 id="a-quick-decision-checklist">A quick decision checklist</h3>
+<p>Before committing to a method, it helps to answer these questions directly:</p>
+<ul><li><strong>What is the actual deliverable</strong> — subtitles, voice-over, or full dubbing — and does the content&#39;s format (talking head, screen recording, social clip) make that choice for you?</li><li><strong>What is the real deadline</strong>, and can a multi-week agency timeline actually meet it?</li><li><strong>How many target languages</strong> does this need now, and how many will it likely need within the next year?</li><li><strong>What is the per-minute or per-project budget</strong>, and does that budget hold up once multiplied across every language and every future video?</li><li><strong>What quality bar does this specific piece of content require</strong>, based on its audience and consequences, rather than a blanket standard applied to everything?</li><li><strong>Who will review the output before it publishes</strong>, and is that review step actually budgeted for, in time as well as cost?</li><li><strong>Does the content involve multiple speakers</strong> whose distinct identities need to be preserved rather than flattened into one voice?</li></ul>
+<p>If most answers point toward speed, volume, and multiple languages, an AI-driven platform is usually the more sensible starting point, with human review layered on top. If the answers point toward a single flagship piece with a generous timeline and a very high quality ceiling, an agency or carefully assembled freelance team may be worth the added cost and wait.</p>
+<h2 id="realistic-cost-and-turnaround-expectations">Realistic cost and turnaround expectations</h2>
+<p>Costs and timelines vary enough by vendor and content complexity that specific numbers outside of Octavia&#39;s own pricing are not meaningful here, but the general shape of the landscape is consistent and worth understanding qualitatively.</p>
+<p>Full-service agency dubbing sits at the top of the cost range and the long end of the turnaround range, generally quoted per finished minute, with pricing that climbs further for additional languages, complex casting requirements, or expedited timelines. Lead times are typically measured in weeks once translation, casting, recording, and mixing are all accounted for, though agencies with established relationships and pre-cleared talent can sometimes move faster for repeat clients.</p>
+<p>Freelance-assembled translation and voice work tends to land below agency pricing but with wider variance, since quality and reliability depend heavily on who is hired and how well the project is coordinated. Turnaround can be faster than an agency for a single video, but it degrades quickly at volume, since every additional video or language multiplies the coordination work rather than benefiting from an established production line.</p>
+<p>Subtitle-only services are generally the least expensive route to a translated deliverable, and turnaround can be same-day to a few days depending on whether the service uses human captioners, automated transcription, or a hybrid review process. This is the fastest, cheapest path when subtitles are genuinely the right deliverable, but it does not solve the problem for content that needs spoken translated audio.</p>
+<p>AI-driven platforms compress turnaround the most dramatically, often producing a first-pass render in minutes to a few hours depending on video length, with pricing structured per minute of source content rather than per finished-video project quotes. Octavia, for example, prices <a href="/features/video-translation">dubbing</a> at roughly 100 credits per minute of video, with credits shared as a single currency across all six workflows and monthly allowances ranging from 500 credits on the Free plan up to 120,000 on Studio; the <a href="/pricing">pricing page</a> has the full breakdown by plan. The tradeoff for that speed is that the fastest AI output benefits from a human review pass before it goes out the door, which is why plans above the entry tier include manual transcript review before rendering rather than treating the automated pass as the finished product.</p>
+<h2 id="common-mistakes-teams-make">Common mistakes teams make</h2>
+<p>A handful of mistakes show up repeatedly across teams new to video translation, regardless of which method they choose.</p>
+<p><strong>Skipping review entirely.</strong> Whether the translation was done by a human agency, a freelancer, or an AI platform, publishing the first output without a native-language review is the single most common source of embarrassing errors: misused idioms, mistranslated brand or product names, and tone that reads wrong to a native speaker even when every word is technically correct. Review is not optional overhead; it is the step that catches what automated or single-pass human translation cannot.</p>
+<p><strong>Ignoring speaker identity.</strong> Multi-speaker videos, interviews, panels, and training content with several presenters all depend on the viewer being able to tell speakers apart. A translation process that collapses every speaker into one generic voice, or that swaps translated lines between speakers, destroys the coherence of the conversation even if every individual sentence is accurate. This is why speaker separation during transcription and consistent per-speaker voice assignment during generation matter as much as the translation quality itself.</p>
+<p><strong>Treating every language pair as equally difficult.</strong> Translating English into a closely related language with similar sentence structure is a different task than translating into a language with a fundamentally different grammar, honorific system, or writing direction. Teams that budget the same time and review effort across every target language often end up under-reviewing the languages that actually needed the most attention.</p>
+<p><strong>Not budgeting for revisions.</strong> First drafts, human or AI, are rarely publish-ready for high-stakes content. Teams that treat the initial render as the final deliverable, with no time or budget set aside for a revision pass, frequently end up either publishing avoidable errors or scrambling to fix them after the fact, which costs more in both time and credibility than planning for review from the start. The <a href="/blog/video-localization-strategy">video localization strategy guide</a> covers how to build this review cycle into a repeatable production process rather than treating it as a one-off fire drill.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="is-video-translation-the-same-thing-as-dubbing">Is video translation the same thing as dubbing?</h3>
+<p>No. Dubbing is one specific method of video translation, one that replaces the original spoken audio with new audio in the target language. Video translation is the broader category that also includes subtitles and voice-over, and the right choice among them depends on the content and audience rather than dubbing being the default.</p>
+<h3 id="how-is-video-translation-different-from-video-localization">How is video translation different from video localization?</h3>
+<p>Translation converts spoken and written language from one language to another. Localization goes further, adapting cultural references, examples, units, on-screen text, and sometimes visuals so the content feels native to the target market rather than merely understandable. The <a href="/blog/translation-vs-localization">translation versus localization guide</a> explains the distinction in more detail.</p>
+<h3 id="can-one-video-be-translated-into-subtitles-and-dubbed-audio-at-the-same-time">Can one video be translated into subtitles and dubbed audio at the same time?</h3>
+<p>Yes, and this is common. Many teams generate both a subtitle track and a fully dubbed audio version from the same source video, since different distribution channels and viewer preferences call for different formats. Producing both from a single coordinated pipeline is generally more efficient than treating them as separate projects.</p>
+<h3 id="how-long-does-video-translation-typically-take">How long does video translation typically take?</h3>
+<p>It depends heavily on method and video length. Agency-coordinated dubbing typically takes days to weeks per language due to human scheduling across translation, casting, and recording. AI-driven platforms can produce a first-pass render in minutes to a few hours, with additional time needed for human review before publishing.</p>
+<h3 id="do-i-need-lip-sync-for-every-translated-video">Do I need lip-sync for every translated video?</h3>
+<p>No. Lip-sync matters most when the speaker&#39;s face and mouth are clearly visible on screen for extended periods, such as talking-head interviews or presentations. Screen recordings, voice-over-style narration, and content where the speaker is rarely on camera generally do not need it, and skipping it for those cases saves both time and cost without a noticeable quality loss.</p>
+<h3 id="how-many-languages-should-i-translate-a-video-into-at-once">How many languages should I translate a video into at once?</h3>
+<p>Start with the languages backed by clear audience evidence, such as existing viewership data, support requests, or specific market priorities, rather than translating into every language available at once. Expanding language coverage incrementally, once a workflow and review process are proven on one or two languages, tends to produce more consistent quality than launching a dozen languages simultaneously.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Video translation is not a single product to buy but a category of decisions: what deliverable the audience actually needs, which production method fits the budget, timeline, and volume, and how much review the content&#39;s stakes justify. Teams that start by naming the deliverable and mapping it against these constraints make better choices than teams that pick a vendor first and work backward.</p>
+<p>The technical pipeline, transcription, translation, and either subtitle rendering or dubbed audio with lip-sync, stays consistent whether it is run by a human production team or an automated platform. What changes is speed, cost, and how much of the coordination burden falls on the team managing the project. For a single flagship piece with a generous timeline, a human-led process still has a real place. For ongoing, multi-language, volume-driven translation, an AI-driven pipeline that combines every stage, with human review layered on top, is increasingly the more practical starting point.</p>
+<p>If your project fits that second pattern, it is worth trying the <a href="/features/video-translation">video translation workflow</a> directly, or reviewing <a href="/pricing">pricing</a> to see how the cost scales against your expected volume and language count.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-guide&amp;text=Video%20Translation%3A%20The%20Complete%20Guide" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/translation-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/best-video-translator-tools" aria-label="Read Best Video Translator Tools, Compared"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/floating-shard-array.png" alt="Best Video Translator Tools, Compared" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Best Video Translator Tools, Compared</h2><p class="blog-card-description">Not every video translator solves the same problem. Here is how the main tool categories differ, and how to pick the right one for a single lecture or a whole back catalog.</p>
+      <time class="blog-card-date" datetime="2026-08-15T09:00:00Z">Aug 15, 2026 · 16 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/translate-video-online-options" aria-label="Read How to Translate a Video Online: Free vs. Paid Options"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/twin-light-portals.png" alt="How to Translate a Video Online: Free vs. Paid Options" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Translate a Video Online: Free vs. Paid Options</h2><p class="blog-card-description">Free tools can caption a short clip in minutes, but they rarely produce a finished, dubbed video. Here is how to decide which approach actually fits your project.</p>
+      <time class="blog-card-date" datetime="2026-08-12T09:00:00Z">Aug 12, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-subtitle-translator-explained" aria-label="Read AI Subtitle Translator: How Machine Translation Handles Timed Text"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/parabolic-light-tunnel.png" alt="AI Subtitle Translator: How Machine Translation Handles Timed Text" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Subtitle Translator: How Machine Translation Handles Timed Text</h2><p class="blog-card-description">Translating subtitle text is not the same problem as translating a document. Here is what actually happens inside a competent AI subtitle translator, and how to tell when one is cutting corners.</p>
+      <time class="blog-card-date" datetime="2026-08-04T09:00:00Z">Aug 4, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

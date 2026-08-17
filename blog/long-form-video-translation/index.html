@@ -1,0 +1,633 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content | Octavia</title>
+    <meta name="description" content="A practical guide to long-form video translation for lectures and webinars: budgeting, terminology drift, segment review, and subtitles vs. dubbing.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/long-form-video-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content">
+    <meta property="og:description" content="A practical guide to long-form video translation for lectures and webinars: budgeting, terminology drift, segment review, and subtitles vs. dubbing.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/long-form-video-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/ai-helmet-profile.png">
+    <meta property="article:published_time" content="2026-07-31T09:00:00Z">
+    <meta property="article:modified_time" content="2026-07-31T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content">
+    <meta name="twitter:description" content="A practical guide to long-form video translation for lectures and webinars: budgeting, terminology drift, segment review, and subtitles vs. dubbing.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/ai-helmet-profile.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content","description":"A practical guide to long-form video translation for lectures and webinars: budgeting, terminology drift, segment review, and subtitles vs. dubbing.","image":"https://octavia.lunartech.ai/assets/blog/images/ai-helmet-profile.png","datePublished":"2026-07-31T09:00:00Z","dateModified":"2026-07-31T09:00:00Z","wordCount":2980,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/long-form-video-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content","item":"https://octavia.lunartech.ai/blog/long-form-video-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content</h1><p class="article-deck">A ninety-minute lecture or a three-hour conference recording breaks the assumptions built into most translation workflows. Here is how to plan, prepare, and review long-form content without the quality drifting halfway through.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-07-31T09:00:00Z">Jul 31, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/ai-helmet-profile.png" alt="Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-long-form-content-is-a-different-problem">Why long-form content is a different problem</a></li><li><a class="toc-h2" data-toc-link href="#terminology-drift-over-a-long-session">Terminology drift over a long session</a></li><li><a class="toc-h2" data-toc-link href="#preparing-long-form-content-before-translation">Preparing long-form content before translation</a></li><li><a class="toc-h2" data-toc-link href="#realistic-turnaround-expectations-for-multi-hour-content">Realistic turnaround expectations for multi-hour content</a></li><li><a class="toc-h2" data-toc-link href="#review-in-segments-not-all-at-once">Review in segments, not all at once</a></li><li><a class="toc-h2" data-toc-link href="#subtitles-or-full-dubbing-for-long-form-content">Subtitles or full dubbing for long-form content</a></li><li><a class="toc-h2" data-toc-link href="#choosing-a-plan-for-the-length-of-content">Choosing a plan for the length of content</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#how-much-does-translating-a-multi-hour-recording-cost-compared-to-a-short-video">How much does translating a multi-hour recording cost compared to a short video?</a></li><li><a class="toc-h3" data-toc-link href="#how-long-does-it-take-to-translate-a-multi-hour-lecture">How long does it take to translate a multi-hour lecture?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-i-stop-a-speaker-s-terminology-from-getting-translated-inconsistently-across-a-long-talk">How do I stop a speaker&#39;s terminology from getting translated inconsistently across a long talk?</a></li><li><a class="toc-h3" data-toc-link href="#should-i-trim-dead-air-and-tangents-before-translating-a-long-recording">Should I trim dead air and tangents before translating a long recording?</a></li><li><a class="toc-h3" data-toc-link href="#should-a-long-webinar-recording-get-subtitles-dubbing-or-both">Should a long webinar recording get subtitles, dubbing, or both?</a></li><li><a class="toc-h3" data-toc-link href="#can-i-review-a-long-form-translation-before-the-whole-file-finishes-rendering">Can I review a long-form translation before the whole file finishes rendering?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A three-minute product video and a ninety-minute conference keynote are not the same translation problem at different sizes. They are different problems. Long-form video translation introduces variables that barely register on short clips: cost accumulates for hours instead of seconds, a speaker&#39;s terminology can drift over the course of a talk, and a single unnoticed error early on can compound across everything that follows it. Teams that apply a short-form mindset to a multi-hour recording usually discover the gap only after the render is finished and someone has to sit through the whole thing to find out where it went wrong.</p>
+<p>Lectures, webinars, panel discussions, and full-day training sessions share a set of traits that shape how they should be translated: they run long, they often involve more than one speaker, they contain a higher density of specialized vocabulary than a marketing video, and they are rarely scripted end to end. A guest speaker riffs off-topic. A moderator opens the floor for questions. Someone&#39;s connection drops for ninety seconds. None of that shows up in a three-minute explainer, and all of it needs a plan before translation starts.</p>
+<p>This guide covers what actually changes when content runs long: how to budget for it, how to prepare it so terminology and structure hold together, what turnaround to expect, why reviewing in segments beats waiting for a finished multi-hour file, and how to decide between subtitles and full dubbing for content that is meant to be watched passively rather than searched.</p>
+<h2 id="why-long-form-content-is-a-different-problem">Why long-form content is a different problem</h2>
+<p>Short-form video translation is largely a quality problem: get the translation right, get the voice and timing right, ship it. Long-form video translation is a quality problem plus a logistics problem, and the logistics tend to dominate once a project runs past thirty or forty minutes.</p>
+<p>The first difference is time. Processing scales with duration, and a ten-hour conference recording takes proportionally longer to move through transcription, translation, and rendering than a five-minute clip does. That is not a flaw in any particular tool; it is simply the nature of processing more audio and video data. The practical consequence is planning: a long-form project needs to be scheduled with realistic lead time, not queued the afternoon before a deadline.</p>
+<p>The second difference is cost. Because translation and dubbing platforms typically charge per minute of source material, a two-hour webinar costs roughly twenty-four times what a five-minute clip costs, all else equal. That linear relationship is easy to underestimate when a team is used to thinking about &quot;a video&quot; as a fixed-cost unit rather than a duration-based one. Budgeting for long-form translation means budgeting per minute of runtime, not per project.</p>
+<p>The third difference is consistency risk. A three-minute video gives a speaker almost no room to be inconsistent. A ninety-minute lecture gives them plenty. The same technical term might get shortened, restated, or swapped for a rough synonym three separate times over the course of a talk, and a translation system working sentence by sentence has no inherent way to know those three phrasings refer to the same thing. Left unmanaged, that becomes terminology drift in the output: the translated version uses two or three different terms for a concept the original speaker meant as one.</p>
+<p>The fourth difference is structural complexity. Short clips are usually a single speaker reading from a script. Long-form sessions frequently involve a presenter and a moderator, a panel of several speakers, a live audience asking questions, and stretches where nobody is following a script at all. Each of those adds translation surface area: speaker changes to track, off-the-cuff phrasing that does not translate as cleanly as prepared remarks, and Q&amp;A segments where audio quality and pacing are often worse than the main presentation.</p>
+<h2 id="terminology-drift-over-a-long-session">Terminology drift over a long session</h2>
+<p>Terminology drift deserves its own attention because it is the failure mode most specific to long-form content and the easiest one to miss during a spot check. A reviewer who samples the first five minutes and the last five minutes of a two-hour lecture can easily approve a file where the middle third quietly uses three different translated terms for the same underlying concept, because the sample never crossed the point where the drift happened.</p>
+<p>Drift tends to originate on the source side before it ever reaches translation. Speakers restate ideas differently as a talk goes on: shortening a term once the audience seems to have absorbed it, substituting a looser phrase during an ad-libbed tangent, or reaching for an approximate synonym mid-sentence and never circling back. A translation engine processing the talk in sequence has no built-in memory forcing &quot;customer acquisition cost&quot; and &quot;cost to acquire a customer&quot; to map to the same target-language term unless something tells it they should.</p>
+<p>The fix is not better translation technology; it is upfront preparation. A glossary supplied before translation begins gives the system a fixed mapping for the terms that matter, regardless of how the speaker happens to phrase them in any given moment. For long-form content this matters more than for a short video precisely because a ninety-minute talk usually carries far more specialized vocabulary than a ninety-second ad, and there are far more opportunities across the runtime for that vocabulary to be phrased inconsistently.</p>
+<h2 id="preparing-long-form-content-before-translation">Preparing long-form content before translation</h2>
+<p>Preparation work that would be optional for a short clip becomes close to mandatory for a multi-hour recording. Three things are worth doing before a long-form file goes into translation at all.</p>
+<p><strong>Segment the content logically.</strong> Break a multi-hour recording into sections that map to how it will actually be reviewed: talk versus Q&amp;A, chapter by chapter for a lecture series, or speaker by speaker for a panel. This is not necessarily how the file gets processed technically, but it is how a human reviewer should be able to navigate it. A two-hour file with no internal landmarks forces every reviewer to scrub through undifferentiated runtime to find the section they need to check.</p>
+<p><strong>Build a glossary before translation starts.</strong> Pull out product names, technical terms, acronyms, proper nouns, and any phrase where a wrong translation would be embarrassing or confusing. This is the single highest-leverage step for preventing terminology drift, and it is far cheaper to do once at the start than to fix after the fact across an hours-long transcript.</p>
+<p><strong>Decide what is essential versus skippable.</strong> Long recordings accumulate dead air, technical difficulties, off-topic tangents, and stretches that add runtime without adding value: a slow room settling in before a talk starts, a five-minute pause while someone fixes a microphone, a digression that never returns to the main topic. Deciding upfront what to trim, and what to leave in for completeness, keeps cost and reviewer time focused on the material that matters. Not every organization wants to trim; some need the full unedited record for compliance or archival reasons. The point is to make that decision deliberately rather than by default.</p>
+<p>None of this preparation is unique to any one platform, but it interacts directly with how a job gets built. On Octavia, a glossary and segment structure feed into the same manual transcript review step that catches inconsistent terminology before it reaches the render, which is a natural place to apply the preparation described above.</p>
+<h2 id="realistic-turnaround-expectations-for-multi-hour-content">Realistic turnaround expectations for multi-hour content</h2>
+<p>Long-form projects need a different planning horizon than short ones, and setting that expectation early avoids the common failure of promising a same-day turnaround on a file that was never going to support one.</p>
+<p>A few factors drive turnaround on multi-hour content:</p>
+<ul><li><strong>Processing time scales with duration.</strong> A ten-hour training archive will take meaningfully longer to move through transcription, translation, and rendering than a fifteen-minute clip, simply because there is more material to process. Plan the schedule around the file&#39;s actual runtime, not around how urgent the request feels.</li><li><strong>Review time does not scale down.</strong> A human reviewer working through a two-hour transcript for terminology and accuracy needs time proportional to that transcript&#39;s length, not a fixed review window regardless of duration. Padding the schedule for review is often the step teams forget when they estimate turnaround.</li><li><strong>Multi-speaker content adds review overhead.</strong> A panel discussion or Q&amp;A with several speakers takes longer to review carefully than a single presenter reading from a script, because a reviewer has to track who is speaking and whether each voice is handled correctly.</li><li><strong>Fast-mode passes can shorten the feedback loop.</strong> Running a lower-fidelity pass first, checking translation and pacing, then committing to a full-quality render only once that pass looks right, avoids discovering a translation problem only after paying for a final-quality render of ten hours of content.</li><li><strong>Notifications beat babysitting a progress bar.</strong> For long-running jobs, a webhook that fires when the job completes is more practical than having someone check back on a multi-hour render every twenty minutes.</li></ul>
+<p>Octavia&#39;s <a href="/docs">API access with webhooks</a> is built for exactly that last point: for a Pro or Studio job that may run for hours, a webhook notification when the job finishes is a more realistic workflow than watching a status page. And because <a href="/features/video-translation">Fast versus Quality render modes</a> are available on every paid tier, teams can validate a long file cheaply before committing to the full-quality pass that will actually ship.</p>
+<h2 id="review-in-segments-not-all-at-once">Review in segments, not all at once</h2>
+<p>Waiting until an entire multi-hour translation finishes before reviewing any of it is a costly way to work. If an error shows up in the first twenty minutes of a three-hour lecture, and that error only gets caught during a single end-to-end review at the very end, the reviewer has already spent time evaluating everything downstream of a mistake that needs to be fixed and re-checked anyway.</p>
+<p>Segment-based review avoids that. Reviewing a two-hour recording in four thirty-minute chunks, or by natural breaks such as talk versus Q&amp;A, or by chapter for a structured lecture series, means a terminology or accuracy problem gets caught and corrected close to where it happened, rather than discovered only after a full pass through hours of material. It also means review work can start before the entire job has finished rendering, since the pieces that are ready can be checked while later segments are still processing.</p>
+<p>This is also where a glossary and a manual transcript review step pay off together. Reviewing the transcript before rendering, rather than the finished audio or video, is faster because a reviewer can scan and correct text rather than listen through hours of audio to catch the same issues. Octavia&#39;s <a href="/features/video-translation">manual transcript review</a> step is designed for this: the job pauses after translation so a reviewer can work through the transcript, section by section, and catch inconsistent terminology or mistranslated passages before anything renders. Catching a drifted term at the transcript stage of a three-hour file is a five-minute fix. Catching the same problem after a full-quality render means paying to re-render.</p>
+<h2 id="subtitles-or-full-dubbing-for-long-form-content">Subtitles or full dubbing for long-form content</h2>
+<p>Short-form video usually gets an easy answer on subtitles versus dubbing: dub it, because it is meant to be watched actively and briefly. Long-form content deserves a more deliberate answer, because the two formats serve genuinely different use cases once a recording runs past thirty minutes or an hour.</p>
+<p><strong>Subtitles tend to suffice for reference and searchable content.</strong> A recorded internal training session that people will search through for one specific answer, a conference talk archived for occasional lookup, or a lecture series students will skim rather than watch start to finish, are all cases where subtitles do the job. They are cheaper to produce, faster to generate, and they make the content searchable and skimmable in a way dubbed audio does not. Octavia&#39;s <a href="/features/subtitle-generation">subtitle generation</a> and <a href="/features/subtitle-translation">subtitle translation</a> tools are well suited to this kind of reference content, and a <a href="/features/subtitle-to-audio">subtitle-to-audio</a> pass is available if a text-first workflow later needs a spoken version.</p>
+<p><strong>Dubbing matters more for content meant to be watched or listened to passively.</strong> A webinar recording someone plays in the background while working, a lecture a student listens to during a commute, or a keynote meant to feel like a complete viewing experience in the target language, are cases where subtitles fall short. Reading dense subtitles for two hours is fatiguing in a way that thirty seconds of subtitles on a short clip is not, and passive listening only works if there is actually something to listen to. Generated speech that matches the original speaker&#39;s tone, pacing, and delivery, delivered through <a href="/features/video-translation">full video dubbing</a> or <a href="/features/audio-translation">audio translation</a> depending on the source format, is the better fit here.</p>
+<p>Cost is part of this decision too, and it is where the linear-cost dynamic of long-form content shows up most directly. Video translation runs at a materially higher per-minute cost than subtitle generation, so choosing subtitles for a three-hour archive that will mostly be searched rather than watched is not just a format choice, it is a meaningful budget decision. Teams weighing this tradeoff at scale, especially for training libraries with many hours of source material, may find it useful to read how a related question plays out for course content in <a href="/blog/ai-course-translation-guide">AI Course Translation: Localizing Online Courses Without Losing Quality</a>.</p>
+<h2 id="choosing-a-plan-for-the-length-of-content">Choosing a plan for the length of content</h2>
+<p>Because long-form content is defined by duration, the plan tier matters more here than for short-form work. Octavia&#39;s free tier supports up to five minutes of source material, and Starter extends that to sixty minutes, both well short of a typical hour-plus webinar or multi-hour conference recording. Creator plans extend further, to roughly ninety to a hundred twenty minutes. Content beyond that, up to ten hours in a single source file, requires a Pro or Studio plan.</p>
+<p>That length limit is not just a quota; it correlates with the features long-form work actually needs. Manual transcript review is available from Starter and above, but multi-speaker detection and separation, which matters directly for webinars and panel discussions with more than one voice, is available on Pro and above. Teams that regularly translate lectures, webinars, or multi-hour recordings with several speakers should plan around a Pro or Studio plan rather than trying to force long content through a lower tier. The <a href="/pricing">pricing page</a> breaks down length limits and features by tier.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="how-much-does-translating-a-multi-hour-recording-cost-compared-to-a-short-video">How much does translating a multi-hour recording cost compared to a short video?</h3>
+<p>Cost scales roughly linearly with source duration, since pricing is based on per-minute rates for the workflow used. A two-hour webinar costs on the order of twenty-four times what a five-minute clip costs for the same workflow, so budgeting should be done per minute of runtime rather than per project.</p>
+<h3 id="how-long-does-it-take-to-translate-a-multi-hour-lecture">How long does it take to translate a multi-hour lecture?</h3>
+<p>Processing time increases with the length of the source file, so a multi-hour recording takes proportionally longer than a short clip to move through transcription, translation, and rendering. Build in extra time for human review as well, since review effort scales with transcript length rather than staying fixed regardless of duration.</p>
+<h3 id="how-do-i-stop-a-speaker-s-terminology-from-getting-translated-inconsistently-across-a-long-talk">How do I stop a speaker&#39;s terminology from getting translated inconsistently across a long talk?</h3>
+<p>Supply a glossary before translation begins, covering technical terms, product names, and any phrase a speaker is likely to restate differently over the course of a session. Review the transcript in segments rather than only spot-checking the beginning and end, since inconsistent terminology often surfaces in the middle of a long file where a light review is least likely to catch it.</p>
+<h3 id="should-i-trim-dead-air-and-tangents-before-translating-a-long-recording">Should I trim dead air and tangents before translating a long recording?</h3>
+<p>It depends on the purpose of the content. If the file needs to remain a complete, unedited record for compliance or archival reasons, leave it intact. If it will primarily be watched or searched by an audience, trimming dead air, technical difficulties, and off-topic tangents before translation reduces both cost and reviewer time without losing anything substantive.</p>
+<h3 id="should-a-long-webinar-recording-get-subtitles-dubbing-or-both">Should a long webinar recording get subtitles, dubbing, or both?</h3>
+<p>That depends on how the content will be used. If it is mainly a searchable reference people will skim, subtitles are usually sufficient and considerably cheaper. If it is meant to be watched or listened to passively, such as a webinar recording played in the background, dubbing serves the audience better despite the higher per-minute cost.</p>
+<h3 id="can-i-review-a-long-form-translation-before-the-whole-file-finishes-rendering">Can I review a long-form translation before the whole file finishes rendering?</h3>
+<p>Yes, and it is the recommended approach for multi-hour content. Reviewing the transcript in segments, or using a manual transcript review step before rendering, lets a reviewer catch and correct errors early rather than discovering them only after a full-length render is complete.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Long-form video translation is not a scaled-up version of short-form translation; it carries its own set of risks around cost, terminology consistency, and review logistics that a three-minute clip never surfaces. Planning for it means budgeting per minute rather than per project, building a glossary before translation starts, breaking the file into segments that can be reviewed as they finish rather than all at once, and choosing subtitles or dubbing based on how the audience will actually consume the content rather than defaulting to one or the other.</p>
+<p>Teams that handle lectures, webinars, and multi-hour recordings regularly tend to converge on the same practices: prepare terminology upfront, review in transcript form before committing to a full render, and match the plan tier to the actual length and speaker complexity of the content. None of that eliminates the added time and cost that come with long-form material, but it keeps both predictable instead of discovered after the fact.</p>
+<p>For teams evaluating whether their long-form volume justifies a higher-tier plan, the <a href="/pricing">pricing page</a> lays out length limits, review features, and per-minute costs by tier so the decision can be made against real numbers rather than guesswork.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flong-form-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flong-form-video-translation&amp;text=Translating%20Long-Form%20Video%3A%20Lectures%2C%20Webinars%2C%20and%20Multi-Hour%20Content" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flong-form-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-course-translation-guide" aria-label="Read AI Course Translation: Localizing Online Courses Without Losing Quality"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/cascade-light-prism.png" alt="AI Course Translation: Localizing Online Courses Without Losing Quality" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Course Translation: Localizing Online Courses Without Losing Quality</h2><p class="blog-card-description">A single translated lecture is easy. A twelve-module course that has to stay consistent, teachable, and accurate in six languages is a different problem entirely.</p>
+      <time class="blog-card-date" datetime="2026-07-30T09:00:00Z">Jul 30, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/enterprise-video-translation-roi" aria-label="Read Enterprise Video Translation: How to Evaluate Vendors and ROI"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/twin-voice-halo.png" alt="Enterprise Video Translation: How to Evaluate Vendors and ROI" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Enterprise Video Translation: How to Evaluate Vendors and ROI</h2><p class="blog-card-description">Before committing budget to translated video at scale, most teams need answers to three questions: what it actually costs, how fast it moves, and how to tell a strong vendor from a risky one.</p>
+      <time class="blog-card-date" datetime="2026-07-29T09:00:00Z">Jul 29, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/enterprise-video-localization" aria-label="Read Enterprise Video Localization: Building a Secure, Scalable Workflow"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/particle-terrain-wave.png" alt="Enterprise Video Localization: Building a Secure, Scalable Workflow" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Enterprise Video Localization: Building a Secure, Scalable Workflow</h2><p class="blog-card-description">Enterprise localization succeeds when content operations, security, language quality, and publishing systems work as one governed process. This guide explains how to design that process from intake through distribution.</p>
+      <time class="blog-card-date" datetime="2026-04-16T09:00:00Z">Apr 16, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

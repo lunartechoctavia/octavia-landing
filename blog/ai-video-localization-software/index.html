@@ -1,0 +1,637 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>AI Video Localization Software: What to Look For | Octavia</title>
+    <meta name="description" content="A practical checklist for evaluating AI video localization software, from dubbing and lip-sync to review workflows, scalability, and security.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/ai-video-localization-software">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AI Video Localization Software: What to Look For">
+    <meta property="og:description" content="A practical checklist for evaluating AI video localization software, from dubbing and lip-sync to review workflows, scalability, and security.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/ai-video-localization-software">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/dark-orbs-cluster.png">
+    <meta property="article:published_time" content="2026-08-07T09:00:00Z">
+    <meta property="article:modified_time" content="2026-08-07T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Video Localization Software: What to Look For">
+    <meta name="twitter:description" content="A practical checklist for evaluating AI video localization software, from dubbing and lip-sync to review workflows, scalability, and security.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/dark-orbs-cluster.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI Video Localization Software: What to Look For","description":"A practical checklist for evaluating AI video localization software, from dubbing and lip-sync to review workflows, scalability, and security.","image":"https://octavia.lunartech.ai/assets/blog/images/dark-orbs-cluster.png","datePublished":"2026-08-07T09:00:00Z","dateModified":"2026-08-07T09:00:00Z","wordCount":2900,"timeRequired":"PT13M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/ai-video-localization-software","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"AI Video Localization Software: What to Look For","item":"https://octavia.lunartech.ai/blog/ai-video-localization-software"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/localization">Localization</a>
+        <h1 class="article-title">AI Video Localization Software: What to Look For</h1><p class="article-deck">Choosing AI video localization software is a technical evaluation, not a feature demo. Here is what to test before your organization commits to a platform.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-07T09:00:00Z">Aug 7, 2026</time><span class="article-meta-dot"></span><span>13 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/dark-orbs-cluster.png" alt="AI Video Localization Software: What to Look For" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#beyond-translation-what-the-software-actually-needs-to-produce">Beyond translation: what the software actually needs to produce</a></li><li><a class="toc-h2" data-toc-link href="#collaboration-features-that-matter-for-teams">Collaboration features that matter for teams</a></li><li><a class="toc-h2" data-toc-link href="#scalability-batch-processing-automation-and-long-form-content">Scalability: batch processing, automation, and long-form content</a></li><li><a class="toc-h2" data-toc-link href="#a-feature-checklist-for-the-evaluation">A feature checklist for the evaluation</a></li><li><a class="toc-h2" data-toc-link href="#security-and-data-handling-questions-worth-asking-a-vendor">Security and data-handling questions worth asking a vendor</a></li><li><a class="toc-h2" data-toc-link href="#how-to-structure-a-fair-trial-before-you-commit">How to structure a fair trial before you commit</a></li><li><a class="toc-h3" data-toc-link href="#1-test-with-representative-content-not-best-case-content">1. Test with representative content, not best-case content</a></li><li><a class="toc-h3" data-toc-link href="#2-involve-the-people-who-will-actually-use-it">2. Involve the people who will actually use it</a></li><li><a class="toc-h3" data-toc-link href="#3-measure-real-turnaround-time-not-demo-speed">3. Measure real turnaround time, not demo speed</a></li><li><a class="toc-h3" data-toc-link href="#4-check-the-review-workflow-specifically">4. Check the review workflow specifically</a></li><li><a class="toc-h3" data-toc-link href="#5-confirm-the-pricing-model-matches-your-actual-usage-pattern">5. Confirm the pricing model matches your actual usage pattern</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-difference-between-ai-video-localization-software-and-a-translation-tool">What is the difference between AI video localization software and a translation tool?</a></li><li><a class="toc-h3" data-toc-link href="#does-ai-dubbing-include-voice-cloning">Does AI dubbing include voice cloning?</a></li><li><a class="toc-h3" data-toc-link href="#how-many-reviewers-should-be-involved-in-an-ai-video-localization-workflow">How many reviewers should be involved in an AI video localization workflow?</a></li><li><a class="toc-h3" data-toc-link href="#can-ai-video-localization-software-handle-very-long-training-videos">Can AI video localization software handle very long training videos?</a></li><li><a class="toc-h3" data-toc-link href="#is-api-access-necessary-or-is-the-web-interface-enough">Is API access necessary, or is the web interface enough?</a></li><li><a class="toc-h3" data-toc-link href="#what-security-questions-should-we-ask-before-rolling-this-out-organization-wide">What security questions should we ask before rolling this out organization-wide?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Most teams start shopping for AI video localization software because a translation problem became a production problem. A single video needed to reach five markets, a training library needed to be understood by a distributed workforce, or a marketing team needed dubbed assets on a deadline that ruled out a traditional studio. Whatever the trigger, the search usually begins with a demo of translation quality, and that is the wrong first question. Translation accuracy is table stakes. The harder question is whether the software can run as a repeatable system inside a real organization.</p>
+<p>This piece is a technical evaluation guide, not a strategy document. If you are trying to decide how localization should fit into your broader content operation, that is a separate conversation covered in our <a href="/blog/video-localization-strategy">video localization strategy playbook</a>. Here, the assumption is that you already know you need AI-driven video localization and you are trying to figure out which platform can actually support your team, your content volume, and your review process without becoming a bottleneck of its own.</p>
+<p>The features that matter fall into a few categories: what the software produces, how people collaborate inside it, how it scales, how it handles data, and how you can verify all of that before signing a contract. We will walk through each one.</p>
+<h2 id="beyond-translation-what-the-software-actually-needs-to-produce">Beyond translation: what the software actually needs to produce</h2>
+<p>Translation is one step in a longer chain, and evaluating software only on translation quality misses most of the work that determines whether a video is actually usable in a target market.</p>
+<p><strong>Subtitle generation and translation.</strong> The platform should be able to generate accurate, correctly timed subtitles from source audio and then translate those subtitles into target languages while preserving timing, line breaks, and reading speed. Subtitles that are technically correct but display too fast for a viewer to read are still a defect. Octavia handles this as a dedicated <a href="/features/subtitle-generation">subtitle generation</a> workflow paired with <a href="/features/subtitle-translation">subtitle translation</a>, so teams that only need captions are not forced through a full dubbing pipeline.</p>
+<p><strong>Dubbed audio generation.</strong> For markets where subtitles are not sufficient, or where the content format expects spoken narration, the software needs to generate target-language audio. Evaluate how natural the generated speech sounds, whether it holds up over a full-length video rather than just a short clip, and whether it matches the original speaker&#39;s tone, pacing, and delivery. That last point matters more than it sounds: a flat, uniformly paced voiceover reads as synthetic even when the words are correct.</p>
+<p><strong>Lip-sync.</strong> For on-camera video, mismatched lip movement is one of the fastest ways to break viewer trust in a dub, even when the translation itself is accurate. Ask to see lip-sync results on a face-forward talking segment, not just a voiceover-style video where the speaker is off-camera. Octavia&#39;s <a href="/features/video-translation">Video Translation</a> workflow includes dubbing with lip-sync built in, so evaluate it on footage that resembles your actual source material.</p>
+<p><strong>Glossary and terminology management.</strong> Any organization with product names, brand terms, technical vocabulary, or names that should not be translated needs a way to lock those terms across every language and every job. Without this, the same term can be translated three different ways across three videos, which is a quality problem reviewers end up catching manually, every time.</p>
+<p><strong>Review and approval workflows.</strong> The software should let a human check and adjust output before it becomes a final render, not just after. This is different from a general &quot;edit the output&quot; feature. It means the ability to pause a job at a specific point, review translated text or transcript lines, correct them, and only then commit to the final audio or video render.</p>
+<p><strong>Format and export flexibility.</strong> Video for a corporate LMS, a YouTube channel, and a paid ad platform often need different container formats, subtitle formats, and delivery specs. A platform that only exports one flavor of file creates rework downstream.</p>
+<p><strong>Integration options.</strong> If localization needs to plug into a content pipeline rather than run as a one-off manual task, the software needs a way to be called programmatically rather than only through a web interface.</p>
+<h2 id="collaboration-features-that-matter-for-teams">Collaboration features that matter for teams</h2>
+<p>A single freelancer running a solo tool has different needs than an organization where localization touches multiple people: a project owner, one or more linguistic reviewers, a brand or legal reviewer, and sometimes a regional stakeholder who signs off before release. Software built for individual creators tends to assume one person does everything, and that assumption breaks down fast inside a team.</p>
+<p>Look for multiple reviewer support, meaning more than one person can be assigned to look at the same job without emailing files back and forth. Look for roles and permissions, so a reviewer can edit a transcript without being able to change billing settings or delete a project, and so a project owner can control who has access to what. And look for shared glossaries that live at the team or organization level rather than being tied to one person&#39;s account, so terminology consistency does not depend on everyone remembering to import the same file.</p>
+<p>Team seat limits and concurrency also matter here, and they are easy to overlook during a demo. A platform might support unlimited reviewers in theory, but if only one job can run at a time, a five-person localization team will be waiting on each other constantly. Ask how many people can hold seats on a plan and how many jobs can actually process concurrently, because that number determines your real-world throughput far more than any single feature does.</p>
+<h2 id="scalability-batch-processing-automation-and-long-form-content">Scalability: batch processing, automation, and long-form content</h2>
+<p>A demo video is usually two to five minutes long. Real organizational content is not. Training libraries run into hundreds of videos. A single product launch might involve dozens of assets across a dozen languages, which multiplies into hundreds of individual jobs. Before committing to a platform, find out how it behaves at that scale, not just at demo scale.</p>
+<p>Batch processing is the first thing to check: can you submit many videos or many language pairs at once, or does the interface require you to configure and launch each job individually? Manual, one-at-a-time submission is fine for occasional use and becomes a real operational cost once volume climbs.</p>
+<p>API and automation access is the second thing to check, and it is often where platforms genuinely differ. A REST or GraphQL API with webhooks lets a content pipeline submit jobs automatically when new source video lands, and get notified when a job finishes rather than having someone poll a dashboard. This matters most for teams that localize on a recurring schedule, such as a weekly content series or a continuously updated training library. We cover this in more depth in our <a href="/blog/video-translation-api-guide">video translation API guide</a> if automation is a priority for your evaluation. Octavia offers REST and GraphQL APIs, webhooks, and an official JavaScript and TypeScript SDK on its Pro and Studio plans, with priority throughput on Studio, and a full <a href="/docs">API reference</a> for teams that want to see the actual endpoints before committing.</p>
+<p>The third scale question is how the platform handles very long or very high-volume content specifically. A tool that performs well on a five-minute clip can behave differently on a ninety-minute training video or a batch of two hundred short-form clips submitted at once. Ask directly about maximum video length, how long a large job typically takes to process, and whether there is a practical ceiling on concurrent jobs tied to your plan. Vague answers here are a signal worth taking seriously, because this is exactly the kind of limitation that only shows up after you are already relying on the tool.</p>
+<h2 id="a-feature-checklist-for-the-evaluation">A feature checklist for the evaluation</h2>
+<p>Use this list as a working checklist during vendor calls and trials. If a vendor cannot give a direct answer to any of these, treat that as data.</p>
+<ul><li><strong>Core output types</strong>: subtitle generation, subtitle translation, dubbed audio, and lip-synced video, tested on your actual content, not a stock demo clip</li><li><strong>Language coverage</strong>: does the platform support your specific target languages, and can it auto-detect the source language rather than requiring you to specify it manually</li><li><strong>Multi-speaker handling</strong>: can the platform separate multiple speakers in a single video and keep each one&#39;s voice consistent across the whole run</li><li><strong>Glossary management</strong>: can terminology be locked at the project or team level and reused across jobs and languages</li><li><strong>Review gate</strong>: can a job be paused after translation, before final rendering, so a human can edit text, reassign a speaker, or adjust timing without paying the cost of a wasted render</li><li><strong>Roles and permissions</strong>: can you control who can edit versus who can only view, and who can approve a final asset</li><li><strong>Export formats</strong>: does the platform support the file types your distribution channels actually require</li><li><strong>Batch and API access</strong>: can you submit work in bulk, and is there a documented API with webhooks for automation</li><li><strong>Concurrency and seats</strong>: how many jobs can run at once, and how many people can work in the platform simultaneously on your plan</li><li><strong>Security posture</strong>: what happens to your source content and output after processing, and what access controls exist for enterprise procurement</li></ul>
+<h2 id="security-and-data-handling-questions-worth-asking-a-vendor">Security and data-handling questions worth asking a vendor</h2>
+<p>Localization workflows routinely touch unreleased product footage, internal training material, and sometimes regulated content. Security should be part of the software evaluation, not a separate procurement conversation that happens after the tool is already chosen.</p>
+<p>Ask what happens to uploaded source video and generated output after a job completes: is it retained, for how long, and can you delete it on request. Ask who at the vendor, if anyone, can access your content, and under what circumstances. Ask whether the platform supports single sign-on, and whether user access can be centrally managed rather than relying on individual logins with shared passwords. Ask about audit logging, so you can see who touched a project and when. And ask directly about compliance and certifications relevant to your industry rather than accepting a general assurance that the platform is &quot;secure.&quot; If a vendor cannot answer these questions clearly, that is itself useful information.</p>
+<p>For organizations with formal procurement requirements, it is worth asking specifically about enterprise-tier options. Octavia&#39;s Enterprise plan, for example, includes SSO and SAML support, custom invoicing, a service-level agreement, and a dedicated success manager for organizations that need those guarantees in writing, available by contacting sales. If your organization is further along in formalizing a secure localization workflow, our <a href="/blog/enterprise-video-localization">enterprise video localization guide</a> goes deeper into what a secure, scalable process looks like end to end, and our <a href="/blog/localization-quality-assurance-checklist">localization QA checklist</a> is a useful companion once you are validating output quality rather than just software features.</p>
+<h2 id="how-to-structure-a-fair-trial-before-you-commit">How to structure a fair trial before you commit</h2>
+<p>Vendor demos are designed to look good. A fair trial is designed to tell you the truth, and the two are not the same thing. Before committing budget or migrating a workflow, run a structured pilot rather than relying on a sales walkthrough.</p>
+<h3 id="1-test-with-representative-content-not-best-case-content">1. Test with representative content, not best-case content</h3>
+<p>Use a real video from your own library, ideally one with the characteristics that make your content hard: multiple speakers, background noise, technical vocabulary, on-screen text, or a longer runtime. A clean, single-speaker, studio-recorded demo clip will make almost any platform look strong. Your actual source footage is the only honest test.</p>
+<h3 id="2-involve-the-people-who-will-actually-use-it">2. Involve the people who will actually use it</h3>
+<p>The person evaluating software in a sales call is often not the person who will sit inside it every week making corrections. Bring in the actual reviewers, editors, or localization coordinators who will use the tool day to day, and let them work through a real job from upload to final export. Their friction points, not the salesperson&#39;s talking points, are what will determine whether the tool gets adopted or quietly abandoned after three months.</p>
+<h3 id="3-measure-real-turnaround-time-not-demo-speed">3. Measure real turnaround time, not demo speed</h3>
+<p>A live demo shows you processing speed under ideal conditions with a short clip and no queue. Your pilot should measure how long a job actually takes from submission to a reviewed, exported final asset, including the review and correction step your team will always need. That number, not the marketing page, is what your production timeline should be built around.</p>
+<h3 id="4-check-the-review-workflow-specifically">4. Check the review workflow specifically</h3>
+<p>Submit a job, deliberately look for translation or timing issues, and confirm you can correct them without starting over or burning through your usage allowance on a discarded draft. A platform that only lets you review after final rendering will cost you time and quota on every correction. Octavia&#39;s manual transcript review, available on Starter plans and above, is built for exactly this: it pauses a job after translation so reviewers can edit lines, reassign speakers, or adjust timing before the render happens, rather than after.</p>
+<h3 id="5-confirm-the-pricing-model-matches-your-actual-usage-pattern">5. Confirm the pricing model matches your actual usage pattern</h3>
+<p>Understand how the platform counts usage, whether it is by minute, by word, or by credit, and map that against your expected monthly volume before you commit. Octavia, for instance, uses a single shared credit currency across all of its workflows, with monthly allowances ranging from 500 credits on the free tier up to 120,000 on the Studio plan, and standard plans bill monthly through Stripe with no long-term contract, so a mismatch is a low-cost mistake to walk back rather than a locked-in one. Full plan details are on the <a href="/pricing">pricing</a> page. If you are trying to build a formal cost-benefit case for stakeholders, our <a href="/blog/enterprise-video-translation-roi">enterprise video translation ROI guide</a> walks through how to structure that comparison.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="what-is-the-difference-between-ai-video-localization-software-and-a-translation-tool">What is the difference between AI video localization software and a translation tool?</h3>
+<p>A translation tool converts text or speech from one language to another. AI video localization software handles the full chain needed to produce a usable video in another language: transcription, translation, subtitle generation, dubbed audio, lip-sync, timing adjustments, and export in formats your distribution channels accept. Translation is one component inside a larger production pipeline.</p>
+<h3 id="does-ai-dubbing-include-voice-cloning">Does AI dubbing include voice cloning?</h3>
+<p>Not in the sense of cloning a specific person&#39;s voice as a standalone product feature. What AI dubbing platforms typically offer instead is generated speech that matches the original speaker&#39;s tone, pacing, and delivery in the target language, which is what most organizations actually need for a natural-sounding dub without raising the separate legal and consent questions that voice cloning as a distinct feature involves.</p>
+<h3 id="how-many-reviewers-should-be-involved-in-an-ai-video-localization-workflow">How many reviewers should be involved in an AI video localization workflow?</h3>
+<p>At minimum, one linguistic reviewer per target language who can catch translation and cultural issues, and one workflow owner who confirms timing, formatting, and final export requirements are correct. Larger organizations often add a brand or legal reviewer for regulated or public-facing content. The software should support all of these roles without forcing one person to do everything.</p>
+<h3 id="can-ai-video-localization-software-handle-very-long-training-videos">Can AI video localization software handle very long training videos?</h3>
+<p>It depends on the platform, and this is a question worth asking directly during evaluation rather than assuming. Ask about maximum supported video length, expected processing time for long-form content, and whether long videos consume proportionally more of your usage allowance. Test with an actual long video from your library during a trial rather than relying on a short demo clip.</p>
+<h3 id="is-api-access-necessary-or-is-the-web-interface-enough">Is API access necessary, or is the web interface enough?</h3>
+<p>It depends on your volume and how often you localize. Occasional, low-volume localization is usually fine through a web interface. Teams that localize on a recurring schedule, or who want new video pushed automatically into a localization pipeline, benefit significantly from API and webhook access, since it removes manual submission as a bottleneck entirely.</p>
+<h3 id="what-security-questions-should-we-ask-before-rolling-this-out-organization-wide">What security questions should we ask before rolling this out organization-wide?</h3>
+<p>Ask what happens to your content after a job completes, who can access it, whether single sign-on and centralized user management are available, and whether audit logs exist. For regulated industries or large organizations, also ask about service-level agreements and whether the vendor offers an enterprise tier with contractual guarantees rather than general assurances.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Choosing AI video localization software is ultimately a systems decision, not a translation-quality decision. The platforms that hold up under real organizational use are the ones that handle the full production chain: accurate subtitles and dubbing, natural-sounding generated speech, reliable lip-sync, terminology that stays consistent across languages, and a review step that catches problems before a render is final rather than after.</p>
+<p>Collaboration and scale are just as important as output quality. A tool that produces excellent results for one person working alone can still fail a team if it lacks roles and permissions, shared glossaries, enough concurrent job capacity, or an API to plug into a real content pipeline. And no evaluation is complete without asking direct questions about data handling, retention, and access control, especially before content moves through the platform at organizational scale.</p>
+<p>The best way to avoid a costly mismatch is a structured pilot: real content, real reviewers, measured turnaround time, and a genuine test of the review workflow rather than a polished demo. If you want to see how this works end to end on your own footage, you can <a href="/pricing">start a trial on the pricing page</a> and evaluate it against the checklist above before making a decision.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-video-localization-software" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-video-localization-software&amp;text=AI%20Video%20Localization%20Software%3A%20What%20to%20Look%20For" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-video-localization-software" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/localization">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/multilingual-video-content" aria-label="Read How to Create Multilingual Video Content at Scale"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/black-silk-wave.png" alt="How to Create Multilingual Video Content at Scale" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Create Multilingual Video Content at Scale</h2><p class="blog-card-description">Producing one multilingual video is a project. Producing a hundred a month across a dozen languages is an operation, and it needs its own workflow.</p>
+      <time class="blog-card-date" datetime="2026-08-01T09:00:00Z">Aug 1, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-localization-strategy" aria-label="Read Video Localization Strategy: A Complete Global Content Playbook"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/eclipse-light-streaks.png" alt="Video Localization Strategy: A Complete Global Content Playbook" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Localization Strategy: A Complete Global Content Playbook</h2><p class="blog-card-description">A strong video localization strategy connects audience demand, language priorities, production standards, review ownership, distribution, and measurement in one operating model.</p>
+      <time class="blog-card-date" datetime="2026-05-14T09:00:00Z">May 14, 2026 · 12 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/translation-vs-localization" aria-label="Read Translation vs Localization: What Global Video Teams Need to Know"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/architectural-ribbon-wave.png" alt="Translation vs Localization: What Global Video Teams Need to Know" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Translation vs Localization: What Global Video Teams Need to Know</h2><p class="blog-card-description">Translation changes language; localization adapts the complete viewing experience. Learn where the boundary matters and how to choose the right depth for each video.</p>
+      <time class="blog-card-date" datetime="2026-05-07T09:00:00Z">May 7, 2026 · 12 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

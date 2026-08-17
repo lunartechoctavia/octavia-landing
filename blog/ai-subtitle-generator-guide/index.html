@@ -1,0 +1,632 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>AI Subtitle Generator: Accuracy, Formats, and What to Check | Octavia</title>
+    <meta name="description" content="How an AI subtitle generator works, which caption format to export, what affects accuracy, and a checklist for verifying results before publishing.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/ai-subtitle-generator-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AI Subtitle Generator: Accuracy, Formats, and What to Check">
+    <meta property="og:description" content="How an AI subtitle generator works, which caption format to export, what affects accuracy, and a checklist for verifying results before publishing.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/ai-subtitle-generator-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/halo-ring-solo.png">
+    <meta property="article:published_time" content="2026-08-03T09:00:00Z">
+    <meta property="article:modified_time" content="2026-08-03T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Subtitle Generator: Accuracy, Formats, and What to Check">
+    <meta name="twitter:description" content="How an AI subtitle generator works, which caption format to export, what affects accuracy, and a checklist for verifying results before publishing.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/halo-ring-solo.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI Subtitle Generator: Accuracy, Formats, and What to Check","description":"How an AI subtitle generator works, which caption format to export, what affects accuracy, and a checklist for verifying results before publishing.","image":"https://octavia.lunartech.ai/assets/blog/images/halo-ring-solo.png","datePublished":"2026-08-03T09:00:00Z","dateModified":"2026-08-03T09:00:00Z","wordCount":2821,"timeRequired":"PT13M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/ai-subtitle-generator-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"AI Subtitle Generator: Accuracy, Formats, and What to Check","item":"https://octavia.lunartech.ai/blog/ai-subtitle-generator-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">AI Subtitle Generator: Accuracy, Formats, and What to Check</h1><p class="article-deck">Auto-generated subtitles are only as useful as the format you export and the checks you run before publishing. This guide covers both.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-03T09:00:00Z">Aug 3, 2026</time><span class="article-meta-dot"></span><span>13 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/halo-ring-solo.png" alt="AI Subtitle Generator: Accuracy, Formats, and What to Check" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-an-ai-subtitle-generator-actually-does">What an AI subtitle generator actually does</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-formats-and-what-each-one-is-for">Subtitle formats and what each one is for</a></li><li><a class="toc-h2" data-toc-link href="#what-determines-accuracy-in-auto-generated-subtitles">What determines accuracy in auto-generated subtitles</a></li><li><a class="toc-h2" data-toc-link href="#a-checklist-for-verifying-auto-generated-subtitles-before-publishing">A checklist for verifying auto-generated subtitles before publishing</a></li><li><a class="toc-h2" data-toc-link href="#captions-vs-subtitles-an-accessibility-distinction-that-matters">Captions vs. subtitles: an accessibility distinction that matters</a></li><li><a class="toc-h2" data-toc-link href="#when-a-free-auto-caption-feature-is-enough-and-when-it-isn-t">When a free auto-caption feature is enough, and when it isn&#39;t</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#is-srt-or-vtt-better-for-an-ai-subtitle-generator-s-output">Is SRT or VTT better for an AI subtitle generator&#39;s output?</a></li><li><a class="toc-h3" data-toc-link href="#how-accurate-is-ai-generated-transcription-for-subtitles">How accurate is AI-generated transcription for subtitles?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-to-add-sound-descriptions-to-auto-generated-subtitles">Do I need to add sound descriptions to auto-generated subtitles?</a></li><li><a class="toc-h3" data-toc-link href="#can-auto-generated-subtitles-be-translated-into-other-languages">Can auto-generated subtitles be translated into other languages?</a></li><li><a class="toc-h3" data-toc-link href="#what-s-the-fastest-way-to-check-subtitle-quality-without-reviewing-every-line-manually">What&#39;s the fastest way to check subtitle quality without reviewing every line manually?</a></li><li><a class="toc-h3" data-toc-link href="#should-i-use-a-free-auto-caption-tool-or-a-platform-with-manual-review">Should I use a free auto-caption tool or a platform with manual review?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>An <strong>AI subtitle generator</strong> produces a finished-looking file in minutes: upload a video, wait, download an SRT. That speed can be misleading. The file that comes out the other end is a first draft of a transcript with timing attached to it, not a guaranteed-correct caption track, and treating it as the latter is how misspelled names, mistimed lines, and garbled technical terms end up published in front of an audience.</p>
+<p>This guide is not another walkthrough of clicking &quot;generate.&quot; It assumes you already know how to run the tool and focuses on the two things that actually determine whether the output is usable: which subtitle format to choose for where the video is going, and how to verify the transcription before you publish it. Along the way it covers what actually causes accuracy problems in automated captions and how captions differ from subtitles for accessibility purposes.</p>
+<p>Think of the generator as producing raw material. What separates a professional caption track from an embarrassing one is the format decision and the verification pass that happen after generation, not the generation step itself.</p>
+<h2 id="what-an-ai-subtitle-generator-actually-does">What an AI subtitle generator actually does</h2>
+<p>Under the hood, an AI subtitle generator runs automatic speech recognition (ASR) against the audio track of a video, then breaks the resulting transcript into short, time-coded chunks called cues. Each cue has a start time, an end time, and a line or two of text meant to appear on screen during that window. The system is not &quot;watching&quot; the video; it is listening to the audio and inferring where sentence or phrase boundaries make sense as caption lines.</p>
+<p>Better tools go a step further than a flat transcript. They add punctuation, capitalize proper nouns where the model recognizes them, and detect when the voice changes so cues can be attributed to different speakers. Octavia&#39;s <a href="/features/subtitle-generation">subtitle generation</a> workflow, for example, produces word-level timestamps, punctuation, and speaker labels when more than one voice is detected in the source, and supports more than 60 languages for the underlying speech recognition.</p>
+<p>What none of this does automatically is guarantee correctness. Speech recognition is a probabilistic process: the model outputs the most likely sequence of words given the audio, and &quot;most likely&quot; is not the same as &quot;correct,&quot; especially for names, jargon, and anything spoken quickly or unclearly. That gap between plausible and accurate is the entire reason a verification step exists, and it is the subject of most of this guide.</p>
+<h2 id="subtitle-formats-and-what-each-one-is-for">Subtitle formats and what each one is for</h2>
+<p>Once a transcript is time-coded, it has to be saved in a file format a video player can read. The format you choose is not a cosmetic detail — it determines where the subtitles will and will not work, so it is worth understanding the two you will encounter most often.</p>
+<p><strong>SRT (SubRip Text)</strong> is the closest thing the industry has to a universal plain-text subtitle format. A cue is a sequence number, a start and end timestamp, and one or two lines of text, repeated for every line in the video. SRT carries no styling, no positioning, and no metadata beyond timing and text. That simplicity is exactly why it is so widely supported: nearly every video editor, media player, learning management system, and social platform that accepts subtitle uploads at all accepts SRT. If you only need one format and want the best odds of compatibility, SRT is usually it.</p>
+<p><strong>VTT (WebVTT, &quot;Web Video Text Tracks&quot;)</strong> was designed specifically for the web&#39;s native <code>&lt;track&gt;</code> element, which is how browsers attach captions to <code>&lt;video&gt;</code> tags without a third-party player. VTT looks similar to SRT — sequential cues with start and end timestamps — but supports additional features SRT does not, such as cue settings for on-screen positioning and basic styling hooks. If a video is being embedded directly in a web page rather than uploaded to a platform, VTT is typically the format the player expects.</p>
+<p>The practical takeaway is that format choice should follow the destination, not the tool&#39;s default. A file destined for a video editing timeline or a platform upload form is usually safest as SRT. A file destined for a custom web video player is usually safest as VTT. When you are not sure where a video will ultimately be published, or when it will be published in more than one place, generating both from the same underlying transcript avoids having to redo the transcription later. Octavia&#39;s subtitle generation workflow exports to either SRT or VTT from the same job, which is the simplest way to cover both destinations without re-running speech recognition.</p>
+<p>It is also worth knowing that subtitle files can be <strong>translated</strong> as a separate step from transcription — the timing stays fixed while the text in each cue is rewritten into another language. That is a distinct workflow from generating subtitles in the first place; see <a href="/features/subtitle-translation">subtitle translation</a> and, for a deeper look at how machine translation handles the constraints of timed text, <a href="/blog/ai-subtitle-translator-explained">AI Subtitle Translator: How Machine Translation Handles Timed Text</a>.</p>
+<h2 id="what-determines-accuracy-in-auto-generated-subtitles">What determines accuracy in auto-generated subtitles</h2>
+<p>&quot;Accuracy&quot; for an AI subtitle generator is really a function of several independent variables, and understanding them helps you predict, before you even upload a file, how much correction a transcript is likely to need.</p>
+<p><strong>Audio quality</strong> is the single biggest factor. Clean, close-mic&#39;d speech with minimal room echo gives a speech recognition model the clearest possible signal. Audio recorded from a laptop mic across a room, compressed heavily for streaming, or captured alongside music and sound effects gives the model far less to work with, and errors climb accordingly.</p>
+<p><strong>Accents and dialects</strong> affect recognition because models are trained on distributions of speech, and some accents are better represented in that training data than others. A speaker whose pronunciation patterns are common in the training data will generally be transcribed more reliably than one whose patterns are underrepresented, regardless of how clearly that person is actually speaking.</p>
+<p><strong>Background noise</strong> competes directly with the speech signal. Traffic, HVAC hum, crowd noise, or a second conversation in the background all make it harder for the model to isolate the words it needs to transcribe, and errors tend to cluster around the noisiest stretches of a recording rather than being spread evenly throughout.</p>
+<p><strong>Overlapping speakers</strong> are one of the hardest cases for any ASR system. When two people talk at once, the model has to both separate the voices and assign words to the right speaker, and it will sometimes merge the two into a garbled line or attribute words to the wrong person. Interviews, panel discussions, and unscripted conversation are the formats most likely to produce this problem.</p>
+<p><strong>Technical vocabulary, brand names, and proper nouns</strong> are difficult for a different reason: the model is predicting the most statistically likely word sequence, and an uncommon term will often lose that competition to a common word that sounds similar. A product name, a person&#39;s name, an acronym, or industry jargon is exactly the kind of content a general-purpose speech model is least likely to have seen often enough to transcribe reliably on the first pass.</p>
+<p>None of these factors mean automated subtitles are unusable — for most everyday video, current speech recognition produces a strong first draft. But each factor is also a specific, predictable place to expect errors, which is a more useful way to think about accuracy than treating the whole transcript as uniformly reliable or unreliable.</p>
+<h2 id="a-checklist-for-verifying-auto-generated-subtitles-before-publishing">A checklist for verifying auto-generated subtitles before publishing</h2>
+<p>Because errors cluster around predictable causes, verification does not have to mean re-transcribing the whole video by ear. It means checking the specific places auto-generated subtitles are most likely to go wrong, in a consistent order, before the file goes out the door.</p>
+<ol><li><strong>Play the video with subtitles on at real speed.</strong> Do not skim the text file in isolation — errors that look plausible on the page (a wrong but similarly-spelled word, a name spelled differently than it sounds) are much easier to catch when you can hear the audio at the same time you read the line.</li><li><strong>Check speaker labels wherever more than one voice appears.</strong> Confirm the system did not merge two speakers into one cue or attribute a line to the wrong person, especially around interruptions and fast back-and-forth exchanges.</li><li><strong>Verify every proper noun.</strong> Names of people, companies, products, and places are the most common source of a confidently wrong transcription; search the file for any name you know appears in the video and confirm the spelling.</li><li><strong>Check technical terms and jargon against a glossary if one exists.</strong> If the video uses industry-specific vocabulary, scan for it specifically rather than assuming it survived transcription correctly.</li><li><strong>Check cue timing against the spoken words, not just the general vicinity.</strong> A cue that starts too late clips the beginning of a sentence off screen; a cue that lingers too long after the speaker has moved on separates the caption from what is actually being said.</li><li><strong>Read line breaks for awkward splits.</strong> A cue that breaks mid-phrase in a confusing place is harder to read even when every word is correct, particularly for viewers reading at a normal pace with the video still moving.</li><li><strong>Confirm punctuation didn&#39;t change meaning.</strong> A missing question mark, a misplaced comma, or a dropped negation (&quot;not&quot;) can invert what a line actually communicates.</li><li><strong>Spot-check the noisiest or most overlapping sections specifically</strong>, since that is where errors are statistically most likely to be concentrated rather than evenly distributed across the file.</li></ol>
+<p>Running this list against every video does not take nearly as long as re-transcribing from scratch, and it catches the errors most likely to actually embarrass a publisher or confuse a viewer.</p>
+<h2 id="captions-vs-subtitles-an-accessibility-distinction-that-matters">Captions vs. subtitles: an accessibility distinction that matters</h2>
+<p>The terms &quot;captions&quot; and &quot;subtitles&quot; are often used interchangeably, but they describe different assumptions about the viewer, and that difference matters when you decide what to include in the file.</p>
+<p><strong>Subtitles</strong> assume the viewer can hear the audio but does not understand the spoken language. Their job is purely translation or transcription of dialogue — nothing more. A subtitle track for a foreign-language film, for instance, only needs to render the dialogue in the viewer&#39;s language; it does not need to describe a door slamming or ominous background music, because a hearing viewer already perceives those sounds.</p>
+<p><strong>Captions</strong> assume the viewer cannot hear the audio at all, whether due to deafness, hard-of-hearing status, or simply watching with the sound off. Because of that, captions need to represent everything meaningful in the audio track, not just dialogue — sound effects, music cues, tone of voice, and off-screen sounds that affect understanding of the scene, typically noted in bracketed descriptions like [door slams] or [tense music playing].</p>
+<p>An AI subtitle generator, by default, produces a dialogue-only transcript — functionally a subtitle track, not a full caption track, unless non-speech sound descriptions are added separately. For content where full accessibility compliance matters, that distinction is worth building into your review process rather than assuming a generated file already covers it. For a fuller treatment of this distinction and how it interacts with transcripts and other accessibility formats, see <a href="/blog/captions-vs-subtitles-vs-transcripts">Captions vs Subtitles vs Transcripts: Differences and When to Use Each</a> and <a href="/blog/video-accessibility-guide">Video Accessibility Guide: Captions, Transcripts, Audio, and Multilingual Access</a>.</p>
+<h2 id="when-a-free-auto-caption-feature-is-enough-and-when-it-isn-t">When a free auto-caption feature is enough, and when it isn&#39;t</h2>
+<p>Most video platforms and editing tools now ship some form of free auto-captioning built in. For a large share of everyday video, that built-in feature is genuinely sufficient: a single clearly-recorded speaker, casual internal content, or a draft that a human will read over quickly before anything gets published.</p>
+<p>The case for a dedicated platform with a structured review step gets stronger as the stakes or complexity of the video rise. Multiple speakers, technical or brand-specific vocabulary, content that will be translated into other languages afterward, or anything published under an organization&#39;s name where an error is genuinely costly are all situations where an unreviewed auto-caption export is a risk rather than a convenience. The cost of a missed error — a misheard name in a product demo, a garbled quote in a public-facing interview — is usually higher than the cost of a short review pass would have been.</p>
+<p>Octavia&#39;s subtitle generation includes an optional manual review step (available on the Starter plan and above) that lets a reviewer correct transcription errors before the subtitle file is finalized, rather than requiring you to catch every issue after the fact in a separate editor. Because credits on Octavia function as a single shared currency across workflows, and subtitle generation is priced per minute of source audio as one of the platform&#39;s lower-cost workflows, adding that review step for higher-stakes videos is a comparatively small addition to the overall cost of the job. Pricing details are on the <a href="/pricing">pricing page</a>.</p>
+<p>If your workflow starts from a video that first needs to become a plain transcript rather than a timed subtitle file — for repurposing into blog content, show notes, or a searchable archive — that&#39;s a related but distinct task; see <a href="/blog/video-to-transcript-guide">Video to Transcript: The Fastest Ways to Convert Video to Text</a>.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="is-srt-or-vtt-better-for-an-ai-subtitle-generator-s-output">Is SRT or VTT better for an AI subtitle generator&#39;s output?</h3>
+<p>Neither is universally better; the right choice depends on where the video is published. SRT has the broadest compatibility across editors and platforms and is the safer default when you are unsure. VTT is built for embedding captions directly in web pages through the browser&#39;s native video player. When a video will be published in more than one place, exporting both from the same transcription avoids re-running speech recognition later.</p>
+<h3 id="how-accurate-is-ai-generated-transcription-for-subtitles">How accurate is AI-generated transcription for subtitles?</h3>
+<p>It depends heavily on the source: clean, single-speaker, well-recorded audio in a well-represented accent transcribes far more reliably than noisy, multi-speaker, or heavily accented audio. Rather than expecting a fixed accuracy figure, expect errors to cluster around specific, predictable causes — background noise, overlapping speech, technical vocabulary, and proper nouns — and check those areas specifically before publishing.</p>
+<h3 id="do-i-need-to-add-sound-descriptions-to-auto-generated-subtitles">Do I need to add sound descriptions to auto-generated subtitles?</h3>
+<p>Only if you need full captions for deaf and hard-of-hearing viewers rather than subtitles for hearing viewers who don&#39;t understand the spoken language. An AI subtitle generator produces a dialogue transcript by default; non-speech sound descriptions like [applause] or [phone ringing] generally have to be added separately if full accessibility compliance is the goal.</p>
+<h3 id="can-auto-generated-subtitles-be-translated-into-other-languages">Can auto-generated subtitles be translated into other languages?</h3>
+<p>Yes, but translation is a separate step from transcription. The subtitle file&#39;s timing stays fixed while the text in each cue gets rewritten into the target language, which is a distinct workflow from generating the original subtitles. See <a href="/features/subtitle-generation">subtitle translation</a> for how the original transcription step works and <a href="/features/subtitle-translation">subtitle translation</a> for translating an existing subtitle file.</p>
+<h3 id="what-s-the-fastest-way-to-check-subtitle-quality-without-reviewing-every-line-manually">What&#39;s the fastest way to check subtitle quality without reviewing every line manually?</h3>
+<p>Play the video with subtitles on at real speed rather than reading the transcript in isolation, and target your attention at the sections most likely to contain errors: multi-speaker exchanges, proper nouns, technical terms, and any noisy or overlapping audio. That targeted approach catches most meaningful errors far faster than reviewing every cue with equal scrutiny.</p>
+<h3 id="should-i-use-a-free-auto-caption-tool-or-a-platform-with-manual-review">Should I use a free auto-caption tool or a platform with manual review?</h3>
+<p>For low-stakes, single-speaker, clearly recorded video, a free auto-caption feature is often enough on its own. For content with multiple speakers, technical vocabulary, downstream translation, or any real cost to a published error, a platform with a manual review step before the file is finalized is worth the modest added cost.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>An AI subtitle generator solves the hardest and most time-consuming part of captioning a video: turning spoken audio into time-coded text at a speed no human transcriber can match. What it does not solve on its own is format compatibility with your publishing destination or the correctness of every name, term, and cue it produces. Those two things — choosing SRT or VTT to match where the video is going, and running a focused verification pass against the specific places transcription errors tend to occur — are what separate a usable subtitle file from one that quietly embarrasses whoever published it.</p>
+<p>Treat the generator&#39;s output as a strong, fast first draft rather than a finished asset. Check speaker labels, proper nouns, technical vocabulary, and cue timing before anything goes live, and decide upfront whether the content needs subtitles for hearing viewers or full captions with sound descriptions for deaf and hard-of-hearing viewers. That distinction changes what &quot;correct&quot; even means for the file.</p>
+<p>For videos where accuracy genuinely matters — multiple speakers, technical content, or anything published under an organization&#39;s name — a workflow with a built-in review step before the subtitle file is finalized is worth the small added cost. Start with <a href="/features/subtitle-generation">Octavia&#39;s subtitle generation</a> to see how transcription, formatting, and review fit into a single job.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-subtitle-generator-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-subtitle-generator-guide&amp;text=AI%20Subtitle%20Generator%3A%20Accuracy%2C%20Formats%2C%20and%20What%20to%20Check" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fai-subtitle-generator-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/how-automatic-video-translation-works" aria-label="Read How Automatic Video Translation Actually Works"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/signal-relay-nodes.png" alt="How Automatic Video Translation Actually Works" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How Automatic Video Translation Actually Works</h2><p class="blog-card-description">Automatic video translation looks like a single button press, but underneath it is a chain of distinct systems handing work to one another. Here is what actually happens at each stage.</p>
+      <time class="blog-card-date" datetime="2026-08-13T09:00:00Z">Aug 13, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-to-transcript-guide" aria-label="Read Video to Transcript: The Fastest Ways to Convert Video to Text"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/light-speed-tunnel.png" alt="Video to Transcript: The Fastest Ways to Convert Video to Text" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video to Transcript: The Fastest Ways to Convert Video to Text</h2><p class="blog-card-description">Turning a video into an accurate transcript takes more than pressing a button. Here is the practical process, from audio prep to review, that produces a text file you can actually use.</p>
+      <time class="blog-card-date" datetime="2026-08-05T09:00:00Z">Aug 5, 2026 · 13 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/how-to-translate-srt-files" aria-label="Read How to Translate SRT Files Without Damaging Timecodes"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/glass-prism-solo.png" alt="How to Translate SRT Files Without Damaging Timecodes" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Translate SRT Files Without Damaging Timecodes</h2><p class="blog-card-description">SRT translation is not ordinary document translation: every line must stay attached to the right subtitle event. This guide shows how to protect timecodes, adapt dialogue naturally, validate the file, and review the result in the video.</p>
+      <time class="blog-card-date" datetime="2026-06-18T09:00:00Z">Jun 18, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>
