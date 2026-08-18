@@ -6,8 +6,8 @@
   "primaryKeyword": "documentary dubbing AI",
   "metaDescription": "How documentary dubbing AI handles narration, interview audio, and archival footage differently from standard film and TV localization.",
   "excerpt": "A documentary is rarely one kind of audio. It is narration, interview subjects, and archival material stitched into a single piece, and each one needs a different approach in translation.",
-  "publishedAt": "2026-07-01T09:00:00Z",
-  "updatedAt": "2026-07-01T09:00:00Z",
+  "publishedAt": "2026-08-25T09:00:00Z",
+  "updatedAt": "2026-08-25T09:00:00Z",
   "heroImage": "/assets/blog/images/archival-glass-frame.png",
   "featured": false,
   "author": "Octavia Editorial Team"

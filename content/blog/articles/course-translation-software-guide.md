@@ -6,8 +6,8 @@
   "primaryKeyword": "course translation software",
   "metaDescription": "A buyer's guide to course translation software: consistency, review workflows, LMS integration, and pricing for translating a course catalog.",
   "excerpt": "Choosing a tool to translate one video is easy. Choosing course translation software for an entire catalog means evaluating consistency, review workflow, and pricing before you commit budget.",
-  "publishedAt": "2026-07-03T09:00:00Z",
-  "updatedAt": "2026-07-03T09:00:00Z",
+  "publishedAt": "2026-08-23T09:00:00Z",
+  "updatedAt": "2026-08-23T09:00:00Z",
   "heroImage": "/assets/blog/images/graduated-glass-steps.png",
   "featured": false,
   "author": "Octavia Editorial Team"

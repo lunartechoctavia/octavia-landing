@@ -6,8 +6,8 @@
   "primaryKeyword": "translate video into Portuguese",
   "metaDescription": "Learn how to translate video into Portuguese correctly, including the critical Brazilian vs. European Portuguese decision most guides skip.",
   "excerpt": "Portuguese reaches one of the largest concentrated audiences of any single language addition, but only if you choose the right regional variant. Here is how to do that deliberately.",
-  "publishedAt": "2026-06-24T09:00:00Z",
-  "updatedAt": "2026-06-24T09:00:00Z",
+  "publishedAt": "2026-09-01T09:00:00Z",
+  "updatedAt": "2026-09-01T09:00:00Z",
   "heroImage": "/assets/blog/images/curved-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

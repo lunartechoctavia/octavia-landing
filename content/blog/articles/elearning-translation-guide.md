@@ -6,8 +6,8 @@
   "primaryKeyword": "e-learning translation",
   "metaDescription": "A practical guide to e-learning translation for corporate compliance, onboarding, and LMS-delivered training content.",
   "excerpt": "Corporate e-learning has translation requirements that public courses don't: regulatory accuracy, workforce-specific languages, and content that has to keep working inside an existing LMS. Here is how to plan for all three.",
-  "publishedAt": "2026-07-02T09:00:00Z",
-  "updatedAt": "2026-07-02T09:00:00Z",
+  "publishedAt": "2026-08-24T09:00:00Z",
+  "updatedAt": "2026-08-24T09:00:00Z",
   "heroImage": "/assets/blog/images/networked-lesson-nodes.png",
   "featured": false,
   "author": "Octavia Editorial Team"

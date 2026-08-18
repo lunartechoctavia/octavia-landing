@@ -6,8 +6,8 @@
   "primaryKeyword": "subtitle translation software",
   "metaDescription": "How to evaluate subtitle translation software on quality, timing, review tools, batch features, and pricing before you commit to a plan.",
   "excerpt": "A polished demo tells you almost nothing about how a tool will handle your actual subtitle files. Here is what to test before you subscribe.",
-  "publishedAt": "2026-07-05T09:00:00Z",
-  "updatedAt": "2026-07-05T09:00:00Z",
+  "publishedAt": "2026-08-21T09:00:00Z",
+  "updatedAt": "2026-08-21T09:00:00Z",
   "heroImage": "/assets/blog/images/modular-caption-stack.png",
   "featured": false,
   "author": "Octavia Editorial Team"

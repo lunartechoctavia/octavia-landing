@@ -6,8 +6,8 @@
   "primaryKeyword": "translate video into Japanese",
   "metaDescription": "Learn how to translate video into Japanese, from honorific register and sentence restructuring to subtitle readability and dubbing versus subtitles.",
   "excerpt": "Japanese rewards localized content more consistently than almost any other major market, but getting there requires more than swapping in translated text.",
-  "publishedAt": "2026-06-25T09:00:00Z",
-  "updatedAt": "2026-06-25T09:00:00Z",
+  "publishedAt": "2026-08-31T09:00:00Z",
+  "updatedAt": "2026-08-31T09:00:00Z",
   "heroImage": "/assets/blog/images/vertical-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

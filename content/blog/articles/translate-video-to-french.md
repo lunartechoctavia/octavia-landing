@@ -6,8 +6,8 @@
   "primaryKeyword": "translate video into French",
   "metaDescription": "Learn how to translate video into French, including regional variants, grammar pitfalls, and a practical subtitling and dubbing workflow.",
   "excerpt": "French carries a video across more continents than almost any other single language, but only if the regional and grammatical choices behind it are made on purpose.",
-  "publishedAt": "2026-06-27T09:00:00Z",
-  "updatedAt": "2026-06-27T09:00:00Z",
+  "publishedAt": "2026-08-29T09:00:00Z",
+  "updatedAt": "2026-08-29T09:00:00Z",
   "heroImage": "/assets/blog/images/twin-arc-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

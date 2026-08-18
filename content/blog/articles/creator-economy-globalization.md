@@ -6,8 +6,8 @@
   "primaryKeyword": "creator economy globalization",
   "metaDescription": "Creator economy globalization is changing how content gets planned, produced, and localized. Here is what that shift means in practice.",
   "excerpt": "Audience size now determines what a creator can build, and language is one of the last barriers standing between a good video and a global one. Here is how that changes production decisions.",
-  "publishedAt": "2026-06-29T09:00:00Z",
-  "updatedAt": "2026-06-29T09:00:00Z",
+  "publishedAt": "2026-08-27T09:00:00Z",
+  "updatedAt": "2026-08-27T09:00:00Z",
   "heroImage": "/assets/blog/images/expanding-ring-horizon.png",
   "featured": false,
   "author": "Octavia Editorial Team"

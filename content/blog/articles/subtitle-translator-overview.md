@@ -6,8 +6,8 @@
   "primaryKeyword": "subtitle translator",
   "metaDescription": "What a subtitle translator actually does, the main types available, common file formats, and how to decide if one fits your project.",
   "excerpt": "Before comparing tools or diving into the technical details, it helps to understand subtitle translators as a category. Here is the foundational overview.",
-  "publishedAt": "2026-07-06T09:00:00Z",
-  "updatedAt": "2026-07-06T09:00:00Z",
+  "publishedAt": "2026-08-20T09:00:00Z",
+  "updatedAt": "2026-08-20T09:00:00Z",
   "heroImage": "/assets/blog/images/floating-caption-blocks.png",
   "featured": false,
   "author": "Octavia Editorial Team"

@@ -6,8 +6,8 @@
   "primaryKeyword": "translate video into German",
   "metaDescription": "Learn how to translate video into German, including compound words, verb-final sentence structure, Sie vs. du, and a practical dubbing workflow.",
   "excerpt": "German rewards teams that respect its grammar and formality rules, and punishes those that translate word for word without adjusting sentence structure.",
-  "publishedAt": "2026-06-26T09:00:00Z",
-  "updatedAt": "2026-06-26T09:00:00Z",
+  "publishedAt": "2026-08-30T09:00:00Z",
+  "updatedAt": "2026-08-30T09:00:00Z",
   "heroImage": "/assets/blog/images/angular-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

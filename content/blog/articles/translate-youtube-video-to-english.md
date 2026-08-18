@@ -6,8 +6,8 @@
   "primaryKeyword": "translate YouTube video to English",
   "metaDescription": "How to translate a YouTube video to English, whether you're watching a foreign-language video or publishing your own for a global English audience.",
   "excerpt": "Someone typing this question is usually one of two very different people: a viewer trying to understand a specific video right now, or a creator planning an English release. The right move depends on which one you are.",
-  "publishedAt": "2026-07-07T09:00:00Z",
-  "updatedAt": "2026-07-07T09:00:00Z",
+  "publishedAt": "2026-08-19T09:00:00Z",
+  "updatedAt": "2026-08-19T09:00:00Z",
   "heroImage": "/assets/blog/images/angled-glass-monitor.png",
   "featured": false,
   "author": "Octavia Editorial Team"
