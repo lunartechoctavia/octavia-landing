@@ -121,6 +121,23 @@ function renderMarkdown(markdown) {
     const line = raw.trim();
     if (!line) { flush(); continue; }
     if (line === '---') { flush(); html.push('<hr>'); continue; }
+    const image = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (image) {
+      flush();
+      const alt = escapeAttr(image[1]);
+      const src = escapeAttr(safeUrl(image[2]));
+      html.push(`<p><img src="${src}" alt="${alt}"></p>`);
+      continue;
+    }
+    const linkedImage = line.match(/^\[!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)$/);
+    if (linkedImage) {
+      flush();
+      const alt = escapeAttr(linkedImage[1]);
+      const imgSrc = escapeAttr(safeUrl(linkedImage[2]));
+      const linkHref = escapeAttr(safeUrl(linkedImage[3]));
+      html.push(`<p><a href="${linkHref}"><img src="${imgSrc}" alt="${alt}"></a></p>`);
+      continue;
+    }
     const heading = line.match(/^(#{2,4})\s+(.+)$/);
     if (heading) {
       flush();
