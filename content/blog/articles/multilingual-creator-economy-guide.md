@@ -4,7 +4,7 @@
   "slug": "multilingual-creator-economy-guide",
   "category": "Creator Growth",
   "primaryKeyword": "multilingual creator economy",
-  "metaDescription": "A complete guide to the multilingual creator economy. Learn how to expand your reach across languages, choose the right markets, and build a sustainable multilingual content strategy that drives real revenue growth.",
+  "metaDescription": "Learn how to expand your creator reach across languages, choose the right markets, and build a multilingual content strategy that drives revenue.",
   "excerpt": "The creator economy is going global, but most creators remain locked into single-language markets. This comprehensive guide shows you how to break through language barriers, prioritize the right markets, avoid expensive mistakes, and build a multilingual content strategy that actually drives revenue—all without traditional dubbing costs.",
   "publishedAt": "2026-08-19T10:00:00Z",
   "updatedAt": "2026-08-19T10:00:00Z",
