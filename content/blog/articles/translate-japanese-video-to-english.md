@@ -6,8 +6,8 @@
   "primaryKeyword": "translate Japanese video to English",
   "metaDescription": "A practical guide to how to translate Japanese video to English, covering character systems, honorifics, cultural context, and a real workflow.",
   "excerpt": "Japanese-to-English video translation presents linguistic distance challenges that go beyond word substitution. Here is how to handle character systems, cultural nuances, and technical constraints.",
-  "publishedAt": "2026-09-06T09:00:00Z",
-  "updatedAt": "2026-09-06T09:00:00Z",
+  "publishedAt": "2026-08-18T09:00:00Z",
+  "updatedAt": "2026-08-18T09:00:00Z",
   "heroImage": "/assets/blog/images/narrow-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

@@ -6,8 +6,8 @@
   "primaryKeyword": "AI video dubbing",
   "metaDescription": "A practical framework for judging AI video dubbing quality before you publish, covering translation, voice match, sync, and mix.",
   "excerpt": "Producing an AI dub is the easy part. Knowing whether the result is actually good enough to publish takes a specific, repeatable review process, not a gut check.",
-  "publishedAt": "2026-08-28T09:00:00Z",
-  "updatedAt": "2026-08-28T09:00:00Z",
+  "publishedAt": "2026-08-17T09:00:00Z",
+  "updatedAt": "2026-08-17T09:00:00Z",
   "heroImage": "/assets/blog/images/twin-quality-panels.png",
   "featured": false,
   "author": "Octavia Editorial Team"

@@ -6,8 +6,8 @@
   "primaryKeyword": "Spanish video to English",
   "metaDescription": "How to take a Spanish video to English accurately, from regional dialect and grammar to dubbing pace, plus a practical step-by-step workflow.",
   "excerpt": "Translating out of Spanish is not the mirror image of translating into it. Here is what actually changes when English is the target instead of the source.",
-  "publishedAt": "2026-09-02T09:00:00Z",
-  "updatedAt": "2026-09-02T09:00:00Z",
+  "publishedAt": "2026-08-18T09:00:00Z",
+  "updatedAt": "2026-08-18T09:00:00Z",
   "heroImage": "/assets/blog/images/wide-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

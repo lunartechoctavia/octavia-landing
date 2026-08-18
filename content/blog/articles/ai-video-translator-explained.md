@@ -6,8 +6,8 @@
   "primaryKeyword": "AI video translator",
   "metaDescription": "What an AI video translator actually does under the hood, where it beats human-only workflows, and where it still needs a human check.",
   "excerpt": "The term \"AI video translator\" gets used loosely. Here is what actually distinguishes an AI-driven tool from a human translation workflow, and what to expect when you use one.",
-  "publishedAt": "2026-08-18T09:00:00Z",
-  "updatedAt": "2026-08-18T09:00:00Z",
+  "publishedAt": "2026-08-16T09:00:00Z",
+  "updatedAt": "2026-08-16T09:00:00Z",
   "heroImage": "/assets/blog/images/layered-frame-glass.png",
   "featured": false,
   "author": "Octavia Editorial Team"

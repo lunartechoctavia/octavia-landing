@@ -6,8 +6,8 @@
   "primaryKeyword": "global content distribution",
   "metaDescription": "A practical guide to global content distribution: matching translated video to regional platforms, metadata, timing, and per-market measurement.",
   "excerpt": "Translating a video is only the first step. This guide covers how to get that translated content in front of the right audience, on the right platform, at the right time.",
-  "publishedAt": "2026-08-26T09:00:00Z",
-  "updatedAt": "2026-08-26T09:00:00Z",
+  "publishedAt": "2026-08-17T09:00:00Z",
+  "updatedAt": "2026-08-17T09:00:00Z",
   "heroImage": "/assets/blog/images/multi-path-light-map.png",
   "featured": false,
   "author": "Octavia Editorial Team"

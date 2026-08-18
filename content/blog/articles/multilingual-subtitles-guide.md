@@ -6,8 +6,8 @@
   "primaryKeyword": "multilingual subtitles",
   "metaDescription": "A practical guide to managing multilingual subtitles across a large video library, from file naming to audits and platform compatibility.",
   "excerpt": "Translating one video into several languages is straightforward. Keeping hundreds of videos and dozens of language tracks organized, current, and consistent is a different problem entirely.",
-  "publishedAt": "2026-08-22T09:00:00Z",
-  "updatedAt": "2026-08-22T09:00:00Z",
+  "publishedAt": "2026-08-16T09:00:00Z",
+  "updatedAt": "2026-08-16T09:00:00Z",
   "heroImage": "/assets/blog/images/radiating-caption-fan.png",
   "featured": false,
   "author": "Octavia Editorial Team"

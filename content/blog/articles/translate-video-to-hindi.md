@@ -6,8 +6,8 @@
   "primaryKeyword": "translate video into Hindi",
   "metaDescription": "A practical guide to how to translate a video into Hindi, covering register, Devanagari subtitles, English code-switching, and a real workflow.",
   "excerpt": "Hindi is one of the highest-reach single-language additions available to global content, but only if the register and script decisions are made deliberately. Here is how that actually works.",
-  "publishedAt": "2026-09-04T09:00:00Z",
-  "updatedAt": "2026-09-04T09:00:00Z",
+  "publishedAt": "2026-08-18T09:00:00Z",
+  "updatedAt": "2026-08-18T09:00:00Z",
   "heroImage": "/assets/blog/images/tiered-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

@@ -6,8 +6,8 @@
   "primaryKeyword": "Korean video to English",
   "metaDescription": "A practical guide to translating Korean video to English, covering honorifics, sentence structure, romanization, and subtitle vs. dubbing choices.",
   "excerpt": "Korean video presents translation challenges English speakers rarely encounter elsewhere, from speech levels to sentence-final particles. Here is how to handle them without losing meaning.",
-  "publishedAt": "2026-09-03T09:00:00Z",
-  "updatedAt": "2026-09-03T09:00:00Z",
+  "publishedAt": "2026-08-18T09:00:00Z",
+  "updatedAt": "2026-08-18T09:00:00Z",
   "heroImage": "/assets/blog/images/stacked-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"

@@ -6,8 +6,8 @@
   "primaryKeyword": "Arabic video to English",
   "metaDescription": "A practical guide to translating Arabic video to English, covering dialect identification, grammar, right-to-left script, and subtitle workflow.",
   "excerpt": "Arabic-to-English video translation hinges on one decision most workflows skip: correctly identifying which spoken variety of Arabic you're actually working with.",
-  "publishedAt": "2026-09-05T09:00:00Z",
-  "updatedAt": "2026-09-05T09:00:00Z",
+  "publishedAt": "2026-08-18T09:00:00Z",
+  "updatedAt": "2026-08-18T09:00:00Z",
   "heroImage": "/assets/blog/images/arched-glass-bridge.png",
   "featured": false,
   "author": "Octavia Editorial Team"
