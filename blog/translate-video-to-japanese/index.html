@@ -1,0 +1,629 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>How to Translate a Video Into Japanese | Octavia</title>
+    <meta name="description" content="Learn how to translate video into Japanese, from honorific register and sentence restructuring to subtitle readability and dubbing versus subtitles.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/translate-video-to-japanese">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Translate a Video Into Japanese">
+    <meta property="og:description" content="Learn how to translate video into Japanese, from honorific register and sentence restructuring to subtitle readability and dubbing versus subtitles.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/translate-video-to-japanese">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/vertical-glass-bridge.png">
+    <meta property="article:published_time" content="2026-06-25T09:00:00Z">
+    <meta property="article:modified_time" content="2026-06-25T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Translate a Video Into Japanese">
+    <meta name="twitter:description" content="Learn how to translate video into Japanese, from honorific register and sentence restructuring to subtitle readability and dubbing versus subtitles.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/vertical-glass-bridge.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Translate a Video Into Japanese","description":"Learn how to translate video into Japanese, from honorific register and sentence restructuring to subtitle readability and dubbing versus subtitles.","image":"https://octavia.lunartech.ai/assets/blog/images/vertical-glass-bridge.png","datePublished":"2026-06-25T09:00:00Z","dateModified":"2026-06-25T09:00:00Z","wordCount":3182,"timeRequired":"PT15M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/translate-video-to-japanese","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"How to Translate a Video Into Japanese","item":"https://octavia.lunartech.ai/blog/translate-video-to-japanese"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/translation-guides">Translation Guides</a>
+        <h1 class="article-title">How to Translate a Video Into Japanese</h1><p class="article-deck">Japanese rewards localized content more consistently than almost any other major market, but getting there requires more than swapping in translated text.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-06-25T09:00:00Z">Jun 25, 2026</time><span class="article-meta-dot"></span><span>15 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/vertical-glass-bridge.png" alt="How to Translate a Video Into Japanese" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-japanese-is-a-distinctive-and-valuable-target-language">Why Japanese is a distinctive and valuable target language</a></li><li><a class="toc-h2" data-toc-link href="#the-honorific-and-register-system-the-single-biggest-consideration">The honorific and register system: the single biggest consideration</a></li><li><a class="toc-h2" data-toc-link href="#grammatical-and-structural-considerations">Grammatical and structural considerations</a></li><li><a class="toc-h2" data-toc-link href="#script-and-on-screen-text-what-matters-for-japanese-subtitles">Script and on-screen text: what matters for Japanese subtitles</a></li><li><a class="toc-h2" data-toc-link href="#dubbing-versus-subtitling-in-the-japanese-market">Dubbing versus subtitling in the Japanese market</a></li><li><a class="toc-h2" data-toc-link href="#a-practical-workflow-for-translating-a-video-into-japanese">A practical workflow for translating a video into Japanese</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-biggest-mistake-teams-make-when-translating-into-japanese">What is the biggest mistake teams make when translating into Japanese?</a></li><li><a class="toc-h3" data-toc-link href="#can-machine-translation-alone-produce-usable-japanese-subtitles">Can machine translation alone produce usable Japanese subtitles?</a></li><li><a class="toc-h3" data-toc-link href="#should-japanese-subtitles-use-more-hiragana-or-more-kanji">Should Japanese subtitles use more hiragana or more kanji?</a></li><li><a class="toc-h3" data-toc-link href="#is-dubbing-or-subtitling-better-for-reaching-a-japanese-audience">Is dubbing or subtitling better for reaching a Japanese audience?</a></li><li><a class="toc-h3" data-toc-link href="#how-important-is-native-speaker-review-compared-to-translation-quality">How important is native speaker review compared to translation quality?</a></li><li><a class="toc-h3" data-toc-link href="#does-register-need-to-stay-the-same-throughout-an-entire-video">Does register need to stay the same throughout an entire video?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>If you plan to translate video into Japanese, you are targeting one of the largest, most technology-engaged, and most media-literate audiences available to any content creator or business. Japan has a deep domestic content culture spanning film, television, anime, gaming, and online video, and Japanese audiences generally expect content to be adapted into their language rather than tolerating it in a second language. That expectation is different from many markets where a sizable share of viewers will happily watch English-language content with minimal adaptation.</p>
+<p>That expectation is also where the real work begins. Japanese is not a language where you can run text through translation software, drop it into subtitles, and expect it to land the way the source material did. The grammar is structured differently from English, the language encodes social relationships directly into sentence construction, and the writing system itself affects how readable a subtitle is on screen. None of this is exotic or obscure to translators who work in Japanese regularly, but it catches teams off guard when they assume Japanese localization works the same way as localization into a European language.</p>
+<p>This guide walks through why Japanese is a distinctive and valuable target language, the honorific and register system that sits at the center of almost every translation decision, the structural differences that make literal translation fail, the script considerations that shape subtitle readability, the cultural weight of dubbing versus subtitling in Japan specifically, and a practical workflow built around the two steps that matter most: getting the register right and having a native speaker confirm it.</p>
+<h2 id="why-japanese-is-a-distinctive-and-valuable-target-language">Why Japanese is a distinctive and valuable target language</h2>
+<p>Japan represents a large, affluent, and heavily online population with strong per-capita engagement across streaming video, gaming content, and social platforms. Unlike audiences in some smaller markets where content creators can reasonably expect a meaningful share of viewers to consume English-language material directly, Japanese audiences overwhelmingly favor content that has been adapted into Japanese. This is not a matter of comprehension; a significant portion of the audience simply prefers, and expects, a localized viewing experience.</p>
+<p>That expectation shapes how content performs. A video that is only available in English, or that is translated poorly, does not just underperform in Japan the way it might underperform modestly in a market with high second-language fluency. It can be effectively invisible to a large share of the addressable audience, who will simply move on to Japanese-language alternatives, of which there is no shortage given Japan&#39;s own robust domestic production. This makes Japanese less of an optional add-on language and more of a market where quality localization is close to a prerequisite for meaningful reach.</p>
+<p>Japan&#39;s domestic content culture also means the bar for quality is high. Japanese viewers are accustomed to professionally localized foreign film, television, and games, and to a large volume of well-produced domestic content, which gives them a strong frame of reference for what competent localization sounds and reads like. A translation that feels rushed, mechanical, or tonally off is noticeable against that backdrop in a way it might not be in a market with less established localization norms.</p>
+<h2 id="the-honorific-and-register-system-the-single-biggest-consideration">The honorific and register system: the single biggest consideration</h2>
+<p>If there is one concept that separates a workable Japanese translation from an unnatural one, it is register: the level of politeness and formality embedded in the language itself. English signals formality mostly through word choice and tone of voice. Japanese signals it through grammar, verb conjugation, vocabulary choice, and sentence structure simultaneously, running through nearly every sentence in a script rather than appearing at isolated moments.</p>
+<p>This is a meaningfully bigger decision than the tu/vous-style formal-informal distinction found in languages like French or Spanish, where the choice mostly comes down to a single pronoun and its matching verb form. Japanese has several broad registers that a translator moves between depending on context:</p>
+<ul><li><strong>Casual speech (plain form)</strong>, used between close friends, within families, or in informal peer content, where verbs take their dictionary or plain conjugations and sentences can drop many of the softening elements found in more formal speech.</li><li><strong>Polite speech (teineigo)</strong>, the standard respectful register used with strangers, general audiences, and most everyday professional interactions, built around the <em>-masu</em> and <em>-desu</em> verb and copula forms.</li><li><strong>Formal and honorific speech (keigo)</strong>, which includes both respectful language used to elevate the listener or a third party (<em>sonkeigo</em>) and humble language used to lower the speaker&#39;s own actions relative to the listener (<em>kenjougo</em>). This register is common in customer service, business communication, formal presentations, and content addressing an audience the speaker wants to show clear deference toward.</li></ul>
+<p>Choosing among these is not something a translator can apply uniformly across a project, and it is not a decision that gets made once and forgotten. The right register depends on the content type, the relationship implied between speaker and audience, and sometimes the specific character or speaker within a single video. A casual vlog aimed at a young audience calls for plain or lightly polite speech; a corporate training video or a customer-facing product explainer generally calls for teineigo; a formal announcement, a luxury brand campaign, or content addressing customers in a service context often calls for keigo. Getting this wrong does not produce a minor stylistic mismatch. Dialogue rendered too casually in a formal context can come across as rude or unprofessional, while dialogue rendered too formally in a casual context can sound stiff, distant, or unintentionally comic.</p>
+<p>Multi-speaker content raises the stakes further. A scene with a manager and a junior employee, a teacher and a student, or a host and a guest often calls for each speaker to use a different register that reflects their relative position, and that relationship needs to stay consistent as the scene continues. A translation that assigns the same flat register to every speaker, regardless of who they are talking to, misses one of the most information-dense features of the language and is often the first thing a native Japanese viewer notices.</p>
+<h2 id="grammatical-and-structural-considerations">Grammatical and structural considerations</h2>
+<p>Japanese sentence structure differs substantially from English, and translating word-for-word produces results that are, at best, noticeably unnatural and, at worst, difficult to follow. English generally follows a subject-verb-object order. Japanese follows a subject-object-verb order, with the verb consistently placed at the end of the sentence. Modifiers, qualifying clauses, and context-setting information typically come before the element they describe, which is often the reverse of how an English sentence builds the same idea.</p>
+<p>This has direct consequences for how a translated script should be constructed. A sentence that reads cleanly in English when translated element-by-element into Japanese in the same order will read as broken or foreign, because the underlying logic of how the sentence unfolds does not transfer. A competent Japanese translation restructures the sentence around Japanese grammar rather than substituting Japanese words into an English frame. This is true of nearly every sentence in a script, not just the occasional idiom or figure of speech.</p>
+<p>Subject omission is another structural feature that trips up literal translation. English requires an explicit subject in almost every sentence; Japanese frequently omits the subject entirely when it is clear from context, prior dialogue, or the conversational situation. A line that in English reads &quot;I think you should call her&quot; might, in natural Japanese, drop the &quot;I&quot; and possibly the &quot;you&quot; as well, relying on context and verb form to carry meaning that English insists on stating outright. A translation that inserts an explicit subject in every sentence because the English source has one tends to sound over-explained and unnatural, even though nothing is technically incorrect about it.</p>
+<p>Particles, which mark the grammatical role of words within a sentence, add another layer that has no direct English equivalent and cannot be handled through substitution. Getting particle choice wrong changes emphasis, and sometimes meaning, in ways that a translator working purely at the word level will miss. Taken together, these structural differences are the core reason why competent Japanese translation is a restructuring exercise rather than a substitution exercise, and why translation tools or translators without deep Japanese fluency tend to produce output that a native speaker immediately identifies as translated rather than originally written.</p>
+<h2 id="script-and-on-screen-text-what-matters-for-japanese-subtitles">Script and on-screen text: what matters for Japanese subtitles</h2>
+<p>Subtitle quality in Japanese depends on more than accurate translation and correct timing; it also depends on the writing system itself. Japanese text on screen is a mix of three scripts used together in the same sentence: <strong>kanji</strong> (adopted Chinese characters, each carrying meaning and often multiple possible readings), <strong>hiragana</strong> (a phonetic syllabary used for native grammatical elements and many native words), and <strong>katakana</strong> (a phonetic syllabary used mainly for loanwords, foreign names, and emphasis). A single subtitle line routinely uses all three.</p>
+<p>This mix has practical readability implications that do not exist for languages using a single alphabet. Kanji density matters: a subtitle heavy with complex, low-frequency kanji takes longer to process than one using more common characters or hiragana for the same words, even when the meaning is identical. Subtitles are read on a compressed timeline, often just a few seconds per line, so kanji choices that would be perfectly normal in a printed article can slow a viewer down enough to disrupt the viewing experience if the video is moving quickly. Subtitle-specific conventions in Japanese media often favor somewhat lower kanji density and more furigana-free, commonly recognized characters than formal written Japanese would use, precisely because of this reading-speed constraint.</p>
+<p>Font choice also carries more weight for Japanese than it does for many alphabetic languages. Japanese characters are visually dense, with kanji in particular containing many strokes packed into a single character block, so a font that renders cleanly at subtitle size and against varied video backgrounds is a genuine legibility factor, not a purely aesthetic one. A font that works fine for a full paragraph of body text can become difficult to read at the sizes and durations typical of on-screen subtitles.</p>
+<p>Line length and line breaks need similar attention. Because Japanese does not use spaces between words, wrapping a line badly can create ambiguity about where one word ends and the next begins, or can separate a kanji compound across two lines in a way that briefly confuses the reader. Subtitle formatting for Japanese generally benefits from breaking at natural grammatical or phrase boundaries rather than at an arbitrary character count, which is a somewhat different discipline than subtitle formatting for space-delimited languages.</p>
+<h2 id="dubbing-versus-subtitling-in-the-japanese-market">Dubbing versus subtitling in the Japanese market</h2>
+<p>Japan has a strong and long-established domestic dubbing culture. Foreign film and television have historically been dubbed into Japanese for broad domestic release far more consistently than in many Western markets, and Japanese audiences are, as a general pattern, comfortable with dubbed content in a way that differs from markets such as parts of Northern Europe or certain English-speaking audiences, where a stronger cultural preference for subtitles over dubbing is common. This is a well-known, broadly recognized pattern in the localization industry rather than a hard rule that applies to every genre or platform, and it should inform planning rather than dictate it outright.</p>
+<p>What this means practically is that dubbing is rarely the &quot;alternative&quot; format in Japan the way it can be treated in subtitle-preferring markets; for many types of content, it is closer to the default expectation, particularly for entertainment, streaming series, and mass-market video content. Subtitles remain important and widely used, especially for news, educational material, content viewed in sound-off environments, and among audiences who specifically seek out original-language performances, but the general comfort level with dubbed content in Japan tends to be higher than in markets with a stronger subtitle-first tradition.</p>
+<p>This general pattern is a reason to plan for dubbing rather than defaulting to subtitles alone when targeting a Japanese audience, particularly for entertainment, marketing, and long-form content aimed at a broad audience. It is not, however, a reason to skip subtitles. Many Japanese releases pair dubbed audio with matching Japanese subtitles, both for accessibility and because a meaningful share of viewers use captions even when watching dubbed content. The two formats are complementary in the Japanese market rather than competing choices, and the strongest approach for most projects is producing both from the same carefully reviewed translation.</p>
+<h2 id="a-practical-workflow-for-translating-a-video-into-japanese">A practical workflow for translating a video into Japanese</h2>
+<p>Given how much of the difficulty in Japanese localization concentrates in register and naturalness rather than raw vocabulary, a reliable workflow puts extra weight on the steps that catch those issues early.</p>
+<ol><li><strong>Transcribe the source video accurately, including clear speaker separation.</strong> Register decisions depend on knowing exactly who is speaking to whom, so a transcript that blurs speaker boundaries makes the next step much harder to do well.</li><li><strong>Decide on register before translation starts, not during review.</strong> Determine, scene by scene if necessary, whether each speaker should use casual, polite, or formal and honorific Japanese, based on the content type and the relationships between speakers and audience. This decision should be documented and applied consistently, the same way you would lock in any other style guideline before production begins.</li><li><strong>Translate with restructuring in mind, not substitution.</strong> A translation that reorders sentences around Japanese grammar, handles subject omission naturally, and applies the chosen register consistently will read as native Japanese; a translation that maps English sentence order onto Japanese words will not, no matter how accurate the vocabulary is.</li><li><strong>Manage kanji density and line breaks for subtitles specifically.</strong> If the video includes on-screen text, favor commonly recognized kanji and natural phrase-boundary line breaks over maximizing information density in each line.</li><li><strong>Review with a native Japanese speaker before finalizing.</strong> This is the step most likely to catch register mismatches, unnatural sentence construction, and subtitle readability problems that are invisible to anyone without native or near-native fluency, and it is worth treating as non-negotiable rather than optional.</li><li><strong>Choose dubbing, subtitles, or both based on the content and audience.</strong> Given the general comfort with dubbed content in Japan, entertainment and broad-audience material often benefits from dubbing as a primary format, with subtitles included alongside it rather than as a substitute.</li></ol>
+<p>Octavia&#39;s dubbing pipeline follows this same underlying sequence: transcription with speaker separation, context-aware translation, generated speech that follows each speaker&#39;s tone and pacing, and frame-accurate lip-sync for video content. Japanese is among the 60-plus languages Octavia supports across dubbing, subtitles, and speech generation, so the same reviewed translation can move from a subtitle draft into a full Japanese dub without starting the localization work over. On Starter plans and above, Octavia includes a manual transcript review step before rendering, which is the natural point in the process to confirm that honorific register is correct and consistent throughout the script, something that matters more for Japanese than for most other target languages. Teams that only need captions can start with <a href="/features/subtitle-generation">subtitle generation</a> or <a href="/features/subtitle-translation">subtitle translation</a>, while projects aiming for a full Japanese dub typically begin with <a href="/features/video-translation">video translation</a>.</p>
+<p>Teams working in the other direction, bringing Japanese source content to an English-speaking audience, face a related but distinct set of challenges around register loss and cultural context, covered in our guide on <a href="/blog/translate-japanese-video-to-english">how to translate a Japanese video into English</a>. The underlying principle of treating register as a first-class translation decision rather than an afterthought applies in both directions.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="what-is-the-biggest-mistake-teams-make-when-translating-into-japanese">What is the biggest mistake teams make when translating into Japanese?</h3>
+<p>The most common mistake is treating register as a minor style preference rather than a core grammatical decision. Teams that translate into Japanese the way they would translate into a European language, focusing mainly on vocabulary accuracy, often end up with text that is technically correct but sounds rude, oddly formal, or simply foreign to native speakers, because register is not optional in Japanese the way tone can be somewhat flexible in English.</p>
+<h3 id="can-machine-translation-alone-produce-usable-japanese-subtitles">Can machine translation alone produce usable Japanese subtitles?</h3>
+<p>Raw machine translation typically struggles with the two hardest parts of Japanese: choosing a consistent, contextually appropriate register and restructuring sentences rather than translating word order directly. It can be a reasonable starting point for a draft, but Japanese output benefits significantly from translation informed by context and speaker relationships, plus native review, before it is ready to publish.</p>
+<h3 id="should-japanese-subtitles-use-more-hiragana-or-more-kanji">Should Japanese subtitles use more hiragana or more kanji?</h3>
+<p>There is no universal rule, but subtitle-specific practice generally favors somewhat lower kanji density than formal written Japanese, using commonly recognized characters and hiragana where that keeps reading speed comfortable within a subtitle&#39;s on-screen duration. The right balance also depends on the target audience; content aimed at children or general audiences typically leans further toward hiragana than content aimed at a specialized or older audience.</p>
+<h3 id="is-dubbing-or-subtitling-better-for-reaching-a-japanese-audience">Is dubbing or subtitling better for reaching a Japanese audience?</h3>
+<p>Japan has a strong domestic dubbing culture and audiences are generally comfortable with dubbed foreign content, which makes dubbing a strong default for entertainment, marketing, and broad-audience video. Subtitles remain important for news, educational content, sound-off viewing, and accessibility. Many successful Japanese releases use both formats together rather than choosing one over the other.</p>
+<h3 id="how-important-is-native-speaker-review-compared-to-translation-quality">How important is native speaker review compared to translation quality?</h3>
+<p>Both matter, but native review is often the single highest-leverage step because it catches problems that are otherwise invisible: register mismatches, unnatural sentence construction that reads as translated rather than original, and subtitle phrasing that reads awkwardly even when every individual word is correct. A strong translation still benefits substantially from this check before it goes out.</p>
+<h3 id="does-register-need-to-stay-the-same-throughout-an-entire-video">Does register need to stay the same throughout an entire video?</h3>
+<p>Not necessarily as a single fixed register, but it does need to stay logically consistent with each speaker&#39;s relationship to their audience or to other speakers throughout the video. A single speaker shifting registers without a clear reason, or two speakers using registers that do not reflect their actual relationship, reads as inconsistent rather than natural.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Japanese is a market where localized content is generally expected rather than optional, which makes it a genuinely valuable language to translate into and also one where quality matters more than in markets with higher tolerance for second-language content. The single biggest factor separating a translation that lands from one that does not is register: choosing casual, polite, or formal and honorific Japanese deliberately for each speaker and context, rather than applying one flat style across an entire script.</p>
+<p>Everything else follows from taking that seriously. Sentence structure requires real restructuring rather than word substitution, subtitle readability depends on kanji density and font choices that do not come up in alphabetic languages, and the market&#39;s general comfort with dubbed content means dubbing deserves serious consideration rather than automatic deference to subtitles. None of this is exotic once you know to look for it, and a workflow built around getting register right early and confirming it with native review catches the large majority of problems before they reach viewers.</p>
+<p>When you are ready to move from planning to production, Octavia&#39;s <a href="/features/video-translation">video translation</a> workflow handles transcription, context-aware translation, and lip-synced dubbing for Japanese and 60-plus other languages in one connected process.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslate-video-to-japanese" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslate-video-to-japanese&amp;text=How%20to%20Translate%20a%20Video%20Into%20Japanese" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslate-video-to-japanese" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/translation-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-translation-guide" aria-label="Read Video Translation: The Complete Guide"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiant-globe-lines.png" alt="Video Translation: The Complete Guide" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Translation: The Complete Guide</h2><p class="blog-card-description">Video translation is not one product but a category of choices between subtitles, dubbed audio, and voice-over. This guide maps the whole landscape so you can pick the right method for your project.</p>
+      <time class="blog-card-date" datetime="2026-08-16T09:00:00Z">Aug 16, 2026 · 16 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/best-video-translator-tools" aria-label="Read Best Video Translator Tools, Compared"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/floating-shard-array.png" alt="Best Video Translator Tools, Compared" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Best Video Translator Tools, Compared</h2><p class="blog-card-description">Not every video translator solves the same problem. Here is how the main tool categories differ, and how to pick the right one for a single lecture or a whole back catalog.</p>
+      <time class="blog-card-date" datetime="2026-08-15T09:00:00Z">Aug 15, 2026 · 16 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/translate-video-online-options" aria-label="Read How to Translate a Video Online: Free vs. Paid Options"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/twin-light-portals.png" alt="How to Translate a Video Online: Free vs. Paid Options" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Translate a Video Online: Free vs. Paid Options</h2><p class="blog-card-description">Free tools can caption a short clip in minutes, but they rarely produce a finished, dubbed video. Here is how to decide which approach actually fits your project.</p>
+      <time class="blog-card-date" datetime="2026-08-12T09:00:00Z">Aug 12, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

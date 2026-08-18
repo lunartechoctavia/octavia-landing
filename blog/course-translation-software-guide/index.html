@@ -1,0 +1,629 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Course Translation Software: What to Look For | Octavia</title>
+    <meta name="description" content="A buyer&#39;s guide to course translation software: consistency, review workflows, LMS integration, and pricing for translating a course catalog.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/course-translation-software-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Course Translation Software: What to Look For">
+    <meta property="og:description" content="A buyer&#39;s guide to course translation software: consistency, review workflows, LMS integration, and pricing for translating a course catalog.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/course-translation-software-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/graduated-glass-steps.png">
+    <meta property="article:published_time" content="2026-07-03T09:00:00Z">
+    <meta property="article:modified_time" content="2026-07-03T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Course Translation Software: What to Look For">
+    <meta name="twitter:description" content="A buyer&#39;s guide to course translation software: consistency, review workflows, LMS integration, and pricing for translating a course catalog.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/graduated-glass-steps.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Course Translation Software: What to Look For","description":"A buyer's guide to course translation software: consistency, review workflows, LMS integration, and pricing for translating a course catalog.","image":"https://octavia.lunartech.ai/assets/blog/images/graduated-glass-steps.png","datePublished":"2026-07-03T09:00:00Z","dateModified":"2026-07-03T09:00:00Z","wordCount":3012,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/course-translation-software-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Course Translation Software: What to Look For","item":"https://octavia.lunartech.ai/blog/course-translation-software-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">Course Translation Software: What to Look For</h1><p class="article-deck">Choosing a tool to translate one video is easy. Choosing course translation software for an entire catalog means evaluating consistency, review workflow, and pricing before you commit budget.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-07-03T09:00:00Z">Jul 3, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/graduated-glass-steps.png" alt="Course Translation Software: What to Look For" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-course-content-demands-that-generic-video-translation-does-not">What course content demands that generic video translation does not</a></li><li><a class="toc-h2" data-toc-link href="#collaboration-and-review-features-that-matter-for-education">Collaboration and review features that matter for education</a></li><li><a class="toc-h2" data-toc-link href="#integration-with-an-existing-course-production-pipeline">Integration with an existing course production pipeline</a></li><li><a class="toc-h2" data-toc-link href="#scalability-and-pricing-for-a-full-course-catalog">Scalability and pricing for a full course catalog</a></li><li><a class="toc-h2" data-toc-link href="#an-evaluation-checklist-before-you-commit">An evaluation checklist before you commit</a></li><li><a class="toc-h2" data-toc-link href="#piloting-before-you-commit-to-the-full-catalog">Piloting before you commit to the full catalog</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#how-is-course-translation-software-different-from-general-video-translation-tools">How is course translation software different from general video translation tools?</a></li><li><a class="toc-h3" data-toc-link href="#does-course-translation-software-need-to-support-voice-cloning-to-sound-natural">Does course translation software need to support voice cloning to sound natural?</a></li><li><a class="toc-h3" data-toc-link href="#should-quizzes-and-worksheets-go-through-the-same-tool-as-the-video">Should quizzes and worksheets go through the same tool as the video?</a></li><li><a class="toc-h3" data-toc-link href="#how-many-courses-should-be-included-in-a-pilot-before-scaling-to-the-full-catalog">How many courses should be included in a pilot before scaling to the full catalog?</a></li><li><a class="toc-h3" data-toc-link href="#is-per-minute-or-credit-based-pricing-actually-more-predictable-than-agency-quoting">Is per-minute or credit-based pricing actually more predictable than agency quoting?</a></li><li><a class="toc-h3" data-toc-link href="#what-plan-features-matter-most-once-a-catalog-gets-large">What plan features matter most once a catalog gets large?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Most teams start shopping for course translation software the way they would shop for any video tool: they run one lesson through a demo, listen to the dubbed audio, and decide whether it sounds good enough. That test tells you almost nothing about whether the software will hold up across a forty-lesson catalog with quizzes, worksheets, and a compliance deadline attached to it. A single lesson does not surface terminology drift, reviewer bottlenecks, or export formats that do not match your learning management system.</p>
+<p>Course translation is a narrower and more demanding job than general video translation. The content has to stay internally consistent across dozens of separate files, it usually includes materials beyond narration that also need translating, and it typically has to clear a subject-matter-expert review before it can be published, because a mistranslated instructional claim is a different kind of problem than an awkward marketing line. Buying the wrong tool does not usually fail on lesson one. It fails at lesson twenty, when nobody can tell whether &quot;the three-step framework&quot; was translated the same way it was in lesson four.</p>
+<p>This guide walks through what course translation software specifically needs to handle, the collaboration and review features that matter in an education context, integration questions worth asking before you sign a contract, how pricing models hold up at catalog scale, and a practical way to pilot a tool before committing budget to an entire library.</p>
+<h2 id="what-course-content-demands-that-generic-video-translation-does-not">What course content demands that generic video translation does not</h2>
+<p>Marketing and social video translation is judged mostly on the finished clip: does it sound natural, does the lip movement look right, is the message clear. Course content carries additional requirements that a tool built purely for one-off video translation was never designed to handle.</p>
+<p>The first is cross-module consistency. A term introduced in lesson one has to be translated the same way when it reappears in lesson fifteen, months of production later, possibly handled by a different reviewer. Software that treats every lesson as an isolated translation job, with no shared glossary or terminology memory carried between files, will drift. That drift is invisible in a single-lesson demo and very visible to a learner working through the full course.</p>
+<p>The second is scope beyond narration. A course is rarely just a talking head or a screen recording with a voiceover. It usually includes on-screen slide text, lower-third labels, quiz questions and answer options, and downloadable worksheets or PDFs. Software evaluated only on how well it dubs spoken narration will leave a gap: the lecture sounds fluent in the target language, but the slide the learner is looking at and the worksheet they download afterward are still in the source language. That mismatch reads as unfinished even when the audio work is excellent.</p>
+<p>The third is that course lessons vary enormously in length, from a five-minute concept explainer to a ninety-minute deep-dive session. A tool with a low per-file length ceiling forces you to chop longer lessons into artificial segments purely to fit the software, which adds editing overhead and risk of continuity errors at the seams. Worth checking directly against a vendor&#39;s plan limits before assuming a tool will handle your longest lessons in one pass.</p>
+<p>Octavia&#39;s <a href="/features/video-translation">video translation</a> workflow handles narrated lecture footage with lip-sync, while <a href="/features/subtitle-translation">subtitle translation</a> and <a href="/features/subtitle-generation">subtitle generation</a> cover on-screen text and caption tracks separately, so slide captions and quiz text do not have to be forced through the same pipeline as spoken narration. Because the workflows are modular, a team can route a talking-head lecture through video translation and a screen-recording-heavy lesson through subtitle generation without paying for capability they will not use on that particular file.</p>
+<h2 id="collaboration-and-review-features-that-matter-for-education">Collaboration and review features that matter for education</h2>
+<p>A dubbed marketing clip usually gets one round of review from a creative lead before it ships. Course content generally needs more scrutiny, because an instructional claim that is subtly wrong in translation is a different category of risk than a stylistic misstep in an ad. A learner who is taught something incorrect in a translated course has no easy way to notice the error; they simply learn it wrong.</p>
+<p>That raises the bar for what &quot;review&quot; means in course translation software. Look for a workflow that supports more than one reviewer role: a linguistic reviewer checking that the translation is accurate and natural, and a subject-matter expert checking that the instructional content is still correct after translation. These are not the same skill set, and a tool that only supports a single generic review step forces both concerns through one pass, which tends to catch language errors while letting instructional errors slip through.</p>
+<p>Equally important is <em>when</em> review happens. Reviewing after a lesson has already been fully dubbed and rendered means any fix requires a re-render, which costs time and, on usage-based pricing, credits. Reviewing the transcript before final audio and video generation lets a subject-matter expert or instructor catch a mistranslated term or an incorrect instructional claim while it is still cheap to fix. Octavia&#39;s manual transcript review step, available on Starter plans and above, sits at exactly this point in the pipeline: a course team can route the translated transcript to an instructor or subject-matter expert for sign-off before the lesson renders, rather than discovering a problem in the finished video.</p>
+<p>For teams translating a catalog rather than a single course, seat and concurrency limits matter more than they first appear to. If only one person can review at a time, review becomes the bottleneck no matter how fast the underlying translation is. Octavia&#39;s Pro plan supports two team seats and two concurrent jobs, and Studio supports five seats and five concurrent jobs, which matters when a translation team wants a linguistic reviewer and a subject-matter expert working through different lessons of the same course at the same time rather than queuing behind each other.</p>
+<h2 id="integration-with-an-existing-course-production-pipeline">Integration with an existing course production pipeline</h2>
+<p>Very few training organizations are translating course content in a vacuum. There is usually an existing production pipeline: a learning management system that hosts the finished course, an authoring tool that produced the original slides and quizzes, and a content workflow that governs how a lesson moves from draft to published. Course translation software that does not fit into that pipeline creates manual handoff work that erodes any time savings the AI translation itself provided.</p>
+<p>A few integration questions are worth asking before committing to a tool:</p>
+<ul><li><strong>What formats does it export, and do they match what your LMS or authoring tool expects?</strong> A tool that only exports a single proprietary format forces manual conversion for every lesson, which does not scale across a catalog.</li><li><strong>Is there API access for connecting translation into an automated pipeline?</strong> For teams producing courses on an ongoing basis, being able to submit a new lesson for translation programmatically as soon as the source version is finalized removes a manual upload step that otherwise repeats for every course, every language, indefinitely.</li><li><strong>Can subtitle and transcript output be pulled separately from the dubbed video?</strong> Course platforms often want a subtitle track alongside, or instead of, full dubbing, and a tool that only produces a single bundled output limits how that content can be reused.</li><li><strong>Does the tool support webhooks or job status callbacks</strong>, so a production pipeline can be notified automatically when a translated lesson is ready rather than requiring someone to check manually.</li></ul>
+<p>Octavia offers REST and GraphQL API access with webhooks and an official JavaScript and TypeScript SDK on Pro and Studio plans, which lets a course production team wire translation directly into an existing content pipeline rather than treating it as a manual side process. The full reference is available in the <a href="/docs">documentation</a>. For teams not yet ready to build API integration, the same workflows are available directly through the web app, so a pilot can start manually and move to automated pipeline integration once the tool has proven out.</p>
+<h2 id="scalability-and-pricing-for-a-full-course-catalog">Scalability and pricing for a full course catalog</h2>
+<p>A single translated course is a project. A full catalog is an ongoing operation, and the pricing model that looked reasonable for one course can become unpredictable or prohibitively expensive at catalog scale. This is one of the areas where course translation software most clearly diverges from general video translation tools, and where the difference between vendors matters most.</p>
+<p>Agency-style quoting, where each course or each language is priced individually after a scoping conversation, makes budgeting a full catalog translation difficult. The per-course cost is not known until each quote comes back, and quotes can vary based on factors that are hard to predict in advance, like turnaround time or reviewer availability. That works reasonably well for a single flagship course but becomes a planning problem once a training director is trying to budget translation for thirty or forty courses across several languages.</p>
+<p>A predictable per-minute or credit-based pricing model, by contrast, lets a team estimate the cost of translating an entire catalog before starting, because the unit cost does not change based on who is doing the work or how busy an agency is that month. Octavia uses a single shared credit currency across all six workflows, with monthly allowances ranging from 500 credits on the Free plan up to 120,000 on Studio, so a training director can calculate roughly what translating a given catalog into a given set of languages will cost before committing budget, rather than requesting a quote per course.</p>
+<p>Batch handling matters just as much as pricing predictability. If a tool requires each lesson to be uploaded, configured, and reviewed as a completely separate manual process with no shared settings, translating a forty-lesson course becomes forty repetitions of the same setup work. Look for a tool that lets you carry review settings, target languages, and workflow choices across a batch of lessons rather than reconfiguring from scratch every time, and one whose plan limits on file length and concurrent jobs are documented clearly enough that you can plan a translation schedule around them rather than discovering constraints mid-project. The <a href="/pricing">pricing</a> page lays out Octavia&#39;s plan tiers, credit allowances, and per-plan length and concurrency limits together, which is the information a team actually needs to plan a catalog-scale project.</p>
+<h2 id="an-evaluation-checklist-before-you-commit">An evaluation checklist before you commit</h2>
+<p>Before signing a contract or committing budget to translating an entire catalog, run any candidate course translation software through a structured evaluation rather than judging it on a single demo lesson. The following checklist covers the points that tend to separate a tool that works for one video from one that works for a course catalog.</p>
+<ol><li><strong>Test with a multi-lesson sample, not one video.</strong> Translate at least three lessons from the same course, including one with recurring terminology, and check whether the tool (or your workflow around it) keeps that terminology consistent across all three.</li><li><strong>Confirm supplementary material coverage.</strong> Verify that slides, quiz text, and downloadable worksheets can be translated through the same platform or a compatible companion workflow, not just the narration.</li><li><strong>Check where review sits in the pipeline.</strong> Confirm there is a review step before final rendering, not just after, so instructional errors can be caught while they are still cheap to fix.</li><li><strong>Verify multi-reviewer support.</strong> Confirm the platform supports separate linguistic and subject-matter-expert review, or at minimum a workflow where both can review the same transcript before publishing.</li><li><strong>Check maximum single-file length against your longest lesson.</strong> A plan that caps individual files well below your longest lecture will force awkward manual splitting.</li><li><strong>Ask about export formats and API access.</strong> Confirm exports match what your LMS or authoring tool expects, and check whether API access exists for teams that expect to scale beyond manual uploads.</li><li><strong>Price out your actual catalog, not one course.</strong> Take your real course count and target language list and calculate the total cost under the vendor&#39;s pricing model, rather than judging affordability from the cost of a single course.</li><li><strong>Check concurrency and seat limits against your team size.</strong> If more than one person needs to work in the platform at once, whether translating or reviewing, confirm the plan supports that.</li></ol>
+<h2 id="piloting-before-you-commit-to-the-full-catalog">Piloting before you commit to the full catalog</h2>
+<p>Even after a checklist evaluation, the safest way to validate course translation software is a small, representative pilot before scaling to the full catalog. Pick one course that is reasonably typical of your catalog: not your shortest or simplest lesson, and not your most unusual edge case, but something that reflects the length, structure, and supplementary materials most of your catalog actually has.</p>
+<p>Translate that course into a single target language and put it in front of a small group of learners who are native or fluent speakers of that language, ideally people who were not involved in producing the translation. Ask them directly whether the terminology felt consistent, whether the pacing of the dubbed narration matched the instructor&#39;s original delivery, and whether the translated slides and quiz questions made sense without needing to reference the original. Learner feedback at this stage catches problems that a producer reviewing the same content, already familiar with what it is supposed to say, can miss.</p>
+<p>Use the pilot to also test the parts of the evaluation that are hard to judge from a demo: how the review workflow feels in practice with a real subject-matter expert involved, how long the full pipeline takes from source lesson to published translated lesson, and whether the exported files actually drop into your LMS without manual reformatting. A pilot that surfaces friction in any of those areas is worth the delay before scaling, because catalog-wide friction on forty courses is a much larger cost than the two or three weeks a proper pilot takes.</p>
+<p>If your pilot involves employee training content rather than a public-facing course, the considerations around review and rollout are covered in more depth in <a href="/blog/localize-employee-training-videos">How to Localize Employee Training Videos at Scale</a>, which walks through scaling translated training content across a workforce once the pilot has validated the approach. And for teams weighing translation against a broader LMS content strategy, <a href="/blog/elearning-translation-guide">E-Learning Translation: Localizing Corporate and LMS Content</a> covers how translation decisions fit into a wider corporate learning localization plan.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="how-is-course-translation-software-different-from-general-video-translation-tools">How is course translation software different from general video translation tools?</h3>
+<p>Course translation software has to maintain terminology consistency across many separate lesson files rather than one standalone video, handle supplementary materials like slides, quizzes, and worksheets alongside narration, and typically support a subject-matter-expert review step before publishing. General video translation tools are usually built and priced around single, independent deliverables and may not have workflows for any of those three requirements.</p>
+<h3 id="does-course-translation-software-need-to-support-voice-cloning-to-sound-natural">Does course translation software need to support voice cloning to sound natural?</h3>
+<p>No. What matters is that the generated narration matches the original instructor&#39;s tone, pacing, and delivery closely enough that the lesson still feels like it is being taught by the same person, not that the underlying technology is described as voice cloning. Octavia&#39;s speech generation matches the source speaker&#39;s tone and pacing without offering a standalone voice-cloning feature, which is sufficient for most course narration use cases.</p>
+<h3 id="should-quizzes-and-worksheets-go-through-the-same-tool-as-the-video">Should quizzes and worksheets go through the same tool as the video?</h3>
+<p>Not necessarily the same workflow, but ideally the same platform, so terminology stays consistent between what a learner hears in the lecture and what they read in the quiz or worksheet afterward. Look for a platform with separate but coordinated workflows, such as dedicated subtitle and text translation alongside video dubbing, rather than forcing every asset type through a single video-only pipeline.</p>
+<h3 id="how-many-courses-should-be-included-in-a-pilot-before-scaling-to-the-full-catalog">How many courses should be included in a pilot before scaling to the full catalog?</h3>
+<p>One course is usually enough, provided it is representative of your catalog&#39;s typical length, structure, and supplementary materials rather than an outlier. The goal of a pilot is to validate the workflow and review process, not to sample statistically, so a single well-chosen course with real learner feedback tells you most of what a five-course pilot would, at a fraction of the cost and time.</p>
+<h3 id="is-per-minute-or-credit-based-pricing-actually-more-predictable-than-agency-quoting">Is per-minute or credit-based pricing actually more predictable than agency quoting?</h3>
+<p>Generally yes, because the unit cost is fixed regardless of turnaround time, reviewer availability, or which course is being translated, which lets you calculate a full-catalog budget in advance. Agency quoting can still work well for a single flagship course, but it becomes harder to plan around once you are pricing out dozens of courses across multiple languages.</p>
+<h3 id="what-plan-features-matter-most-once-a-catalog-gets-large">What plan features matter most once a catalog gets large?</h3>
+<p>Length limits per file, the number of team seats, and how many jobs can run concurrently tend to matter more at catalog scale than they do for a single course, because they determine how much of the translation work can happen in parallel rather than in a single queue. It is worth checking these limits against your actual catalog size and team structure before committing to a plan rather than assuming the entry-level tier will scale.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Evaluating course translation software on a single demo lesson answers the wrong question. The failure modes that actually matter at catalog scale, terminology drift across modules, supplementary materials left behind, review happening too late in the pipeline, and pricing that turns unpredictable as course count grows, only show up once you are translating more than one lesson under realistic conditions.</p>
+<p>A structured evaluation that checks consistency across a multi-lesson sample, confirms coverage beyond narration, verifies where review sits in the pipeline, and prices out your actual catalog rather than a single course will surface most of these issues before you commit budget. A small pilot with real learner feedback catches the rest.</p>
+<p>If you are evaluating tools for an upcoming catalog translation project, a good next step is to run a representative course through Octavia&#39;s workflows yourself and see how the review step and credit-based pricing hold up against your own checklist. You can compare plan limits and credit allowances on the <a href="/pricing">pricing</a> page before starting a pilot.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fcourse-translation-software-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fcourse-translation-software-guide&amp;text=Course%20Translation%20Software%3A%20What%20to%20Look%20For" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fcourse-translation-software-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/long-form-video-translation" aria-label="Read Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/deep-ring-recession.png" alt="Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Translating Long-Form Video: Lectures, Webinars, and Multi-Hour Content</h2><p class="blog-card-description">A ninety-minute lecture or a three-hour conference recording breaks the assumptions built into most translation workflows. Here is how to plan, prepare, and review long-form content without the quality drifting halfway through.</p>
+      <time class="blog-card-date" datetime="2026-07-31T09:00:00Z">Jul 31, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-course-translation-guide" aria-label="Read AI Course Translation: Localizing Online Courses Without Losing Quality"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/stacked-lesson-tablets.png" alt="AI Course Translation: Localizing Online Courses Without Losing Quality" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Course Translation: Localizing Online Courses Without Losing Quality</h2><p class="blog-card-description">A single translated lecture is easy. A twelve-module course that has to stay consistent, teachable, and accurate in six languages is a different problem entirely.</p>
+      <time class="blog-card-date" datetime="2026-07-30T09:00:00Z">Jul 30, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/enterprise-video-translation-roi" aria-label="Read Enterprise Video Translation: How to Evaluate Vendors and ROI"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/aligned-glass-pillars.png" alt="Enterprise Video Translation: How to Evaluate Vendors and ROI" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Enterprise Video Translation: How to Evaluate Vendors and ROI</h2><p class="blog-card-description">Before committing budget to translated video at scale, most teams need answers to three questions: what it actually costs, how fast it moves, and how to tell a strong vendor from a risky one.</p>
+      <time class="blog-card-date" datetime="2026-07-29T09:00:00Z">Jul 29, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

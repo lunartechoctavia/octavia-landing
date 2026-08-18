@@ -1,0 +1,633 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Global Content Distribution: Getting Translated Video to the Right Platforms | Octavia</title>
+    <meta name="description" content="A practical guide to global content distribution: matching translated video to regional platforms, metadata, timing, and per-market measurement.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/global-content-distribution-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Global Content Distribution: Getting Translated Video to the Right Platforms">
+    <meta property="og:description" content="A practical guide to global content distribution: matching translated video to regional platforms, metadata, timing, and per-market measurement.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/global-content-distribution-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/multi-path-light-map.png">
+    <meta property="article:published_time" content="2026-06-30T09:00:00Z">
+    <meta property="article:modified_time" content="2026-06-30T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Global Content Distribution: Getting Translated Video to the Right Platforms">
+    <meta name="twitter:description" content="A practical guide to global content distribution: matching translated video to regional platforms, metadata, timing, and per-market measurement.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/multi-path-light-map.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Global Content Distribution: Getting Translated Video to the Right Platforms","description":"A practical guide to global content distribution: matching translated video to regional platforms, metadata, timing, and per-market measurement.","image":"https://octavia.lunartech.ai/assets/blog/images/multi-path-light-map.png","datePublished":"2026-06-30T09:00:00Z","dateModified":"2026-06-30T09:00:00Z","wordCount":3064,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/global-content-distribution-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Global Content Distribution: Getting Translated Video to the Right Platforms","item":"https://octavia.lunartech.ai/blog/global-content-distribution-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/creator-growth">Creator Growth</a>
+        <h1 class="article-title">Global Content Distribution: Getting Translated Video to the Right Platforms</h1><p class="article-deck">Translating a video is only the first step. This guide covers how to get that translated content in front of the right audience, on the right platform, at the right time.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-06-30T09:00:00Z">Jun 30, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/multi-path-light-map.png" alt="Global Content Distribution: Getting Translated Video to the Right Platforms" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-translation-is-only-half-the-work-of-global-content-distribution">Why translation is only half the work of global content distribution</a></li><li><a class="toc-h2" data-toc-link href="#platforms-are-not-used-the-same-way-everywhere">Platforms are not used the same way everywhere</a></li><li><a class="toc-h2" data-toc-link href="#metadata-is-part-of-the-distribution-not-an-afterthought">Metadata is part of the distribution, not an afterthought</a></li><li><a class="toc-h2" data-toc-link href="#timing-and-scheduling-across-regions">Timing and scheduling across regions</a></li><li><a class="toc-h2" data-toc-link href="#one-central-channel-or-region-specific-channels">One central channel or region-specific channels</a></li><li><a class="toc-h2" data-toc-link href="#measuring-what-is-actually-working-per-market">Measuring what is actually working per market</a></li><li><a class="toc-h2" data-toc-link href="#production-feeds-distribution-but-they-are-not-the-same-job">Production feeds distribution, but they are not the same job</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#should-every-translated-video-go-to-every-platform-we-use">Should every translated video go to every platform we use?</a></li><li><a class="toc-h3" data-toc-link href="#how-much-of-the-metadata-actually-needs-translation-not-just-the-video">How much of the metadata actually needs translation, not just the video?</a></li><li><a class="toc-h3" data-toc-link href="#is-it-better-to-release-translated-versions-at-the-same-time-as-the-source-video-or-stagger-them">Is it better to release translated versions at the same time as the source video, or stagger them?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-we-decide-between-one-global-channel-and-separate-regional-channels">How do we decide between one global channel and separate regional channels?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-minimum-set-of-metrics-we-should-track-by-market">What is the minimum set of metrics we should track by market?</a></li><li><a class="toc-h3" data-toc-link href="#does-octavia-handle-the-publishing-and-scheduling-side-of-distribution">Does Octavia handle the publishing and scheduling side of distribution?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A team spends weeks translating and dubbing a video into eight languages, ships it, and watches the results come in flat. The dubbing is clean, the subtitles are accurate, and the lip-sync holds up. The problem was never the translation. It was everything that happened after the file was finished: where it was uploaded, how it was described, when it went live, and whether anyone checked if the target audience was even watching that platform in the first place. This is the work of <strong>global content distribution</strong>, and it is a separate discipline from translation, with its own decisions and its own failure modes.</p>
+<p>It helps to think of translation and distribution as two halves of the same job, not one continuous pipeline where distribution is a formality at the end. A translated video that lands on the wrong platform, at the wrong hour, with an untranslated thumbnail and a machine-literal title, will underperform a rougher video that was placed correctly. Distribution decisions compound: they affect discovery, click-through, watch time, and whether a platform&#39;s recommendation system decides to keep showing the video to more people.</p>
+<p>This guide walks through the practical side of getting translated content to the right audience once the localized assets exist: how platform habits differ by region, why metadata needs its own translation pass, how timing and scheduling change across markets, the tradeoffs between a single global channel and region-specific ones, and how to measure performance in a way that actually reflects what is happening market by market.</p>
+<h2 id="why-translation-is-only-half-the-work-of-global-content-distribution">Why translation is only half the work of global content distribution</h2>
+<p>A finished dub or subtitle file is an asset, not a result. The result is a viewer in a specific market actually watching, understanding, and responding to it. Between the finished asset and that outcome sits a series of distribution decisions that are easy to underinvest in because they feel less technical than the translation itself.</p>
+<p>Consider what happens when a translated video is uploaded exactly like the source version: same platform, same posting time, same title format, same thumbnail, just with a new audio track or subtitle file attached. Nothing in that process asked whether the target audience discovers content the way the source audience does. Nothing adapted the packaging to a different set of viewer expectations. The video is technically available in the new language, but it was never actually distributed to that audience with any intention.</p>
+<p>Good global content distribution treats every localized version of a video as its own small campaign, with its own platform choice, its own metadata, and its own release plan, connected to the source video by content but not by process. That does not mean rebuilding everything from scratch for every market. It means treating the distribution step as a decision point rather than a mechanical last step in the pipeline.</p>
+<h2 id="platforms-are-not-used-the-same-way-everywhere">Platforms are not used the same way everywhere</h2>
+<p>One of the most common mistakes in global distribution is assuming a single platform&#39;s dominance is universal. The video platform that a team&#39;s home market treats as the default is not automatically the default everywhere. Regions differ in which video platforms lead, which messaging apps double as content-discovery channels, which short-form networks carry the most everyday traffic, and how much video consumption still happens on their platform of choice versus locally-preferred alternatives. This is a real and well-documented pattern in international media, and it is well worth treating as a research question for every new market rather than an assumption carried over from wherever a channel already has an audience.</p>
+<p>Rather than asserting fixed rankings, which shift over time and vary by content category as much as by country, the more durable approach is a repeatable research step before entering any new market:</p>
+<ul><li>Look at what competitors or comparable creators in that specific language and content niche are actually publishing on, not just what a general platform-popularity report says.</li><li>Check whether the audience&#39;s dominant platform for the source language is even the same platform used in the target market, since usage habits do not transfer automatically across borders.</li><li>Note whether short-form, long-form, or messaging-app-native formats carry more weight in that market, since the same video might need a different cut, not just a different language track.</li><li>Revisit the assessment periodically. Platform habits shift, sometimes quickly, and a market that favored one distribution channel two years ago may not favor it today.</li></ul>
+<p>This research does not need to be exhaustive for every launch. But skipping it and defaulting to &quot;wherever we already publish&quot; is one of the most common and most avoidable reasons a well-translated video underperforms in a new market. A related version of this same tradeoff, specific to a single platform&#39;s international growth mechanics, is covered in <a href="/blog/youtube-localization-guide">YouTube Localization: How to Grow an International Audience</a>, which is worth reading alongside this guide for teams whose distribution strategy centers on one platform rather than several.</p>
+<h2 id="metadata-is-part-of-the-distribution-not-an-afterthought">Metadata is part of the distribution, not an afterthought</h2>
+<p>Translated video, audio, and subtitles get most of the planning attention, but the metadata wrapped around that content, titles, descriptions, tags, and thumbnails, is what most discovery algorithms and most human viewers actually evaluate first. A perfectly dubbed video with an untranslated or literally-translated title is invisible to search and unappealing to click, regardless of how good the content is once someone opens it.</p>
+<p>Metadata translation is not the same task as subtitle or script translation, and it should not be handled by the same pass. A subtitle needs to track timing and stay close to the spoken content. A title needs to be short, need to match how people in that language actually search and phrase things, and often needs to be rewritten rather than translated word for word. A description that reads naturally in the source language can read stiff, overly formal, or oddly literal when translated directly, which affects both search ranking and viewer trust in the first few seconds of consideration.</p>
+<p>Thumbnails deserve the same treatment. Any on-thumbnail text needs translation, but the images themselves sometimes need cultural adaptation too: color associations, gestures, facial expressions, and even the framing conventions that read as professional or engaging can differ by region. A thumbnail style that performs well in one market can look generic or slightly off in another, quietly suppressing click-through even though nothing about it is factually wrong.</p>
+<p>Tags and category selections matter more than they might seem to, particularly on platforms where recommendation systems lean on them to decide who else to show a video to. A tag list copied verbatim from the source-language upload will not surface the video to the right audience if that audience searches and browses using different terms entirely. Building a market-specific tag and keyword list, even a short one, is a small effort with a disproportionate effect on discovery.</p>
+<h2 id="timing-and-scheduling-across-regions">Timing and scheduling across regions</h2>
+<p>A video published at the ideal time for one region can land at the worst possible time for another. Time zone differences are the obvious part of this, but the deeper issue is that content consumption habits themselves vary by market, not just clock time. When people in a given region tend to watch, on which day, around which routines, is a separate question from what time zone they are in, and both matter.</p>
+<p>A few practical points worth building into a release calendar:</p>
+<ol><li>Treat each major target market&#39;s typical viewing windows as a separate scheduling input, not a simple time zone offset from the source market&#39;s publish time.</li><li>Watch for regional and cultural calendar differences, including holidays, work weeks that do not match the source market&#39;s, and seasonal viewing patterns, since publishing into a dead week can suppress early momentum that a platform&#39;s algorithm uses to decide how far to push content.</li><li>Decide in advance whether translated versions release simultaneously with the source version or on a staggered schedule. Simultaneous releases keep a franchise or series consistent across languages, while staggered releases let a team learn from early markets before wider rollout, at the cost of coordinated hype.</li><li>Build in buffer time for last-mile review of translated metadata and localized assets so that a rushed publish does not sacrifice quality to hit an arbitrary simultaneous-release deadline.</li></ol>
+<p>None of this needs to be perfectly optimized before a first release. What it needs is deliberate choice. A schedule that was chosen, even imperfectly, is easier to learn from and adjust than one that defaulted to &quot;whenever the source video happened to be ready.&quot;</p>
+<h2 id="one-central-channel-or-region-specific-channels">One central channel or region-specific channels</h2>
+<p>A recurring strategic decision in global distribution is whether to publish all translated content through one central account or channel, or to build out dedicated region-specific profiles for each language or market. This is a broader, platform-agnostic version of a tradeoff also discussed in <a href="/blog/best-languages-to-translate-youtube-videos">Which Languages Should You Translate Your YouTube Videos Into First?</a>, and it applies just as much to social platforms, video hosts, and messaging-app channels as it does to any single video platform.</p>
+<p>A single central channel keeps everything under one identity, simplifies analytics, and concentrates whatever audience and algorithmic trust the account has already built up. Viewers who follow the brand across languages see one consistent presence. It is also the lower-overhead option: one channel to manage, one publishing calendar, one place to check performance.</p>
+<p>The tradeoff is that a mixed-language feed can be a worse experience for any single viewer. A subscriber who speaks one language sees content in languages they do not understand interspersed with content they do, which can suppress engagement signals that recommendation systems use to decide who to show a video to next. It also makes it harder for a platform to learn &quot;this audience wants this language&quot; if the same account is training its algorithm on multiple languages at once.</p>
+<p>Dedicated region-specific channels solve that problem by giving each language its own clean signal: an audience that opted into that language, a feed that shows only that language, and a recommendation system that can learn cleanly from single-language engagement data. The cost is real: more channels to manage, more places to publish and moderate, slower audience growth in each individual channel at the start, and more coordination overhead to keep branding and quality consistent across all of them.</p>
+<p>There is no universally correct answer, and the right choice depends on catalog size, team capacity, and how differentiated the content needs to be by market. A useful rule of thumb: teams with a small number of high-priority languages and the operational capacity to manage separate channels well tend to benefit from dedicated channels once a language has enough content and audience interest to sustain one. Teams still testing which languages are worth investing in, or working with limited production and community-management capacity, often do better starting with a central channel and splitting off dedicated ones only once a specific market has proven demand.</p>
+<h2 id="measuring-what-is-actually-working-per-market">Measuring what is actually working per market</h2>
+<p>Aggregate view counts are close to useless for judging whether a global distribution strategy is working, because they average away exactly the information a team needs. A video that performs extremely well in one market and poorly in another can show a perfectly respectable total view count while hiding the fact that half the investment is not paying off.</p>
+<p>The more useful approach is to break performance down by language or region and look at the metrics that reflect whether people are actually engaging with the content, not just arriving at it:</p>
+<ul><li><strong>Watch time and completion rate</strong> by language reveal whether the translated version is actually holding attention, not just getting an initial click. A low completion rate in one language, even with respectable view counts, often points to a mismatch in pacing, dub quality, or content fit for that audience.</li><li><strong>Engagement actions</strong> such as comments, shares, and saves, tracked separately by market, show whether a video is resonating enough for viewers to actively respond, which is a stronger signal than passive viewing.</li><li><strong>Click-through rate from thumbnails and titles</strong>, where the platform provides it, indicates whether the localized packaging is working, separate from how the video performs once someone opens it.</li><li><strong>Retention curves</strong> compared across languages can reveal where in the video a specific translated version loses viewers, which sometimes points to a translation, pacing, or cultural-fit issue at a specific timestamp rather than a general quality problem.</li><li><strong>Subscriber or follower growth by region</strong>, where available, indicates whether a market is building a returning audience or just generating one-off views.</li></ul>
+<p>The point of this breakdown is not to produce a bigger dashboard. It is to catch the situations where one market is quietly underperforming while the aggregate numbers look fine, and to catch the reverse: a market that is performing exceptionally well and deserves more production investment, a dedicated channel, or a faster release cadence than it is currently getting. Teams that only look at totals tend to keep funding underperforming markets at the same rate as strong ones, simply because nothing in the data flagged the difference.</p>
+<h2 id="production-feeds-distribution-but-they-are-not-the-same-job">Production feeds distribution, but they are not the same job</h2>
+<p>It is worth being explicit about where translation tools fit into all of this. Octavia, for example, produces the dubbed video, translated subtitles, and translated audio-only tracks that a distribution strategy depends on, including optional lip-sync for dubbed video, across more than 60 languages. That production step is necessary but not sufficient. Octavia does not manage where those assets get published, when they go live, or how titles and thumbnails get adapted for a given market; those are distribution decisions that happen downstream of the translated asset, using the workflow described in this guide.</p>
+<p>For teams producing translated assets at scale across many markets, the <a href="/features/video-translation">video translation</a> and <a href="/features/subtitle-translation">subtitle translation</a> tools are typically the starting point, with <a href="/features/audio-translation">audio translation</a> useful for teams that need a translated audio track without a full dubbed video export. Teams building a repeatable pipeline that feeds a broader publishing workflow, rather than handling each market manually, can also use the <a href="/docs">API</a>, available on Pro and Studio plans with REST and GraphQL access, webhooks, and an official JS/TypeScript SDK, to automate translated-asset production as one stage of a larger distribution system. The distribution logic itself, platform selection, metadata adaptation, scheduling, and channel structure, still needs to be built separately, using the market-specific decisions covered above. For a broader look at how this fits into the wider shift toward international audiences, see <a href="/blog/creator-economy-globalization">The Creator Economy Is Going Global. Here&#39;s What That Means for Production</a>.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="should-every-translated-video-go-to-every-platform-we-use">Should every translated video go to every platform we use?</h3>
+<p>Not necessarily. It is usually better to confirm that a platform is actually meaningful in a given target market before committing to it, rather than mirroring the full source-market platform list into every new language. Publishing translated content to a platform with little relevant audience in that market wastes production effort and can dilute the account&#39;s engagement signals without any real upside.</p>
+<h3 id="how-much-of-the-metadata-actually-needs-translation-not-just-the-video">How much of the metadata actually needs translation, not just the video?</h3>
+<p>All of it. Titles, descriptions, tags, and any on-thumbnail text all affect discovery and click-through independently of the video itself, and a viewer often decides whether to watch before the dubbed audio or subtitles ever play. Treating metadata as an afterthought after the video is finished is one of the most common reasons a well-produced translated video underperforms.</p>
+<h3 id="is-it-better-to-release-translated-versions-at-the-same-time-as-the-source-video-or-stagger-them">Is it better to release translated versions at the same time as the source video, or stagger them?</h3>
+<p>Both approaches are reasonable, and the right choice depends on team capacity and content type. Simultaneous release keeps a franchise or series consistent across languages and avoids spoilers or fragmented conversation across markets. Staggered release lets a team apply lessons from an early market&#39;s performance before wider rollout, at the cost of some coordinated momentum.</p>
+<h3 id="how-do-we-decide-between-one-global-channel-and-separate-regional-channels">How do we decide between one global channel and separate regional channels?</h3>
+<p>Weigh the benefit of a cleaner per-language engagement signal and audience experience against the added operational overhead of managing multiple channels well. A common pattern is to start with a single central channel while testing which languages have real demand, then split off a dedicated channel for a specific market once it has enough content and engagement to justify the extra management effort.</p>
+<h3 id="what-is-the-minimum-set-of-metrics-we-should-track-by-market">What is the minimum set of metrics we should track by market?</h3>
+<p>At a minimum, track watch time and completion rate by language, since those most directly reflect whether the translated content is holding attention rather than just getting an initial click. Adding engagement actions and, where available, click-through rate on translated titles and thumbnails gives a fuller picture without requiring a large analytics investment.</p>
+<h3 id="does-octavia-handle-the-publishing-and-scheduling-side-of-distribution">Does Octavia handle the publishing and scheduling side of distribution?</h3>
+<p>No. Octavia produces the translated and dubbed assets, including video with optional lip-sync, translated subtitles, and translated audio tracks, across more than 60 languages, but it does not manage cross-platform publishing, scheduling, or channel strategy. Those decisions happen in the distribution layer described in this guide, using whatever platforms, channels, and scheduling tools a team already relies on.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Translation gets a video to the point where a global audience could understand it. Distribution is what actually gets that audience to see it, click on it, and stay through it. Treating distribution as a formality, an upload step tacked onto the end of a translation workflow, is one of the most common reasons well-localized content underperforms its potential.</p>
+<p>The core habits worth building are consistent across markets even when the specific answers are not: research where a target audience actually spends time rather than assuming, translate and adapt metadata with the same care as the video itself, schedule releases around the target market&#39;s real habits rather than a simple time zone conversion, make a deliberate choice about channel structure rather than defaulting to whatever is easiest, and measure performance market by market so that underperformance and strong performance both get noticed and acted on.</p>
+<p>None of that replaces the need for accurate, well-produced translated assets in the first place. It builds on top of them. Teams that want to spend less time on the production side of that equation, and more time on the distribution decisions covered here, can start with <a href="/features/video-translation">video translation</a> to produce the dubbed and subtitled assets a distribution strategy depends on.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fglobal-content-distribution-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fglobal-content-distribution-guide&amp;text=Global%20Content%20Distribution%3A%20Getting%20Translated%20Video%20to%20the%20Right%20Platforms" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fglobal-content-distribution-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/creator-growth">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/how-to-translate-youtube-video" aria-label="Read How to Translate a YouTube Video (Step-by-Step)"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/play-button-glass-monolith.png" alt="How to Translate a YouTube Video (Step-by-Step)" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Translate a YouTube Video (Step-by-Step)</h2><p class="blog-card-description">Translating a YouTube video is less about picking a tool and more about picking a distribution path. This walkthrough covers the three real options and how to execute each one correctly.</p>
+      <time class="blog-card-date" datetime="2026-08-11T09:00:00Z">Aug 11, 2026 · 13 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/youtube-dubbing-guide" aria-label="Read YouTube Dubbing: How to Add Multi-Language Audio Tracks"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/parallel-audio-strands.png" alt="YouTube Dubbing: How to Add Multi-Language Audio Tracks" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">YouTube Dubbing: How to Add Multi-Language Audio Tracks</h2><p class="blog-card-description">YouTube&#39;s multi-audio-track feature lets a single upload carry several dubbed languages at once. Here is how the system works and how to produce dubs efficiently at channel scale.</p>
+      <time class="blog-card-date" datetime="2026-08-10T09:00:00Z">Aug 10, 2026 · 12 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/youtube-translator-tools" aria-label="Read YouTube Translator Tools: What Actually Works"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/scattered-glass-fragments.png" alt="YouTube Translator Tools: What Actually Works" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">YouTube Translator Tools: What Actually Works</h2><p class="blog-card-description">Searching for a YouTube translator turns up browser extensions, built-in auto-translate, subtitle tools, and dubbing platforms. Here is what each one actually does, and which one your channel needs.</p>
+      <time class="blog-card-date" datetime="2026-08-09T09:00:00Z">Aug 9, 2026 · 15 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,638 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>How to Manage Multilingual Subtitles Across a Video Library | Octavia</title>
+    <meta name="description" content="A practical guide to managing multilingual subtitles across a large video library, from file naming to audits and platform compatibility.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/multilingual-subtitles-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Manage Multilingual Subtitles Across a Video Library">
+    <meta property="og:description" content="A practical guide to managing multilingual subtitles across a large video library, from file naming to audits and platform compatibility.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/multilingual-subtitles-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/radiating-caption-fan.png">
+    <meta property="article:published_time" content="2026-07-04T09:00:00Z">
+    <meta property="article:modified_time" content="2026-07-04T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Manage Multilingual Subtitles Across a Video Library">
+    <meta name="twitter:description" content="A practical guide to managing multilingual subtitles across a large video library, from file naming to audits and platform compatibility.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/radiating-caption-fan.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Manage Multilingual Subtitles Across a Video Library","description":"A practical guide to managing multilingual subtitles across a large video library, from file naming to audits and platform compatibility.","image":"https://octavia.lunartech.ai/assets/blog/images/radiating-caption-fan.png","datePublished":"2026-07-04T09:00:00Z","dateModified":"2026-07-04T09:00:00Z","wordCount":3282,"timeRequired":"PT15M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/multilingual-subtitles-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"How to Manage Multilingual Subtitles Across a Video Library","item":"https://octavia.lunartech.ai/blog/multilingual-subtitles-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/localization">Localization</a>
+        <h1 class="article-title">How to Manage Multilingual Subtitles Across a Video Library</h1><p class="article-deck">Translating one video into several languages is straightforward. Keeping hundreds of videos and dozens of language tracks organized, current, and consistent is a different problem entirely.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-07-04T09:00:00Z">Jul 4, 2026</time><span class="article-meta-dot"></span><span>15 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/radiating-caption-fan.png" alt="How to Manage Multilingual Subtitles Across a Video Library" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-multilingual-subtitle-management-breaks-down-at-scale">Why multilingual subtitle management breaks down at scale</a></li><li><a class="toc-h2" data-toc-link href="#a-naming-and-versioning-system-that-scales">A naming and versioning system that scales</a></li><li><a class="toc-h2" data-toc-link href="#platforms-handle-multiple-subtitle-tracks-differently">Platforms handle multiple subtitle tracks differently</a></li><li><a class="toc-h2" data-toc-link href="#keeping-terminology-consistent-across-every-language-track">Keeping terminology consistent across every language track</a></li><li><a class="toc-h2" data-toc-link href="#running-a-subtitle-audit-across-the-library">Running a subtitle audit across the library</a></li><li><a class="toc-h2" data-toc-link href="#language-access-and-hearing-accessibility-are-related-but-distinct">Language access and hearing accessibility are related but distinct</a></li><li><a class="toc-h2" data-toc-link href="#building-this-into-an-ongoing-quality-process">Building this into an ongoing quality process</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#what-language-code-format-should-we-use-for-subtitle-files">What language code format should we use for subtitle files?</a></li><li><a class="toc-h3" data-toc-link href="#how-often-should-we-audit-our-subtitle-library">How often should we audit our subtitle library?</a></li><li><a class="toc-h3" data-toc-link href="#do-we-need-separate-subtitle-files-for-translation-versus-accessibility-captions">Do we need separate subtitle files for translation versus accessibility captions?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-biggest-cause-of-outdated-subtitle-tracks">What is the biggest cause of outdated subtitle tracks?</a></li><li><a class="toc-h3" data-toc-link href="#can-subtitle-re-generation-across-a-large-library-be-automated">Can subtitle re-generation across a large library be automated?</a></li><li><a class="toc-h3" data-toc-link href="#does-a-consistent-glossary-matter-more-for-large-libraries-than-small-ones">Does a consistent glossary matter more for large libraries than small ones?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Producing one subtitle file in one language for one video is a solved problem. Producing and maintaining <strong>multilingual subtitles</strong> across a video library that grows every month, in a dozen or more languages, with source videos that get corrected and re-uploaded, is a different kind of challenge altogether. The bottleneck is rarely translation quality at that point. It is the file management, versioning, and tracking work required to know what exists, what is missing, and what has quietly gone stale.</p>
+<p>Most teams discover this the hard way. A single-video subtitle workflow works fine until the library reaches a few hundred titles across six or eight languages, and someone asks a simple question that turns out to be hard to answer: which videos are missing a Portuguese track, and which existing tracks were built against a version of the video that has since been re-edited. Without a system, the honest answer is &quot;we would have to check every video.&quot;</p>
+<p>This guide is about building that system. It covers naming conventions that scale, how different platforms handle multiple subtitle tracks, keeping terminology consistent across every language over time, running a periodic audit of the library, and separating language-access subtitles from accessibility captions, which are related goals but not identical ones.</p>
+<h2 id="why-multilingual-subtitle-management-breaks-down-at-scale">Why multilingual subtitle management breaks down at scale</h2>
+<p>The failure mode is rarely a single dramatic mistake. It is an accumulation of small, individually reasonable decisions that stop being reasonable once the library grows.</p>
+<p>A team starts with three videos and two languages. Files are named by hand, tracked informally, and everyone remembers what exists because there is not much to remember. Six months later there are 200 videos, seven languages, and a mix of naming habits from three different people who have each solved the &quot;what do I call this file&quot; problem their own way. Some files use <code>es</code> for Spanish, others use <code>spa</code> or <code>Spanish</code> or <code>ES-mx</code>. Some include a version number, most do not. Nobody can say with confidence which videos have a complete set of tracks without opening a spreadsheet nobody has updated in weeks, if a spreadsheet exists at all.</p>
+<p>The second failure mode is source drift. A video gets corrected after publication: a factual error is fixed, a section is trimmed, a name is re-pronounced, background music is swapped. The English track gets updated because the editor who made the change also fixed the English subtitles while they were in there. The other six language tracks, generated from the previous version, now describe timing and content that no longer matches the video. Nothing about the file looks wrong. It plays, it has readable text, and it is silently out of date.</p>
+<p>The third is inconsistency between languages that were each individually fine at the time they were produced. A product name gets translated one way in a video from January and a different way in a video from June, because the translator or the automated glossary reference changed in between. Viewers who watch multiple videos in the same language notice the drift even when a single video, watched in isolation, would never reveal it.</p>
+<p>None of these problems are visible in any one file. They only show up when someone looks at the library as a whole, which is exactly what most teams are not set up to do.</p>
+<h2 id="a-naming-and-versioning-system-that-scales">A naming and versioning system that scales</h2>
+<p>The fix is unglamorous but effective: a consistent naming convention applied without exception, from video one.</p>
+<p><strong>Use a standard language code, and pick one standard now.</strong> ISO 639-1 two-letter codes (<code>en</code>, <code>es</code>, <code>fr</code>, <code>de</code>, <code>ja</code>, <code>pt</code>) are the most widely recognized shorthand and match what most platforms expect for subtitle tracks. Where a regional variant matters — Brazilian Portuguese versus European Portuguese, Latin American Spanish versus European Spanish — add the region subtag in the standard <code>pt-BR</code> / <code>pt-PT</code> or <code>es-419</code> / <code>es-ES</code> format rather than inventing a label. Whatever the choice, document it once and apply it to every file, including the ones already in the library. Retrofitting naming conventions is tedious, but it is far less tedious than doing it after the library has doubled again.</p>
+<p><strong>Build the filename around a fixed pattern</strong>, something like <code>{video-id}_{language-code}_{version}.srt</code>. The video ID should be a stable identifier that does not change even if the video&#39;s title does — titles get revised for SEO or clarity far more often than the underlying content ID should change. A version number or date stamp, such as <code>v2</code> or <code>20260704</code>, records when the track was last generated relative to the source video, which is the single most useful piece of metadata for catching outdated files later.</p>
+<p><strong>Track the source video&#39;s version alongside the subtitle version.</strong> The subtitle file&#39;s version number is only useful if it can be compared against something. A lightweight approach that works without dedicated tooling is a shared spreadsheet or a simple database table with one row per video and columns for the current source version and, for each language, the subtitle version it was generated from. When those two numbers match, the track is current. When they do not, it is a known gap rather than a silent one.</p>
+<p><strong>Keep the file format consistent across the library, not just within one video.</strong> Octavia&#39;s <a href="/features/subtitle-translation">subtitle translation</a> and <a href="/features/subtitle-generation">subtitle generation</a> workflows both output SRT or VTT, which are widely supported formats across video platforms, players, and editing tools. Standardizing on one of the two for the whole library (SRT is the more universally recognized default; VTT adds styling and positioning support that some web players use) avoids a library where some videos use one format and others use the other for no principled reason, which complicates both automation and manual spot checks.</p>
+<h2 id="platforms-handle-multiple-subtitle-tracks-differently">Platforms handle multiple subtitle tracks differently</h2>
+<p>A naming and versioning system inside your own file storage is necessary but not sufficient, because the destination platform has its own rules about how multiple subtitle tracks are attached, labeled, and selected by viewers. Assuming that a setup validated on one platform will behave identically on another is one of the more common ways multilingual subtitle projects go sideways late in the process.</p>
+<p><strong>A self-hosted player</strong> typically gives the most direct control: subtitle tracks are attached as separate files referenced by the video, each labeled with a language code and a display name, and the player&#39;s track-selection menu is built from whatever metadata is attached to those files. This is also where mistakes are most visible immediately, since a mislabeled or missing track shows up as a broken menu entry rather than a silently absent option.</p>
+<p><strong>YouTube</strong> manages subtitle tracks per video through its own upload and language-assignment interface, and it distinguishes between tracks uploaded as &quot;subtitles&quot; versus tracks flagged as closed captions intended for accessibility, which affects how they are surfaced to viewers and how they interact with auto-translation features the platform offers on top of uploaded tracks. Before assuming a workflow validated on a self-hosted player will translate directly to YouTube, check how the platform currently expects language and track-type metadata to be set, since these interfaces change over time.</p>
+<p><strong>An LMS</strong> (learning management system) adds another layer again: some LMS platforms treat subtitle tracks as an attribute of the video object itself, others expect them bundled with the course package format, and course export/import between LMS platforms (SCORM, xAPI, or a platform&#39;s native format) does not always carry subtitle tracks along automatically. A multilingual course that displays every language track correctly inside the authoring tool can arrive at the deployed LMS with tracks missing or mislabeled if the export step was not verified.</p>
+<p>The practical rule: never assume that a subtitle setup which works on one platform will behave identically on another. Test the actual track-selection experience, on the actual platform, for at least one video per language before rolling a convention out across the full library. What looks like a universal format compatibility question (SRT and VTT are broadly supported) is frequently, in practice, a platform-specific metadata and interface question.</p>
+<h2 id="keeping-terminology-consistent-across-every-language-track">Keeping terminology consistent across every language track</h2>
+<p>A library-wide glossary is the difference between subtitles that read as a coherent, professionally localized product and subtitles that read as a series of independently translated videos that happen to share a channel.</p>
+<p>The problem compounds specifically because it is invisible one video at a time. A single video with a product name translated inconsistently across two lines is a proofreading catch. A library where the same product name is translated three different ways across sixty videos, each internally consistent, is a much harder problem to catch and a much worse one to leave uncorrected, because it actively signals inattention to anyone who watches more than one video in the same language.</p>
+<p>Building the glossary starts with identifying what needs to stay fixed: product and feature names, brand terminology, recurring technical terms, character or presenter names, and any phrase that has a specific approved translation for legal or brand reasons. That list should be maintained per target language, since the correct fixed translation is itself a decision that needs to be made once and then held to, not re-derived by whoever happens to be reviewing a given video.</p>
+<p>This is also where a manual review stage earns its place in the workflow rather than being treated as an optional slowdown. Octavia&#39;s manual transcript review step, available on Starter plans and above, is the natural point to check new translations against the established glossary before subtitles are rendered — catching a drifted term there is far cheaper than catching it after sixty videos have shipped with the same error. Teams managing a large multilingual library benefit from treating this review step as a glossary checkpoint specifically, not just a general quality pass, since general review can miss a subtly wrong-but-plausible term translation that a targeted glossary check would catch immediately.</p>
+<p>Revisit the glossary itself periodically, not just when adding new terms. Product names change, features get renamed, and a glossary that was accurate a year ago can now be actively wrong. When a glossary entry changes, that is itself a trigger for an audit: every existing video using the old term is now a candidate for an update, in every affected language.</p>
+<h2 id="running-a-subtitle-audit-across-the-library">Running a subtitle audit across the library</h2>
+<p>An audit is the mechanism that turns &quot;we think our subtitles are mostly fine&quot; into an actual answer. It does not need to be elaborate, but it does need to happen on a schedule rather than only when something visibly breaks.</p>
+<p>The checklist below is a reasonable starting structure for a periodic library-wide audit:</p>
+<ul><li><strong>Inventory every video against every target language.</strong> Build or refresh a matrix with one row per video and one column per language, marking each cell as present, missing, or outdated. This is the single artifact that answers &quot;what are we missing&quot; without needing to check videos individually.</li><li><strong>Compare subtitle version against source video version.</strong> For every &quot;present&quot; cell, confirm the subtitle version tag matches the current source version tag. Anything mismatched goes into the outdated bucket, even if no one has reported a problem yet.</li><li><strong>Flag videos with a recent source edit.</strong> Cross-reference against a log of which videos were re-edited or corrected since the last audit. Every language track for those videos should be treated as a re-generation candidate, not just the language that happened to be updated when the edit was made.</li><li><strong>Sample-check for glossary drift.</strong> Pull a handful of videos per language, spanning different production dates, and check them against the current glossary rather than trusting that each was correct when it shipped.</li><li><strong>Verify track selection on the live platform</strong>, not just in local storage, for at least one video per language per destination platform. A file that is correctly named and stored is not the same as a file that is correctly attached and selectable where viewers actually watch it.</li><li><strong>Prioritize gaps by traffic or importance</strong>, not by list order. A missing track on a high-traffic video matters more than a missing track on a rarely viewed one, and the audit output should be ranked accordingly rather than treated as a flat to-do list.</li></ul>
+<p>For teams managing this at real scale, doing the audit and the resulting re-generation by hand does not stay practical for long. Octavia&#39;s API access, available on Pro and Studio plans, supports REST and GraphQL along with webhooks and an official JavaScript/TypeScript SDK, documented in full in the <a href="/docs">API reference</a>. That makes it possible to script the repetitive part of this process: triggering re-generation for a specific video and language combination when a source version changes, rather than manually re-submitting jobs one at a time after every audit. Team plan concurrency also matters here directly — Pro supports two team seats and two concurrent jobs, Studio supports five of each — which shapes how quickly a backlog of flagged videos can actually be cleared once the audit identifies it.</p>
+<h2 id="language-access-and-hearing-accessibility-are-related-but-distinct">Language access and hearing accessibility are related but distinct</h2>
+<p>It is easy to treat &quot;we have subtitles in twelve languages&quot; as equivalent to &quot;our content is accessible,&quot; but the two goals overlap only partially, and tracking them as one undifferentiated bucket causes both to be done incompletely.</p>
+<p>Multilingual subtitles serve viewers who understand the audio&#39;s spoken content perfectly well but do not speak the source language — the subtitle&#39;s job is translation. Captions built for hearing accessibility serve viewers who need a text representation of the audio track in the language they already understand, including sound description for meaningful non-speech audio: a phone ringing, tense music, a door slamming, laughter off-screen. A subtitle file that only translates spoken dialogue, with no sound description, is a perfectly good multilingual subtitle and an incomplete accessibility caption at the same time. Neither label is wrong; they are answering different questions.</p>
+<p>The practical implication for a library-wide system is to track these as separate attributes per video, not as a single combined status. A video can have complete multilingual subtitle coverage across ten languages and still lack a properly labeled accessibility caption track in its source language. Treating &quot;subtitled&quot; as synonymous with &quot;accessible&quot; in your inventory matrix will produce a library that looks more accessibility-complete than it actually is, and that gap tends to surface at the worst possible time — during a compliance review rather than during routine maintenance. For a fuller treatment of what a complete accessibility approach requires beyond translated text, see this <a href="/blog/video-accessibility-guide">video accessibility guide</a>.</p>
+<p>The same file-management discipline applies to both: consistent naming, version tracking against the source, and periodic audits. The only difference is the matrix needs an additional column, or an additional matrix, to track caption completeness separately from translation completeness.</p>
+<h2 id="building-this-into-an-ongoing-quality-process">Building this into an ongoing quality process</h2>
+<p>None of the practices above are one-time fixes. A naming convention only holds if it is enforced on every new video, not just the ones that prompted writing it down. A glossary only stays useful if it is checked during review rather than assumed. An audit only catches drift if it happens on a recurring schedule rather than in response to a complaint.</p>
+<p>The teams that manage this well tend to treat multilingual subtitle management as a standing operational process with an owner, not a project that gets finished once and then forgotten. That owner is responsible for the naming standard, the glossary, the audit cadence, and the decision about which platforms need which track formats. It is a much smaller job when defined that way than when it is rediscovered from scratch every time someone notices a missing language track.</p>
+<p>It is also worth pairing this operational discipline with a broader quality process. A <a href="/blog/localization-quality-assurance-checklist">localization QA checklist</a> covers the translation-quality side of the work in more depth — accuracy, tone, timing, and review workflow — which complements the file-management and tracking focus of this guide rather than duplicating it. The two together cover both halves of what &quot;good multilingual subtitles&quot; actually requires: correct content and a system that keeps it correct as the library grows.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="what-language-code-format-should-we-use-for-subtitle-files">What language code format should we use for subtitle files?</h3>
+<p>Use ISO 639-1 two-letter codes (<code>en</code>, <code>es</code>, <code>fr</code>) as the base, adding a region subtag such as <code>pt-BR</code> or <code>es-419</code> only when a regional variant genuinely differs enough to need separate treatment. Pick the convention before the library grows past a size where retrofitting it is painful, and apply it without exception, including to older files already in storage.</p>
+<h3 id="how-often-should-we-audit-our-subtitle-library">How often should we audit our subtitle library?</h3>
+<p>A quarterly audit is a reasonable default for a moderately active library, with an additional targeted audit triggered any time a batch of source videos gets corrected or re-edited. Libraries with frequent content updates or a large number of target languages may need a monthly cadence to keep the outdated-track backlog from growing faster than it gets cleared.</p>
+<h3 id="do-we-need-separate-subtitle-files-for-translation-versus-accessibility-captions">Do we need separate subtitle files for translation versus accessibility captions?</h3>
+<p>Not necessarily as separate files, but track them as separate attributes. A caption file intended for hearing accessibility should include sound description and be labeled as a caption track rather than a subtitle track where the platform distinguishes between the two; a pure translation subtitle does not need sound description. Whether that means one file serving both purposes or two depends on the platform and the audience, but the completeness tracking should be separate either way.</p>
+<h3 id="what-is-the-biggest-cause-of-outdated-subtitle-tracks">What is the biggest cause of outdated subtitle tracks?</h3>
+<p>Source video corrections that update one language&#39;s subtitles, usually the primary or source language, without triggering re-generation for the other language tracks. Tracking a version number for the source video alongside a version number for each subtitle track, and comparing them during a regular audit, is the most reliable way to catch this before a viewer does.</p>
+<h3 id="can-subtitle-re-generation-across-a-large-library-be-automated">Can subtitle re-generation across a large library be automated?</h3>
+<p>Yes, for teams with development resources. Octavia&#39;s API, available on Pro and Studio plans, supports REST and GraphQL with webhooks and an SDK, which allows a script to trigger subtitle re-generation automatically when a source video version changes rather than requiring a manual re-submission for every affected video and language. Full details are in the <a href="/docs">API reference</a>.</p>
+<h3 id="does-a-consistent-glossary-matter-more-for-large-libraries-than-small-ones">Does a consistent glossary matter more for large libraries than small ones?</h3>
+<p>Yes, disproportionately. A single video with a slightly inconsistent term translation is a minor issue; the same inconsistency repeated with variation across dozens of videos in the same language actively signals a lack of quality control to any viewer who watches more than one title. The manual transcript review step is the most efficient point to catch this, since it is far cheaper to fix before rendering than after publication.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Managing multilingual subtitles across a small set of videos is mostly a translation problem. Managing them across a growing library is mostly a systems problem: naming conventions that hold up as the count grows, a reliable way to know what is missing or outdated, a glossary that stays consistent as translations accumulate over time, and a platform-aware understanding that a setup validated in one place does not automatically work everywhere else.</p>
+<p>None of the individual practices here are complicated. What makes them effective is applying them consistently and revisiting them on a schedule, rather than treating multilingual subtitle management as something that gets solved once per video and then forgotten. The libraries that stay organized are the ones where an audit is routine, not reactive.</p>
+<p>If your library has reached the point where tracking this by hand is no longer reliable, start with <a href="/features/subtitle-translation">subtitle translation</a> built around consistent SRT or VTT output and a manual review step, and layer the naming, versioning, and audit practices above on top of it as the library grows.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmultilingual-subtitles-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmultilingual-subtitles-guide&amp;text=How%20to%20Manage%20Multilingual%20Subtitles%20Across%20a%20Video%20Library" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmultilingual-subtitles-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/localization">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-video-localization-software" aria-label="Read AI Video Localization Software: What to Look For"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/networked-glass-nodes.png" alt="AI Video Localization Software: What to Look For" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Video Localization Software: What to Look For</h2><p class="blog-card-description">Choosing AI video localization software is a technical evaluation, not a feature demo. Here is what to test before your organization commits to a platform.</p>
+      <time class="blog-card-date" datetime="2026-08-07T09:00:00Z">Aug 7, 2026 · 13 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/multilingual-video-content" aria-label="Read How to Create Multilingual Video Content at Scale"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/fanning-light-spectrum.png" alt="How to Create Multilingual Video Content at Scale" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Create Multilingual Video Content at Scale</h2><p class="blog-card-description">Producing one multilingual video is a project. Producing a hundred a month across a dozen languages is an operation, and it needs its own workflow.</p>
+      <time class="blog-card-date" datetime="2026-08-01T09:00:00Z">Aug 1, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/content-localization-guide" aria-label="Read Content Localization: A Practical Framework Beyond Just Translation"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/branching-glass-lattice.png" alt="Content Localization: A Practical Framework Beyond Just Translation" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Content Localization: A Practical Framework Beyond Just Translation</h2><p class="blog-card-description">Translating words is the easy part. This is a working framework for deciding how much cultural, visual, and formatting adaptation a piece of content actually needs.</p>
+      <time class="blog-card-date" datetime="2026-07-19T09:00:00Z">Jul 19, 2026 · 13 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>
