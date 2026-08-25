@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ARTICLES_DIR = path.join(ROOT, 'content', 'blog', 'articles');
 const BLOG_DIR = path.join(ROOT, 'blog');
-const EXPECTED_ARTICLES = 182;
+const EXPECTED_ARTICLES = 212;
 const GENERATED_MARKER = '<!-- OCTAVIA_BLOG_GENERATED -->';
 const args = new Set(process.argv.slice(2));
 const validateOnly = args.has('--validate');

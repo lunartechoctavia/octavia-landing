@@ -1,0 +1,667 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>A 90-Day Video Localization Rollout Plan | Octavia</title>
+    <meta name="description" content="A week-by-week plan for launching video localization: content audit, terminology build, pilot selection, review process, measurement, and scaling decisions.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/video-translation-rollout-plan">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="A 90-Day Video Localization Rollout Plan">
+    <meta property="og:description" content="A week-by-week plan for launching video localization: content audit, terminology build, pilot selection, review process, measurement, and scaling decisions.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/video-translation-rollout-plan">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/staged-glass-timeline.png">
+    <meta property="article:published_time" content="2026-08-26T22:00:00Z">
+    <meta property="article:modified_time" content="2026-08-26T22:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A 90-Day Video Localization Rollout Plan">
+    <meta name="twitter:description" content="A week-by-week plan for launching video localization: content audit, terminology build, pilot selection, review process, measurement, and scaling decisions.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/staged-glass-timeline.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"A 90-Day Video Localization Rollout Plan","description":"A week-by-week plan for launching video localization: content audit, terminology build, pilot selection, review process, measurement, and scaling decisions.","image":"https://octavia.lunartech.ai/assets/blog/images/staged-glass-timeline.png","datePublished":"2026-08-26T22:00:00Z","dateModified":"2026-08-26T22:00:00Z","wordCount":2115,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/video-translation-rollout-plan","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"A 90-Day Video Localization Rollout Plan","item":"https://octavia.lunartech.ai/blog/video-translation-rollout-plan"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/localization">Localization</a>
+        <h1 class="article-title">A 90-Day Video Localization Rollout Plan</h1><p class="article-deck">Most localization programmes fail in the first quarter, and almost always for the same three reasons.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-26T22:00:00Z">Aug 26, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/staged-glass-timeline.png" alt="A 90-Day Video Localization Rollout Plan" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-first-quarters-fail">Why First Quarters Fail</a></li><li><a class="toc-h2" data-toc-link href="#weeks-1-2-audit-and-scope">Weeks 1–2: Audit and Scope</a></li><li><a class="toc-h2" data-toc-link href="#weeks-3-4-terminology-and-source-preparation">Weeks 3–4: Terminology and Source Preparation</a></li><li><a class="toc-h2" data-toc-link href="#weeks-5-7-pilot">Weeks 5–7: Pilot</a></li><li><a class="toc-h2" data-toc-link href="#weeks-8-9-process-and-controls">Weeks 8–9: Process and Controls</a></li><li><a class="toc-h2" data-toc-link href="#weeks-10-12-scale-and-measure">Weeks 10–12: Scale and Measure</a></li><li><a class="toc-h2" data-toc-link href="#what-not-to-do-in-the-first-ninety-days">What Not to Do in the First Ninety Days</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#after-the-first-ninety-days">After the First Ninety Days</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Project planning board with sequenced milestones"></a></p>
+<h2 id="why-first-quarters-fail">Why First Quarters Fail</h2>
+<p>Localization programmes that stall in their first ninety days usually fail for one of three reasons, and all three are avoidable.</p>
+<p><strong>They start with the hardest content.</strong> Someone picks the flagship brand film or the regulated product explainer, because that is the content leadership cares about. It requires the most review, the most approvals, and the most terminology work, all before any process exists. The programme spends its entire initial goodwill on one asset.</p>
+<p><strong>Nobody owns quality.</strong> The tooling gets procured, content gets processed, and no named person is accountable for whether the output is good. Either it ships unreviewed and someone complains, or it sits waiting for a review that nobody scheduled.</p>
+<p><strong>Nothing gets measured.</strong> The programme produces localized content, cannot demonstrate an effect, and loses its budget at the next planning cycle to something that can.</p>
+<p>This plan is structured to avoid those three failures specifically. It assumes a team of one to three people with other responsibilities, not a dedicated department.</p>
+<h2 id="weeks-1-2-audit-and-scope">Weeks 1–2: Audit and Scope</h2>
+<p>The goal is to know what you have and what it is for, before touching any tooling.</p>
+<p><strong>Inventory the library.</strong> Every video asset, with duration, age, view or usage data, and owner. Most organisations discover they have substantially more content than they thought and that a small fraction of it carries almost all the value.</p>
+<p><strong>Sort by risk tier.</strong> Regulated or brand-critical, customer-facing, internal, and archive. This determines review requirements later and prevents applying maximal process to everything.</p>
+<p><strong>Sort by volatility.</strong> Evergreen content that will be useful in two years, versus content that expires. Localization spend on volatile content is largely wasted.</p>
+<p><strong>Identify what is localizable.</strong> Check whether you have edit masters, audio stems, textless versions, and project files. Some of your library will turn out to be effectively unlocalizable, and knowing that now prevents promising it.</p>
+<p><strong>Choose target languages with evidence.</strong> Traffic data, existing customer or user distribution, sales pipeline by market, support ticket languages, and where the business has actually committed to operating. Two languages chosen well beat six chosen by intuition.</p>
+<p><strong>Name an owner.</strong> One person accountable for output quality. Not a committee.</p>
+<p>Deliverable: a scored content inventory and a two-language target.</p>
+<h2 id="weeks-3-4-terminology-and-source-preparation">Weeks 3–4: Terminology and Source Preparation</h2>
+<p>This is the phase that determines everything downstream, and the one most often skipped.</p>
+<p><strong>Build the glossary.</strong> Product names, feature names, brand terms, technical vocabulary, role titles, and legal or regulatory phrases. For each, decide whether it is translated, retained in the source language, or has a specific approved rendering per market.</p>
+<p><strong>Source it from what already exists.</strong> If your product interface, documentation, or website is already localized, the terminology decisions have been made. Use them. Building a separate content glossary that contradicts the product is a common and costly mistake.</p>
+<p><strong>Get it approved once, properly.</strong> Product marketing and legal should sign off the glossary as an artefact, rather than reviewing every asset that uses it.</p>
+<p><strong>Assess source content quality.</strong> Transcribe two-minute samples from several assets and read the output. This tells you your realistic starting accuracy and identifies content that needs re-recording rather than localizing.</p>
+<p><strong>Write the source-content guidance.</strong> A one-page note for anyone producing video: leave headroom in text containers, keep text as editable layers, script with pauses, avoid idiom, avoid narration tied precisely to visual events, archive stems and textless versions. This costs nothing and improves everything produced from now on.</p>
+<p>Deliverable: an approved glossary and a source-content guideline.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person reviewing a terminology list on screen"></a></p>
+<h2 id="weeks-5-7-pilot">Weeks 5–7: Pilot</h2>
+<p>Pick deliberately, and pick for learning rather than for impact.</p>
+<p><strong>Choose five to eight assets from the internal or moderate-risk tier.</strong> Evergreen, reasonably well-produced, with clean audio. Not the flagship. Not anything regulated.</p>
+<p><strong>Run them end to end</strong> in both target languages, including the steps you intend to keep permanently: transcript review, terminology application, translation review, generation, and delivery.</p>
+<p><strong>Track effort honestly.</strong> Hours spent on transcript review, terminology additions, translation review, graphics, mixing, and delivery, per asset. This is the number your entire business case depends on and the number most teams never collect.</p>
+<p><strong>Log every correction by category.</strong> Proper nouns, technical terms, register, grammar, timing, numbers. Recurring categories tell you what to add to the glossary and where the process needs a control.</p>
+<p><strong>Get real reviewers.</strong> Native speakers who know the subject, ideally from inside the business. A colleague in the target market who uses the product is worth more than a general translator.</p>
+<p><strong>Do not skip review to save time.</strong> The pilot exists to calibrate the process, and a pilot that skipped review has calibrated nothing.</p>
+<p>Deliverable: measured effort per asset, a correction log, and an expanded glossary.</p>
+<h2 id="weeks-8-9-process-and-controls">Weeks 8–9: Process and Controls</h2>
+<p>Turn what the pilot taught you into something repeatable.</p>
+<p><strong>Write the workflow down.</strong> Who does what, in what order, with what handoffs. A page is enough.</p>
+<p><strong>Define review by tier.</strong> Full review for customer-facing, sampled review for internal, mechanical checks only for archive. Base the thresholds on your correction log rather than on instinct.</p>
+<p><strong>Build the mechanical checks.</strong> Reading speed and line length for subtitles, loudness for audio, numeric verification against source, character rendering, and terminology compliance. These are cheap, catch a lot, and free reviewers to focus on judgement.</p>
+<p><strong>Set the versioning rule.</strong> The reviewed source transcript is authoritative; localized versions derive from it. When the source changes, every language is flagged stale.</p>
+<p><strong>Set expiry on volatile content.</strong> Anything with pricing, competitive claims, or roadmap content gets an automatic withdrawal date.</p>
+<p><strong>Agree the escalation path.</strong> What happens when a language pair performs poorly or an asset fails review.</p>
+<p>Deliverable: a documented workflow and an automated pre-review check.</p>
+<h2 id="weeks-10-12-scale-and-measure">Weeks 10–12: Scale and Measure</h2>
+<p><strong>Process a real batch.</strong> Twenty to forty assets, both languages, using the documented process. This tests whether the workflow survives volume rather than attention.</p>
+<p><strong>Publish properly.</strong> Localized metadata written for how the target market searches, not translated from the source. Separate discoverable destinations per language rather than versions hidden behind a selector. Subtitle tracks and transcripts published alongside.</p>
+<p><strong>Instrument from day one.</strong> The metrics that matter depend on content type, but pick them now rather than retrofitting: watch time and completion by language against the source version, support ticket volume in target-language markets, conversion or engagement rate by visitor language, and for internal content, completion rates and time-to-competence.</p>
+<p><strong>Report the effort numbers.</strong> Cost per finished minute per language, review hours per source hour, and how both changed between the pilot and the batch. The trend is the story — review effort should be falling noticeably as terminology matures.</p>
+<p><strong>Decide the next phase on evidence.</strong> More languages, more content, or deeper review — whichever the data supports.</p>
+<p>Deliverable: a published batch, a measurement baseline, and a funded next phase.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Analytics dashboard showing content performance"></a></p>
+<h2 id="what-not-to-do-in-the-first-ninety-days">What Not to Do in the First Ninety Days</h2>
+<p><strong>Do not start with six languages.</strong> Two languages done properly teaches you everything six would, at a third of the effort, and leaves you able to fix what you learn.</p>
+<p><strong>Do not localize the flagship asset first.</strong> It carries the most approval overhead and the least process learning.</p>
+<p><strong>Do not skip the glossary.</strong> Every hour here saves several downstream, and the glossary is the asset that persists when everything else changes.</p>
+<p><strong>Do not measure only output.</strong> Assets localized is an activity metric. It tells you nothing about whether the programme should continue.</p>
+<p><strong>Do not build the whole workflow before testing any of it.</strong> The pilot should surface process design, not confirm it.</p>
+<p><strong>Do not promise turnaround times before you have measured any.</strong> Your pilot numbers will be worse than your steady-state numbers, and committing to either prematurely creates problems.</p>
+<p><strong>Do not localize content nobody watches in the source language.</strong> Localization multiplies reach; it does not create it. A video with no domestic audience will not acquire a foreign one.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Inventory the library and sort by risk tier and volatility.</li><li>Verify what is actually localizable — masters, stems, textless versions, project files.</li><li>Choose two target languages on evidence, not intuition.</li><li>Name one person accountable for output quality.</li><li>Build and approve the glossary before processing anything, sourced from existing localized assets.</li><li>Issue a one-page source-content guideline to everyone producing video.</li><li>Pilot five to eight moderate-risk assets end to end, with real review.</li><li>Track effort per asset and log corrections by category.</li><li>Automate mechanical checks before human review.</li><li>Instrument outcome metrics from the first published batch, not retrospectively.</li></ul>
+<h2 id="after-the-first-ninety-days">After the First Ninety Days</h2>
+<p>The plan above gets a programme launched. What determines whether it survives the following year is a different set of habits.</p>
+<p><strong>Keep feeding the glossary.</strong> The correction log should update terminology continuously. A programme whose review effort stops falling has almost always stopped doing this.</p>
+<p><strong>Add languages one at a time.</strong> Each new language surfaces its own rendering, register, and terminology issues, and adding several at once means diagnosing them simultaneously.</p>
+<p><strong>Expand content tiers deliberately.</strong> Moving from internal content to customer-facing content is a bigger step than it appears, because the review standard and the approval chain both change.</p>
+<p><strong>Watch staleness.</strong> The proportion of localized assets whose source has changed grows quietly and is the failure that catches most programmes in their second year.</p>
+<p><strong>Re-baseline annually.</strong> Cost per finished minute and review hours per source hour should both be trending down. If they are flat, something in the process has stopped improving.</p>
+<p><strong>Keep the source-content guideline alive.</strong> New people join production teams constantly, and the guidance that improves every downstream language needs periodic reissuing rather than a one-time email.</p>
+<p><strong>Report outcomes, not activity.</strong> The programmes that get funded for a third year are the ones that can show what changed in the business, not how many assets were produced.</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>How many languages should a first phase cover?</strong></p>
+<p>Two. Two languages surface essentially every process problem that six would — terminology gaps, review capacity, rendering issues, timing constraints — at a fraction of the effort, and crucially they leave you able to fix what you find. Programmes that launch with six spend the first quarter firefighting rather than learning.</p>
+<p><strong>What should the pilot content be?</strong></p>
+<p>Five to eight evergreen assets from the internal or moderate-risk tier, with clean source audio. Deliberately not the flagship brand film and not anything regulated. The pilot exists to calibrate effort and surface process gaps, and high-stakes content buries that learning under approval overhead.</p>
+<p><strong>What is the single most important thing to do early?</strong></p>
+<p>Build the glossary, sourced from wherever your product, documentation, or website has already been localized. It determines output quality more than any other input, it is the artefact that persists as tools and vendors change, and every hour spent on it saves several hours of downstream review.</p>
+<p><strong>What should we measure?</strong></p>
+<p>Both effort and outcome. On effort: cost per finished minute per language and review hours per source hour, tracked over time — the trend matters more than the level, and review effort should fall noticeably as terminology matures. On outcome: watch time and completion by language against the source, support volume in target markets, and engagement or conversion by visitor language.</p>
+<p><strong>Why do localization programmes lose funding?</strong></p>
+<p>Because they report activity rather than outcome. Assets localized is not evidence that anything improved. Programmes that instrument outcome metrics from the first published batch, and can show both a falling cost curve and a measurable audience effect, survive planning cycles that activity-reporting programmes do not.</p>
+<p><strong>What if we do not have enough content to justify a programme?</strong></p>
+<p>Then run a project rather than a programme. Localize a defined set of assets, measure the result, and revisit in six months. The failure mode to avoid is standing up process, tooling, and governance for a volume that does not need it, which produces overhead nobody maintains and a programme that is quietly abandoned.</p>
+<p><strong>Who should own localization inside the organisation?</strong></p>
+<p>Whoever owns the content it serves, in most cases — marketing for brand content, learning for training, support for help content — with a single person accountable for output quality across them. Placing it in a central function detached from content ownership tends to produce a service nobody prioritises; placing it entirely with content owners produces inconsistent terminology and duplicated effort.</p>
+<hr>
+<p>Related reading: <a href="/blog/build-vs-buy-video-localization">Build vs Buy for Video Localization</a> | <a href="/blog/localization-metrics-that-matter">Localization Metrics That Actually Predict Growth</a> | <a href="/blog/video-localization-strategy">Video Localization Strategy</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-rollout-plan" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-rollout-plan&amp;text=A%2090-Day%20Video%20Localization%20Rollout%20Plan" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-rollout-plan" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/localization">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/choosing-languages-to-localize" aria-label="Read Choosing Which Languages to Localize Into: A Decision Framework"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="Choosing Which Languages to Localize Into: A Decision Framework" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Choosing Which Languages to Localize Into: A Decision Framework</h2><p class="blog-card-description">Speaker count is the worst available basis for choosing target languages, and it is the one most programs use.</p>
+      <time class="blog-card-date" datetime="2026-08-20T14:00:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/localization-metrics-that-matter" aria-label="Read Localization Metrics That Actually Predict Growth"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gauge-glass-dials.jpg" alt="Localization Metrics That Actually Predict Growth" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Localization Metrics That Actually Predict Growth</h2><p class="blog-card-description">Assets localized is not a metric. It is a receipt.</p>
+      <time class="blog-card-date" datetime="2026-08-26T22:30:00Z">Aug 26, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/agriculture-extension-video-translation" aria-label="Read Agricultural Extension Video Translation"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/furrow-glass-rows.png" alt="Agricultural Extension Video Translation" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Agricultural Extension Video Translation</h2><p class="blog-card-description">Extension advice reaches farmers through people who speak their language. Video only works if it does the same.</p>
+      <time class="blog-card-date" datetime="2026-08-26T17:30:00Z">Aug 26, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

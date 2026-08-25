@@ -55,6 +55,38 @@ const SUBJECTS = {
   'field-glass-pylons': 'A line of heavy industrial glass pylons receding across a dark plane, connected by faint catenary threads of light.',
   'paired-language-panes': 'Two identical upright glass panes standing face to face in perfect symmetry, a bright band of light between them.',
   'archive-glass-vault': 'Deep receding rows of glass shelving units forming a vast vault interior, light falling between the rows.',
+
+  // Batch two
+  'fjord-glass-shards': 'Tall angular glass shards rising like steep cliff walls on either side of a narrow reflective channel.',
+  'temple-glass-columns': 'A dense cluster of ornate tiered glass columns stepping upward in ordered ranks, each tier catching light.',
+  'woven-glass-strands': 'Long glass strands interlacing into a woven lattice panel suspended above the floor.',
+  'layered-glass-ghats': 'Broad shallow glass steps descending in wide tiers toward a still reflective surface.',
+  'arched-glass-iwan': 'A single monumental pointed glass arch standing alone, its recessed interior glowing softly.',
+  'tidal-glass-terraces': 'Overlapping curved glass terraces stepping outward like tidal shelves, water-thin edges lit.',
+  'cyrillic-glass-blocks': 'Heavy rectangular glass blocks arranged in a staggered vertical stack, edges brilliantly lit.',
+  'summit-glass-peaks': 'A jagged range of tall triangular glass peaks of varying heights receding into fog.',
+  'rhythmic-glass-drums': 'A cluster of cylindrical glass drums of different diameters standing upright, rims glowing.',
+  'island-glass-arches': 'A scattered chain of small glass arches across a reflective plane, receding toward a bright horizon.',
+  'counter-glass-service': 'A long straight glass counter surface with a row of slender glass forms arranged along its length.',
+  'pallet-glass-stacks': 'Stacked cubic glass blocks arranged like palletised freight in receding rows.',
+  'shelf-glass-aisle': 'Two long parallel glass shelving walls forming a narrow aisle receding into fog.',
+  'scaffold-glass-frame': 'An open scaffold-like lattice of thin glass tubes forming a tall rectangular framework.',
+  'furrow-glass-rows': 'Long parallel glass ridges running in even rows toward a distant vanishing point.',
+  'hull-glass-prow': 'A large angular glass prow shape cutting forward through low fog above a reflective plane.',
+  'wing-glass-section': 'A long tapered glass aerofoil section suspended horizontally, its leading edge brilliantly lit.',
+  'shaft-glass-descent': 'A deep vertical glass shaft receding downward, concentric square frames descending into darkness.',
+  'container-glass-formats': 'A set of differently proportioned glass containers of varying sizes arranged in a neat row.',
+  'clean-signal-glass': 'A single pristine glass rod suspended horizontally, perfectly smooth, a clean band of light along it.',
+  'split-voice-glass': 'Two intertwined glass ribbons separating cleanly apart from each other in mid air.',
+  'embedded-vs-layered-glass': 'One glass panel with an inner form fused inside it beside another with a form floating just above its surface.',
+  'metered-glass-lines': 'A series of evenly spaced horizontal glass bars of graduated length, like a measuring scale.',
+  'expanding-glass-bars': 'A row of horizontal glass bars each progressively longer than the last, receding in perspective.',
+  'separating-glass-waves': 'Two overlapping wave-form glass sheets pulling apart into distinct separate layers.',
+  'fork-glass-path': 'A glass pathway splitting into two diverging routes across a dark reflective plane.',
+  'staged-glass-timeline': 'A horizontal sequence of four glass markers of increasing height along a single lit line.',
+  'gauge-glass-dials': 'A cluster of circular glass dial forms of varying sizes mounted upright, rims catching light.',
+  'chorus-glass-forms': 'A gathered group of slender glass figures of differing heights standing together in an arc.',
+  'calendar-glass-grid': 'A large upright glass grid of even square cells, a few cells glowing brighter than the rest.',
 };
 
 const targets = Object.entries(SUBJECTS).filter(([name]) => !only || only.includes(name));
@@ -72,8 +104,8 @@ async function api(pathName, init = {}) {
 }
 
 async function generate(name, subject) {
-  const file = path.join(OUT_DIR, `${name}.png`);
-  if (!force && fs.existsSync(file)) {
+  // The API returns PNG or JPEG per run, so an existing hero may carry either extension.
+  if (!force && ['png', 'jpg'].some((ext) => fs.existsSync(path.join(OUT_DIR, `${name}.${ext}`)))) {
     console.log(`skip   ${name} (exists)`);
     return { name, status: 'skipped' };
   }

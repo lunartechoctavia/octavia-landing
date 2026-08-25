@@ -1,0 +1,668 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Improving Source Audio Quality Before Translation | Octavia</title>
+    <meta name="description" content="Why translation output quality is capped by input audio, what actually degrades transcription accuracy, and practical capture and cleanup steps that help.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/improving-source-audio-for-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Improving Source Audio Quality Before Translation">
+    <meta property="og:description" content="Why translation output quality is capped by input audio, what actually degrades transcription accuracy, and practical capture and cleanup steps that help.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/improving-source-audio-for-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/clean-signal-glass.jpg">
+    <meta property="article:published_time" content="2026-08-26T19:30:00Z">
+    <meta property="article:modified_time" content="2026-08-26T19:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Improving Source Audio Quality Before Translation">
+    <meta name="twitter:description" content="Why translation output quality is capped by input audio, what actually degrades transcription accuracy, and practical capture and cleanup steps that help.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/clean-signal-glass.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Improving Source Audio Quality Before Translation","description":"Why translation output quality is capped by input audio, what actually degrades transcription accuracy, and practical capture and cleanup steps that help.","image":"https://octavia.lunartech.ai/assets/blog/images/clean-signal-glass.jpg","datePublished":"2026-08-26T19:30:00Z","dateModified":"2026-08-26T19:30:00Z","wordCount":2077,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/improving-source-audio-for-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Improving Source Audio Quality Before Translation","item":"https://octavia.lunartech.ai/blog/improving-source-audio-for-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">Improving Source Audio Quality Before Translation</h1><p class="article-deck">No translation system recovers information the microphone never captured. Everything downstream inherits the recording.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-26T19:30:00Z">Aug 26, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/clean-signal-glass.jpg" alt="Improving Source Audio Quality Before Translation" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-ceiling-nobody-mentions">The Ceiling Nobody Mentions</a></li><li><a class="toc-h2" data-toc-link href="#what-actually-degrades-transcription">What Actually Degrades Transcription</a></li><li><a class="toc-h2" data-toc-link href="#capture-where-the-quality-is-actually-won">Capture: Where the Quality Is Actually Won</a></li><li><a class="toc-h2" data-toc-link href="#cleanup-what-helps-and-what-does-not">Cleanup: What Helps and What Does Not</a></li><li><a class="toc-h2" data-toc-link href="#judging-whether-content-is-worth-localizing">Judging Whether Content Is Worth Localizing</a></li><li><a class="toc-h2" data-toc-link href="#transcript-review-is-part-of-the-audio-problem">Transcript Review Is Part of the Audio Problem</a></li><li><a class="toc-h2" data-toc-link href="#a-note-on-music-and-effects">A Note on Music and Effects</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#setting-expectations-with-content-owners">Setting Expectations With Content Owners</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Studio microphone with acoustic treatment"></a></p>
+<h2 id="the-ceiling-nobody-mentions">The Ceiling Nobody Mentions</h2>
+<p>Video localization is a chain: transcribe, translate, generate. Each stage takes the previous stage&#39;s output as input, which means errors do not stay put — they propagate and compound.</p>
+<p>A word misheard in transcription is translated as the misheard word, and then spoken confidently in nine languages. Nobody downstream can detect it, because by then the original audio is not part of the process. The error looks like a translation problem and is actually a capture problem.</p>
+<p>This makes source audio quality the single largest determinant of localization output quality, and it is almost always the cheapest thing to improve. An hour spent on microphone placement saves more review time than any amount of downstream cleanup.</p>
+<p>The uncomfortable corollary is that some content simply cannot be localized well. Where the source audio is bad enough, there is no workflow that produces good output, and recognising that early prevents spending a budget on an outcome that was never available.</p>
+<h2 id="what-actually-degrades-transcription">What Actually Degrades Transcription</h2>
+<p>Not all audio problems matter equally. Some that sound bad to a human have little effect; some that sound acceptable cause significant errors.</p>
+<p><strong>Reverberation is the worst offender.</strong> A room with hard surfaces smears each sound into the next, blurring the boundaries between phonemes. Reverberant audio can sound perfectly intelligible to a person — who uses context heavily — while producing substantially worse transcription. This is the most underestimated problem in the list.</p>
+<p><strong>Overlapping speech</strong> is genuinely hard. Two voices in one signal cannot be cleanly separated into two accurate transcripts, and both diarization and transcription degrade.</p>
+<p><strong>Distance from the microphone.</strong> Every doubling of distance worsens the ratio of direct sound to room reflection. Camera-mounted microphones several metres from a speaker are a common and avoidable problem.</p>
+<p><strong>Competing broadband noise.</strong> Air conditioning, traffic, crowd noise, and machinery mask speech energy across the frequencies that carry consonant information.</p>
+<p><strong>Clipping and distortion.</strong> Over-recorded audio loses information permanently and cannot be repaired.</p>
+<p><strong>Heavy compression artefacts.</strong> Audio that has been through low-bitrate encoding, particularly repeatedly, loses detail that transcription depends on.</p>
+<p><strong>Inconsistent levels.</strong> A quiet speaker followed by a loud one causes errors on the quiet passages.</p>
+<p>What matters less than people expect: mild background music, moderate accent variation, occasional filler words, and modest room tone. These are handled reasonably well.</p>
+<h2 id="capture-where-the-quality-is-actually-won">Capture: Where the Quality Is Actually Won</h2>
+<p>If you control the recording, these decisions determine everything downstream.</p>
+<p><strong>Get the microphone close.</strong> Lapel, headset, or boom microphones within a foot or two of the speaker. This single change usually improves transcription accuracy more than everything else combined, because it improves the ratio of voice to room and voice to noise simultaneously.</p>
+<p><strong>Never rely on camera-mounted audio</strong> for content that will be localized. It is the default and it is nearly always the worst option available.</p>
+<p><strong>Record each speaker on a separate track.</strong> This transforms diarization from an inference problem into a non-problem, and it allows individual level correction later.</p>
+<p><strong>Control the room.</strong> Soft furnishings, curtains, carpet, and bookshelves all reduce reverberation. A small furnished room beats a large hard-surfaced one, and recording in a corner is worse than recording away from parallel walls.</p>
+<p><strong>Turn off what you can.</strong> Air conditioning, fans, refrigerators, and notifications.</p>
+<p><strong>Set levels conservatively.</strong> Peaks well below clipping, since headroom is recoverable and clipping is not.</p>
+<p><strong>Record a room tone reference.</strong> Thirty seconds of silence gives noise reduction something accurate to work from.</p>
+<p><strong>Capture at a decent sample rate and bit depth</strong>, and keep an uncompressed master. Localization work should start from the best available version, not from a delivery-encoded file.</p>
+<p><strong>Brief speakers on pace and turn-taking.</strong> Measured delivery with clear handovers transcribes better than rapid overlapping speech, and this is a directing decision.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Sound recordist adjusting a boom microphone"></a></p>
+<h2 id="cleanup-what-helps-and-what-does-not">Cleanup: What Helps and What Does Not</h2>
+<p>For existing recordings, some processing genuinely improves results and some makes them worse.</p>
+<p><strong>Generally helps:</strong></p>
+<ul><li>Level normalisation and correcting inconsistent gain between speakers.</li><li>Gentle broadband noise reduction, especially with a room tone reference.</li><li>High-pass filtering to remove rumble below the speech range.</li><li>Removing long silences and non-speech sections before processing.</li><li>Splitting a long recording at natural boundaries, so a problem section does not affect the whole.</li></ul>
+<p><strong>Often makes things worse:</strong></p>
+<ul><li>Aggressive noise reduction, which introduces artefacts that confuse transcription more than the noise did. This is the most common cleanup mistake.</li><li>Heavy compression or limiting, which raises the noise floor along with the speech.</li><li>De-reverberation processing, which frequently produces artefacts worse than the reverb.</li><li>Re-encoding to a lossy format, which discards detail for no benefit.</li><li>Any processing that alters timing, which breaks sync with picture.</li></ul>
+<p>The general principle is that gentle correction helps and aggressive restoration hurts. If a processing step makes the audio sound obviously processed, it has probably degraded transcription accuracy.</p>
+<p><strong>Where separation helps.</strong> Dialogue separation — isolating speech from music and background — genuinely improves transcription on content with a music bed, and it is also what allows the original atmosphere to be retained during dubbing. This is different from noise reduction and generally more effective on musical content.</p>
+<h2 id="judging-whether-content-is-worth-localizing">Judging Whether Content Is Worth Localizing</h2>
+<p>Some material should not enter the pipeline. Assessing it beforehand is cheaper than discovering it in review.</p>
+<p>Practical assessment: transcribe a two-minute sample and read the output.</p>
+<p><strong>If the sample transcript is broadly accurate</strong> with occasional proper-noun errors, the content is fine and terminology work will handle the rest.</p>
+<p><strong>If it contains frequent word-level errors</strong> but the sense is recoverable, expect meaningful review effort and price accordingly.</p>
+<p><strong>If it is largely wrong or has substantial gaps</strong>, no downstream stage will recover it. The realistic options are re-recording, using subtitles produced from a manual transcript, or not localizing this asset.</p>
+<p>Content that commonly fails: crowd and street recordings, phone audio from poor connections, archive material from degraded formats, unstructured group conversation, and anything recorded at distance in a reverberant space.</p>
+<p>Being willing to say a particular asset is not localizable is a professional judgement that saves clients money and preserves credibility. It is also considerably better received before a project than after.</p>
+<h2 id="transcript-review-is-part-of-the-audio-problem">Transcript Review Is Part of the Audio Problem</h2>
+<p>Even good audio produces transcripts with predictable error classes, and reviewing the transcript is where the audio problem gets finally resolved.</p>
+<p>Where errors concentrate:</p>
+<p><strong>Proper nouns.</strong> Names of people, companies, products, and places. These are unpredictable by definition and are also the errors most visible to viewers.</p>
+<p><strong>Technical vocabulary and acronyms</strong>, particularly domain-specific terms.</p>
+<p><strong>Numbers.</strong> Digits, dates, units, and figures, which are both error-prone and consequential.</p>
+<p><strong>Homophones</strong>, resolved by context that the system may read differently than intended.</p>
+<p><strong>Segment boundaries</strong>, where a word can be attached to the wrong side.</p>
+<p><strong>Speaker attribution</strong> at turn transitions.</p>
+<p>Loading a custom vocabulary before transcription removes most of the first two categories in advance, which is why terminology work belongs at the start of the process rather than at the translation stage.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Editor reviewing a transcript on screen"></a></p>
+<h2 id="a-note-on-music-and-effects">A Note on Music and Effects</h2>
+<p>For dubbed output specifically, the audio requirement extends beyond intelligibility.</p>
+<p>A dub replaces dialogue while ideally retaining music, effects, and atmosphere. Where a separated music-and-effects track exists, this is straightforward. Where only a full mix exists, dialogue separation can recover a usable bed.</p>
+<p>Two practical points. First, keeping stems from the original mix makes future localization dramatically easier, and archiving them costs almost nothing. Second, where separation is used, verify the result on content where the music is prominent, since that is where artefacts are most audible.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Get a microphone within a foot or two of each speaker; never rely on camera audio.</li><li>Record separate tracks per speaker where possible.</li><li>Reduce reverberation before worrying about noise — it does more damage.</li><li>Turn off air conditioning, fans, and notifications.</li><li>Set levels with headroom; clipping is unrecoverable.</li><li>Capture thirty seconds of room tone as a noise reference.</li><li>Work from an uncompressed master, not a delivery encode.</li><li>Apply gentle correction only; aggressive noise reduction hurts more than it helps.</li><li>Load custom vocabulary before transcription to pre-empt proper-noun errors.</li><li>Transcribe a two-minute sample to assess viability before committing to a full job.</li></ul>
+<h2 id="setting-expectations-with-content-owners">Setting Expectations With Content Owners</h2>
+<p>Much of the practical value here comes from a conversation that happens before recording, not after.</p>
+<p>Content owners generally do not know that audio quality determines translation quality, and they have no reason to suspect it. Telling them afterwards sounds like an excuse; telling them beforehand changes what they record.</p>
+<p>Points worth making early:</p>
+<p><strong>Explain the chain.</strong> Errors in transcription propagate into every language and are undetectable downstream. This single fact usually motivates more care than any amount of technical advice.</p>
+<p><strong>Give a short capture checklist.</strong> Close microphone, separate tracks per speaker, quiet furnished room, levels with headroom, room tone reference. One page, no jargon.</p>
+<p><strong>Offer to assess a sample.</strong> Running two minutes of a planned recording setup through transcription before the shoot is cheap and settles arguments definitively.</p>
+<p><strong>Be direct about unusable material.</strong> Where an existing asset cannot be localized well, saying so before the project starts preserves credibility and saves the client money.</p>
+<p><strong>Flag the cost difference.</strong> Content recorded well needs materially less review, and review is the dominant cost. Framing capture quality as a budget lever rather than a technical preference makes the case in terms the owner cares about.</p>
+<p>Teams that have this conversation routinely find that source quality improves across the whole organisation within a couple of production cycles, which lifts every subsequent localization job.</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>What harms transcription accuracy most?</strong></p>
+<p>Reverberation, more than most people expect. A hard-surfaced room smears sounds into each other and blurs phoneme boundaries, and reverberant audio can sound perfectly intelligible to a human — who fills gaps from context — while producing substantially worse machine transcription. Microphone distance and overlapping speech follow closely behind.</p>
+<p><strong>Does noise reduction improve results?</strong></p>
+<p>Gentle noise reduction with a room tone reference helps. Aggressive noise reduction usually hurts, because it introduces artefacts that confuse transcription more than the original noise did. This is the most common cleanup mistake. If processing makes the audio sound obviously processed, it has probably reduced accuracy.</p>
+<p><strong>How can I tell whether a recording is worth localizing?</strong></p>
+<p>Transcribe a two-minute sample and read it. Broadly accurate with occasional proper-noun errors means proceed. Frequent word errors with recoverable sense means budget real review time. Largely wrong or full of gaps means no downstream stage will fix it — the options are re-recording, a manual transcript, or not localizing that asset.</p>
+<p><strong>Should I fix the audio or fix the transcript?</strong></p>
+<p>Both, at the right point. Improve capture where you control it, apply gentle cleanup where you do not, and then review the transcript — which is where residual errors get resolved. Loading custom vocabulary before transcription pre-empts most proper-noun and technical-term errors, which is why terminology work belongs at the start rather than at translation.</p>
+<p><strong>Why does bad source audio matter more for translation than for captioning?</strong></p>
+<p>Because errors compound through the chain. A misheard word in a same-language caption is one visible mistake a viewer can often infer past. The same word feeds the translation, gets rendered confidently in every target language, and is then spoken by a synthetic voice — with nobody downstream able to detect it, because the original audio is no longer part of the process.</p>
+<p><strong>Does a higher sample rate improve transcription accuracy?</strong></p>
+<p>Beyond a reasonable baseline, not meaningfully. Transcription depends on the speech frequency range, which standard rates capture comfortably. What matters far more is the ratio of voice to room and voice to noise — microphone distance, reverberation, and background sound. Recording at a very high sample rate in a bad room produces worse results than a modest rate in a good one.</p>
+<p><strong>Should I remove filler words from the transcript before translating?</strong></p>
+<p>Yes, along with false starts and repeated phrases. They transcribe accurately and translate badly, producing target-language text that reads as disfluent rather than natural. Cleaning them at the transcript stage costs minutes and improves every downstream language, which is a better return than any equivalent effort spent later.</p>
+<hr>
+<p>Related reading: <a href="/blog/speaker-diarization-explained">Speaker Diarization Explained</a> | <a href="/blog/dialogue-music-separation-explained">Dialogue and Music Separation Explained</a> | <a href="/blog/video-translation-common-mistakes">Video Translation Common Mistakes</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fimproving-source-audio-for-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fimproving-source-audio-for-translation&amp;text=Improving%20Source%20Audio%20Quality%20Before%20Translation" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fimproving-source-audio-for-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-translation-file-formats-guide" aria-label="Read Video and Audio File Formats for Translation Workflows"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/container-glass-formats.jpg" alt="Video and Audio File Formats for Translation Workflows" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video and Audio File Formats for Translation Workflows</h2><p class="blog-card-description">Most format problems in localization are not compatibility failures. They are quality losses nobody noticed until the ninth language.</p>
+      <time class="blog-card-date" datetime="2026-08-26T21:00:00Z">Aug 26, 2026 · 9 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/burned-in-vs-soft-subtitles" aria-label="Read Burned-In vs Soft Subtitles: Choosing a Delivery Format"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/embedded-vs-layered-glass.png" alt="Burned-In vs Soft Subtitles: Choosing a Delivery Format" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Burned-In vs Soft Subtitles: Choosing a Delivery Format</h2><p class="blog-card-description">One choice makes your subtitles unbreakable and invisible to search. The other makes them flexible and dependent on someone else&#39;s player.</p>
+      <time class="blog-card-date" datetime="2026-08-26T20:30:00Z">Aug 26, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/dialogue-music-separation-explained" aria-label="Read Dialogue and Music Separation Explained"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/separating-glass-waves.png" alt="Dialogue and Music Separation Explained" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Dialogue and Music Separation Explained</h2><p class="blog-card-description">Dubbing without separation replaces the whole soundtrack. That is why so much dubbed content sounds hollow.</p>
+      <time class="blog-card-date" datetime="2026-08-26T20:00:00Z">Aug 26, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>
