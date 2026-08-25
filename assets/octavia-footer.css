@@ -1,0 +1,423 @@
+/* ==========================================================================
+   Octavia — shared footer
+
+   Deliberately written in plain CSS rather than Tailwind utilities. Two
+   Tailwind setups ship on this site: index.html links the pre-built, purged
+   assets/octavia-tailwind.css, while every other page pulls the runtime CDN
+   build. Utilities that were never used at build time (lg:grid-cols-5,
+   text-[10px], …) simply do not exist in the purged file, so a utility-built
+   footer would render correctly on 18 pages and collapse on the homepage.
+
+   Every selector is namespaced under .oc-foot so nothing here leaks into the
+   page, and nothing on the page can style the footer by accident. Where a rule
+   competes with a Tailwind base/preflight declaration it is stated explicitly
+   rather than inherited.
+   ========================================================================== */
+
+.oc-foot {
+  --oc-bg: #050505;
+  --oc-ink: #ffffff;
+  --oc-muted: #8f8f8f;
+  --oc-dim: #6a6a6a;
+  --oc-line: rgba(255, 255, 255, 0.08);
+  --oc-accent: #8b5cf6;
+  --oc-display: 'Geist', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --oc-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--oc-bg);
+  border-top: 1px solid var(--oc-line);
+  padding: 5rem 0 0;
+  font-family: var(--oc-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+.oc-foot *,
+.oc-foot *::before,
+.oc-foot *::after { box-sizing: border-box; }
+
+.oc-foot-inner {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .oc-foot-inner { padding: 0 3rem; }
+}
+
+/* --- Early-access pill ---------------------------------------------------- */
+
+.oc-foot-signup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  padding: 0 1.5rem;
+  transform: translateY(-50%);
+}
+
+.oc-foot-signup form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0;
+  padding: 0.6rem 0.6rem 0.6rem 1.5rem;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  transition: border-color 0.3s ease;
+}
+
+.oc-foot-signup form:hover,
+.oc-foot-signup form:focus-within { border-color: rgba(139, 92, 246, 0.5); }
+
+.oc-foot-signup input {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--oc-ink);
+  font-family: var(--oc-mono);
+  font-size: 0.875rem;
+}
+
+.oc-foot-signup input::placeholder { color: #5a5a5a; }
+
+.oc-foot-signup button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: var(--oc-ink);
+  color: #000;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.oc-foot-signup button:hover { background: var(--oc-accent); color: var(--oc-ink); }
+
+/* --- Brand row ------------------------------------------------------------ */
+
+.oc-foot-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  padding: 5rem 0 3.5rem;
+}
+
+@media (min-width: 1024px) {
+  .oc-foot-top {
+    grid-template-columns: 7fr 5fr;
+    align-items: center;
+  }
+}
+
+.oc-foot-wordmark {
+  margin: 0 0 1.5rem;
+  font-family: var(--oc-display);
+  font-size: clamp(2.75rem, 7vw, 6rem);
+  line-height: 0.9;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: var(--oc-ink);
+}
+
+.oc-foot-wordmark span { color: #454545; }
+
+.oc-foot-blurb {
+  max-width: 34rem;
+  margin: 0 0 2rem;
+  color: var(--oc-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.oc-foot-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.oc-foot-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--oc-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--oc-line);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.oc-foot-social a:hover {
+  color: var(--oc-ink);
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+/* --- Purple call-to-action card ------------------------------------------- */
+
+.oc-foot-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 24rem;
+  margin-left: 0;
+  padding: 2rem;
+  overflow: hidden;
+  background: #7c3aed;
+  border-radius: 1.5rem;
+  color: var(--oc-ink);
+  text-decoration: none;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+@media (min-width: 1024px) {
+  .oc-foot-card { margin-left: auto; }
+}
+
+.oc-foot-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 30px 60px -20px rgba(124, 58, 237, 0.6);
+}
+
+.oc-foot-card-glyph {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  color: rgba(0, 0, 0, 0.12);
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.oc-foot-card-body { position: relative; z-index: 10; }
+
+.oc-foot-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--oc-ink);
+}
+
+.oc-foot-card p {
+  margin: 0 0 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.oc-foot-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.oc-foot-card-meta span {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* --- Navigation columns --------------------------------------------------- */
+
+.oc-foot-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 1.5rem;
+  padding: 3.5rem 0;
+  border-top: 1px solid var(--oc-line);
+}
+
+@media (min-width: 768px) {
+  .oc-foot-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.oc-foot-col h3 {
+  margin: 0 0 1.125rem;
+  font-family: var(--oc-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #5f5f5f;
+}
+
+.oc-foot-col ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.oc-foot-col li { margin: 0 0 0.6rem; }
+
+.oc-foot-col a {
+  display: inline-block;
+  color: var(--oc-muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.oc-foot-col a:hover {
+  color: var(--oc-ink);
+  transform: translateX(3px);
+}
+
+/* --- Oversized watermark -------------------------------------------------- */
+
+.oc-foot-mark {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 3rem;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.oc-foot-mark span {
+  display: block;
+  margin-bottom: -1.5rem;
+  font-family: var(--oc-display);
+  font-size: 20vw;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.oc-foot-mark::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6rem;
+  background: linear-gradient(to top, var(--oc-bg), transparent);
+}
+
+/* --- Bottom bar ----------------------------------------------------------- */
+
+.oc-foot-bottom {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1.5rem 0 2rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .oc-foot-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.oc-foot-copy {
+  margin: 0;
+  font-family: var(--oc-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--oc-dim);
+}
+
+.oc-foot-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.oc-foot-legal a {
+  color: var(--oc-dim);
+  font-family: var(--oc-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.oc-foot-legal a:hover { color: var(--oc-ink); }
+
+/* --- Accessibility -------------------------------------------------------- */
+
+.oc-foot-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.oc-foot a:focus-visible,
+.oc-foot button:focus-visible,
+.oc-foot input:focus-visible {
+  outline: 2px solid var(--oc-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-foot a,
+  .oc-foot button,
+  .oc-foot-card { transition: none !important; }
+  .oc-foot-card:hover,
+  .oc-foot-social a:hover,
+  .oc-foot-col a:hover { transform: none; }
+}
+
+/* Small screens: the watermark dominates otherwise. */
+@media (max-width: 640px) {
+  .oc-foot { padding-top: 4.5rem; }
+  .oc-foot-top { padding: 4rem 0 2.5rem; }
+  .oc-foot-mark span { font-size: 22vw; margin-bottom: -0.75rem; }
+  .oc-foot-card { max-width: none; }
+}
