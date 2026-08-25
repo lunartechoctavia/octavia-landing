@@ -365,88 +365,124 @@ export const AUDIENCES = [
 
 const esc = (s) => String(s).replace(/&(?!#?\w+;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+const LANGUAGES = ['English', 'Spanish', 'Mandarin', 'Hindi', 'Arabic', 'Portuguese', 'French', 'German', 'Japanese', 'Korean', 'Italian', 'Turkish', 'Vietnamese', 'Polish', 'Tamil', 'Indonesian', 'Dutch', 'Swedish', 'Thai', 'Ukrainian'];
+
 function content(a) {
-  const siblings = AUDIENCES.map((o) => `        <a class="oc-a-sibling" href="/for/${o.slug}"${o.slug === a.slug ? ' aria-current="page"' : ''}>${esc(o.nav)}</a>`).join('\n');
+  const siblings = AUDIENCES.map((o) => `          <a class="oc-a-sibling" href="/for/${o.slug}"${o.slug === a.slug ? ' aria-current="page"' : ''}>${esc(o.nav)}</a>`).join('\n');
+
+  // Marquee tracks are duplicated so the -50% translate loops seamlessly.
+  const chips = (items, icon) => {
+    const one = items.map((o) => `<span class="oc-a-chip"><iconify-icon icon="${icon}" width="14" aria-hidden="true"></iconify-icon>${esc(o)}</span>`).join('');
+    return one + one;
+  };
 
   return `<div class="oc-a">
 
     <section class="oc-a-hero">
+      <div class="oc-a-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="oc-a-grid" aria-hidden="true"></div>
       <div class="oc-a-wrap">
-        <p class="oc-a-eyebrow"><iconify-icon icon="lucide:sparkles" width="13" aria-hidden="true"></iconify-icon>${esc(a.eyebrow)}</p>
-        <h1>${a.h1}</h1>
-        <p class="oc-a-lede">${esc(a.lede)}</p>
-        <div class="oc-a-cta">
+        <p class="oc-a-eyebrow" data-r><span class="oc-a-dot" aria-hidden="true"></span>${esc(a.eyebrow)}</p>
+        <h1 data-r="1">${a.h1}</h1>
+        <p class="oc-a-lede" data-r="2">${esc(a.lede)}</p>
+        <div class="oc-a-cta" data-r="3">
           <a class="oc-a-btn oc-a-btn-primary" href="https://app.octavia.lunartech.ai/signup">Start free<iconify-icon icon="lucide:arrow-right" width="15" aria-hidden="true"></iconify-icon></a>
           <a class="oc-a-btn oc-a-btn-ghost" href="/pricing">See pricing</a>
         </div>
+        <ul class="oc-a-trust" data-r="4">
+          <li><iconify-icon icon="lucide:languages" width="14" aria-hidden="true"></iconify-icon>60+ languages</li>
+          <li><iconify-icon icon="lucide:upload" width="14" aria-hidden="true"></iconify-icon>One upload, every format</li>
+          <li><iconify-icon icon="lucide:eye" width="14" aria-hidden="true"></iconify-icon>Review before anything ships</li>
+        </ul>
+      </div>
+
+      <div class="oc-a-wrap">
+        <div class="oc-a-stats" data-r="5">
+          <div class="oc-a-stat"><b class="oc-a-grad">60+</b><span>Studio-quality languages</span></div>
+          <div class="oc-a-stat"><b class="oc-a-grad">1</b><span>Upload, every output</span></div>
+          <div class="oc-a-stat"><b class="oc-a-grad">~4s</b><span>Subtitles for a 10-hour video</span></div>
+          <div class="oc-a-stat"><b class="oc-a-grad">100%</b><span>Reviewable before export</span></div>
+        </div>
       </div>
     </section>
 
     <section class="oc-a-sec">
       <div class="oc-a-wrap">
-        <h2>What gets in the way</h2>
-        <p class="oc-a-sec-lede">The specific reasons this content usually stays in one language.</p>
+        <span class="oc-a-label" data-r>The problem</span>
+        <h2 data-r="1">What gets in the way</h2>
+        <p class="oc-a-sec-lede" data-r="2">The specific reasons this content usually stays in one language.</p>
         <div class="oc-a-pains">
-${a.pains.map(([h, p]) => `          <div class="oc-a-pain"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n')}
+${a.pains.map(([h, p], i) => `          <div class="oc-a-pain" data-r="${Math.min(i + 1, 5)}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n')}
         </div>
       </div>
     </section>
 
     <section class="oc-a-sec">
       <div class="oc-a-wrap">
-        <h2>What Octavia does about it</h2>
-        <p class="oc-a-sec-lede">The capabilities that matter for this work, rather than the full feature list.</p>
+        <span class="oc-a-label" data-r>Capabilities</span>
+        <h2 data-r="1">What Octavia does about it</h2>
+        <p class="oc-a-sec-lede" data-r="2">The parts of the platform that matter for this work, rather than the full feature list.</p>
         <div class="oc-a-caps">
-${a.caps.map(([icon, h, p]) => `          <div class="oc-a-cap"><iconify-icon icon="${icon}" width="22" aria-hidden="true"></iconify-icon><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n')}
+${a.caps.map(([icon, h, p], i) => `          <article class="oc-a-cap" data-r="${Math.min(i + 1, 5)}">
+            <span class="oc-a-cap-icon"><iconify-icon icon="${icon}" width="20" aria-hidden="true"></iconify-icon></span>
+            <h3>${esc(h)}</h3>
+            <p>${esc(p)}</p>
+          </article>`).join('\n')}
         </div>
       </div>
     </section>
 
     <section class="oc-a-sec">
       <div class="oc-a-wrap">
-        <h2>How it runs</h2>
-        <p class="oc-a-sec-lede">Four steps from the file you already have to every language you need.</p>
+        <span class="oc-a-label" data-r>Workflow</span>
+        <h2 data-r="1">How it runs</h2>
+        <p class="oc-a-sec-lede" data-r="2">Four steps from the file you already have to every language you need.</p>
         <div class="oc-a-steps">
-${a.steps.map(([h, p]) => `          <div class="oc-a-step"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n')}
+${a.steps.map(([h, p], i) => `          <div class="oc-a-step" data-r="${Math.min(i + 1, 5)}"><b>Step 0${i + 1}</b><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n')}
         </div>
       </div>
     </section>
 
     <section class="oc-a-sec">
       <div class="oc-a-wrap">
-        <h2>What you get back</h2>
-        <p class="oc-a-sec-lede">One upload, every output format you need to publish.</p>
-        <div class="oc-a-outputs">
-${a.outputs.map((o) => `          <span class="oc-a-output">${esc(o)}</span>`).join('\n')}
+        <span class="oc-a-label" data-r>Deliverables</span>
+        <h2 data-r="1">What you get back</h2>
+        <p class="oc-a-sec-lede" data-r="2">One upload in, every format you need to publish out.</p>
+      </div>
+      <div data-r="3">
+        <div class="oc-a-marquee"><div class="oc-a-track">${chips(a.outputs, 'lucide:check')}</div></div>
+        <div class="oc-a-marquee oc-a-marquee--rev"><div class="oc-a-track">${chips(LANGUAGES, 'lucide:globe')}</div></div>
+      </div>
+    </section>
+
+    <section class="oc-a-sec">
+      <div class="oc-a-wrap">
+        <span class="oc-a-label" data-r>FAQ</span>
+        <h2 data-r="1">Questions worth asking</h2>
+        <p class="oc-a-sec-lede" data-r="2">Including the ones where the honest answer is a limitation.</p>
+        <div class="oc-a-faq" data-r="3">
+${a.faq.map(([q, ans]) => `          <details><summary>${esc(q)}<i aria-hidden="true"></i></summary><p>${esc(ans)}</p></details>`).join('\n')}
         </div>
       </div>
     </section>
 
     <section class="oc-a-sec">
       <div class="oc-a-wrap">
-        <h2>Questions worth asking</h2>
-        <p class="oc-a-sec-lede">Including the ones where the honest answer is a limitation.</p>
-        <div class="oc-a-faq">
-${a.faq.map(([q, ans]) => `          <details><summary>${esc(q)}</summary><p>${esc(ans)}</p></details>`).join('\n')}
-        </div>
-      </div>
-    </section>
-
-    <section class="oc-a-sec">
-      <div class="oc-a-wrap">
-        <h2>Go deeper</h2>
-        <p class="oc-a-sec-lede">Practical guides from the Octavia editorial team.</p>
+        <span class="oc-a-label" data-r>Further reading</span>
+        <h2 data-r="1">Go deeper</h2>
+        <p class="oc-a-sec-lede" data-r="2">Practical guides from the Octavia editorial team.</p>
         <div class="oc-a-reads">
-${a.reads.map(([label, href]) => `          <a class="oc-a-read" href="${href}"><span>${esc(label)}</span><iconify-icon icon="lucide:arrow-up-right" width="16" aria-hidden="true"></iconify-icon></a>`).join('\n')}
+${a.reads.map(([label, href], i) => `          <a class="oc-a-read" href="${href}" data-r="${Math.min(i + 1, 5)}"><span>${esc(label)}</span><span class="oc-a-read-go"><iconify-icon icon="lucide:arrow-up-right" width="15" aria-hidden="true"></iconify-icon></span></a>`).join('\n')}
         </div>
       </div>
     </section>
 
     <section class="oc-a-sec">
       <div class="oc-a-wrap">
-        <h2>Who else uses Octavia</h2>
-        <p class="oc-a-sec-lede">The same engine, pointed at a different kind of work.</p>
-        <div class="oc-a-siblings">
+        <span class="oc-a-label" data-r>More audiences</span>
+        <h2 data-r="1">Who else uses Octavia</h2>
+        <p class="oc-a-sec-lede" data-r="2">The same engine, pointed at a different kind of work.</p>
+        <div class="oc-a-siblings" data-r="3">
 ${siblings}
         </div>
       </div>
@@ -454,11 +490,13 @@ ${siblings}
 
     <section class="oc-a-close">
       <div class="oc-a-wrap">
-        <h2>${esc(a.closeH2)}</h2>
-        <p>${esc(a.closeP)}</p>
-        <div class="oc-a-cta">
-          <a class="oc-a-btn oc-a-btn-primary" href="https://app.octavia.lunartech.ai/signup">Start free<iconify-icon icon="lucide:arrow-right" width="15" aria-hidden="true"></iconify-icon></a>
-          <a class="oc-a-btn oc-a-btn-ghost" href="/contact">Talk to us</a>
+        <div class="oc-a-close-panel" data-r>
+          <h2>${esc(a.closeH2)}</h2>
+          <p>${esc(a.closeP)}</p>
+          <div class="oc-a-cta">
+            <a class="oc-a-btn oc-a-btn-primary" href="https://app.octavia.lunartech.ai/signup">Start free<iconify-icon icon="lucide:arrow-right" width="15" aria-hidden="true"></iconify-icon></a>
+            <a class="oc-a-btn oc-a-btn-ghost" href="/contact">Talk to us</a>
+          </div>
         </div>
       </div>
     </section>
@@ -476,7 +514,20 @@ const footAt = src.indexOf('<footer class="oc-foot">');
 if (mainAt === -1 || footAt === -1) { console.error('Could not locate shell boundaries in the template page.'); process.exit(1); }
 
 const shellTop = src.slice(0, mainAt);
-const shellBottom = src.slice(footAt);
+
+// The shell's inline script ends by touching `.content-wait-for-load`, an element that
+// lived inside the <main> we replace — leaving an uncaught TypeError on every page.
+// Make that last line null-safe, and load the page interactions.
+const shellBottom = src
+  .slice(footAt)
+  .replace(
+    "document.querySelector('.content-wait-for-load').classList.add('content-loaded');",
+    "const waiting = document.querySelector('.content-wait-for-load'); if (waiting) waiting.classList.add('content-loaded');"
+  )
+  .replace(
+    '<script src="../assets/octavia-mobile-nav.js" defer></script>',
+    '<script src="../assets/octavia-mobile-nav.js" defer></script>\n  <script src="../assets/octavia-audience.js" defer></script>'
+  );
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
