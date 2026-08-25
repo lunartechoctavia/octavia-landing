@@ -1,0 +1,657 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Podcast Video Localization: Long-Form, Multi-Speaker, and Conversational | Octavia</title>
+    <meta name="description" content="How to localize video podcasts: multi-speaker voice assignment, conversational register, long-form economics, clip repurposing, and distribution.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/podcast-video-localization">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Podcast Video Localization: Long-Form, Multi-Speaker, and Conversational">
+    <meta property="og:description" content="How to localize video podcasts: multi-speaker voice assignment, conversational register, long-form economics, clip repurposing, and distribution.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/podcast-video-localization">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/dual-ai-dialogue.png">
+    <meta property="article:published_time" content="2026-08-20T10:50:00Z">
+    <meta property="article:modified_time" content="2026-08-20T10:50:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Podcast Video Localization: Long-Form, Multi-Speaker, and Conversational">
+    <meta name="twitter:description" content="How to localize video podcasts: multi-speaker voice assignment, conversational register, long-form economics, clip repurposing, and distribution.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/dual-ai-dialogue.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Podcast Video Localization: Long-Form, Multi-Speaker, and Conversational","description":"How to localize video podcasts: multi-speaker voice assignment, conversational register, long-form economics, clip repurposing, and distribution.","image":"https://octavia.lunartech.ai/assets/blog/images/dual-ai-dialogue.png","datePublished":"2026-08-20T10:50:00Z","dateModified":"2026-08-20T10:50:00Z","wordCount":2108,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/podcast-video-localization","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Podcast Video Localization: Long-Form, Multi-Speaker, and Conversational","item":"https://octavia.lunartech.ai/blog/podcast-video-localization"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/creator-growth">Creator Growth</a>
+        <h1 class="article-title">Podcast Video Localization: Long-Form, Multi-Speaker, and Conversational</h1><p class="article-deck">Video podcasts combine every hard problem in localization: multiple speakers, unscripted speech, long runtimes, and a format built on personality.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-20T10:50:00Z">Aug 20, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/dual-ai-dialogue.png" alt="Podcast Video Localization: Long-Form, Multi-Speaker, and Conversational" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-podcasts-are-hard">Why Podcasts Are Hard</a></li><li><a class="toc-h2" data-toc-link href="#dub-subtitle-or-both">Dub, Subtitle, or Both</a></li><li><a class="toc-h2" data-toc-link href="#multi-speaker-handling">Multi-Speaker Handling</a></li><li><a class="toc-h2" data-toc-link href="#how-much-to-clean-up">How Much to Clean Up</a></li><li><a class="toc-h2" data-toc-link href="#register-and-humor">Register and Humor</a></li><li><a class="toc-h2" data-toc-link href="#the-economics-of-long-form">The Economics of Long-Form</a></li><li><a class="toc-h2" data-toc-link href="#clips-and-repurposing">Clips and Repurposing</a></li><li><a class="toc-h2" data-toc-link href="#distribution">Distribution</a></li><li><a class="toc-h2" data-toc-link href="#audio-quality-as-the-binding-constraint">Audio Quality as the Binding Constraint</a></li><li><a class="toc-h2" data-toc-link href="#series-consistency">Series Consistency</a></li><li><a class="toc-h2" data-toc-link href="#getting-started">Getting Started</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Video podcast localization workflow"></a></p>
+<h2 id="why-podcasts-are-hard">Why Podcasts Are Hard</h2>
+<p>Video podcasts combine most of the conditions that make localization difficult, in a single format.</p>
+<p>The speech is unscripted, which means false starts, interruptions, overlapping talk, filler, and sentences that never resolve grammatically. Transcription accuracy suffers, and translation has to make decisions about how much to clean up.</p>
+<p>There are multiple speakers, often three or more with guests, which requires speaker separation, consistent voice assignment, and handling of crosstalk.</p>
+<p>Runtimes are long — frequently sixty to ninety minutes — which multiplies every per-minute cost and makes full human review economically painful.</p>
+<p>The format is built on personality. Listeners follow podcasts for the hosts, their rapport, and their voices specifically. Replacing those voices with different ones removes a substantial part of what the audience came for.</p>
+<p>And the content is often loosely structured, with digressions, running jokes, and references to prior episodes that assume shared context.</p>
+<p>None of this makes localization unworkable. It does mean that decisions which are minor in scripted content — how much to clean up, which voices to use, whether to dub at all — become central.</p>
+<h2 id="dub-subtitle-or-both">Dub, Subtitle, or Both</h2>
+<p>The format question matters more for podcasts than for most content, because the audio is the product.</p>
+<p><strong>Subtitles preserve the original voices</strong>, which preserves the rapport, the timing of interruptions, the laughter, and the vocal personality that the format is built on. For a podcast whose appeal is the hosts, this is a real argument. The cost is that viewers must read for an hour, and podcast viewing frequently happens in contexts — commuting, exercising, doing chores — where reading is impossible.</p>
+<p><strong>Dubbing makes the content consumable in the contexts where podcasts are actually consumed.</strong> A podcast that requires sustained visual attention is not a podcast anymore; it is a video. For audiences who consume the format the way it is meant to be consumed, dubbing is what makes it accessible.</p>
+<p>Voice cloning resolves most of the tension. Generating the translated audio in each host&#39;s own voice means the localized version preserves the vocal identity that the format depends on while still being listenable without watching. For personality-driven long-form content, this is the difference between a localization that works and one that feels like a different show.</p>
+<p>The practical recommendation for most video podcasts: dub with cloned voices as the primary deliverable, and provide subtitles as an accompanying track for accessibility and for viewers who prefer them.</p>
+<h2 id="multi-speaker-handling">Multi-Speaker Handling</h2>
+<p>Speaker separation is the first technical hurdle, and errors here propagate expensively.</p>
+<p>Automatic speaker diarization — determining who is speaking when — works reasonably on clean recordings with distinct voices and degrades on overlapping speech, similar-sounding speakers, and poor audio. Podcast recordings vary enormously in quality, and remote-recorded episodes with mixed microphone setups are the hardest case.</p>
+<p>Verify diarization before proceeding. A misattributed segment means the wrong voice speaks a line in the dubbed version, which is immediately obvious and requires regeneration to fix. Checking attribution against the transcript is faster than discovering the error after generating ninety minutes of audio.</p>
+<p>Voice assignment must be stable across episodes. A host whose voice changes between episode twelve and episode thirteen breaks continuity for a series audience. Record voice assignments as part of the show&#39;s configuration rather than deciding per episode.</p>
+<p>Crosstalk needs a policy. When two speakers talk over each other, the dubbed version cannot reproduce the overlap naturally — generated speech does not interrupt convincingly. The options are to serialize the overlap, losing the interruption dynamic, or to preserve one speaker and drop the other where the overlapped content is not substantive. Decide the policy in advance rather than per instance.</p>
+<p>Guests introduce a recurring decision: assign a new voice per guest, or use a small pool of voices matched by rough vocal character. With cloned voices this resolves naturally, since each guest&#39;s own voice carries across.</p>
+<h2 id="how-much-to-clean-up">How Much to Clean Up</h2>
+<p>Unscripted speech transcribed verbatim is difficult to read and awkward to hear when regenerated.</p>
+<p>Real conversation contains filler words, repetitions, abandoned sentences, and constructions that are perfectly clear when spoken with intonation and gesture but incoherent as text. Reproducing all of it faithfully produces a translated version that sounds worse than the original, because generated speech lacks the prosodic cues that made the original intelligible.</p>
+<p>The workable standard is light cleanup: remove filler and false starts, complete abandoned sentences where the intent is clear, and preserve everything substantive including hesitation that carries meaning, humor, and the informal register.</p>
+<p>What should not be cleaned up: the conversational tone itself. A podcast translated into polished written prose sounds like a documentary narration, and the audience notices that the show has become something else. The register should stay conversational even as the disfluency is removed.</p>
+<p>Where a speaker says something ambiguous or misspeaks in a way that matters, preserve the ambiguity rather than resolving it. In interview content especially, what someone actually said may matter.</p>
+<p>Brief the translation explicitly on this standard, because the default behavior of most translation processes is to produce clean, formal text.</p>
+<h2 id="register-and-humor">Register and Humor</h2>
+<p>Conversational register is harder to translate than formal register, and podcasts are almost entirely conversational.</p>
+<p>Informal speech uses idiom heavily, and idiom is what survives translation least well. A podcast translated literally becomes noticeably stiff, and the loss is concentrated in exactly the moments — jokes, asides, banter — that give the format its character.</p>
+<p>The instruction to the translation should be to preserve function over form: a joke should land as a joke, an aside should read as an aside, and an idiom should become an equivalent idiom rather than a literal rendering.</p>
+<p>Humor frequently requires substitution rather than translation. Wordplay does not transfer. A pun in the source has no equivalent in the target, and the options are to find a different joke that fits the moment, to render the meaning and accept that the humor is lost, or to note the untranslatability. For podcasts, finding an equivalent is usually right, and it is a writing task rather than a translation task.</p>
+<p>Cultural references need judgment. A reference that the source audience recognizes instantly may be meaningless in the target market. Substituting a local equivalent works for generic references; for references that are part of the content&#39;s substance, a brief clarification is better than substitution.</p>
+<p>Running jokes and callbacks to earlier episodes need consistency across the series. A recurring bit translated differently each time stops being recurring.</p>
+<h2 id="the-economics-of-long-form">The Economics of Long-Form</h2>
+<p>A ninety-minute podcast is roughly fifteen times the length of a six-minute explainer, and the cost structure is not proportional across all stages.</p>
+<p>Processing scales linearly and is cheap. Human review scales linearly and is not. This is the core economic fact of podcast localization: full review of every episode in every language is usually not affordable, and the program has to be designed around that.</p>
+<p>Practical responses:</p>
+<p><strong>Review selectively.</strong> Full review of the first few episodes in a new language establishes the terminology, voice assignments, and register. Subsequent episodes get sampled review — checking segments rather than everything — with full review reserved for episodes containing sensitive or high-stakes content.</p>
+<p><strong>Front-load the terminology.</strong> Podcasts develop their own vocabulary: recurring topics, in-jokes, names of segments, references to people the show discusses regularly. Building this glossary early means later episodes need less correction.</p>
+<p><strong>Prioritize episodes.</strong> Not every episode warrants localization. Evergreen episodes with lasting value justify the investment; news-tied episodes with a one-week shelf life usually do not. Best-performing episodes are better candidates than complete chronological coverage.</p>
+<p><strong>Consider partial localization.</strong> Localizing the best twenty episodes of a two-hundred-episode back catalog delivers most of the available value at a tenth of the cost, and it tests market response before committing further.</p>
+<h2 id="clips-and-repurposing">Clips and Repurposing</h2>
+<p>Podcasts generate short clips for social distribution, and those clips are frequently the primary discovery mechanism.</p>
+<p>Localized clips are cheap once the full episode is localized, because the translation and audio already exist. Cutting a localized clip from a localized episode is a trimming operation rather than a new localization.</p>
+<p>This inverts the usual sequence in a useful way: localizing the full episode makes every derived clip available in that language at near-zero marginal cost, which improves the economics of the full-episode localization considerably.</p>
+<p>Clips need their own treatment for the surrounding elements — burned-in captions sized for the target language, localized on-screen text, and native-language caption copy and hashtags. The audio and translation are free; the packaging is not.</p>
+<p>For programs where clips drive discovery, localizing clips first as a market test, then localizing full episodes for markets that respond, is a reasonable sequence.</p>
+<h2 id="distribution">Distribution</h2>
+<p>Video podcasts distribute across video platforms and audio podcast platforms, and localized versions need handling in both.</p>
+<p>For audio podcast distribution, separate language feeds are generally the right structure. A single feed mixing languages produces a poor subscriber experience, since subscribers receive episodes they cannot understand. Separate feeds also allow directory categorization by language, which affects discovery.</p>
+<p>For video platforms, the same account-structure question applies as for other content: separate channels per language usually distribute better, at the cost of building each audience separately.</p>
+<p>Show metadata — titles, descriptions, episode notes, and any show artwork containing text — needs localizing. Podcast discovery relies heavily on title and description matching, and untranslated metadata undermines the localization.</p>
+<p>Episode notes and links deserve attention. Notes containing references, links, and timestamps should be localized alongside the episode, and links should point to localized destinations where they exist.</p>
+<h2 id="audio-quality-as-the-binding-constraint">Audio Quality as the Binding Constraint</h2>
+<p>More than in most formats, podcast localization quality is capped by source audio quality, and this is worth assessing before planning a program.</p>
+<p>Remote-recorded podcasts vary enormously. Episodes where each participant recorded locally on a good microphone produce clean separated audio that diarizes and transcribes well. Episodes recorded through a call platform, with compression artifacts, dropouts, and shared audio channels, produce transcripts that need heavy correction and diarization that may be unreliable.</p>
+<p>Assess the catalog before committing. Run a representative sample of episodes through transcription and check the error rate. A show with consistently clean recordings can be processed at reasonable cost; a show with problematic audio may need a level of manual correction that changes the economics entirely.</p>
+<p>Where separate speaker tracks exist from the original recording, use them. Isolated tracks eliminate the diarization problem entirely and improve transcription accuracy substantially. Many podcast recording setups produce these by default and simply discard them after mixing, which is worth changing if localization is planned.</p>
+<p>For shows going forward, recording practices that improve localizability cost nothing: separate tracks per speaker, retained rather than discarded, and a consistent recording setup across episodes.</p>
+<h2 id="series-consistency">Series Consistency</h2>
+<p>Podcasts are serial, and consistency across episodes matters more than perfection within any single one.</p>
+<p>Voice assignments must be stable. Terminology must be stable. Register must be stable. A listener working through a season notices variation across episodes far more readily than they notice imperfection within one.</p>
+<p>This argues for establishing the configuration deliberately at the start — voices, glossary, cleanup standard, register — and freezing it, rather than allowing each episode to be processed with fresh decisions.</p>
+<p>It also argues for processing in batches rather than one episode at a time, since batch processing with a frozen configuration produces more consistent output than a sequence of individually handled episodes.</p>
+<p>Where a change is necessary — a better voice becomes available, a terminology decision proves wrong — apply it at a season boundary rather than mid-season, and consider whether earlier episodes need reprocessing.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>Pick one show and one language rather than starting broadly.</p>
+<p>Decide the format: dubbing with cloned voices for personality-driven shows, subtitles where preserving the original audio matters more than listenability.</p>
+<p>Verify speaker diarization quality on a representative episode before planning around it, since poor source audio may make multi-speaker handling the binding constraint.</p>
+<p>Build the show glossary from recurring vocabulary before processing a batch.</p>
+<p>Brief translation explicitly on cleanup level and register: light disfluency removal, conversational tone preserved, humor adapted rather than translated.</p>
+<p>Localize a small set of high-performing evergreen episodes, publish to a separate language feed with localized metadata, and cut clips from the localized audio for discovery.</p>
+<p>Measure completion rate and subscriber growth in the target market before scaling, and read low completion as a register or voice problem rather than a topic problem.</p>
+<p>Podcasts reward localization because the format builds durable audience relationships rather than one-off views. The programs that succeed are the ones that preserved what made the show worth following — the voices and the conversational character — rather than producing a technically accurate version of something the audience no longer recognizes.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpodcast-video-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpodcast-video-localization&amp;text=Podcast%20Video%20Localization%3A%20Long-Form%2C%20Multi-Speaker%2C%20and%20Conversational" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpodcast-video-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/creator-growth">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/multilingual-creator-economy-guide" aria-label="Read The Multilingual Creator Economy: How to Expand Your Reach, Revenue, and Impact in 2026"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="The Multilingual Creator Economy: How to Expand Your Reach, Revenue, and Impact in 2026" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">The Multilingual Creator Economy: How to Expand Your Reach, Revenue, and Impact in 2026</h2><p class="blog-card-description">The creator economy is going global, but most creators remain locked into single-language markets. This comprehensive guide shows you how to break through language barriers, prioritize the right markets, avoid expensive mistakes, and build a multilingual content strategy that actually drives revenue—all without traditional dubbing costs.</p>
+      <time class="blog-card-date" datetime="2026-08-19T10:00:00Z">Aug 19, 2026 · 18 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-dubbing-for-creators-guide" aria-label="Read AI Dubbing for Creators: How to Reach a Global Audience"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiant-globe-lines.png" alt="AI Dubbing for Creators: How to Reach a Global Audience" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Dubbing for Creators: How to Reach a Global Audience</h2><p class="blog-card-description">AI dubbing removes the language barrier that keeps quality content invisible to most of the world. This complete guide explains how video translation works, why traditional dubbing was expensive, what enterprises need, and how Octavia makes multilingual content production accessible to individual creators.</p>
+      <time class="blog-card-date" datetime="2026-08-19T09:00:00Z">Aug 19, 2026 · 31 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/sports-video-translation" aria-label="Read Sports Video Translation for Global Fanbases"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/stadium-light-rings.png" alt="Sports Video Translation for Global Fanbases" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Sports Video Translation for Global Fanbases</h2><p class="blog-card-description">A club&#39;s international fanbase is usually larger than its domestic one and served worse in every measurable way.</p>
+      <time class="blog-card-date" datetime="2026-08-25T16:00:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

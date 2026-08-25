@@ -1,0 +1,667 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Batch Video Translation: Processing a Back Catalog Without Losing Quality | Octavia</title>
+    <meta name="description" content="How to translate a video back catalog at scale: prioritization, glossary reuse, parallel review, quality sampling, and avoiding compounding errors.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/video-translation-batch-workflow">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Batch Video Translation: Processing a Back Catalog Without Losing Quality">
+    <meta property="og:description" content="How to translate a video back catalog at scale: prioritization, glossary reuse, parallel review, quality sampling, and avoiding compounding errors.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/video-translation-batch-workflow">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/grid-of-glass-blocks.png">
+    <meta property="article:published_time" content="2026-08-20T10:35:00Z">
+    <meta property="article:modified_time" content="2026-08-20T10:35:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Batch Video Translation: Processing a Back Catalog Without Losing Quality">
+    <meta name="twitter:description" content="How to translate a video back catalog at scale: prioritization, glossary reuse, parallel review, quality sampling, and avoiding compounding errors.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/grid-of-glass-blocks.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Batch Video Translation: Processing a Back Catalog Without Losing Quality","description":"How to translate a video back catalog at scale: prioritization, glossary reuse, parallel review, quality sampling, and avoiding compounding errors.","image":"https://octavia.lunartech.ai/assets/blog/images/grid-of-glass-blocks.png","datePublished":"2026-08-20T10:35:00Z","dateModified":"2026-08-20T10:35:00Z","wordCount":2108,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/video-translation-batch-workflow","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Batch Video Translation: Processing a Back Catalog Without Losing Quality","item":"https://octavia.lunartech.ai/blog/video-translation-batch-workflow"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/localization">Localization</a>
+        <h1 class="article-title">Batch Video Translation: Processing a Back Catalog Without Losing Quality</h1><p class="article-deck">Translating one video teaches you the process. Translating two hundred teaches you that the process was the easy part and consistency is the real problem.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-20T10:35:00Z">Aug 20, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/grid-of-glass-blocks.png" alt="Batch Video Translation: Processing a Back Catalog Without Losing Quality" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-changes-at-volume">What Changes at Volume</a></li><li><a class="toc-h2" data-toc-link href="#prioritization-before-processing">Prioritization Before Processing</a></li><li><a class="toc-h2" data-toc-link href="#the-glossary-is-the-central-artifact">The Glossary Is the Central Artifact</a></li><li><a class="toc-h2" data-toc-link href="#review-that-scales">Review That Scales</a></li><li><a class="toc-h2" data-toc-link href="#batch-structure">Batch Structure</a></li><li><a class="toc-h2" data-toc-link href="#voice-and-audio-consistency">Voice and Audio Consistency</a></li><li><a class="toc-h2" data-toc-link href="#handling-errors-found-late">Handling Errors Found Late</a></li><li><a class="toc-h2" data-toc-link href="#automation-and-integration">Automation and Integration</a></li><li><a class="toc-h2" data-toc-link href="#measuring-the-program">Measuring the Program</a></li><li><a class="toc-h2" data-toc-link href="#staffing-and-roles">Staffing and Roles</a></li><li><a class="toc-h2" data-toc-link href="#publishing-and-rollout">Publishing and Rollout</a></li><li><a class="toc-h2" data-toc-link href="#starting-a-batch-program">Starting a Batch Program</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Batch video translation workflow at scale"></a></p>
+<h2 id="what-changes-at-volume">What Changes at Volume</h2>
+<p>Translating a single video is a project. Translating two hundred is an operation, and the difference is not merely one of scale.</p>
+<p>At single-video scale, quality is achieved by attention. Someone reviews the whole thing, catches the problems, and fixes them. This does not scale: at two hundred videos, nobody reviews everything, and quality has to come from process rather than from attention.</p>
+<p>Three specific things change.</p>
+<p><strong>Consistency becomes the dominant quality risk.</strong> In one video, a terminology choice is either right or wrong. Across two hundred, the same term rendered three different ways is a visible defect that no individual video contains.</p>
+<p><strong>Errors compound rather than staying local.</strong> A wrong glossary entry applied across a batch produces two hundred instances of the same error, and correcting it means reprocessing everything that used it.</p>
+<p><strong>Review capacity becomes the binding constraint.</strong> Machine processing scales nearly linearly with cost. Human review does not. The review budget, not the processing budget, determines how much can be done.</p>
+<p>A batch workflow is built around these three facts.</p>
+<h2 id="prioritization-before-processing">Prioritization Before Processing</h2>
+<p>The instinct with a back catalog is to start at the beginning and work forward. This is almost always wrong.</p>
+<p>Rank by expected value rather than by chronology. The inputs that matter:</p>
+<p><strong>Source performance.</strong> Content that performed well in the source language has demonstrated that its premise works. Localizing proven content is a better bet than localizing everything uniformly.</p>
+<p><strong>Durability.</strong> Content that will remain accurate for years justifies investment. Content tied to a product version, a campaign, or a moment does not.</p>
+<p><strong>Transferability.</strong> Content built on universally legible material — demonstration, explanation, process — transfers well. Content built on market-specific references, wordplay, or local context transfers poorly regardless of translation quality.</p>
+<p><strong>Search demand in the target market.</strong> Some topics have substantial existing demand in the target language with thin supply. These are the highest-return items and are frequently not the same as the top performers in the source market.</p>
+<p><strong>Strategic need.</strong> Some content must be localized for reasons other than performance — compliance obligations, market entry requirements, or support for a specific launch.</p>
+<p>Score the catalog on these dimensions and process in ranked order. This means the first fifty videos processed deliver most of the available value, which matters because programs frequently stop before completing a catalog.</p>
+<p>Explicitly exclude content that should not be localized. A back catalog usually contains material that is outdated, superseded, or unsuitable, and processing it wastes budget and creates maintenance obligations.</p>
+<h2 id="the-glossary-is-the-central-artifact">The Glossary Is the Central Artifact</h2>
+<p>At batch scale, the terminology base does more work than any other single element.</p>
+<p>It should be built before processing begins, not accumulated during it. A glossary developed reactively — adding terms as reviewers flag them — means early batches use different terminology than later ones, and the inconsistency is permanent unless early work is reprocessed.</p>
+<p>Building it upfront means extracting terminology from the source catalog systematically: running the corpus through term extraction, reviewing the candidate list, and making decisions before the first video is translated.</p>
+<p>The glossary should record, per term: the source form, the approved target form for each language, whether it stays untranslated, forbidden alternatives with reasons, and any pronunciation guidance for audio generation.</p>
+<p>Validation matters more than completeness. A glossary with two hundred validated entries is more valuable than one with a thousand unvalidated ones, because unvalidated entries applied across a batch propagate errors at scale.</p>
+<p>Version the glossary and record which version each batch used. When a term changes, this tells you exactly which content needs reprocessing.</p>
+<p>Freeze it during a batch. Changing terminology mid-batch produces exactly the inconsistency the glossary exists to prevent. Collect proposed changes, apply them at a batch boundary, and reprocess earlier content if the change is significant.</p>
+<h2 id="review-that-scales">Review That Scales</h2>
+<p>Full review of every asset is not achievable at volume, and pretending otherwise produces either a stalled program or review that is nominal rather than real.</p>
+<p>The workable approach is tiered.</p>
+<p><strong>Full review</strong> for a defined subset: the highest-value content, anything with compliance implications, and the first several items in any new language. These get complete review by a native speaker.</p>
+<p><strong>Sampled review</strong> for the bulk. Review a percentage of each batch fully, chosen randomly rather than by convenience. The sample tells you the error rate of the batch. If the sample is clean, the batch is probably acceptable. If the sample has problems, the batch needs broader review — and the specific problems found usually indicate a systematic cause worth fixing at the source.</p>
+<p><strong>Targeted checks</strong> across everything. Some checks are cheap enough to run on every asset: glossary term presence and consistency, subtitle timing and reading speed limits, encoding validity, duration comparison against source, and audio level consistency. These are largely mechanical and catch a meaningful class of errors without human review.</p>
+<p><strong>Escalation triggers.</strong> Define conditions that force full review regardless of sampling: unusually large duration deviation from source, glossary terms missing, or reviewer-flagged issues in adjacent content.</p>
+<p>The sampling rate should respond to observed quality. Start higher, reduce it as the process demonstrates reliability, and raise it again after any change to glossary, voice, or pipeline.</p>
+<h2 id="batch-structure">Batch Structure</h2>
+<p>How work is grouped affects both efficiency and quality.</p>
+<p><strong>Group by content type rather than by date.</strong> Videos of the same type share terminology, register, and structure, which makes review faster and more consistent. A reviewer working through fifteen product demos builds context that carries across all of them; the same reviewer alternating between demos, interviews, and marketing content restarts each time.</p>
+<p><strong>Keep batches to a reviewable size.</strong> A batch should be small enough that its sample review completes within a reasonable window, so that problems are caught before the next batch is processed. Very large batches mean errors propagate further before detection.</p>
+<p><strong>Process one language fully before adding the next</strong>, at least initially. The first language surfaces process problems, and fixing them once is cheaper than fixing them across three languages simultaneously. Once the process is stable, parallel language processing is efficient.</p>
+<p><strong>Sequence within a batch by dependency.</strong> Where content forms a series — a course, a multi-part explainer — process it in order and review the first item carefully, because decisions made there propagate through the rest.</p>
+<h2 id="voice-and-audio-consistency">Voice and Audio Consistency</h2>
+<p>Audio consistency across a batch requires explicit control.</p>
+<p>Use the same voice for the same speaker across the entire catalog. A series where the narrator&#39;s voice changes between videos reads as inconsistent even when each individual video is fine. Record the voice assignment alongside the glossary.</p>
+<p>Where the source features a recurring on-screen presenter, voice cloning keeps their identity stable across every localized video in the catalog, which matters more at batch scale than for a single asset — the consistency is what makes a library feel coherent.</p>
+<p>Normalize audio levels to a consistent target across the batch rather than per video. Viewers moving between videos in a library notice level differences immediately.</p>
+<p>Lock pronunciation overrides in the glossary so that a proper noun corrected in the first video stays correct in the two-hundredth, rather than being re-discovered repeatedly.</p>
+<h2 id="handling-errors-found-late">Handling Errors Found Late</h2>
+<p>At volume, some errors will be found after publication. The response process matters.</p>
+<p>Assess scope first. An error in a single video is a single fix. An error originating in the glossary affects everything that used the affected term, and the fix is a reprocessing job.</p>
+<p>Maintain the records that make scope assessment possible: which glossary version each asset used, which voice, which pipeline configuration. Without this, determining what is affected requires inspecting everything.</p>
+<p>Prefer segment-level correction over full reprocessing. If the segmented script and timing data are archived, correcting a term and regenerating only affected segments is far cheaper than regenerating whole videos.</p>
+<p>Prioritize corrections by exposure and severity rather than fixing chronologically. A terminology error in the highest-traffic video matters more than the same error in an asset nobody watches.</p>
+<p>Feed every found error back into the checks. If an error class escaped the process, the process should be adjusted so the next batch catches it.</p>
+<h2 id="automation-and-integration">Automation and Integration</h2>
+<p>Manual handling is the practical ceiling on batch throughput.</p>
+<p>At meaningful volume, submitting source files, retrieving outputs, and pushing results into a content system through an <a href="https://octavia.lunartech.ai">API</a> removes the coordination work that otherwise consumes a full-time role. The processing itself is not the bottleneck; the file shuffling is.</p>
+<p>Automate the mechanical checks — encoding, timing, reading speed, glossary presence, duration deviation — as a gate before human review, so that reviewers spend their time on judgment rather than on catching mechanical faults.</p>
+<p>Automate the record keeping. Which asset used which glossary version, which voice, and which source version should be recorded by the pipeline rather than maintained by hand, because hand-maintained records at volume are unreliable exactly when they matter.</p>
+<h2 id="measuring-the-program">Measuring the Program</h2>
+<p>Track throughput, quality, and outcome separately.</p>
+<p><strong>Throughput</strong>: assets completed per week, and cycle time from submission to publication. Rising cycle time usually indicates a review bottleneck.</p>
+<p><strong>Quality</strong>: error rate found in sampled review, and errors found after publication. The gap between the two measures how well the sampling is working.</p>
+<p><strong>Outcome</strong>: performance of localized assets relative to source, engagement in target markets, and whatever the program&#39;s actual goal is — support deflection, activation, reach, or revenue.</p>
+<p>The outcome measure is what justifies continuing, and it should be established before the batch starts rather than reconstructed afterward.</p>
+<h2 id="staffing-and-roles">Staffing and Roles</h2>
+<p>Batch programs fail on people more often than on tooling, and the roles that matter are specific.</p>
+<p><strong>A single owner</strong> for the program, accountable for throughput, quality, and the terminology base. Distributed ownership across teams produces inconsistent terminology and no clear accountability when a batch goes wrong.</p>
+<p><strong>Named reviewers per language</strong>, secured in advance with their managers&#39; agreement that review time is part of their workload. The most common cause of stalled batches is scrambling to find someone available to review, and that scramble repeats every batch unless the arrangement is standing.</p>
+<p><strong>A terminology owner per language</strong>, who decides contested term questions rather than leaving each reviewer to decide independently.</p>
+<p><strong>A coordinator</strong> for the mechanical work — submission, retrieval, record keeping, publication — unless that work is automated. At volume this is a real role, and expecting it to be absorbed alongside other duties is how cycle time inflates.</p>
+<p>Reviewer capacity should be planned as the constraint it is. Calculate realistic review hours available per week per language, and size batches to fit rather than sizing them to processing capacity and discovering the queue backing up.</p>
+<p>Rotate reviewers carefully. A new reviewer will disagree with established terminology decisions, which is valuable once and disruptive repeatedly. Onboard them with the glossary and the reasoning behind contested choices.</p>
+<h2 id="publishing-and-rollout">Publishing and Rollout</h2>
+<p>Getting content processed is not the same as getting it live, and the publication step is frequently underplanned.</p>
+<p>Decide whether to publish continuously as items complete, or in coordinated releases. Continuous publication gets value earlier and spreads risk. Coordinated release is better where the content forms a set that should appear together, such as a course or a launch.</p>
+<p>Localized content should be surfaced automatically to viewers in the relevant language rather than requiring them to find it. A library where the localized version exists but is hard to reach captures a fraction of the available value.</p>
+<p>Metadata needs localizing alongside the video, and it is the step most often skipped in batch work. Titles, descriptions, and tags left in the source language undermine discovery in exactly the market the localization targeted.</p>
+<p>Plan the announcement. Content that appears silently in a market with no existing audience may not be discovered at all, particularly on platforms where distribution favors accounts with established engagement.</p>
+<h2 id="starting-a-batch-program">Starting a Batch Program</h2>
+<p>Score and rank the catalog, and explicitly exclude what should not be localized.</p>
+<p>Build and validate the glossary before processing anything.</p>
+<p>Run a pilot batch of ten to fifteen items in one language with full review, to surface process problems and calibrate expectations.</p>
+<p>Fix what the pilot reveals, freeze the glossary, and scale into ranked batches with sampled review and automated mechanical checks.</p>
+<p>Record configuration per asset so that later corrections can be scoped.</p>
+<p>Add languages once the process is stable rather than in parallel with process development.</p>
+<p>The programs that complete large catalogs are rarely the ones with the most resources. They are the ones that front-loaded the terminology work, accepted sampled review instead of pretending to review everything, and built enough record keeping that a late-discovered error is a scoped fix rather than an unbounded one.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-batch-workflow" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-batch-workflow&amp;text=Batch%20Video%20Translation%3A%20Processing%20a%20Back%20Catalog%20Without%20Losing%20Quality" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-translation-batch-workflow" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/localization">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/choosing-languages-to-localize" aria-label="Read Choosing Which Languages to Localize Into: A Decision Framework"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="Choosing Which Languages to Localize Into: A Decision Framework" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Choosing Which Languages to Localize Into: A Decision Framework</h2><p class="blog-card-description">Speaker count is the worst available basis for choosing target languages, and it is the one most programs use.</p>
+      <time class="blog-card-date" datetime="2026-08-20T14:00:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/sermon-translation-for-congregations" aria-label="Read Sermon Translation for Multilingual Congregations"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Sermon Translation for Multilingual Congregations" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Sermon Translation for Multilingual Congregations</h2><p class="blog-card-description">Most congregations discover they are multilingual long before their communication does.</p>
+      <time class="blog-card-date" datetime="2026-08-25T20:30:00Z">Aug 25, 2026 · 9 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/museum-audio-guide-translation" aria-label="Read Museum Audio Guide Translation with AI Voice"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gallery-glass-plinths.png" alt="Museum Audio Guide Translation with AI Voice" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Museum Audio Guide Translation with AI Voice</h2><p class="blog-card-description">A museum that welcomes the world in forty languages and speaks in three has made a decision it probably never discussed.</p>
+      <time class="blog-card-date" datetime="2026-08-25T17:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

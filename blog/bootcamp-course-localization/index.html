@@ -1,0 +1,662 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Bootcamp and Certification Course Localization | Octavia</title>
+    <meta name="description" content="How bootcamps localize cohort-based technical training: code-heavy content, exam alignment, cohort cadence, and credential portability.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/bootcamp-course-localization">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Bootcamp and Certification Course Localization">
+    <meta property="og:description" content="How bootcamps localize cohort-based technical training: code-heavy content, exam alignment, cohort cadence, and credential portability.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/bootcamp-course-localization">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/cohort-glass-risers.png">
+    <meta property="article:published_time" content="2026-08-25T14:00:00Z">
+    <meta property="article:modified_time" content="2026-08-25T14:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bootcamp and Certification Course Localization">
+    <meta name="twitter:description" content="How bootcamps localize cohort-based technical training: code-heavy content, exam alignment, cohort cadence, and credential portability.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/cohort-glass-risers.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Bootcamp and Certification Course Localization","description":"How bootcamps localize cohort-based technical training: code-heavy content, exam alignment, cohort cadence, and credential portability.","image":"https://octavia.lunartech.ai/assets/blog/images/cohort-glass-risers.png","datePublished":"2026-08-25T14:00:00Z","dateModified":"2026-08-25T14:00:00Z","wordCount":2233,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/bootcamp-course-localization","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Bootcamp and Certification Course Localization","item":"https://octavia.lunartech.ai/blog/bootcamp-course-localization"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/localization">Localization</a>
+        <h1 class="article-title">Bootcamp and Certification Course Localization</h1><p class="article-deck">Technical training has a vocabulary problem that ordinary translation makes worse, not better.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-25T14:00:00Z">Aug 25, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/cohort-glass-risers.png" alt="Bootcamp and Certification Course Localization" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-technical-training-localizes-differently">Why Technical Training Localizes Differently</a></li><li><a class="toc-h2" data-toc-link href="#the-translate-preserve-boundary">The Translate/Preserve Boundary</a></li><li><a class="toc-h2" data-toc-link href="#code-on-screen">Code on Screen</a></li><li><a class="toc-h2" data-toc-link href="#exam-and-credential-alignment">Exam and Credential Alignment</a></li><li><a class="toc-h2" data-toc-link href="#cohort-cadence-and-content-freshness">Cohort Cadence and Content Freshness</a></li><li><a class="toc-h2" data-toc-link href="#live-sessions-office-hours-and-community">Live Sessions, Office Hours, and Community</a></li><li><a class="toc-h2" data-toc-link href="#assessment-and-integrity">Assessment and Integrity</a></li><li><a class="toc-h2" data-toc-link href="#where-to-start">Where to Start</a></li><li><a class="toc-h2" data-toc-link href="#instructor-and-mentor-preparation">Instructor and Mentor Preparation</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Students working through a technical training session"></a></p>
+<h2 id="why-technical-training-localizes-differently">Why Technical Training Localizes Differently</h2>
+<p>Course localization advice usually assumes the content is conceptual — history, management theory, soft skills — where translating the language translates the meaning.</p>
+<p>Technical and vocational training does not work that way. A cloud certification course, a data engineering bootcamp, a network security programme, or a clinical coding certificate is built around a vocabulary that is itself part of the skill. The learner is not only acquiring concepts; they are acquiring the terms they will need to read documentation, search for errors, pass an exam, and talk to colleagues.</p>
+<p>That creates a genuine tension. Translating everything makes the content comprehensible but leaves the learner unable to function in the actual professional environment, where the tooling, the documentation, and the error messages are overwhelmingly in the source language. Translating nothing leaves the explanation inaccessible.</p>
+<p>Resolving that tension deliberately is the central design decision in bootcamp localization, and it is the one most providers get wrong by defaulting to whatever the translation system does automatically.</p>
+<h2 id="the-translate-preserve-boundary">The Translate/Preserve Boundary</h2>
+<p>The workable principle: translate the explanation, preserve the artefact.</p>
+<p><strong>Always preserve, untranslated:</strong></p>
+<ul><li>Code, in every form — syntax, keywords, function and variable names, library names.</li><li>Command-line commands, flags, and file paths.</li><li>Error messages, exactly as the learner will encounter them.</li><li>Configuration keys, environment variable names, and API endpoints.</li><li>Product, service, and tool names.</li><li>Interface labels where the tool is not localized in that market.</li><li>Exam objective titles where the certification body publishes them in one language.</li><li>Industry acronyms that function as proper nouns in professional usage.</li></ul>
+<p><strong>Always translate:</strong></p>
+<ul><li>The conceptual explanation of what something does and why.</li><li>Analogies, examples, and reasoning.</li><li>Instructions about what the learner should do and observe.</li><li>Assessment questions testing understanding rather than recall of terminology.</li><li>Troubleshooting narrative and guidance.</li></ul>
+<p><strong>Translate with the source term retained alongside:</strong></p>
+<ul><li>The first introduction of any technical term the learner will meet professionally. Give the concept in their language and the term in the source language, then use the source term consistently.</li></ul>
+<p>That last pattern is the one that makes technical localization actually work. The learner understands the idea and simultaneously acquires the term they will need in the field. Providers that translate technical vocabulary wholesale produce graduates who understood the course and cannot read the documentation.</p>
+<p>Enforcing this requires a locked custom vocabulary listing every term that must pass through untranslated. Without it, an automated pass will translate function names and error strings into fluent nonsense, and the failure will be systematic across the whole library.</p>
+<h2 id="code-on-screen">Code on Screen</h2>
+<p>Bootcamp video is dominated by screen recordings of code, terminals, and tooling. This constrains localization in ways that conceptual course content does not.</p>
+<p><strong>The screen content cannot change.</strong> Whatever is on screen stays on screen. If the narration says one thing and the terminal shows another, the learner is lost. So the narration must describe what is genuinely visible, in the source language, while explaining it in the target language.</p>
+<p><strong>Reading pace has to accommodate the visual.</strong> Learners are reading code while listening. Narration that races ahead of what they can visually parse is far more damaging in technical content than in conceptual content. Timing that keeps speech at a natural pace rather than compressing it to match the original duration matters here specifically.</p>
+<p><strong>Pointing language must stay accurate.</strong> Phrases like &quot;on line twelve,&quot; &quot;the third argument,&quot; &quot;the highlighted block&quot; refer to visible things. These translate fine, but numeric references need verification — a translation that renders a line number incorrectly is uniquely confusing.</p>
+<p><strong>Terminal output should be subtitled rather than narrated over.</strong> Where the instructor reads output aloud, the localized version benefits from the output also being available as text the learner can pause on.</p>
+<p>A practical consequence: bootcamp content localizes better when the instructor was recorded describing what they are doing rather than reading a script. Descriptive narration maps cleanly onto a fixed visual. Scripted narration that assumes precise timing against screen events breaks when the target-language duration differs.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Developer working with code on multiple monitors"></a></p>
+<h2 id="exam-and-credential-alignment">Exam and Credential Alignment</h2>
+<p>Certification programmes carry a constraint that general courses do not: the assessment is often owned by someone else and delivered in a fixed set of languages.</p>
+<p>This has to be checked before localizing, because it determines what the localized course is actually for.</p>
+<p><strong>Where the exam exists in the target language,</strong> align terminology to the certification body&#39;s published translated objectives exactly. Learners who studied with different vocabulary than the exam uses will underperform for reasons that have nothing to do with their understanding. The exam vocabulary is authoritative and should be loaded as locked terminology.</p>
+<p><strong>Where the exam exists only in the source language,</strong> the localized course must explicitly prepare learners to sit an exam in a language other than the one they studied in. This changes the design: source-language terminology retention becomes essential rather than merely advisable, practice questions should be presented in the exam language, and the course should say clearly what language the exam is in.</p>
+<p><strong>Where the credential has regional variants,</strong> the differences must be handled as content, not as translation. Regulatory, legal, and compliance modules frequently differ materially by jurisdiction, and translating the source-market version produces content that is accurate as language and wrong as instruction.</p>
+<p>Providers sometimes discover the mismatch after launch, when a cohort underperforms on an exam. Checking the certification body&#39;s language provision at scoping time is a five-minute task that prevents it.</p>
+<h2 id="cohort-cadence-and-content-freshness">Cohort Cadence and Content Freshness</h2>
+<p>Bootcamps are cohort-based, which creates a rhythm that shapes the localization workflow.</p>
+<p>Content updates land between cohorts, not continuously. That is an advantage: there is a natural batch boundary. But it also means a localized cohort running one version behind is a real risk, particularly in fast-moving technical domains where a tool&#39;s interface may have changed since the source recording.</p>
+<p>Practices that keep this manageable:</p>
+<p><strong>Version-lock each cohort.</strong> A cohort runs on a stated content version in every language. Mid-cohort updates are avoided except for corrections.</p>
+<p><strong>Segment content by volatility.</strong> Fundamentals change slowly; tooling walkthroughs change quickly. Building modules so that the volatile parts are discrete clips means a tooling change re-localizes one segment rather than a whole module.</p>
+<p><strong>Localize the stable core deeply and the volatile edge lightly.</strong> Full dubbed treatment for conceptual foundations, subtitles for tool-specific walkthroughs that will be re-recorded within two cohorts anyway.</p>
+<p><strong>Batch at the cohort boundary.</strong> Process all language versions of an update together, which is exactly the workload profile that batch processing handles efficiently.</p>
+<p><strong>Give localized cohorts a content-version indicator</strong> so instructors and learners can tell whether a discrepancy is a translation issue or a version lag.</p>
+<h2 id="live-sessions-office-hours-and-community">Live Sessions, Office Hours, and Community</h2>
+<p>Cohort programmes are not only recorded content. They include live instruction, office hours, peer support, and mentorship — and this is where localization gets genuinely difficult, because it is a staffing question rather than a content question.</p>
+<p>Honest options, in ascending order of cost:</p>
+<p><strong>Recorded content localized, live sessions in the source language with subtitled recordings.</strong> Cheapest and most common. Works when learners have functional receptive ability in the source language even if they prefer to learn in their own.</p>
+<p><strong>Localized content plus a local-language teaching assistant</strong> for office hours and asynchronous support. Substantially better learner outcomes, moderate cost, and it usually resolves the bulk of the drop-off risk.</p>
+<p><strong>Fully localized cohort with a local instructor.</strong> Best outcomes, highest cost, and it requires enough demand in the market to fill cohorts.</p>
+<p>The middle option is where most providers should land. The evidence from cohort programmes is consistent: learners disengage when they cannot ask a question and be understood, more than when the recorded content is imperfect. Investing in local-language support while running localized recordings usually beats investing in a perfect dub with no local support.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Online learning session with participants on video call"></a></p>
+<h2 id="assessment-and-integrity">Assessment and Integrity</h2>
+<p>Localized assessment needs care beyond translation.</p>
+<p>Questions testing conceptual understanding translate normally. Questions testing terminology recall may become trivially easy or impossible depending on whether the term was translated. Questions containing code should keep the code untranslated and translate only the surrounding prose. Questions with culturally specific scenarios — business contexts, regulatory situations, named example organisations — may need substitution rather than translation to remain meaningful.</p>
+<p>Two further points that are easy to miss. Distractors in multiple-choice questions are carefully constructed to be plausibly wrong; translation can accidentally make a distractor obviously wrong or accidentally correct, which invalidates the item. And question difficulty should be re-validated per language rather than assumed to carry over, because reading load differs across languages and a time-limited assessment may become materially harder in a language with longer text.</p>
+<p>Providers running certification-aligned assessments should treat localized item banks as requiring the same psychometric review as the original, not as a translation deliverable.</p>
+<h2 id="where-to-start">Where to Start</h2>
+<p>Localize one complete module, not a sample of many. A learner can evaluate a coherent module; they cannot evaluate fragments.</p>
+<p>Choose the module with the highest drop-off in your existing cohorts, because that is where comprehension friction is most likely to be the cause and where improvement will be most visible.</p>
+<p>Build the terminology asset during that first module and treat it as the primary deliverable — it is what makes every subsequent module fast.</p>
+<p>Run one cohort with the localized module and a local-language teaching assistant, and measure completion and assessment performance against your source-language baseline.</p>
+<p>Expand on the basis of that data rather than on the basis of which markets seem promising. Cohort programmes give you unusually clean evidence about whether localization is working, and it is worth actually collecting it.</p>
+<h2 id="instructor-and-mentor-preparation">Instructor and Mentor Preparation</h2>
+<p>Localized cohorts change what instructors and mentors need to be able to do, and programmes rarely prepare them for it.</p>
+<p>An instructor teaching a localized cohort is working with learners who studied recorded material in one language and may need to discuss it in another, using technical vocabulary that was deliberately retained in the source language. That is a genuinely different teaching situation, and instructors who have not been briefed on the terminology policy will inadvertently undermine it by translating terms the materials deliberately preserved.</p>
+<p>Preparation that makes the difference:</p>
+<p><strong>Brief instructors on the translate-preserve boundary explicitly.</strong> They need to know which vocabulary is intentionally kept in the source language and why, so they reinforce it rather than working against it.</p>
+<p><strong>Give mentors the glossary</strong>, not just the course materials. Much of the terminology work happens in one-to-one support conversations.</p>
+<p><strong>Prepare them for assessment-language mismatch.</strong> Where the exam is in a different language from the course, instructors need to know that and to coach for it deliberately.</p>
+<p><strong>Set expectations about pace.</strong> Discussion in a mixed-language cohort runs slower, and instructors working to a fixed syllabus will otherwise compress the interactive portions, which are exactly the parts that carry the most value for these learners.</p>
+<p><strong>Create a feedback route into the terminology asset.</strong> Instructors and mentors hear every point of confusion, and that signal is the cheapest available source of glossary improvements.</p>
+<p>Programmes that prepare their teaching staff see materially better completion in localized cohorts than those that localize only the recordings.</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Should technical terms be translated or kept in the source language?</strong></p>
+<p>Keep them in the source language, and translate the explanation around them. Introduce each term with a target-language description on first use, then use the source term consistently thereafter. Learners need the source-language vocabulary to read documentation, search for errors, and work professionally. A locked custom vocabulary is what makes this consistent rather than left to chance on each pass.</p>
+<p><strong>What happens to code and error messages in a localized video?</strong></p>
+<p>They stay exactly as they are. Code, commands, file paths, configuration keys, and error strings must pass through untranslated so they match what the learner sees on screen and will encounter in practice. This requires explicit terminology configuration; an unconstrained translation pass will render them as prose.</p>
+<p><strong>Does the certification exam need to be in the same language as the course?</strong></p>
+<p>Not necessarily, but you must know which it is and design accordingly. If the exam is source-language only, the course should retain source terminology heavily, present practice questions in the exam language, and tell learners clearly what to expect. If the exam exists in the target language, align your terminology to the certification body&#39;s published objectives exactly.</p>
+<p><strong>Is dubbed content enough, or do we need local instructors?</strong></p>
+<p>Localized recordings plus a local-language teaching assistant for office hours and asynchronous support is the configuration that delivers most of the outcome benefit at moderate cost. Learners disengage primarily when they cannot ask a question and be understood, which recordings alone do not solve regardless of dub quality.</p>
+<p><strong>How do we keep localized cohorts from falling behind on content updates?</strong></p>
+<p>Version-lock each cohort, segment modules so volatile tooling content is separable from stable fundamentals, batch all language updates at the cohort boundary, and surface the content version to instructors and learners so version lag is distinguishable from translation error.</p>
+<hr>
+<p>Related reading: <a href="/blog/course-translation-software-guide">Course Translation Software Guide</a> | <a href="/blog/elearning-translation-guide">eLearning Translation Guide</a> | <a href="/blog/university-lecture-translation">University Lecture Translation</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fbootcamp-course-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fbootcamp-course-localization&amp;text=Bootcamp%20and%20Certification%20Course%20Localization" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fbootcamp-course-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/localization">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/choosing-languages-to-localize" aria-label="Read Choosing Which Languages to Localize Into: A Decision Framework"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="Choosing Which Languages to Localize Into: A Decision Framework" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Choosing Which Languages to Localize Into: A Decision Framework</h2><p class="blog-card-description">Speaker count is the worst available basis for choosing target languages, and it is the one most programs use.</p>
+      <time class="blog-card-date" datetime="2026-08-20T14:00:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/sermon-translation-for-congregations" aria-label="Read Sermon Translation for Multilingual Congregations"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Sermon Translation for Multilingual Congregations" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Sermon Translation for Multilingual Congregations</h2><p class="blog-card-description">Most congregations discover they are multilingual long before their communication does.</p>
+      <time class="blog-card-date" datetime="2026-08-25T20:30:00Z">Aug 25, 2026 · 9 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/museum-audio-guide-translation" aria-label="Read Museum Audio Guide Translation with AI Voice"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gallery-glass-plinths.png" alt="Museum Audio Guide Translation with AI Voice" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Museum Audio Guide Translation with AI Voice</h2><p class="blog-card-description">A museum that welcomes the world in forty languages and speaks in three has made a decision it probably never discussed.</p>
+      <time class="blog-card-date" datetime="2026-08-25T17:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

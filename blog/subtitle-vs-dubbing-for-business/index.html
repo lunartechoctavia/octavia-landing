@@ -1,0 +1,651 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Subtitles vs Dubbing for Business Video: How to Choose | Octavia</title>
+    <meta name="description" content="A decision framework for enterprise teams: when subtitles serve business video better, when dubbing is worth the investment, and how to build a hybrid workflow.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/subtitle-vs-dubbing-for-business">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Subtitles vs Dubbing for Business Video: How to Choose">
+    <meta property="og:description" content="A decision framework for enterprise teams: when subtitles serve business video better, when dubbing is worth the investment, and how to build a hybrid workflow.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/subtitle-vs-dubbing-for-business">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/split-light-comparison.png">
+    <meta property="article:published_time" content="2026-08-21T09:00:00Z">
+    <meta property="article:modified_time" content="2026-08-21T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Subtitles vs Dubbing for Business Video: How to Choose">
+    <meta name="twitter:description" content="A decision framework for enterprise teams: when subtitles serve business video better, when dubbing is worth the investment, and how to build a hybrid workflow.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/split-light-comparison.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Subtitles vs Dubbing for Business Video: How to Choose","description":"A decision framework for enterprise teams: when subtitles serve business video better, when dubbing is worth the investment, and how to build a hybrid workflow.","image":"https://octavia.lunartech.ai/assets/blog/images/split-light-comparison.png","datePublished":"2026-08-21T09:00:00Z","dateModified":"2026-08-21T09:00:00Z","wordCount":2413,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/subtitle-vs-dubbing-for-business","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Subtitles vs Dubbing for Business Video: How to Choose","item":"https://octavia.lunartech.ai/blog/subtitle-vs-dubbing-for-business"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">Subtitles vs Dubbing for Business Video: How to Choose</h1><p class="article-deck">Subtitles and dubbing solve the same problem differently. This framework helps enterprise teams decide which approach fits each content type, audience, and budget.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-21T09:00:00Z">Aug 21, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/split-light-comparison.png" alt="Subtitles vs Dubbing for Business Video: How to Choose" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-localization-decision">The Localization Decision</a></li><li><a class="toc-h2" data-toc-link href="#a-decision-framework">A Decision Framework</a></li><li><a class="toc-h2" data-toc-link href="#when-subtitles-serve-business-needs-better">When Subtitles Serve Business Needs Better</a></li><li><a class="toc-h3" data-toc-link href="#compliance-and-regulatory-content">Compliance and Regulatory Content</a></li><li><a class="toc-h3" data-toc-link href="#technical-training-and-instructional-content">Technical Training and Instructional Content</a></li><li><a class="toc-h3" data-toc-link href="#accessibility-and-multi-language-scale">Accessibility and Multi-Language Scale</a></li><li><a class="toc-h2" data-toc-link href="#when-dubbing-serves-business-needs-better">When Dubbing Serves Business Needs Better</a></li><li><a class="toc-h3" data-toc-link href="#executive-and-leadership-communications">Executive and Leadership Communications</a></li><li><a class="toc-h3" data-toc-link href="#customer-facing-marketing-video">Customer-Facing Marketing Video</a></li><li><a class="toc-h3" data-toc-link href="#mobile-and-ambient-viewing-contexts">Mobile and Ambient Viewing Contexts</a></li><li><a class="toc-h2" data-toc-link href="#the-hybrid-approach">The Hybrid Approach</a></li><li><a class="toc-h2" data-toc-link href="#platform-and-distribution-requirements">Platform and Distribution Requirements</a></li><li><a class="toc-h2" data-toc-link href="#roi-and-budget-considerations">ROI and Budget Considerations</a></li><li><a class="toc-h2" data-toc-link href="#implementation-workflow-for-enterprise-teams">Implementation Workflow for Enterprise Teams</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><h2 id="the-localization-decision">The Localization Decision</h2>
+<p>The choice between subtitles and dubbing is one of the more consequential localization decisions a business makes. Both translate video content for new language audiences, but they differ in cost, production time, viewer experience, and the technical requirements of the delivery platform. Neither is universally superior — the right choice depends on content type, audience profile, budget constraints, and distribution context.</p>
+<p>A common mistake is treating this as a company-wide policy decision rather than a content-level one. The same organization might reasonably use subtitles for internal compliance training, dubbing for customer-facing marketing video, and a hybrid of both for product tutorials. The organizations that get the most out of their localization budgets are the ones that match the approach to the specific content and audience rather than applying a single default across everything.</p>
+<p>This guide provides a structured framework for making that decision, examines the cases where each approach performs better, and outlines an implementation workflow for enterprise teams managing large content libraries.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Business professionals reviewing documents together at a table"></a></p>
+<h2 id="a-decision-framework">A Decision Framework</h2>
+<p>Before evaluating specific criteria, it helps to be precise about what is being decided. The question is rarely &quot;subtitles or dubbing&quot; in the abstract — it is usually &quot;subtitles or dubbing for this specific content, in this language, for this audience, within this budget and timeline.&quot; That specificity matters because the same criteria can yield different conclusions depending on context.</p>
+<p>The framework below organizes decision criteria into five categories, each with clear indicators.</p>
+<p><strong>Content type:</strong> What is the primary function of the video? Is it delivering information, building emotional connection, demonstrating a procedure, or meeting a compliance requirement?</p>
+<p><strong>Audience profile:</strong> What is the viewer&#39;s relationship to the content? Are they employees, customers, partners, or regulatory reviewers? What is their proficiency with the source language? Are they watching by choice or by requirement?</p>
+<p><strong>Budget constraints:</strong> What is the per-minute budget for localization, and how many target languages are in scope? How frequently does the content need updating?</p>
+<p><strong>Timeline requirements:</strong> How quickly does the localized version need to be available? Is this one-time production or part of a recurring content pipeline?</p>
+<p><strong>Platform and delivery context:</strong> Where will the video be watched? Does the platform support subtitles natively? Will viewers be on mobile devices, desktop browsers, or embedded corporate portals? Are there accessibility requirements?</p>
+<p>Each of these categories contributes to the overall decision, and in some cases one factor will dominate. A tight budget with many target languages pushes toward subtitles. A customer-facing product launch video with high production value may justify dubbing even at higher cost. Compliance content with strict accuracy requirements may favor subtitles because they preserve the original audio as evidence of what was said.</p>
+<h2 id="when-subtitles-serve-business-needs-better">When Subtitles Serve Business Needs Better</h2>
+<p>Subtitles offer several structural advantages that make them the appropriate choice for certain content categories.</p>
+<h3 id="compliance-and-regulatory-content">Compliance and Regulatory Content</h3>
+<p>For training that must meet regulatory requirements — workplace safety, anti-harassment policies, financial compliance — subtitles preserve the original audio track. That preservation creates a clear chain of evidence: if a question arises about what was communicated, the original spoken words remain accessible. Dubbing replaces the original voice, which can complicate verification.</p>
+<p>Subtitles also allow for precise, reviewable translation. A compliance officer reviewing translated training content can read the subtitles alongside the source transcript to verify accuracy. That review process is more straightforward than comparing spoken audio in two languages, particularly when the reviewer may not be fluent in both.</p>
+<p>Regulatory content also tends to have strict update requirements. When regulations change, affected training videos must be updated quickly. Subtitle updates — changing text without re-generating audio — are faster and less expensive than re-dubbing, which matters when update timelines are measured in days rather than weeks.</p>
+<h3 id="technical-training-and-instructional-content">Technical Training and Instructional Content</h3>
+<p>Technical training often benefits from subtitles because the viewer&#39;s attention is already split between the video and the task being demonstrated. On-screen captions allow viewers to read terminology while watching the procedure, which supports comprehension without requiring them to process spoken translation simultaneously.</p>
+<p>For step-by-step tutorials, viewers frequently pause, rewind, and replay segments. Subtitles support this usage pattern well: a viewer can pause at any point and read the caption without waiting for a spoken phrase to complete. The text remains visible as long as the video is paused, which is useful for copying configuration values, verifying command syntax, or confirming procedural details.</p>
+<p>Technical content also tends to have high density of domain-specific terminology. Subtitles allow translators to include glossary terms and maintain consistency across a content library without worrying about how a TTS system will pronounce compound technical phrases.</p>
+<h3 id="accessibility-and-multi-language-scale">Accessibility and Multi-Language Scale</h3>
+<p>Subtitles serve deaf and hard-of-hearing audiences directly, whereas dubbed content without captions excludes them. In many jurisdictions, accessibility requirements for corporate video are expanding; building subtitle workflows now positions organizations ahead of compliance rather than behind it.</p>
+<p>For multi-language rollout, subtitles offer a significant scalability advantage. A single video file can carry multiple subtitle tracks — each target language as a separate track — without requiring any changes to the video itself. Dubbing, by contrast, produces a distinct audio track per language, which may require separate video exports for each market depending on the delivery platform.</p>
+<p>Subtitle production via <a href="/features/subtitle-translation">Subtitle Translation</a> is also substantially faster than dubbing, which matters when a content calendar requires rapid deployment across many markets.</p>
+<h2 id="when-dubbing-serves-business-needs-better">When Dubbing Serves Business Needs Better</h2>
+<p>Dubbing is a higher-cost, longer-lead option — and for certain content types, that investment is justified by meaningfully better audience outcomes.</p>
+<h3 id="executive-and-leadership-communications">Executive and Leadership Communications</h3>
+<p>When a CEO or senior leader records a message for regional employees, the speaker&#39;s presence and authority are central to the communication&#39;s effectiveness. Subtitles in this context create a reading task that competes with watching the speaker. Viewers who are reading subtitles cannot simultaneously focus on the speaker&#39;s facial expression, tone, and body language — which are significant carriers of credibility and engagement in leadership communication.</p>
+<p>Dubbing allows the speaker&#39;s presence to remain visually front and center while delivering the content in the viewer&#39;s language. The trade-off — a synthetic or voice-actor voice replacing the original — is worth it when the goal is emotional connection and perceived authority rather than precise information transfer.</p>
+<h3 id="customer-facing-marketing-video">Customer-Facing Marketing Video</h3>
+<p>Marketing video is designed to create emotional response and drive action. That goal depends on audio engagement: music, pacing, voiceover tone, and the momentum of the narration. Subtitles interrupt that flow because they require reading, which engages different cognitive resources than listening. Research on viewer behavior consistently shows that dubbed content achieves higher completion rates and stronger brand recall than subtitled equivalents in audiences that do not speak the source language.</p>
+<p>For product launch videos, testimonials, brand storytelling, and promotional content, dubbing generally serves the business objective better. The investment is higher, but the per-completion cost advantage — higher engagement, higher completion — can justify it over the lifetime of the content.</p>
+<h3 id="mobile-and-ambient-viewing-contexts">Mobile and Ambient Viewing Contexts</h3>
+<p>In retail environments, conference exhibitor halls, and mobile viewing contexts, audio is often the primary channel. Subtitle-dependent content loses effectiveness when the screen is too small to read comfortably, when viewing distance makes text illegible, or when ambient light makes the screen hard to see. Dubbed content works in these contexts because the message is carried by audio regardless of screen size or viewing angle.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1553877522-43269e4ea984?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Team collaborating on content strategy with laptops and notes"></a></p>
+<h2 id="the-hybrid-approach">The Hybrid Approach</h2>
+<p>A hybrid strategy uses both subtitles and dubbing on the same content, or different approaches for different segments of a content library. This is not a compromise — it is a deliberate architecture that captures the strengths of each.</p>
+<p>The most common hybrid configuration is dubbed audio with synchronized captions. The video plays with a dubbed voice, but closed captions are also available for viewers who prefer them. This serves deaf/HoH viewers, noisy environments where audio comprehension is difficult, and viewers who learn better reading while listening. Octavia&#39;s <a href="/features/subtitle-generation">Subtitle Generation</a> can produce caption files from dubbed audio, so the subtitle track reflects the translated language rather than the original.</p>
+<p>Another hybrid configuration separates content types across a library. An organization might dub all customer-facing video and subtitle all internal content, or dub high-volume evergreen content and subtitle lower-priority material. This approach allocates the higher-cost dubbing budget to content where viewer engagement most affects business outcomes, while keeping costs controlled across the full library.</p>
+<p>A third configuration uses subtitles as a quality and review layer during dubbing production. Before finalizing dubbed audio, teams review the subtitle-format translation to catch errors and confirm terminology, then pass the reviewed translation to the TTS or voice generation stage. This reduces downstream corrections and ensures the dubbed content reflects the same quality checks as the subtitle version.</p>
+<h2 id="platform-and-distribution-requirements">Platform and Distribution Requirements</h2>
+<p>Platform capabilities constrain your options in ways that should be assessed before making production decisions.</p>
+<p>Learning management systems vary significantly in subtitle support. SCORM-compliant LMS platforms generally support embedded subtitle tracks, but the specific formats accepted — SRT, VTT, DFXP — and the behavior of the subtitle player differ by platform. Some LMS deployments require subtitles to be burned into the video (open captions) rather than delivered as a separate track. Understanding these requirements in advance determines whether you can use track-based subtitles or need to plan for open caption rendering.</p>
+<p>Social media platforms have different subtitle behaviors. LinkedIn and YouTube support automatic caption generation but have varying support for manually uploaded subtitle files in specific languages. For short-form content on TikTok and Instagram, text is typically burned in. If distribution spans multiple social platforms, the subtitle workflow may need to accommodate different delivery specifications per platform.</p>
+<p>Internal video portals and intranets often have the least standardized subtitle support. Video embedded in SharePoint, Confluence, or custom intranets may require specific video player integrations or fall back to open captions. Verifying the delivery environment&#39;s subtitle capabilities before committing to a subtitle-based workflow avoids discovering at distribution that the platform cannot display the subtitle track you produced.</p>
+<h2 id="roi-and-budget-considerations">ROI and Budget Considerations</h2>
+<p>The cost difference between subtitles and dubbing is real but not as extreme as it once was. AI-powered workflows have reduced dubbing costs substantially compared to traditional voice-actor production, which changes the ROI calculation.</p>
+<p>For subtitle production, the primary costs are translation and subtitle timing/formatting. Professional subtitle translation typically runs between $1.50 and $4.00 per source minute depending on language pair and quality level. Timing and formatting — fitting translated text to the video — adds a modest additional cost.</p>
+<p>For AI dubbing via <a href="/features/audio-translation">Audio Translation</a>, costs include translation, voice generation, and mixing. AI dubbing is significantly less expensive than traditional voice-actor dubbing, and for straightforward content, the per-minute cost may be only two to three times the subtitle cost rather than ten times. For high-production-value content, the narrowing gap changes the calculation.</p>
+<p>The ROI argument for dubbing in customer-facing contexts comes from engagement data. Higher completion rates on dubbed video mean more viewers see the full message. For content attached to a revenue outcome — a product demo, an onboarding flow, a marketing campaign — higher completion translates to better conversion rates. For internal content without a direct revenue attachment, the ROI case for dubbing is weaker and subtitles generally represent better budget allocation.</p>
+<h2 id="implementation-workflow-for-enterprise-teams">Implementation Workflow for Enterprise Teams</h2>
+<p>Building a repeatable localization workflow requires front-end decisions about content classification and process design.</p>
+<p>The first step is content auditing: categorize the existing and planned content library by type (compliance, marketing, training, executive communication), by audience, and by planned distribution platform. This categorization drives the subtitle-or-dub decision for each category rather than requiring the decision to be made video by video.</p>
+<p>The second step is establishing translation review protocols: define who reviews translations for accuracy and terminology consistency, and at what stage in the workflow. For compliance content, this review may need to involve legal or HR. For technical content, subject-matter experts should review terminology. Building this review step into the workflow schedule prevents it from becoming a post-production bottleneck.</p>
+<p>The third step is platform integration: configure your content management system, LMS, or video hosting platform to accept the subtitle and dubbed video formats your workflow produces. Establish naming conventions and metadata standards that make it clear which language versions exist for each asset.</p>
+<p>Octavia&#39;s <a href="/features/video-translation">Video Translation</a> platform supports export in formats compatible with major video hosting, LMS, and distribution platforms. For teams managing large libraries, batch processing allows multiple videos to move through translation and localization in parallel.</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Is there a clear rule for when to choose dubbing over subtitles?</strong></p>
+<p>The most reliable indicator is whether reading text competes with the primary value of the video. In leadership communication, emotional marketing, and ambient display contexts, reading competes with watching — dubbing is the better choice. In compliance documentation, technical instruction, and accessibility contexts, reading is the task — subtitles are the better choice.</p>
+<p><strong>How much more expensive is dubbing than subtitles?</strong></p>
+<p>With AI dubbing, the gap is smaller than with traditional production. For straightforward content, AI dubbing may cost two to three times more per minute than subtitles. For complex content requiring more translation adaptation and quality review, the difference can be larger. The cost comparison should always be evaluated against the engagement and outcome difference, not treated as a fixed ratio.</p>
+<p><strong>Can we produce subtitles and dubbing from the same translation?</strong></p>
+<p>In most workflows, yes. The same reviewed translation can drive both subtitle generation and TTS dubbing. This approach avoids paying twice for translation and ensures consistency between the subtitle and dubbed versions. Octavia&#39;s workflow supports producing both from a single translated script.</p>
+<p><strong>What happens when source content is updated?</strong></p>
+<p>Both subtitles and dubbed audio need updating when source content changes. Subtitles are generally faster and less expensive to update — a single text file edit and re-export handles the change. Dubbed audio requires regenerating the affected segments. For content that changes frequently, the lower update cost of subtitles is a significant practical advantage.</p>
+<p><strong>Do dubbed videos still need subtitles for accessibility compliance?</strong></p>
+<p>Yes, in many jurisdictions and for many use cases. Dubbed audio addresses language barriers but does not serve deaf or hard-of-hearing viewers. For full accessibility compliance, dubbed video should include caption tracks in the target language. Octavia&#39;s <a href="/features/subtitle-generation">Subtitle Generation</a> can produce synchronized captions from the dubbed audio, which handles this requirement efficiently.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsubtitle-vs-dubbing-for-business" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsubtitle-vs-dubbing-for-business&amp;text=Subtitles%20vs%20Dubbing%20for%20Business%20Video%3A%20How%20to%20Choose" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsubtitle-vs-dubbing-for-business" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/energy-utilities-field-training-translation" aria-label="Read Energy and Utilities Field Training Translation"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/field-glass-pylons.jpg" alt="Energy and Utilities Field Training Translation" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Energy and Utilities Field Training Translation</h2><p class="blog-card-description">The person doing the most hazardous work on site is often the one least likely to have been trained in their own language.</p>
+      <time class="blog-card-date" datetime="2026-08-25T21:00:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/insurance-video-translation" aria-label="Read Insurance Video Translation for Policyholders and Claims"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/policy-glass-folds.png" alt="Insurance Video Translation for Policyholders and Claims" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Insurance Video Translation for Policyholders and Claims</h2><p class="blog-card-description">The moment a policyholder most needs to understand their cover is the moment they are least able to read a forty-page document.</p>
+      <time class="blog-card-date" datetime="2026-08-25T19:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/investor-relations-video-translation" aria-label="Read Investor Relations Video Translation for Global Shareholders"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/quarterly-glass-columns.png" alt="Investor Relations Video Translation for Global Shareholders" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Investor Relations Video Translation for Global Shareholders</h2><p class="blog-card-description">Selective disclosure is not only about who gets the information. It is also about who can understand it.</p>
+      <time class="blog-card-date" datetime="2026-08-25T18:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

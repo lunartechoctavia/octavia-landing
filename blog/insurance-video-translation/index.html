@@ -1,0 +1,658 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Insurance Video Translation for Policyholders and Claims | Octavia</title>
+    <meta name="description" content="How insurers translate policy explainers, claims walkthroughs, and agent training: coverage terminology, exclusions, and vulnerable customers.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/insurance-video-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Insurance Video Translation for Policyholders and Claims">
+    <meta property="og:description" content="How insurers translate policy explainers, claims walkthroughs, and agent training: coverage terminology, exclusions, and vulnerable customers.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/insurance-video-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/policy-glass-folds.png">
+    <meta property="article:published_time" content="2026-08-25T19:30:00Z">
+    <meta property="article:modified_time" content="2026-08-25T19:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Insurance Video Translation for Policyholders and Claims">
+    <meta name="twitter:description" content="How insurers translate policy explainers, claims walkthroughs, and agent training: coverage terminology, exclusions, and vulnerable customers.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/policy-glass-folds.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Insurance Video Translation for Policyholders and Claims","description":"How insurers translate policy explainers, claims walkthroughs, and agent training: coverage terminology, exclusions, and vulnerable customers.","image":"https://octavia.lunartech.ai/assets/blog/images/policy-glass-folds.png","datePublished":"2026-08-25T19:30:00Z","dateModified":"2026-08-25T19:30:00Z","wordCount":2115,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/insurance-video-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Insurance Video Translation for Policyholders and Claims","item":"https://octavia.lunartech.ai/blog/insurance-video-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">Insurance Video Translation for Policyholders and Claims</h1><p class="article-deck">The moment a policyholder most needs to understand their cover is the moment they are least able to read a forty-page document.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-25T19:30:00Z">Aug 25, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/policy-glass-folds.png" alt="Insurance Video Translation for Policyholders and Claims" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#where-insurance-communication-fails">Where Insurance Communication Fails</a></li><li><a class="toc-h2" data-toc-link href="#content-that-repays-localization">Content That Repays Localization</a></li><li><a class="toc-h2" data-toc-link href="#coverage-terminology-is-load-bearing">Coverage Terminology Is Load-Bearing</a></li><li><a class="toc-h2" data-toc-link href="#exclusions-deserve-disclosure-level-treatment">Exclusions Deserve Disclosure-Level Treatment</a></li><li><a class="toc-h2" data-toc-link href="#regulatory-filing-and-approval">Regulatory Filing and Approval</a></li><li><a class="toc-h2" data-toc-link href="#vulnerable-customers">Vulnerable Customers</a></li><li><a class="toc-h2" data-toc-link href="#data-handling">Data Handling</a></li><li><a class="toc-h2" data-toc-link href="#where-to-start">Where to Start</a></li><li><a class="toc-h2" data-toc-link href="#working-with-distribution-partners">Working With Distribution Partners</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person reviewing documents at a desk with a laptop"></a></p>
+<h2 id="where-insurance-communication-fails">Where Insurance Communication Fails</h2>
+<p>Insurance has a structural comprehension problem that video is unusually well suited to solve, and that most insurers have not seriously attempted to solve.</p>
+<p>The policy document is long, legally precise, and written for a court rather than a customer. The customer signs it having read a summary at best. Then, at some later point — after a car accident, a flood, a hospitalisation, a death in the family — they need to understand what it actually said, in circumstances of stress, and often in a second language.</p>
+<p>That is the moment where insurers lose customers, generate complaints, and attract regulatory attention. It is also the moment where a four-minute video explaining what to do next, in the customer&#39;s own language, is worth more than any amount of documentation.</p>
+<p>The commercial case is unusually clean. Comprehension reduces claims-handling cost, reduces complaint volume, reduces mis-selling exposure, and increases retention. For insurers serving multilingual markets — which is most insurers in most developed markets — language is a large and largely unaddressed component of that.</p>
+<h2 id="content-that-repays-localization">Content That Repays Localization</h2>
+<p>Insurance video output sorts by how directly comprehension affects outcome.</p>
+<p><strong>Highest value: claims process walkthroughs.</strong> What to do immediately, what to document, who to contact, what will happen, how long it takes, what the customer needs to provide. This is the content customers need most and understand least. It is also evergreen — the claims process changes rarely.</p>
+<p><strong>High value: coverage explainers.</strong> What a policy does and does not cover, in plain terms, with exclusions stated clearly. Directly reduces both complaints and mis-selling exposure.</p>
+<p><strong>High value: onboarding and policy servicing.</strong> How to make a change, how to renew, how to read a statement, how excess or deductible works, what happens if a payment is missed.</p>
+<p><strong>Substantial value: agent and broker training.</strong> Product knowledge, compliance obligations, and suitability assessment for a distribution network that is frequently multilingual and often independent.</p>
+<p><strong>Moderate value: marketing and acquisition content.</strong> Important commercially, but comprehension is less consequential.</p>
+<p><strong>Regulatory obligation in some markets: key information summaries.</strong> Where a jurisdiction mandates a standardised summary document, some markets accept or encourage supplementary formats, and video versions can serve customers with low literacy far better than text.</p>
+<p>The pattern that emerges: the most valuable insurance video is unglamorous procedural content with a long shelf life, which is exactly the profile that batch localization handles efficiently.</p>
+<h2 id="coverage-terminology-is-load-bearing">Coverage Terminology Is Load-Bearing</h2>
+<p>Insurance vocabulary is a specific hazard because so many terms are ordinary words with contractually defined meanings.</p>
+<p>Terms requiring locked renderings per market:</p>
+<ul><li>Core contract vocabulary: premium, excess, deductible, sum insured, limit, sub-limit, indemnity, betterment, subrogation.</li><li>Coverage triggers and their scope: occurrence, claims-made, all-risks, named-perils.</li><li>Exclusion and condition language: pre-existing condition, wear and tear, gradual damage, reasonable care, material fact, non-disclosure.</li><li>Status vocabulary: insured, policyholder, beneficiary, dependant, third party, additional insured. These determine who has rights under the contract.</li><li>Claims vocabulary: notification, proof of loss, adjuster or loss assessor, settlement, repudiation, ex gratia.</li><li>Regulatory and ombudsman terminology in the local form the customer will encounter.</li></ul>
+<p>Two considerations make this harder than ordinary terminology work.</p>
+<p>First, insurance concepts are not universal across legal systems. A concept in one market&#39;s contract law may have no equivalent in another. Translating the term without flagging that the underlying concept differs can create a genuinely false impression of what a customer&#39;s rights are.</p>
+<p>Second, the customer will encounter the official term on their documents, in correspondence, and from their adjuster. If the video explains a concept using different vocabulary than the paperwork, the customer cannot connect the two. The video&#39;s terminology must match the localized policy documentation — which means the glossary has to be sourced from whoever localized the policy wordings, not built independently by the content team.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Insurance adjuster inspecting property damage"></a></p>
+<h2 id="exclusions-deserve-disclosure-level-treatment">Exclusions Deserve Disclosure-Level Treatment</h2>
+<p>Exclusions are where insurance comprehension failures become disputes, and they should be handled with the discipline applied to regulated disclosures.</p>
+<p><strong>Substitute, do not translate.</strong> Exclusion language should be drawn from the locally approved policy wording rather than generated by translating the source-market version. The local wording is authoritative, it already exists, and it has been through legal review.</p>
+<p><strong>Preserve prominence.</strong> Where a market requires exclusions or key limitations to be presented with particular prominence or duration, the localized version must satisfy that independently. Target-language text is frequently longer, and a version that compresses an exclusion to fit the original timing may have failed to present it adequately.</p>
+<p><strong>Do not soften.</strong> Fluent translation tends to smooth away definite negative statements. &quot;This policy does not cover&quot; becoming something more equivocal is a change in the contract&#39;s communicated meaning.</p>
+<p><strong>Maintain balance.</strong> The relationship between what is covered and what is excluded is assessed as the customer experiences it. A version where the coverage narration expanded in translation while the exclusion segment stayed fixed has shifted the balance without any mistranslation occurring.</p>
+<p><strong>Check local requirements.</strong> The exclusions requiring specific disclosure differ by market. This is a content decision to make before localization, not a translation matter.</p>
+<h2 id="regulatory-filing-and-approval">Regulatory Filing and Approval</h2>
+<p>Insurance is regulated market by market, and customer-facing communications frequently require filing, approval, or adherence to specific standards.</p>
+<p>Points to establish before localizing customer-facing material:</p>
+<ul><li>Whether the market requires customer communications to be filed with or approved by a regulator.</li><li>Whether specific disclosures, contact details, or complaint and ombudsman information must appear.</li><li>Whether the market mandates communication in particular languages, which several jurisdictions do based on where a policy is sold or where the policyholder resides.</li><li>Whether translated material carries the same status as the original, or whether one language version is contractually authoritative.</li><li>Whether treating-customers-fairly or equivalent conduct standards impose comprehension obligations.</li></ul>
+<p>That fourth point is worth settling explicitly and stating in the content. Most insurers designate one language version of the contract as authoritative and treat translations as explanatory. Where that is the position, the video should say so plainly, so a customer is not led to believe the translated explanation overrides the policy wording.</p>
+<h2 id="vulnerable-customers">Vulnerable Customers</h2>
+<p>Conduct regulation in many markets imposes specific duties toward vulnerable customers, and language barrier is frequently recognised as a vulnerability factor — often alongside bereavement, illness, financial difficulty, and low literacy.</p>
+<p>Insurance interactions correlate strongly with those circumstances. A person claiming on a life policy is bereaved. A person claiming on health cover is ill. A person claiming after a fire may have lost their home and their documents.</p>
+<p>Implications for localized content:</p>
+<p><strong>Plain language before translation.</strong> As with public-sector communication, revising the source for plain language raises the ceiling on every target language, and it serves source-language customers better too.</p>
+<p><strong>Audio matters more than text here.</strong> Many adults have stronger oral than written proficiency in their home language, particularly where formal education was in another language. A translated video reaches people a translated document does not.</p>
+<p><strong>Pace deliberately.</strong> Content for someone in distress should not be delivered at marketing pace. Natural, unhurried timing that does not compress speech to match a source duration is a comprehension requirement.</p>
+<p><strong>State the next action clearly.</strong> What to do, who to contact, what to have ready, what happens next.</p>
+<p><strong>Signpost human support in-language.</strong> Video should route to a person, not replace one. The most useful thing a claims video can do is tell the customer how to reach someone who speaks their language.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Customer service representative on a support call"></a></p>
+<h2 id="data-handling">Data Handling</h2>
+<p>Insurance content frequently touches sensitive information, and the workflow needs to reflect that.</p>
+<p>Claims training material containing real case examples, medical underwriting content, footage from property inspections, recorded customer interactions used for training, and pre-launch product content are all sensitive in different ways. Health data in particular attracts elevated protection in most privacy regimes.</p>
+<p>The requirements that follow are standard for regulated financial services: documented data residency with the ability to constrain processing region, a written position that content is not used for model training, configurable retention aligned to records schedules, encryption in transit and at rest, role-based access with single sign-on, and audit logging.</p>
+<p>Where training content uses real customer scenarios, anonymisation should be verified before localization rather than assumed — and synthesising the voice of a real customer from recorded interactions is a use that consent almost certainly does not cover.</p>
+<h2 id="where-to-start">Where to Start</h2>
+<p>Begin with claims process walkthroughs in the two or three languages most represented among your policyholders. Highest comprehension value, longest shelf life, cleanest measurement.</p>
+<p>Source the terminology from whoever localized your policy wordings, so the video vocabulary matches the customer&#39;s documents.</p>
+<p>Measure the things that make the business case: claims-handling time and contact volume per claim, complaint rates, first-contact resolution, and persistency, all segmented by language. Insurers have unusually good data infrastructure and these effects are measurable.</p>
+<p>Expand to coverage explainers and servicing content next, then agent training, then acquisition material.</p>
+<p>Handle regulatory-filed communications last, once the terminology and review discipline are established.</p>
+<h2 id="working-with-distribution-partners">Working With Distribution Partners</h2>
+<p>Most insurers reach customers through brokers, agents, banks, affinity partners, and comparison platforms rather than directly, and that intermediation shapes what localized content can achieve.</p>
+<p>The practical issue is that the intermediary controls the customer conversation. An insurer producing excellent localized claims content has not reached a policyholder whose broker never shares it. Content sitting in the insurer&#39;s portal and nowhere else is content the customer will not see at the moment they need it.</p>
+<p>What works better:</p>
+<p><strong>Distribute to the point of use.</strong> Localized explainers embedded in the claims notification journey, sent with the claim acknowledgement, and linked from the policy documents themselves — not filed on a website the customer visits once a year.</p>
+<p><strong>Equip intermediaries deliberately.</strong> Brokers and agents serving a particular language community are frequently the reason the insurer holds that book of business. Giving them localized material to share under their own relationship is more effective than expecting the customer to come to the insurer.</p>
+<p><strong>Localize the agent-facing content too.</strong> An agent who does not fully understand a product&#39;s exclusions will mis-explain them, and suitability obligations sit with whoever gave the advice. Training agents in the language they think in is a conduct control as much as a competence one.</p>
+<p><strong>Check the branding and compliance position.</strong> Material distributed through an intermediary may require different regulatory statements, and partner agreements sometimes constrain what may carry whose branding.</p>
+<p>Insurers that treat localized content as a distribution problem rather than a production problem see materially higher usage, because the content reaches the customer inside a journey they are already in rather than waiting to be sought out.</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Does a translated video change our contractual obligations?</strong></p>
+<p>Usually not, provided you designate the authoritative language version explicitly and say so in the content. Most insurers treat one language version of the policy as contractually binding and translations as explanatory. Confirm the position per market, since some jurisdictions have rules about the status of translated consumer contracts, and make sure customers are not left believing the explanation overrides the wording.</p>
+<p><strong>How should exclusions be handled?</strong></p>
+<p>Substitute from the locally approved policy wording rather than translating the source version, preserve any prominence or duration requirement independently in the localized version, and check the exclusion set required in that market rather than mirroring the source. Fluent translation tends to soften definite negative statements, which is precisely the wrong direction for exclusion language.</p>
+<p><strong>Where should insurance terminology come from?</strong></p>
+<p>From whoever localized your policy documents in that market. The video must use the same vocabulary the customer sees on their paperwork and hears from their adjuster, otherwise they cannot connect the explanation to their actual policy. Building a content glossary independently is a common and costly mistake.</p>
+<p><strong>Is video better than translated documents for policyholders?</strong></p>
+<p>For many customers, yes. Oral proficiency in a home language frequently exceeds written proficiency, especially where formal schooling was in another language. Video also handles procedural explanation better than text and is more usable by someone in distress. Documents remain necessary for the contract; video is what makes it understood.</p>
+<p><strong>What should we measure?</strong></p>
+<p>Claims-handling time and contact volume per claim, complaint rates, first-contact resolution, and persistency, all segmented by policyholder language. Insurers generally have the data infrastructure to isolate these effects, and the comprehension benefit shows up clearly in handling cost well before it shows up in retention.</p>
+<hr>
+<p>Related reading: <a href="/blog/financial-services-video-translation">Financial Services Video Translation</a> | <a href="/blog/customer-support-video-translation">Customer Support Video Translation</a> | <a href="/blog/corporate-video-translation-guide">Corporate Video Translation Guide</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Finsurance-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Finsurance-video-translation&amp;text=Insurance%20Video%20Translation%20for%20Policyholders%20and%20Claims" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Finsurance-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/energy-utilities-field-training-translation" aria-label="Read Energy and Utilities Field Training Translation"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/field-glass-pylons.jpg" alt="Energy and Utilities Field Training Translation" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Energy and Utilities Field Training Translation</h2><p class="blog-card-description">The person doing the most hazardous work on site is often the one least likely to have been trained in their own language.</p>
+      <time class="blog-card-date" datetime="2026-08-25T21:00:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/investor-relations-video-translation" aria-label="Read Investor Relations Video Translation for Global Shareholders"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/quarterly-glass-columns.png" alt="Investor Relations Video Translation for Global Shareholders" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Investor Relations Video Translation for Global Shareholders</h2><p class="blog-card-description">Selective disclosure is not only about who gets the information. It is also about who can understand it.</p>
+      <time class="blog-card-date" datetime="2026-08-25T18:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/publisher-video-localization" aria-label="Read Publisher Video Localization: Building Multi-Market Editions"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/edition-glass-spreads.png" alt="Publisher Video Localization: Building Multi-Market Editions" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Publisher Video Localization: Building Multi-Market Editions</h2><p class="blog-card-description">Publishers spent a decade learning that a foreign edition is not a translated edition. Video is where they get to relearn it.</p>
+      <time class="blog-card-date" datetime="2026-08-25T18:00:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

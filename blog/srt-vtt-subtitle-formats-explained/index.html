@@ -1,0 +1,659 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>SRT, VTT, and ASS: Subtitle Formats Explained and When to Use Each | Octavia</title>
+    <meta name="description" content="A technical comparison of subtitle file formats: SRT, WebVTT, ASS/SSA, TTML, and SCC, covering styling, positioning, platform support, and conversion.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/srt-vtt-subtitle-formats-explained">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="SRT, VTT, and ASS: Subtitle Formats Explained and When to Use Each">
+    <meta property="og:description" content="A technical comparison of subtitle file formats: SRT, WebVTT, ASS/SSA, TTML, and SCC, covering styling, positioning, platform support, and conversion.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/srt-vtt-subtitle-formats-explained">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/modular-caption-stack.png">
+    <meta property="article:published_time" content="2026-08-20T10:30:00Z">
+    <meta property="article:modified_time" content="2026-08-20T10:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SRT, VTT, and ASS: Subtitle Formats Explained and When to Use Each">
+    <meta name="twitter:description" content="A technical comparison of subtitle file formats: SRT, WebVTT, ASS/SSA, TTML, and SCC, covering styling, positioning, platform support, and conversion.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/modular-caption-stack.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"SRT, VTT, and ASS: Subtitle Formats Explained and When to Use Each","description":"A technical comparison of subtitle file formats: SRT, WebVTT, ASS/SSA, TTML, and SCC, covering styling, positioning, platform support, and conversion.","image":"https://octavia.lunartech.ai/assets/blog/images/modular-caption-stack.png","datePublished":"2026-08-20T10:30:00Z","dateModified":"2026-08-20T10:30:00Z","wordCount":2212,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/srt-vtt-subtitle-formats-explained","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"SRT, VTT, and ASS: Subtitle Formats Explained and When to Use Each","item":"https://octavia.lunartech.ai/blog/srt-vtt-subtitle-formats-explained"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">SRT, VTT, and ASS: Subtitle Formats Explained and When to Use Each</h1><p class="article-deck">Choosing a subtitle format determines what styling you can apply, which platforms will accept your file, and how much information survives conversion.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-20T10:30:00Z">Aug 20, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/modular-caption-stack.png" alt="SRT, VTT, and ASS: Subtitle Formats Explained and When to Use Each" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-format-choice-matters">Why Format Choice Matters</a></li><li><a class="toc-h2" data-toc-link href="#srt-the-universal-baseline">SRT: The Universal Baseline</a></li><li><a class="toc-h2" data-toc-link href="#webvtt-the-web-standard">WebVTT: The Web Standard</a></li><li><a class="toc-h2" data-toc-link href="#ass-and-ssa-full-presentation-control">ASS and SSA: Full Presentation Control</a></li><li><a class="toc-h2" data-toc-link href="#ttml-and-its-profiles">TTML and Its Profiles</a></li><li><a class="toc-h2" data-toc-link href="#scc-and-broadcast-caption-formats">SCC and Broadcast Caption Formats</a></li><li><a class="toc-h2" data-toc-link href="#closed-captions-versus-subtitles">Closed Captions Versus Subtitles</a></li><li><a class="toc-h2" data-toc-link href="#conversion-and-what-survives">Conversion and What Survives</a></li><li><a class="toc-h2" data-toc-link href="#sidecar-files-versus-burned-in">Sidecar Files Versus Burned-In</a></li><li><a class="toc-h2" data-toc-link href="#common-problems-and-how-to-diagnose-them">Common Problems and How to Diagnose Them</a></li><li><a class="toc-h2" data-toc-link href="#multi-language-delivery">Multi-Language Delivery</a></li><li><a class="toc-h2" data-toc-link href="#practical-recommendations">Practical Recommendations</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Subtitle file formats and technical specifications"></a></p>
+<h2 id="why-format-choice-matters">Why Format Choice Matters</h2>
+<p>Subtitle formats are not interchangeable containers for the same information. Each supports a different set of capabilities, and converting between them is lossy in one direction and impossible to reverse.</p>
+<p>A file that carries precise positioning, per-character styling, and karaoke timing in one format becomes plain timed text in another. If you author in a rich format and deliver in a simple one, you lose work. If you author in a simple format and need rich features later, you rebuild.</p>
+<p>Format choice also determines platform compatibility. Some platforms accept only one format. Some accept several but silently discard features they do not support. Understanding what each format carries — and what each platform does with it — prevents a category of problems that surface only at publication.</p>
+<h2 id="srt-the-universal-baseline">SRT: The Universal Baseline</h2>
+<p>SubRip Subtitle, almost universally called SRT, is the most widely supported subtitle format in existence.</p>
+<p>Its structure is minimal: a sequence of numbered blocks, each containing an index, a start and end timecode, and one or more lines of text, separated by blank lines. Timecodes use hours, minutes, seconds, and milliseconds with a comma as the decimal separator.</p>
+<p><strong>What it supports.</strong> Timed text. That is essentially the whole feature set. Many players honor basic inline HTML-like tags for bold, italic, and underline, and some honor a font color tag, but none of this is part of any formal specification — support is conventional rather than guaranteed.</p>
+<p><strong>What it does not support.</strong> Positioning, alignment control, precise styling, vertical text, ruby annotations, or any structured metadata.</p>
+<p><strong>Where it fits.</strong> SRT is the correct default for interchange, for platform upload where the platform will apply its own styling, and for any situation where broad compatibility matters more than presentation control. Nearly every video platform, editor, and player accepts it.</p>
+<p><strong>Practical cautions.</strong> SRT has no encoding declaration, which means the file does not state its own character encoding. This is the single largest source of SRT problems: a file written in UTF-8 and interpreted as Latin-1, or vice versa, produces garbled non-ASCII characters. Always write SRT as UTF-8, and prefer including a byte order mark where the consuming system tolerates one, since it gives the reader a hint.</p>
+<p>Line ending conventions also cause trouble. Some parsers are strict about carriage returns; others are not. When a file fails to parse for no visible reason, line endings are worth checking.</p>
+<h2 id="webvtt-the-web-standard">WebVTT: The Web Standard</h2>
+<p>WebVTT is the subtitle format defined for HTML5 video, and it is the native choice for web delivery.</p>
+<p>Structurally it resembles SRT — timed cues with text — but it is a specified format with real capabilities beyond plain text.</p>
+<p><strong>What it supports.</strong> A file signature identifying it as WebVTT. Cue settings controlling position, line placement, alignment, and size. Named cue identifiers. Region definitions for grouping cues. Styling through CSS, either embedded in a STYLE block or applied from the page. Semantic inline tags for voice, class, language, and timestamps. Comment blocks. Chapter and metadata tracks in addition to subtitle tracks.</p>
+<p>Timecodes use a period as the decimal separator rather than SRT&#39;s comma, which is the most common gotcha when hand-converting between the two.</p>
+<p><strong>Where it fits.</strong> Any web-based playback using the HTML5 video element. WebVTT is what browsers expect, and it is the format to use when you control the player and want styling and positioning control.</p>
+<p>The voice tag deserves specific mention for multi-speaker content: it allows marking which speaker a cue belongs to, which can then be styled differently through CSS. This is useful for dialogue-heavy content and for accessibility.</p>
+<p><strong>Practical cautions.</strong> WebVTT is always UTF-8, which removes SRT&#39;s encoding ambiguity. Browser support for the full feature set varies — positioning and basic styling are well supported, while regions and some advanced features are less consistently implemented. Test in the browsers you actually target.</p>
+<h2 id="ass-and-ssa-full-presentation-control">ASS and SSA: Full Presentation Control</h2>
+<p>Advanced SubStation Alpha, and its predecessor SubStation Alpha, are the formats used when subtitle appearance must be controlled precisely.</p>
+<p><strong>What they support.</strong> Named styles with full typographic control — font, size, weight, colors for fill, secondary, outline, and shadow, border width, shadow depth, spacing, and rotation. Absolute positioning anywhere in the frame. Per-character and per-word timing effects. Animation of position, color, and transparency over time. Vector drawing. Layering with explicit z-order. Karaoke timing.</p>
+<p>The format separates style definitions from event lines, so a change to a named style propagates to every cue using it.</p>
+<p><strong>Where it fits.</strong> Content where subtitle presentation is part of the production rather than an accessibility layer: fansubbed animation, karaoke, signs and typesetting that must match on-screen text in the source, and any case where subtitles must be positioned to avoid obscuring specific visual elements.</p>
+<p>It is also the working format of choice when subtitles will be burned in, because it gives the render exactly what it needs.</p>
+<p><strong>Practical cautions.</strong> Almost no streaming platform accepts ASS for upload. It is a production and burn-in format, not a delivery format. Rendering depends on the specific renderer and on font availability — a file that looks correct on the machine where it was authored may render differently elsewhere if fonts are missing.</p>
+<p>Converting ASS to SRT or VTT discards essentially everything except the text and timing.</p>
+<h2 id="ttml-and-its-profiles">TTML and Its Profiles</h2>
+<p>Timed Text Markup Language is an XML-based standard used primarily in broadcast and professional distribution.</p>
+<p><strong>What it supports.</strong> Structured styling and layout in XML, regions, comprehensive metadata, and multiple profiles targeting specific delivery contexts. IMSC is the profile most commonly encountered in modern streaming distribution. DFXP is an older designation still seen in some contexts.</p>
+<p><strong>Where it fits.</strong> Professional distribution pipelines, broadcast delivery, and streaming platforms that specify TTML or IMSC in their delivery requirements. If a distributor&#39;s specification names it, that is the reason to use it.</p>
+<p><strong>Practical cautions.</strong> TTML is verbose and not practical to hand-edit. Profiles differ in what they permit, and a file valid under one profile may be rejected under another. When a specification calls for TTML, get the exact profile and version requirement rather than assuming.</p>
+<h2 id="scc-and-broadcast-caption-formats">SCC and Broadcast Caption Formats</h2>
+<p>Scenarist Closed Captions and related formats encode captions for broadcast television, following the constraints of legacy caption standards.</p>
+<p><strong>What they support.</strong> Caption data conforming to broadcast caption specifications, including positioning within a fixed grid, and modes such as pop-on, roll-up, and paint-on.</p>
+<p><strong>Where they fit.</strong> Broadcast delivery and any distribution requiring compliance with broadcast caption standards. Some platforms accept SCC specifically for closed caption tracks distinct from subtitle tracks.</p>
+<p><strong>Practical cautions.</strong> These formats have tight constraints inherited from the bandwidth limits of the original standards — restricted character sets, limited characters per line, and a fixed grid. Text that fits comfortably in SRT may not fit within these limits, and non-Latin scripts are frequently unsupported. Conversion into these formats often requires editorial condensation rather than mechanical transformation.</p>
+<h2 id="closed-captions-versus-subtitles">Closed Captions Versus Subtitles</h2>
+<p>The terms are used loosely, but the distinction matters for compliance and for what content the file should contain.</p>
+<p><strong>Subtitles</strong> assume the viewer can hear the audio and need the dialogue rendered in text, typically for language reasons. They carry spoken content.</p>
+<p><strong>Closed captions</strong> assume the viewer cannot hear the audio. In addition to dialogue, they include speaker identification, relevant non-speech audio — sound effects, music cues, tone of voice where it changes meaning — and other information a hearing viewer would receive.</p>
+<p>A translated subtitle track is not automatically an accessible caption track. Localizing into ten languages and providing only dialogue in each has served language access while leaving deaf and hard-of-hearing viewers in every one of those languages without the non-speech information.</p>
+<p>Where accessibility is a requirement, produce caption tracks that include non-speech information in each language, not only in the source language.</p>
+<h2 id="conversion-and-what-survives">Conversion and What Survives</h2>
+<p>Conversion between formats is common and predictably lossy.</p>
+<p>Converting from a rich format to a simple one — ASS to SRT, TTML to SRT — retains text and timing and discards styling, positioning, and effects. This is a one-way operation.</p>
+<p>Converting between SRT and WebVTT is nearly lossless in the SRT-to-VTT direction, since VTT is a superset of what SRT carries. The reverse discards VTT-specific cue settings and styling.</p>
+<p>Two mechanical details cause most conversion failures: the decimal separator in timecodes differs between SRT and VTT, and encoding assumptions differ where SRT has no declaration.</p>
+<p>Frame rate is a subtler issue. Some formats express timing in frames rather than absolute time, and converting between frame-based and time-based formats requires knowing the frame rate. Getting it wrong produces drift that accumulates across the file — correct at the start, visibly off at the end. This is the classic cause of subtitles that gradually desynchronize.</p>
+<h2 id="sidecar-files-versus-burned-in">Sidecar Files Versus Burned-In</h2>
+<p>A separate consideration that interacts with format choice: whether subtitles are delivered as a separate file alongside the video, or rendered permanently into the picture.</p>
+<p><strong>Sidecar files</strong> can be toggled off, swapped per language without re-encoding, corrected cheaply, and used by assistive technology. They are the right default for most delivery.</p>
+<p><strong>Burned-in subtitles</strong> are guaranteed to appear regardless of player support, cannot be toggled off, and require a full re-render to change. They are appropriate for social platforms that do not reliably support caption tracks, for content viewed in environments where the player is unknown, and where styling must be exact.</p>
+<p>For multi-language delivery, sidecar files are substantially cheaper: one video file with ten subtitle files versus ten separately rendered videos. Where burn-in is required, the render cost multiplies per language, and every text correction means re-rendering.</p>
+<h2 id="common-problems-and-how-to-diagnose-them">Common Problems and How to Diagnose Them</h2>
+<p>A handful of symptoms account for most subtitle format failures, and each points to a specific cause.</p>
+<p><strong>Garbled accented or non-Latin characters.</strong> Almost always an encoding mismatch — a UTF-8 file being read as a single-byte encoding, or the reverse. Check that the file is UTF-8 and that the consuming system is told so. This is the classic SRT problem, since SRT carries no encoding declaration.</p>
+<p><strong>Subtitles progressively drift out of sync.</strong> Usually a frame rate mismatch. Timing that is correct at the start and increasingly wrong later indicates the file was authored against a different frame rate than the video is playing at. A constant offset, by contrast, indicates a start-time misalignment rather than a rate problem.</p>
+<p><strong>File rejected on upload with no useful error.</strong> Check line endings, the presence of a byte order mark where the platform does not expect one, and timecode format — particularly the comma versus period decimal separator, which is the most common hand-conversion error between SRT and VTT.</p>
+<p><strong>Styling silently disappears.</strong> The platform accepted the file and discarded features it does not support. This is expected behavior when delivering a rich format to a system that applies its own styling.</p>
+<p><strong>Overlapping cues render unpredictably.</strong> Two cues occupying the same time range is invalid in most contexts, and players handle it inconsistently. Validate for overlap before delivery.</p>
+<p><strong>Text overflows or truncates.</strong> Character-per-line limits differ by platform, and some enforce byte limits rather than character limits — which cuts multi-byte scripts at roughly a third of the expected length.</p>
+<p><strong>Missing glyphs in burned-in output.</strong> A font coverage problem rather than a format problem. The file is correct; the renderer lacks the characters.</p>
+<h2 id="multi-language-delivery">Multi-Language Delivery</h2>
+<p>Managing subtitle files across many languages introduces organizational problems that are separate from format questions.</p>
+<p>Language identification should follow standard language tags rather than ad hoc naming. A file named for a language in plain words is ambiguous where a standard tag is not, and regional variants — European versus Brazilian Portuguese, Simplified versus Traditional Chinese — require the region or script subtag to be distinguishable at all.</p>
+<p>Filename conventions should encode the video identifier and the language tag consistently, since most players and platforms infer the language from the filename or from an accompanying manifest.</p>
+<p>Default track selection matters for viewer experience. A player that defaults to a language the viewer does not read, or that defaults to no subtitles when the audio is in a language they do not speak, produces a worse outcome than the localization warranted.</p>
+<p>Keep source and translated tracks synchronized in segmentation where practical. When the source timing is corrected, every translated track needs the same correction, and tracks that have drifted apart structurally make this far more laborious.</p>
+<h2 id="practical-recommendations">Practical Recommendations</h2>
+<p>For platform upload where the platform styles captions, use SRT as UTF-8. It is accepted everywhere and the platform will override styling anyway.</p>
+<p>For web playback you control, use WebVTT and take advantage of positioning and CSS styling.</p>
+<p>For production work that will be burned in, work in ASS and render from it.</p>
+<p>For broadcast or professional distribution, use whatever the delivery specification names, and get the exact profile.</p>
+<p>Keep the authoring format richer than the delivery format. It is easy to generate SRT from a richer source and impossible to recover the richness later.</p>
+<p>Validate before delivery. Encoding, timecode format, line count, character limits, and overlapping cues are all checkable mechanically, and catching them before upload is far cheaper than discovering them after.</p>
+<p>Verify visually on the actual destination player. Format validity does not guarantee correct appearance, particularly for non-Latin scripts where font coverage and rendering support vary independently of whether the file parses.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsrt-vtt-subtitle-formats-explained" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsrt-vtt-subtitle-formats-explained&amp;text=SRT%2C%20VTT%2C%20and%20ASS%3A%20Subtitle%20Formats%20Explained%20and%20When%20to%20Use%20Each" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsrt-vtt-subtitle-formats-explained" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/how-lip-sync-dubbing-works" aria-label="Read How Lip Sync Dubbing Works: From Pipeline to Published Video"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/waveform-emergence-glass.png" alt="How Lip Sync Dubbing Works: From Pipeline to Published Video" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How Lip Sync Dubbing Works: From Pipeline to Published Video</h2><p class="blog-card-description">Lip sync dubbing involves coordinating speech timing, phoneme shapes, and facial movement analysis — a technically complex process with meaningful quality variation depending on content type.</p>
+      <time class="blog-card-date" datetime="2026-08-23T09:00:00Z">Aug 23, 2026 · 9 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-translation-review-brief" aria-label="Read Writing a Review Brief: Getting Useful Feedback From Native Speakers"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/facing-glass-panels.png" alt="Writing a Review Brief: Getting Useful Feedback From Native Speakers" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Writing a Review Brief: Getting Useful Feedback From Native Speakers</h2><p class="blog-card-description">Asking a native speaker to check a translation produces a list of things they would have said differently. Asking specific questions produces something you can act on.</p>
+      <time class="blog-card-date" datetime="2026-08-20T13:55:00Z">Aug 20, 2026 · 9 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-translation-terminology-extraction" aria-label="Read Terminology Extraction for Video: Finding the Words That Matter"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/streaming-word-particles.png" alt="Terminology Extraction for Video: Finding the Words That Matter" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Terminology Extraction for Video: Finding the Words That Matter</h2><p class="blog-card-description">A team asked to list the terms in their content produces the obvious ones and misses the ones that cause problems. Systematic extraction finds the difference.</p>
+      <time class="blog-card-date" datetime="2026-08-20T13:35:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

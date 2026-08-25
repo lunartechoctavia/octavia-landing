@@ -1,0 +1,645 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Translate Video into Arabic: Dialects, Right-to-Left Text, and MSA | Octavia</title>
+    <meta name="description" content="How to translate video into Arabic: choosing between MSA and regional dialects, right-to-left subtitle rendering, text expansion, and voice selection.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/translate-video-to-arabic">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Translate Video into Arabic: Dialects, Right-to-Left Text, and MSA">
+    <meta property="og:description" content="How to translate video into Arabic: choosing between MSA and regional dialects, right-to-left subtitle rendering, text expansion, and voice selection.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/translate-video-to-arabic">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/cascade-light-prism.png">
+    <meta property="article:published_time" content="2026-08-20T09:05:00Z">
+    <meta property="article:modified_time" content="2026-08-20T09:05:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Translate Video into Arabic: Dialects, Right-to-Left Text, and MSA">
+    <meta name="twitter:description" content="How to translate video into Arabic: choosing between MSA and regional dialects, right-to-left subtitle rendering, text expansion, and voice selection.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/cascade-light-prism.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Translate Video into Arabic: Dialects, Right-to-Left Text, and MSA","description":"How to translate video into Arabic: choosing between MSA and regional dialects, right-to-left subtitle rendering, text expansion, and voice selection.","image":"https://octavia.lunartech.ai/assets/blog/images/cascade-light-prism.png","datePublished":"2026-08-20T09:05:00Z","dateModified":"2026-08-20T09:05:00Z","wordCount":2225,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/translate-video-to-arabic","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Translate Video into Arabic: Dialects, Right-to-Left Text, and MSA","item":"https://octavia.lunartech.ai/blog/translate-video-to-arabic"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/translation-guides">Translation Guides</a>
+        <h1 class="article-title">Translate Video into Arabic: Dialects, Right-to-Left Text, and MSA</h1><p class="article-deck">Arabic presents challenges no Latin-script language does: a formal written standard distinct from every spoken variety, right-to-left rendering, and dialect choices that determine whether content sounds authoritative or intimate.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-20T09:05:00Z">Aug 20, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/cascade-light-prism.png" alt="Translate Video into Arabic: Dialects, Right-to-Left Text, and MSA" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#arabic-is-a-cluster-of-decisions">Arabic Is a Cluster of Decisions</a></li><li><a class="toc-h2" data-toc-link href="#modern-standard-arabic-or-a-dialect">Modern Standard Arabic or a Dialect</a></li><li><a class="toc-h2" data-toc-link href="#right-to-left-rendering">Right-to-Left Rendering</a></li><li><a class="toc-h2" data-toc-link href="#text-expansion-and-timing">Text Expansion and Timing</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-specifications">Subtitle Specifications</a></li><li><a class="toc-h2" data-toc-link href="#voice-selection">Voice Selection</a></li><li><a class="toc-h2" data-toc-link href="#cultural-and-content-considerations">Cultural and Content Considerations</a></li><li><a class="toc-h2" data-toc-link href="#terminology">Terminology</a></li><li><a class="toc-h2" data-toc-link href="#on-screen-text-and-graphics">On-Screen Text and Graphics</a></li><li><a class="toc-h2" data-toc-link href="#quality-review-for-arabic">Quality Review for Arabic</a></li><li><a class="toc-h2" data-toc-link href="#a-practical-sequence">A Practical Sequence</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Arabic video translation and localization"></a></p>
+<h2 id="arabic-is-a-cluster-of-decisions">Arabic Is a Cluster of Decisions</h2>
+<p>Arabic is the official language of more than twenty countries and is spoken by upwards of 400 million people across North Africa, the Levant, the Arabian Peninsula, and diaspora communities worldwide. It is one of the largest addressable audiences available to any content program, and one of the most frequently mishandled.</p>
+<p>The core difficulty is that &quot;Arabic&quot; does not name a single target. There is Modern Standard Arabic — the formal register used in news broadcasting, publishing, education, and official communication across the entire Arabic-speaking world. And there are regional spoken varieties: Egyptian, Gulf, Levantine, Iraqi, and Maghrebi among the major groupings, which differ from each other and from Modern Standard Arabic in vocabulary, pronunciation, and grammar. Some are not readily mutually intelligible.</p>
+<p>Nobody speaks Modern Standard Arabic as a native everyday language. Everybody with an education understands it. That gap — universally understood but nobody&#39;s mother tongue — is the central fact governing Arabic video localization.</p>
+<h2 id="modern-standard-arabic-or-a-dialect">Modern Standard Arabic or a Dialect</h2>
+<p>The choice between Modern Standard Arabic and a regional variety is the first and most consequential decision, and it should be made on content type rather than convenience.</p>
+<p><strong>Modern Standard Arabic is correct</strong> for corporate communications, formal training, compliance content, technical documentation, news and journalism, educational material, and anything intended to reach the full Arabic-speaking world with a single version. It carries authority and formality. It is understood from Morocco to Oman. And it is the register audiences expect for serious informational content — using a colloquial dialect for a compliance course would read as oddly casual, the way a legal notice written in slang would read in English.</p>
+<p><strong>A regional dialect is correct</strong> for consumer marketing aimed at a specific country, entertainment and lifestyle content, social media material, and anything where warmth and relatability matter more than reach. Dialect signals that content was made for a specific audience rather than broadcast at everyone. For a brand targeting Egypt specifically, Egyptian Arabic will outperform Modern Standard Arabic on engagement.</p>
+<p>Egyptian Arabic deserves separate mention because of Egypt&#39;s historical dominance in film, television, and music production. It is the most widely understood dialect across the region, giving it a reach advantage no other regional variety has. For entertainment content seeking broad regional appeal with a colloquial feel, Egyptian Arabic is often the pragmatic choice.</p>
+<p>A common and effective pattern is to use Modern Standard Arabic for the subtitle track — where it reads naturally and serves everyone — while selecting dialect for dubbed audio when targeting a specific market. Written Arabic is conventionally Modern Standard even when the spoken content is colloquial, which is why Arabic television routinely pairs dialect speech with Modern Standard captions.</p>
+<h2 id="right-to-left-rendering">Right-to-Left Rendering</h2>
+<p>Arabic is written right to left, and this breaks assumptions built into tooling designed for Latin scripts. Problems here are common, visible, and entirely preventable.</p>
+<p><strong>Bidirectional text is the main hazard.</strong> Arabic content frequently contains embedded left-to-right runs: Latin-script product names, URLs, email addresses, version numbers, and figures. The Unicode bidirectional algorithm handles the mixing, but implementations vary, and text that renders correctly in your editing tool may render incorrectly in a video player or on a specific platform. Punctuation at the boundary between a right-to-left run and a left-to-right run is where breakage concentrates — a period or parenthesis can jump to the wrong end of a line.</p>
+<p><strong>Character shaping must be preserved.</strong> Arabic letters change form depending on position within a word — initial, medial, final, or isolated — and adjacent letters join. A pipeline that strips this shaping produces text that is technically composed of the right characters but is difficult or impossible to read. Verify shaping in the final rendered output, not in intermediate files.</p>
+<p><strong>Alignment and punctuation differ.</strong> Arabic subtitles align right. The Arabic comma (،) and question mark (؟) are mirrored forms distinct from their Latin counterparts, and using Latin punctuation in Arabic text looks wrong to native readers.</p>
+<p><strong>Font coverage matters.</strong> Not every font contains complete Arabic glyph coverage including all shaped forms and diacritics. For burned-in subtitles, verify the chosen font renders your full script correctly before committing to a render.</p>
+<p>The practical rule: always verify Arabic subtitle rendering visually on the actual destination platform, on both desktop and mobile, before publishing. Do not trust that correct source text will produce correct display.</p>
+<h2 id="text-expansion-and-timing">Text Expansion and Timing</h2>
+<p>Arabic text length relative to English varies by register and by how the source is written. Modern Standard Arabic tends to be relatively compact in character count because short vowels are typically unwritten, but the spoken form is often longer in duration because those unwritten vowels are still pronounced.</p>
+<p>This creates a specific trap: subtitle text that looks short on the page may correspond to speech that takes longer than expected. For dubbing, plan for spoken duration rather than estimating from character count. Expansion of roughly 10 to 25 percent in spoken duration relative to English is a reasonable planning assumption, varying by content density.</p>
+<p>Manage this during translation rather than afterward. Condensing text preserves natural delivery; compressing speech rate degrades prosody, and Arabic prosody carries considerable meaning through emphasis and rhythm. Where segments overrun, look for available silence and adjacent short segments before adjusting rate.</p>
+<h2 id="subtitle-specifications">Subtitle Specifications</h2>
+<p>Arabic subtitle conventions differ from Latin-script practice in several particulars.</p>
+<p>Line length is conventionally measured in characters, with roughly 40 to 45 characters per line working for most contexts, and a maximum of two lines. Because Arabic script is relatively compact, a given amount of content fits in fewer characters than the English equivalent — but reading speed does not scale proportionally.</p>
+<p>Reading speed guidance around 15 to 18 characters per second suits general audiences, adjusted downward for dense material. Arabic readers are generally comfortable with subtitles, as subtitled foreign content is common across the region.</p>
+<p>Line breaking requires care. Arabic words should not be split across lines, and breaks should fall at phrase boundaries. Because word boundaries in Arabic script are visually less pronounced than in Latin scripts — letters within a word connect, but the visual rhythm is different — a poorly placed break is disorienting in a way that takes a moment to parse.</p>
+<p>Diacritics, which mark short vowels, are generally omitted in standard written Arabic including subtitles. Including full diacritics reads as pedagogical or religious material rather than general content. The exception is where ambiguity would otherwise cause misreading of a specific term.</p>
+<h2 id="voice-selection">Voice Selection</h2>
+<p>Voice choice for Arabic audio carries dialect information whether or not you intend it to. A voice reading Modern Standard Arabic still has an accent — a Levantine speaker and a Gulf speaker reading identical Modern Standard text sound different to Arabic listeners.</p>
+<p>For pan-regional Modern Standard content, a neutral broadcast-style delivery is the safe default. Arabic news broadcasting has established a recognizable register that audiences across the region accept as authoritative and unmarked.</p>
+<p>For dialect content, the voice must match the target dialect. A Gulf-accented voice delivering Egyptian Arabic content is immediately noticeable and undercuts the reason for choosing dialect in the first place.</p>
+<p>Register expectations are relatively formal in Arabic professional and educational contexts. Delivery that would read as appropriately energetic in English marketing may read as excessive in Arabic corporate content. Test a sample before committing to a full render.</p>
+<p>Where the source speaker appears on camera and their identity matters to the content — a named executive, a recognized presenter, a creator with an established audience — voice cloning maintains that identity in Arabic, so the same person is recognizably speaking rather than being replaced by a narrator.</p>
+<h2 id="cultural-and-content-considerations">Cultural and Content Considerations</h2>
+<p>Arabic-speaking markets span a wide range of social and regulatory environments, and content that is unremarkable in one may be unsuitable in another.</p>
+<p>Content review by someone familiar with the specific target market is more important here than in most language pairs. This is not primarily about translation accuracy — it is about whether examples, imagery, humor, and framing land appropriately. A reviewer from the target market catches issues that a linguistically competent translator from elsewhere in the region might miss.</p>
+<p>Calendar and date handling deserves attention. The Hijri calendar is used alongside the Gregorian calendar in several markets, and content referencing dates, holidays, or seasonal timing may need adaptation rather than translation.</p>
+<p>Numerals present a specific choice. Arabic-speaking countries use two numeral systems: Eastern Arabic numerals (١٢٣) and Western Arabic numerals (123), with usage varying by country and context. Egypt and the Levant commonly use Eastern forms in some contexts; the Maghreb generally uses Western forms. Determine the convention for your target market and apply it consistently.</p>
+<h2 id="terminology">Terminology</h2>
+<p>Arabic has an active tradition of coining native equivalents for technical vocabulary, coordinated in part through regional language academies. This produces a situation where an official Arabic term exists but everyday professional usage retains the English term.</p>
+<p>Technology vocabulary illustrates the pattern. Formal Arabic terms exist for most computing concepts, and they appear in academic and official documentation. In workplace speech and much online content, English terms are used directly or in transliterated form. Choosing between them is a register decision: formal training content leans toward Arabic terms, while content aimed at working developers leans toward English.</p>
+<p>Build a glossary before translation and have it validated by a reviewer from your target market. Record for each term whether it stays in English, appears transliterated, or takes an Arabic equivalent. Consistency matters more than which choice you make.</p>
+<p>Product names and trademarks generally stay in Latin script, which means every occurrence creates a bidirectional text boundary. Check these specifically during rendering verification.</p>
+<h2 id="on-screen-text-and-graphics">On-Screen Text and Graphics</h2>
+<p>Arabic on-screen text requires more production work than Latin-script equivalents, and it is the stage most often underestimated.</p>
+<p>Layout direction has to flip, not merely translate. Lower thirds that anchor to the left in the source should anchor to the right in Arabic. Arrows, progress indicators, and any element implying directional flow read backwards if left unchanged — a left-to-right arrow indicating progression means the opposite to a reader whose eye travels right to left. Slide layouts with a text column on the left and an image on the right generally read better mirrored.</p>
+<p>Text length changes affect fitted graphics. Arabic text is compact in character count but the shaped, connected script has different metrics from Latin text, and a text box sized for English will not reliably fit the Arabic equivalent. Every fitted text element needs visual verification rather than assumed compatibility.</p>
+<p>Mixed-script elements are the most common failure point. A lower third containing an Arabic name and a Latin-script company name creates a bidirectional boundary in a constrained space, and the punctuation between them frequently lands on the wrong side. Check each one visually.</p>
+<p>Where the production budget does not permit replacing graphics, subtitling the on-screen text is an acceptable fallback for lower-priority elements — but it should be applied consistently, since a video that localizes some graphics and not others reads as unfinished.</p>
+<h2 id="quality-review-for-arabic">Quality Review for Arabic</h2>
+<p>Reviewing Arabic output requires a reviewer who reads the target dialect and knows the subject matter, and the brief should be explicit about what to check.</p>
+<p>Ask the reviewer to verify register consistency first: whether the content maintains Modern Standard Arabic throughout or maintains a single dialect, without drifting between them. Mixed register is the most common structural error and is invisible to anyone who does not read Arabic.</p>
+<p>Ask them to check terminology against the glossary, flagging both incorrect terms and inconsistent renderings of the same concept. Arabic offers multiple defensible translations for many technical concepts, so consistency matters more than any individual choice.</p>
+<p>Ask specifically about cultural fit — examples, humor, imagery references, and framing — as a separate question from linguistic accuracy. A reviewer asked only to check the translation will check the translation; a reviewer asked whether the content will land in their market will tell you something more useful.</p>
+<p>For dubbed audio, have the reviewer listen rather than read. Pronunciation of proper nouns, correct rendering of numerals, and appropriateness of delivery are audible issues that a script review will not surface.</p>
+<p>Finally, have someone verify the rendered output visually even if they do not read Arabic. Broken bidirectional text, missing glyphs, and reversed layouts are visible as visual defects regardless of language competence.</p>
+<h2 id="a-practical-sequence">A Practical Sequence</h2>
+<p>Start by naming the specific market or markets. &quot;Arabic-speaking audiences&quot; is not actionable; Egypt, Saudi Arabia, the UAE, and Morocco imply different decisions.</p>
+<p>Choose register: Modern Standard Arabic for formal, informational, and pan-regional content; a specific dialect for consumer and entertainment content aimed at one market.</p>
+<p>Correct the source transcript and build the terminology glossary before translating. Translate with spoken duration in mind, not just character count.</p>
+<p>Have a native speaker from the target market review the script, briefed to flag terminology, register, and cultural fit rather than only grammatical accuracy.</p>
+<p>Select a voice matching the chosen register and dialect, test a short sample, then generate.</p>
+<p>Verify subtitle rendering visually on the destination platform — right-to-left alignment, bidirectional boundaries, character shaping, punctuation forms, and font coverage — on both desktop and mobile.</p>
+<p>Finally, watch the complete video end to end before publishing. Arabic-speaking markets represent enormous reach, and the difference between content that was translated and content that was localized is visible to audiences within the first thirty seconds.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslate-video-to-arabic" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslate-video-to-arabic&amp;text=Translate%20Video%20into%20Arabic%3A%20Dialects%2C%20Right-to-Left%20Text%2C%20and%20MSA" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslate-video-to-arabic" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/translation-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/science-communication-video-translation" aria-label="Read Science Communication Video Translation Without Losing Precision"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/lattice-precision-glass.jpg" alt="Science Communication Video Translation Without Losing Precision" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Science Communication Video Translation Without Losing Precision</h2><p class="blog-card-description">Every hedge a scientist writes is load-bearing. Translation is where hedges go to die.</p>
+      <time class="blog-card-date" datetime="2026-08-25T19:00:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/chinese-video-translation-guide" aria-label="Read Chinese Video Translation: Simplified vs Traditional and What Changes"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/layered-glass-panels.png" alt="Chinese Video Translation: Simplified vs Traditional and What Changes" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Chinese Video Translation: Simplified vs Traditional and What Changes</h2><p class="blog-card-description">Chinese is not a single translation target — the script, vocabulary, and market preferences differ significantly between Mainland China, Taiwan, Hong Kong, and Singapore.</p>
+      <time class="blog-card-date" datetime="2026-08-24T09:00:00Z">Aug 24, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/translate-video-to-finnish" aria-label="Read Translate Video into Finnish: Fifteen Cases and Extreme Agglutination"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/eclipse-light-streaks.png" alt="Translate Video into Finnish: Fifteen Cases and Extreme Agglutination" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Translate Video into Finnish: Fifteen Cases and Extreme Agglutination</h2><p class="blog-card-description">Finnish packs into single words what English spreads across a phrase, which makes subtitle line breaking harder than in almost any other European language.</p>
+      <time class="blog-card-date" datetime="2026-08-20T13:45:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

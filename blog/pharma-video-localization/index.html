@@ -1,0 +1,657 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Pharma Video Localization Under MLR Review | Octavia</title>
+    <meta name="description" content="How pharmaceutical teams localize video within medical, legal, and regulatory review: claim integrity, indication scope, safety information, and audit trails.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/pharma-video-localization">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Pharma Video Localization Under MLR Review">
+    <meta property="og:description" content="How pharmaceutical teams localize video within medical, legal, and regulatory review: claim integrity, indication scope, safety information, and audit trails.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/pharma-video-localization">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/clinical-glass-lattice.png">
+    <meta property="article:published_time" content="2026-08-25T13:00:00Z">
+    <meta property="article:modified_time" content="2026-08-25T13:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pharma Video Localization Under MLR Review">
+    <meta name="twitter:description" content="How pharmaceutical teams localize video within medical, legal, and regulatory review: claim integrity, indication scope, safety information, and audit trails.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/clinical-glass-lattice.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Pharma Video Localization Under MLR Review","description":"How pharmaceutical teams localize video within medical, legal, and regulatory review: claim integrity, indication scope, safety information, and audit trails.","image":"https://octavia.lunartech.ai/assets/blog/images/clinical-glass-lattice.png","datePublished":"2026-08-25T13:00:00Z","dateModified":"2026-08-25T13:00:00Z","wordCount":2247,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/pharma-video-localization","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Pharma Video Localization Under MLR Review","item":"https://octavia.lunartech.ai/blog/pharma-video-localization"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">Pharma Video Localization Under MLR Review</h1><p class="article-deck">In pharma, the reviewed asset is the deliverable. The translation is just one of the things that has to survive review.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-25T13:00:00Z">Aug 25, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/clinical-glass-lattice.png" alt="Pharma Video Localization Under MLR Review" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-pharma-video-localization-is-governed-differently">Why Pharma Video Localization Is Governed Differently</a></li><li><a class="toc-h2" data-toc-link href="#sorting-content-by-regulatory-weight">Sorting Content by Regulatory Weight</a></li><li><a class="toc-h2" data-toc-link href="#claim-integrity-is-the-central-risk">Claim Integrity Is the Central Risk</a></li><li><a class="toc-h2" data-toc-link href="#safety-information-handling">Safety Information Handling</a></li><li><a class="toc-h2" data-toc-link href="#terminology-control">Terminology Control</a></li><li><a class="toc-h2" data-toc-link href="#building-the-audit-trail">Building the Audit Trail</a></li><li><a class="toc-h2" data-toc-link href="#data-handling">Data Handling</a></li><li><a class="toc-h2" data-toc-link href="#a-realistic-adoption-path">A Realistic Adoption Path</a></li><li><a class="toc-h2" data-toc-link href="#coordinating-across-affiliates">Coordinating Across Affiliates</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Laboratory research environment with scientific equipment"></a></p>
+<h2 id="why-pharma-video-localization-is-governed-differently">Why Pharma Video Localization Is Governed Differently</h2>
+<p>Most industries localize video by translating it. Pharmaceutical companies cannot, because in this sector the translated asset is not a derivative of an approved original — it is a new promotional communication in a new jurisdiction, subject to that jurisdiction&#39;s rules about what may be said, to whom, and with what accompanying safety information.</p>
+<p>This has a specific consequence that catches teams out repeatedly. A video approved by medical, legal, and regulatory review in the source market is not pre-approved anywhere else. The claims permitted in one market may exceed what the label supports in another. The indication may be narrower. Direct-to-consumer promotion may be prohibited entirely. The required safety information may differ in content, placement, and duration.</p>
+<p>So the question is never simply &quot;is this translation accurate.&quot; It is &quot;is this communication compliant in the market where it will run, and can we demonstrate that it was reviewed.&quot;</p>
+<p>Getting this framing right at the start changes the workflow substantially, and mostly for the better: it makes clear which content is genuinely constrained and which is not.</p>
+<h2 id="sorting-content-by-regulatory-weight">Sorting Content by Regulatory Weight</h2>
+<p>Pharmaceutical organisations produce far more video than the promotional material that dominates the compliance conversation. Sorting it properly prevents applying maximal review burden to everything.</p>
+<p><strong>Promotional, healthcare-professional-facing.</strong> Product detail aids, mechanism-of-action animations, congress presentations, sales-representative materials. Full MLR review in every market, claim-by-claim against the local label.</p>
+<p><strong>Promotional, patient-facing.</strong> Disease awareness, treatment information, adherence support. Subject to market-specific rules that vary enormously, including outright prohibition of direct-to-consumer promotion in many jurisdictions. The most constrained category.</p>
+<p><strong>Medical affairs and scientific exchange.</strong> Data presentations, investigator communications, medical science liaison materials. Governed by different rules than promotion, typically with a stricter separation requirement and different review routing.</p>
+<p><strong>Corporate and non-promotional.</strong> Sustainability reporting, manufacturing and supply-chain content, investor communications, recruitment. Generally outside MLR, subject to ordinary corporate governance.</p>
+<p><strong>Internal training and compliance.</strong> SOP training, pharmacovigilance procedures, quality systems, code-of-conduct material. Accuracy is critical because errors cause real operational harm, but the review route is internal rather than regulatory.</p>
+<p><strong>Clinical trial materials.</strong> Patient recruitment, informed consent support, site training. Governed by ethics committee and regulatory approval, frequently requiring certified translation and separate approval per site and country.</p>
+<p>The practical insight: internal training, corporate content, and much of the clinical site-training material represent large volumes with meaningful language needs and no MLR dependency. That is where automated localization delivers immediate value while the governance for promotional content is being worked out.</p>
+<h2 id="claim-integrity-is-the-central-risk">Claim Integrity Is the Central Risk</h2>
+<p>Within promotional content, the failure mode that matters is claim distortion — where translation subtly strengthens, broadens, or softens a claim relative to what the local label supports.</p>
+<p>The specific mechanisms are worth naming, because they are systematic rather than random:</p>
+<p><strong>Comparative drift.</strong> A carefully hedged comparative statement rendered as a flat superiority claim. Qualifiers like &quot;may,&quot; &quot;in some patients,&quot; &quot;compared with placebo,&quot; and &quot;in this study population&quot; carry enormous regulatory weight and are exactly the kind of hedging that fluent translation tends to smooth away.</p>
+<p><strong>Indication broadening.</strong> A claim scoped to a specific patient population or line of therapy rendered in general terms. The resulting sentence reads naturally and describes a product with a wider indication than the one approved.</p>
+<p><strong>Efficacy overstatement.</strong> Statistical language — significance, response rate, hazard ratio, confidence interval — translated into everyday terms that imply certainty the data does not support.</p>
+<p><strong>Safety understatement.</strong> Adverse event frequency terminology has defined meanings in regulatory usage. &quot;Common,&quot; &quot;uncommon,&quot; and &quot;rare&quot; are not casual descriptors, and rendering them as ordinary adjectives loses their defined frequency bands.</p>
+<p><strong>Off-label implication.</strong> A statement that is compliant in a market with a broader indication becoming an off-label promotion in a market with a narrower one — with no translation error at all. This is a content decision that must be made before localization, not caught during review.</p>
+<p>The last case is important because it demonstrates why translation review alone is insufficient. Perfect translation of a source-approved claim can still produce a non-compliant communication. Market-specific claim scoping has to happen upstream.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Medical professional reviewing clinical documentation"></a></p>
+<h2 id="safety-information-handling">Safety Information Handling</h2>
+<p>Important safety information is the element most likely to be mishandled in video localization, and the rules around it are specific.</p>
+<p><strong>Substitute, never translate.</strong> Safety information should be drawn from the locally approved label text, not generated by translating the source-market version. The local label is the authoritative source and it exists already. Treating it as ordinary prose to be translated afresh reintroduces risk on every asset.</p>
+<p><strong>Duration and legibility requirements survive translation.</strong> Where a market requires safety information to be displayed for a minimum duration or presented at a specified prominence, the localized version must meet that requirement in its own right. Target-language safety text is frequently longer than the source, and a version that compresses it to fit the original timing may fail the legibility or audibility standard.</p>
+<p><strong>Fair balance is assessed on the localized asset.</strong> The relationship between benefit and risk content is evaluated as the local audience experiences it. A version where the efficacy narration expanded in translation while the safety segment stayed fixed has shifted its balance, even though nothing was mistranslated.</p>
+<p><strong>Audibility matters for spoken safety information.</strong> A voiceover that races through safety content to fit the original timing has not communicated it. Timing that keeps speech at a natural pace rather than artificially compressing it is a compliance consideration in this context, not just a listening-comfort one.</p>
+<p>The practical approach is to structure video so that safety information sits in a discrete segment that can be replaced wholesale per market, rather than woven through narration in a way that forces the entire asset to be rebuilt.</p>
+<h2 id="terminology-control">Terminology Control</h2>
+<p>Pharmaceutical terminology requires more rigour than almost any other sector, and it is largely a solved problem if the vocabulary work is done properly upfront.</p>
+<p>What needs locked, approved renderings per market:</p>
+<ul><li>Product names, including brand and international non-proprietary names, and the rules about which is used where.</li><li>The approved indication wording, taken verbatim from the local label.</li><li>Adverse event terminology aligned to the applicable standardised medical dictionary in the target language.</li><li>Anatomical, physiological, and mechanism terms, which have precise established forms that everyday translation will not reliably select.</li><li>Statistical and study-design vocabulary.</li><li>Regulatory body names, approval categories, and reimbursement terminology in the local form.</li><li>Dosing, administration route, and formulation language, where an error has direct clinical consequence.</li></ul>
+<p>Standardised medical terminologies exist in multiple language versions specifically so that safety reporting is consistent across markets. Using those official renderings rather than generating fresh translations is both safer and easier to defend in review.</p>
+<h2 id="building-the-audit-trail">Building the Audit Trail</h2>
+<p>For any content within MLR scope, the reviewable record is part of the deliverable.</p>
+<p>A defensible trail contains the source asset and its approval reference, the source transcript, the market-specific claim scoping decision and who made it, the machine translation output, the reviewed and corrected translation with changes visible, the reviewer&#39;s identity and qualification, the safety information version used with its label reference, the terminology version applied, the local MLR approval, and the expiry or review date.</p>
+<p>Two observations from teams that operate this well.</p>
+<p>First, the trail is mostly a by-product of a well-designed workflow rather than additional work. A platform that keeps transcripts and translations editable and reviewable before audio generation naturally produces most of these artefacts; the discipline is retaining them systematically.</p>
+<p>First-pass review effort also falls substantially once terminology is mature. Teams routinely find that the review burden on their tenth asset in a language is a fraction of the first, because the recurring corrections have been converted into locked vocabulary entries.</p>
+<p>Second, expiry management is where compliance most often fails in practice. A localized asset whose source claim was subsequently revised, or whose label changed, can persist in a market where nobody on the review team speaks the language. Automatic expiry with forced re-review is the only reliable control.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Pharmaceutical manufacturing and quality control environment"></a></p>
+<h2 id="data-handling">Data Handling</h2>
+<p>Pharmaceutical content frequently contains material that is confidential, commercially sensitive, or subject to privacy regulation.</p>
+<p>Pre-approval product content is material non-public information. Clinical trial material may contain identifiable participant data. Investigator communications may include unpublished results. Manufacturing content may contain trade secrets. Patient testimonial footage carries health data about identifiable individuals.</p>
+<p>The requirements that follow are the ones any life-sciences procurement function will insist on: documented data residency with the ability to constrain processing region, a written position that content is not used for model training, configurable retention aligned to records schedules, encryption in transit and at rest, role-based access with single sign-on, audit logging of access, and a clear sub-processor position.</p>
+<p>Patient footage deserves particular care. Consent obtained for use in one market does not automatically extend to others, and creating a synthetic voice from a patient&#39;s recorded speech raises consent questions well beyond the original release. This should be settled with privacy counsel before it arises, not after.</p>
+<h2 id="a-realistic-adoption-path">A Realistic Adoption Path</h2>
+<p>Start outside MLR. Internal training, SOP content, quality systems, and corporate communications carry real volume and real language need without the regulatory dependency. This builds operational competence, surfaces terminology gaps, and produces measurable savings while nothing is at stake.</p>
+<p>Build the terminology asset properly during that phase, with medical affairs and regulatory involved from the beginning rather than brought in as late reviewers.</p>
+<p>Move to clinical site training and non-promotional medical education next, which introduces the review discipline in a context with clear rules and cooperative stakeholders.</p>
+<p>Approach promotional content last, market by market, with claim scoping done upstream and the audit trail already operating. Teams that attempt promotional content first almost always stall, because the full review burden arrives before any of the supporting infrastructure exists and the conclusion drawn is that the approach does not work.</p>
+<h2 id="coordinating-across-affiliates">Coordinating Across Affiliates</h2>
+<p>Pharmaceutical organisations are structurally federated, with global functions producing content and local affiliates responsible for what runs in their market. Localization sits precisely on that boundary, which makes it as much a coordination problem as a production one.</p>
+<p>The failure modes are predictable. Global produces an asset and pushes it out, affiliates find it does not match their label and quietly do not use it. Or affiliates each commission their own version, producing inconsistent terminology and duplicated cost. Or an affiliate adapts an asset without routing it back, and global has no visibility of what is running under the brand.</p>
+<p>What works:</p>
+<p><strong>Involve affiliates at scripting, not at review.</strong> An affiliate that flags an indication difference before production is saving the whole exercise. One that flags it after generation is rejecting finished work.</p>
+<p><strong>Maintain terminology per market, owned locally.</strong> Global can own the structure; only the affiliate can own what the approved local rendering is, because only the affiliate holds the local label.</p>
+<p><strong>Make the claim-scoping matrix explicit.</strong> Which claims are supportable in which markets, maintained as a living artefact rather than rediscovered per asset.</p>
+<p><strong>Give affiliates a route to decline.</strong> An affiliate that can say a piece is not usable in their market, with the reason recorded, produces better information than one that simply lets it sit unused.</p>
+<p><strong>Track what is actually running where.</strong> Global visibility of live localized assets by market, with expiry dates, is the control that prevents a superseded claim persisting somewhere nobody is watching.</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Can machine translation be used for MLR-reviewed promotional content?</strong></p>
+<p>Nothing inherently prohibits machine translation as a step in the process, but the company remains fully responsible for the compliance of the resulting communication. That means documented review by someone competent in both the language and the local regulatory framework is effectively mandatory, and safety information should be substituted from approved local label text rather than translated. Some markets additionally require certified translation for specific document types — confirm per market rather than assuming.</p>
+<p><strong>Does source-market MLR approval carry to other markets?</strong></p>
+<p>No. Each market&#39;s approval is independent, and claims permitted in one may exceed what the local label supports elsewhere. Market-specific claim scoping must happen before localization, because a perfectly accurate translation of a source-approved claim can still be non-compliant locally.</p>
+<p><strong>How should important safety information be handled?</strong></p>
+<p>Substitute the locally approved label text rather than translating the source version. Ensure the localized version independently meets local duration, prominence, and audibility requirements, which often differ from the source and frequently require more time because target-language text is longer.</p>
+<p><strong>Is voice cloning appropriate for pharmaceutical content?</strong></p>
+<p>For internal training and corporate communications, with consent, it works well. For patient testimonial content it raises significant consent and privacy questions that should be resolved with privacy counsel before use. For healthcare-professional-facing promotional content featuring a named clinician, the individual&#39;s authorisation and the company&#39;s control over what that voice may say both need to be explicit.</p>
+<p><strong>Where should a pharmaceutical company start?</strong></p>
+<p>Internal training and corporate content, outside MLR scope. It carries genuine volume and language need, builds the terminology asset and operational discipline, and demonstrates value without regulatory exposure. Promotional content should come last, once the review trail and vocabulary are already working.</p>
+<hr>
+<p>Related reading: <a href="/blog/healthcare-video-translation">Healthcare Video Translation</a> | <a href="/blog/video-translation-security-and-privacy">Video Translation Security and Privacy</a> | <a href="/blog/localization-quality-assurance-checklist">Localization Quality Assurance Checklist</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpharma-video-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpharma-video-localization&amp;text=Pharma%20Video%20Localization%20Under%20MLR%20Review" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpharma-video-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/energy-utilities-field-training-translation" aria-label="Read Energy and Utilities Field Training Translation"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/field-glass-pylons.jpg" alt="Energy and Utilities Field Training Translation" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Energy and Utilities Field Training Translation</h2><p class="blog-card-description">The person doing the most hazardous work on site is often the one least likely to have been trained in their own language.</p>
+      <time class="blog-card-date" datetime="2026-08-25T21:00:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/insurance-video-translation" aria-label="Read Insurance Video Translation for Policyholders and Claims"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/policy-glass-folds.png" alt="Insurance Video Translation for Policyholders and Claims" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Insurance Video Translation for Policyholders and Claims</h2><p class="blog-card-description">The moment a policyholder most needs to understand their cover is the moment they are least able to read a forty-page document.</p>
+      <time class="blog-card-date" datetime="2026-08-25T19:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/investor-relations-video-translation" aria-label="Read Investor Relations Video Translation for Global Shareholders"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/quarterly-glass-columns.png" alt="Investor Relations Video Translation for Global Shareholders" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Investor Relations Video Translation for Global Shareholders</h2><p class="blog-card-description">Selective disclosure is not only about who gets the information. It is also about who can understand it.</p>
+      <time class="blog-card-date" datetime="2026-08-25T18:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

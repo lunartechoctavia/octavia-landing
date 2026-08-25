@@ -1,0 +1,659 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Science Communication Video Translation Without Losing Precision | Octavia</title>
+    <meta name="description" content="How research labs and science communicators translate video: uncertainty language, unit conventions, discipline terminology, preprint caveats, and public trust.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/science-communication-video-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Science Communication Video Translation Without Losing Precision">
+    <meta property="og:description" content="How research labs and science communicators translate video: uncertainty language, unit conventions, discipline terminology, preprint caveats, and public trust.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/science-communication-video-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/lattice-precision-glass.jpg">
+    <meta property="article:published_time" content="2026-08-25T19:00:00Z">
+    <meta property="article:modified_time" content="2026-08-25T19:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Science Communication Video Translation Without Losing Precision">
+    <meta name="twitter:description" content="How research labs and science communicators translate video: uncertainty language, unit conventions, discipline terminology, preprint caveats, and public trust.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/lattice-precision-glass.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Science Communication Video Translation Without Losing Precision","description":"How research labs and science communicators translate video: uncertainty language, unit conventions, discipline terminology, preprint caveats, and public trust.","image":"https://octavia.lunartech.ai/assets/blog/images/lattice-precision-glass.jpg","datePublished":"2026-08-25T19:00:00Z","dateModified":"2026-08-25T19:00:00Z","wordCount":2124,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/science-communication-video-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Science Communication Video Translation Without Losing Precision","item":"https://octavia.lunartech.ai/blog/science-communication-video-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/translation-guides">Translation Guides</a>
+        <h1 class="article-title">Science Communication Video Translation Without Losing Precision</h1><p class="article-deck">Every hedge a scientist writes is load-bearing. Translation is where hedges go to die.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-25T19:00:00Z">Aug 25, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/lattice-precision-glass.jpg" alt="Science Communication Video Translation Without Losing Precision" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-hedge-is-the-content">The Hedge Is the Content</a></li><li><a class="toc-h2" data-toc-link href="#building-the-uncertainty-vocabulary">Building the Uncertainty Vocabulary</a></li><li><a class="toc-h2" data-toc-link href="#discipline-terminology-and-false-friends">Discipline Terminology and False Friends</a></li><li><a class="toc-h2" data-toc-link href="#numbers-units-and-notation">Numbers, Units, and Notation</a></li><li><a class="toc-h2" data-toc-link href="#evidence-status-and-caveats">Evidence Status and Caveats</a></li><li><a class="toc-h2" data-toc-link href="#public-health-content-deserves-extra-care">Public Health Content Deserves Extra Care</a></li><li><a class="toc-h2" data-toc-link href="#where-science-communication-localizes-well">Where Science Communication Localizes Well</a></li><li><a class="toc-h2" data-toc-link href="#a-working-approach">A Working Approach</a></li><li><a class="toc-h2" data-toc-link href="#working-with-researchers">Working With Researchers</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Research laboratory with scientific instruments"></a></p>
+<h2 id="the-hedge-is-the-content">The Hedge Is the Content</h2>
+<p>Science communication has a defining property that makes it unusually vulnerable to translation error: the qualifying language is not decoration around the finding. It frequently <em>is</em> the finding.</p>
+<p>&quot;Associated with&quot; is not &quot;causes.&quot; &quot;In mice&quot; is not &quot;in humans.&quot; &quot;Suggests&quot; is not &quot;shows.&quot; &quot;In this cohort&quot; is not &quot;in general.&quot; &quot;Under laboratory conditions&quot; is not &quot;in the world.&quot; A statistically significant effect is not necessarily a large one, and a large effect in a small sample is not a reliable one.</p>
+<p>Researchers spend considerable effort getting these distinctions right, and science journalists spend considerable effort preserving them. Then the video gets translated, and a system optimised for fluency produces a version where &quot;our data suggest a possible association in a mouse model&quot; has become something much more quotable and much less true.</p>
+<p>This is not a hypothetical risk. It is the single most common failure mode in translated science content, and it matters more than in most domains because the audience frequently cannot check. A viewer watching a health explainer in their second language has no way to know that the original was more careful.</p>
+<p>For institutions whose credibility is their primary asset — universities, research institutes, science publishers, public health bodies — this is worth treating as a first-order quality problem rather than a translation detail.</p>
+<h2 id="building-the-uncertainty-vocabulary">Building the Uncertainty Vocabulary</h2>
+<p>The practical response is to treat hedging language as controlled terminology, exactly as a pharmaceutical company treats claim language.</p>
+<p>Terms that should be locked with approved renderings per language:</p>
+<ul><li>Causal and correlational language: associated with, linked to, correlated with, predicts, causes, leads to.</li><li>Confidence markers: suggests, indicates, demonstrates, proves, is consistent with.</li><li>Modal verbs: may, might, could, is likely to, appears to.</li><li>Scope qualifiers: in this sample, under these conditions, in this model organism, in a subset of participants.</li><li>Statistical vocabulary: significance, confidence interval, effect size, power, correlation coefficient, odds ratio, hazard ratio, p-value.</li><li>Evidence-strength language: preliminary, replicated, peer-reviewed, preprint, retracted, contested.</li><li>Magnitude and frequency terms, which carry defined meanings in some disciplines and loose ones in everyday speech.</li></ul>
+<p>Getting these renderings right requires input from someone who reads scientific literature in the target language, not only someone who speaks it. Scientific registers have settled conventions in each language, and the established equivalent for a hedging construction is often not the literal translation.</p>
+<p>This vocabulary is reusable across everything an institution produces. It is the highest-return investment in the whole workflow.</p>
+<h2 id="discipline-terminology-and-false-friends">Discipline Terminology and False Friends</h2>
+<p>Beyond hedging, science content carries dense specialist vocabulary with two distinct hazards.</p>
+<p><strong>Terms with a technical and an everyday meaning.</strong> Theory, significant, positive, control, model, bias, error, energy, force, stress, resolution, host, culture, vector, expression. In every case the everyday sense is more frequent in ordinary language, which is exactly why an unconstrained system may select it. A &quot;positive result&quot; in a diagnostic context, a &quot;control&quot; in an experimental one, and a &quot;significant&quot; difference in a statistical one all mean something specific.</p>
+<p><strong>Terms that differ across disciplines.</strong> The same word carries different meanings in physics, biology, and social science. Content spanning disciplines needs terminology scoped by field rather than globally.</p>
+<p>There is also a naming convention question worth deciding explicitly. Species names, chemical compounds, gene and protein names, anatomical structures, and units all have international conventions — binomial nomenclature, standardised gene symbols, SI units — that exist precisely so they are stable across languages. These should generally pass through untranslated. A system that renders a species binomial as ordinary prose has destroyed the one identifier that was universal.</p>
+<p>The pattern that serves audiences best mirrors technical education: give the concept in the viewer&#39;s language, retain the standard term alongside it. The viewer understands the idea and can still search for it, read about it, and recognise it elsewhere.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1554475900-0a0350e3fc7b?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Scientist examining data on a computer display"></a></p>
+<h2 id="numbers-units-and-notation">Numbers, Units, and Notation</h2>
+<p>Quantitative content needs a verification pass separate from linguistic review.</p>
+<p>The specific hazards:</p>
+<p><strong>Decimal and thousands separators invert between locales.</strong> A measurement can shift by orders of magnitude with no visible translation error.</p>
+<p><strong>Scale words differ genuinely across languages.</strong> The word resembling &quot;billion&quot; denotes different magnitudes in different major languages. This is a real trap, not a theoretical one.</p>
+<p><strong>Unit conventions vary.</strong> Even where SI is standard in publication, popular science content in different markets uses different everyday units, and converting requires care about significant figures.</p>
+<p><strong>Notation for uncertainty differs.</strong> How confidence intervals, error bars, and plus-or-minus ranges are written and spoken varies by convention.</p>
+<p><strong>Date and period conventions</strong> matter for anything discussing timelines, geological or historical eras, or study durations.</p>
+<p><strong>Percentages versus percentage points</strong> — a distinction routinely lost in ordinary speech and materially important in reporting results.</p>
+<p>The mechanical control is the same one that works in finance and pharma: extract every numeral and unit from the source transcript and from the translated transcript, and compare them as parallel lists before generating audio. This catches an entire error class that no amount of careful listening will surface.</p>
+<h2 id="evidence-status-and-caveats">Evidence Status and Caveats</h2>
+<p>Science communication increasingly discusses research at varying stages of validation, and the status markers carry real weight.</p>
+<p>Preprint status, peer-review status, replication status, sample size, funding source and conflicts of interest, and whether findings are contested are all information that determines how a viewer should weigh a claim. These caveats are frequently delivered quickly, sometimes as on-screen text, and are exactly the kind of content that gets compressed or dropped when target-language duration exceeds the source.</p>
+<p>Practical handling:</p>
+<ul><li>Treat evidence-status statements as fixed content to be preserved, not as prose to be compressed for timing.</li><li>Where on-screen text carries the caveat, ensure the localized version renders it legibly and for adequate duration.</li><li>Verify that any caveat present in the source is present in every language version. A version where the qualification was trimmed to fit is a materially different communication.</li><li>Where content will be published in markets with different regulatory contexts for health claims, check whether additional caveats are required locally.</li></ul>
+<h2 id="public-health-content-deserves-extra-care">Public Health Content Deserves Extra Care</h2>
+<p>A subset of science communication carries direct behavioural consequence, and it should be handled with the rigour applied to regulated content.</p>
+<p>Vaccination information, disease transmission and prevention, medication guidance, nutrition and dietary advice, environmental and occupational hazard information, emergency health instruction — misunderstanding in these areas causes harm rather than confusion.</p>
+<p>Additional controls that are proportionate here:</p>
+<p><strong>Review by a clinician or public health professional who speaks the language,</strong> not only a translator.</p>
+<p><strong>Alignment with the local health authority&#39;s terminology and guidance</strong>, which may differ from the source market&#39;s. Recommendations genuinely differ across jurisdictions, and a faithfully translated recommendation may contradict local official guidance.</p>
+<p><strong>Community review for register and trust.</strong> Public health communication only works if it is believed, and content that reads as institutionally distant or that uses a variety of the language the community does not speak will underperform regardless of accuracy.</p>
+<p><strong>Explicit handling of numbers and dosing</strong>, where errors have direct clinical consequence.</p>
+<p>The general principle: the further content moves from explaining and toward instructing, the closer the review standard should sit to the regulated-content standard.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Public health information session with community members"></a></p>
+<h2 id="where-science-communication-localizes-well">Where Science Communication Localizes Well</h2>
+<p>It is worth being clear that this content localizes well when handled properly, and the upside is substantial.</p>
+<p>Scientific concepts are largely universal. Unlike humour, idiom, or culturally specific narrative, an explanation of how a vaccine works or why a mathematical result holds translates cleanly because the underlying subject does not change across cultures. The visual language of science communication — animation, diagrams, demonstrations — is also largely language-independent, which means a large share of the production value carries over untouched.</p>
+<p>The audience is real and underserved. A significant share of the world&#39;s population is scientifically curious and does not read the languages in which most high-quality science communication is produced. For a research institution, a science publisher, or an independent communicator, this is a genuinely large unserved audience reachable with existing content.</p>
+<p>And the content is durable. A good explainer on cell division, orbital mechanics, or statistical reasoning remains accurate and useful for years. Unlike news, the localization investment does not decay.</p>
+<p>The combination — universal subject matter, language-independent visuals, large unserved audience, long shelf life — makes science communication one of the strongest categories for localization, provided the precision problem is taken seriously.</p>
+<h2 id="a-working-approach">A Working Approach</h2>
+<p>Build the uncertainty and terminology vocabulary first, with input from someone who reads the literature in each target language. This is the artefact that makes everything else safe.</p>
+<p>Start with evergreen explainer content rather than news-pegged research coverage. Longer shelf life, lower time pressure, better return on careful review.</p>
+<p>Institute a two-part review: a subject-matter reviewer checking that hedges, scope qualifiers, and evidence status survived, and a mechanical numeric pass comparing all figures and units.</p>
+<p>Treat public health and clinical content as a separate, higher-review tier with professional review in the target language and alignment to local official guidance.</p>
+<p>Publish transcripts alongside video in every language, which serves accessibility, improves discoverability, and gives careful viewers a way to check what was said.</p>
+<h2 id="working-with-researchers">Working With Researchers</h2>
+<p>Science communication is usually produced in collaboration with the researchers whose work it describes, and that relationship changes when localization enters the picture.</p>
+<p>Researchers are, correctly, protective of how their findings are characterised. Many have watched their work overstated in press coverage and are wary of any process that adds distance between what they said and what an audience hears. Presenting localization as an automated step performed after they signed off on the script is the fastest way to lose their cooperation.</p>
+<p>Bringing them in earlier, with something concrete to check, works considerably better:</p>
+<p><strong>Share the source script knowing it will be translated.</strong> Researchers who know a script will run into eight languages write differently — fewer idioms, cleaner hedging, less reliance on wordplay. This improves the source as well as every translation derived from it.</p>
+<p><strong>Give them a back-translation of the claims that matter.</strong> A researcher cannot review Korean, but they can review an English rendering of the Korean version of their central claim. For the two or three sentences carrying the finding, this is a fast and reassuring check.</p>
+<p><strong>Involve their international collaborators.</strong> Most research groups include members who speak the target languages and know the subject intimately. They are the best reviewers available and are usually willing.</p>
+<p><strong>Agree in advance what happens if a caveat will not fit.</strong> Sometimes the target-language version genuinely runs long. The decision to trim is editorial, and the researcher should be part of it rather than discovering the outcome afterwards.</p>
+<p>Institutions that handle this well find researchers become advocates for localization, because it extends the reach of work they care about without compromising how it is described.</p>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>What is the most common error in translated science content?</strong></p>
+<p>Loss of hedging. Qualifying language — &quot;suggests,&quot; &quot;associated with,&quot; &quot;in mice,&quot; &quot;in this sample&quot; — is load-bearing, and systems optimised for fluent output tend to smooth it into flatter, more confident claims. The result reads well and overstates the science, which makes it invisible to monolingual review.</p>
+<p><strong>Should species names, gene symbols, and units be translated?</strong></p>
+<p>No. International conventions like binomial nomenclature, standardised gene symbols, and SI units exist specifically so identifiers remain stable across languages. Lock them as terminology so they pass through untouched, and translate the explanation around them.</p>
+<p><strong>How do we handle technical terms that also have everyday meanings?</strong></p>
+<p>Lock them as terminology with the discipline-appropriate rendering, scoped by field where content spans disciplines. Words like control, significant, positive, theory, and expression have common everyday senses that an unconstrained system will often prefer, precisely because those senses are more frequent in general language.</p>
+<p><strong>Does public health content need a different process?</strong></p>
+<p>Yes. It should be reviewed by a clinician or public health professional who speaks the target language, aligned with the local health authority&#39;s terminology and guidance rather than the source market&#39;s, and reviewed by community members for register and trust. Recommendations genuinely differ across jurisdictions, so a faithful translation can still contradict local official advice.</p>
+<p><strong>How do we catch numeric errors that reviewers miss?</strong></p>
+<p>Extract every numeral and unit from the source and translated transcripts and compare them as parallel lists before generating audio. Separator conventions, scale words that differ across languages, unit conventions, and percentage-versus-percentage-point distinctions all produce errors that sound entirely normal when spoken.</p>
+<hr>
+<p>Related reading: <a href="/blog/university-lecture-translation">University Lecture Translation</a> | <a href="/blog/healthcare-video-translation">Healthcare Video Translation</a> | <a href="/blog/video-translation-terminology-extraction">Video Translation Terminology Extraction</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fscience-communication-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fscience-communication-video-translation&amp;text=Science%20Communication%20Video%20Translation%20Without%20Losing%20Precision" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fscience-communication-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/translation-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/chinese-video-translation-guide" aria-label="Read Chinese Video Translation: Simplified vs Traditional and What Changes"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/layered-glass-panels.png" alt="Chinese Video Translation: Simplified vs Traditional and What Changes" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Chinese Video Translation: Simplified vs Traditional and What Changes</h2><p class="blog-card-description">Chinese is not a single translation target — the script, vocabulary, and market preferences differ significantly between Mainland China, Taiwan, Hong Kong, and Singapore.</p>
+      <time class="blog-card-date" datetime="2026-08-24T09:00:00Z">Aug 24, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/translate-video-to-finnish" aria-label="Read Translate Video into Finnish: Fifteen Cases and Extreme Agglutination"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/eclipse-light-streaks.png" alt="Translate Video into Finnish: Fifteen Cases and Extreme Agglutination" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Translate Video into Finnish: Fifteen Cases and Extreme Agglutination</h2><p class="blog-card-description">Finnish packs into single words what English spreads across a phrase, which makes subtitle line breaking harder than in almost any other European language.</p>
+      <time class="blog-card-date" datetime="2026-08-20T13:45:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/translate-video-to-danish" aria-label="Read Translate Video into Danish: A Small Market With Specific Reasons"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/narrow-glass-bridge.png" alt="Translate Video into Danish: A Small Market With Specific Reasons" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Translate Video into Danish: A Small Market With Specific Reasons</h2><p class="blog-card-description">Denmark has some of the highest English proficiency in the world, so Danish localization has to be justified by a specific mechanism rather than by reach.</p>
+      <time class="blog-card-date" datetime="2026-08-20T13:40:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

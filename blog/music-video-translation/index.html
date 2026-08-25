@@ -1,0 +1,669 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Music Video and Lyric Translation: Where Dubbing Should Not Go | Octavia</title>
+    <meta name="description" content="How to handle music video translation: lyric subtitling, singable versus literal translation, rights considerations, and why dubbing rarely fits.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/music-video-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Music Video and Lyric Translation: Where Dubbing Should Not Go">
+    <meta property="og:description" content="How to handle music video translation: lyric subtitling, singable versus literal translation, rights considerations, and why dubbing rarely fits.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/music-video-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/silk-wave-ribbon.png">
+    <meta property="article:published_time" content="2026-08-20T13:10:00Z">
+    <meta property="article:modified_time" content="2026-08-20T13:10:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Music Video and Lyric Translation: Where Dubbing Should Not Go">
+    <meta name="twitter:description" content="How to handle music video translation: lyric subtitling, singable versus literal translation, rights considerations, and why dubbing rarely fits.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/silk-wave-ribbon.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Music Video and Lyric Translation: Where Dubbing Should Not Go","description":"How to handle music video translation: lyric subtitling, singable versus literal translation, rights considerations, and why dubbing rarely fits.","image":"https://octavia.lunartech.ai/assets/blog/images/silk-wave-ribbon.png","datePublished":"2026-08-20T13:10:00Z","dateModified":"2026-08-20T13:10:00Z","wordCount":2043,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/music-video-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Music Video and Lyric Translation: Where Dubbing Should Not Go","item":"https://octavia.lunartech.ai/blog/music-video-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/localization">Localization</a>
+        <h1 class="article-title">Music Video and Lyric Translation: Where Dubbing Should Not Go</h1><p class="article-deck">Lyrics carry meaning through rhythm, rhyme, and sound as much as through words, which makes them the content type least suited to straightforward translation.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-20T13:10:00Z">Aug 20, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/silk-wave-ribbon.png" alt="Music Video and Lyric Translation: Where Dubbing Should Not Go" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-music-resists-translation">Why Music Resists Translation</a></li><li><a class="toc-h2" data-toc-link href="#dubbing-is-almost-never-the-answer">Dubbing Is Almost Never the Answer</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-approaches-for-lyrics">Subtitle Approaches for Lyrics</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-timing-for-music">Subtitle Timing for Music</a></li><li><a class="toc-h2" data-toc-link href="#rights-and-permissions">Rights and Permissions</a></li><li><a class="toc-h2" data-toc-link href="#spoken-content-in-music-video">Spoken Content in Music Video</a></li><li><a class="toc-h2" data-toc-link href="#metadata-and-discovery">Metadata and Discovery</a></li><li><a class="toc-h2" data-toc-link href="#lyric-video-and-text-forward-formats">Lyric Video and Text-Forward Formats</a></li><li><a class="toc-h2" data-toc-link href="#when-the-artist-is-localizing-their-own-work">When the Artist Is Localizing Their Own Work</a></li><li><a class="toc-h2" data-toc-link href="#a-working-position">A Working Position</a></li><li><a class="toc-h2" data-toc-link href="#live-and-performance-content">Live and Performance Content</a></li><li><a class="toc-h2" data-toc-link href="#fan-communities-and-unofficial-translation">Fan Communities and Unofficial Translation</a></li><li><a class="toc-h2" data-toc-link href="#a-note-on-scale">A Note on Scale</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Music video and lyric translation"></a></p>
+<h2 id="why-music-resists-translation">Why Music Resists Translation</h2>
+<p>Most content carries meaning primarily through words, with delivery adding nuance. Music inverts this. Lyrics carry meaning through rhythm, rhyme, phonetic texture, and the way syllables land against a melody, and the semantic content is only part of what an audience receives.</p>
+<p>This makes lyrics the content type least amenable to straightforward translation. A translated lyric that preserves meaning almost always loses rhyme, meter, and the phonetic qualities that made the original line work. One that preserves rhyme and meter almost always departs from the literal meaning.</p>
+<p>There is no way around this trade. It is a property of the material rather than a limitation of any particular approach.</p>
+<p>The practical consequence is that music localization is a set of deliberate choices about what to preserve and what to sacrifice, and the right choice depends entirely on purpose.</p>
+<h2 id="dubbing-is-almost-never-the-answer">Dubbing Is Almost Never the Answer</h2>
+<p>The starting position for music video should be that the audio stays as it is.</p>
+<p>The performance is the product. A listener who came for a particular artist&#39;s voice, phrasing, and delivery does not want a synthetic substitute singing the same notes, and replacing the vocal removes the thing the audience came for.</p>
+<p>This is different from spoken content, where the words are the substance and the voice is the vehicle. In music the voice is substantially the substance.</p>
+<p>There are narrow exceptions — children&#39;s content, some animation, and certain commercial contexts where a localized vocal is conventional — but for the overwhelming majority of music content, the audio should not be replaced.</p>
+<p>What can be localized is everything around the audio: subtitles, on-screen text, metadata, and any spoken content within or alongside the music.</p>
+<h2 id="subtitle-approaches-for-lyrics">Subtitle Approaches for Lyrics</h2>
+<p>Given that the audio stays, the substantive decision is how to subtitle.</p>
+<p><strong>Literal translation</strong> conveys what the words mean, sacrificing rhyme, meter, and poetic quality. This suits audiences who want to understand the content — language learners, listeners following along, viewers who care about the lyrical substance.</p>
+<p>It is the most common approach and generally the right default. The audience can hear the music; what they need from text is meaning.</p>
+<p><strong>Poetic translation</strong> preserves imagery, tone, and some formal qualities while departing from literal accuracy. This suits content where the artistry of the lyric matters more than its propositional content — art music, poetry-adjacent work, content where a flat literal rendering would misrepresent the original.</p>
+<p>It requires a translator with literary skill and takes considerably longer.</p>
+<p><strong>Singable translation</strong> produces a version that fits the melody and could be performed. This is the most demanding approach, is essentially songwriting rather than translation, and is only relevant where the translated version will actually be sung.</p>
+<p><strong>Transliteration</strong> renders the original sounds in the audience&#39;s script without translating meaning. This serves audiences who want to sing along in the original language and is common in fan communities. It is often provided alongside a meaning translation rather than instead of it.</p>
+<p><strong>Combined presentation</strong> shows the original lyric and the translation together. This is common in music subtitling and serves the largest range of audience needs, at the cost of screen space.</p>
+<h2 id="subtitle-timing-for-music">Subtitle Timing for Music</h2>
+<p>Lyric timing follows different conventions from dialogue timing.</p>
+<p>Lines should be timed to the musical phrase rather than to a fixed reading-speed calculation. A lyric line that occupies four bars should be displayed for four bars, even if that is longer than reading speed would require, because the display is tracking the music rather than pacing text.</p>
+<p>Held notes and repeated phrases need a decision. A word sustained over several bars does not need to be displayed for the whole duration, but clearing it early breaks the correspondence between what is heard and what is shown.</p>
+<p>Instrumental passages should generally clear the subtitle rather than leaving the previous line displayed.</p>
+<p>Backing vocals and overlapping parts present the same problem as crosstalk in dialogue. Where they carry distinct content, some convention for distinguishing them is needed — italics, parentheses, or positioning are all used.</p>
+<p>Repetition is common in music and can be presented in full or marked as repeated. Full presentation tracks the audio more faithfully; marking repetition reduces visual noise.</p>
+<h2 id="rights-and-permissions">Rights and Permissions</h2>
+<p>Music carries more layered rights than almost any other content type, and lyric translation touches several of them.</p>
+<p>The composition, the lyrics, the sound recording, and the video are typically distinct rights, potentially held by different parties. A licence covering one does not cover the others.</p>
+<p>Creating a translated version of a lyric is generally creating a derivative work of the lyric, which requires permission from whoever controls it. This applies to subtitles as well as to singable versions, though practice varies and the treatment of subtitles is less settled than that of performed translations.</p>
+<p>Synchronization of music with video carries its own licensing.</p>
+<p>Platform arrangements complicate this further. Some platforms have blanket licences covering certain uses; others do not, and content that is fine on one platform may not be on another.</p>
+<p>The practical guidance: before producing translated lyric content at any scale, establish who controls the relevant rights and what permission exists. This is not an area where acting first and resolving later works well, because rights holders in music are generally well organized and enforcement is routine.</p>
+<p>For an artist localizing their own content, this is straightforward. For anyone else, it is a real gate.</p>
+<h2 id="spoken-content-in-music-video">Spoken Content in Music Video</h2>
+<p>Music video frequently contains non-sung content that localizes conventionally.</p>
+<p>Spoken intros, outros, and interludes are dialogue and can be subtitled or, where appropriate, dubbed.</p>
+<p>On-screen text — titles, credits, narrative text, chapter cards — should be localized.</p>
+<p>Interview and behind-the-scenes content accompanying a music release is ordinary spoken content and localizes normally. This is frequently where the substantive localization opportunity sits for music programmes: the music stays as it is, and the surrounding content reaches new audiences in their language.</p>
+<p>Documentary and long-form content about the music is likewise conventional spoken content.</p>
+<h2 id="metadata-and-discovery">Metadata and Discovery</h2>
+<p>For music content, metadata localization matters and is frequently the highest-return work available.</p>
+<p>Track and album titles may be translated, transliterated, or left as they are, and the convention varies by market and by whether the title is a proper name.</p>
+<p>Artist names generally stay as they are, though transliteration into non-Latin scripts is common and the established transliteration should be used rather than a new one.</p>
+<p>Descriptions, credits, and any accompanying text localize conventionally.</p>
+<p>Genre and category terminology varies by market, and using the local term improves discovery.</p>
+<p>Search behaviour in music is heavily driven by artist and track names, which means the transliteration decision has direct discovery consequences in non-Latin-script markets. Using the form the audience actually searches for matters more than any consideration of correctness.</p>
+<h2 id="lyric-video-and-text-forward-formats">Lyric Video and Text-Forward Formats</h2>
+<p>Lyric videos, where the text is the visual content, present a specific case.</p>
+<p>Localizing these means recreating the visual design with translated text, which is graphic production rather than subtitling. Text expansion breaks layouts, and lyric video design is frequently tightly composed around specific line lengths.</p>
+<p>Where the original text is animated or integrated into the visual design, localization may require rebuilding the animation.</p>
+<p>An alternative is to keep the original lyric video and add a subtitle track with the translation, which produces a dual-text presentation. This is less elegant and dramatically cheaper, and it preserves the original design.</p>
+<p>For a catalogue of lyric videos, the subtitle approach is usually the only economically viable one.</p>
+<h2 id="when-the-artist-is-localizing-their-own-work">When the Artist Is Localizing Their Own Work</h2>
+<p>For an artist or label localizing their own catalogue, the rights question resolves and the remaining decisions are creative.</p>
+<p>The most common effective pattern: keep the recordings as they are, subtitle the lyrics with literal translations, localize all metadata and descriptions, and localize the surrounding spoken content — interviews, behind-the-scenes material, and commentary.</p>
+<p>This reaches new-language audiences without altering the work, and it is where the audience growth actually comes from. Listeners who discover an artist through translated commentary and subtitled lyrics go on to listen to the original recordings.</p>
+<p>Where an artist does want a performed version in another language, that is a creative project rather than a localization one, and it is worth treating as such — with a lyricist working in the target language rather than a translator.</p>
+<h2 id="a-working-position">A Working Position</h2>
+<p>Do not dub music. The performance is the product.</p>
+<p>Subtitle lyrics literally by default, with poetic treatment only where the lyrical artistry is the substance and a literal rendering would misrepresent it.</p>
+<p>Time lyric subtitles to musical phrasing rather than to reading-speed calculation.</p>
+<p>Establish rights before producing translated lyric content at scale, since lyrics are separately controlled from recordings and derivative works require permission.</p>
+<p>Localize everything around the music — metadata, descriptions, credits, spoken content, interviews, and accompanying documentary material. This is where the audience growth comes from and where the localization budget is best spent.</p>
+<p>For lyric videos, add subtitles rather than rebuilding the design, unless the asset is valuable enough to justify the production work.</p>
+<p>Music is the clearest case in localization where the correct answer is to leave most of the content alone and localize the context around it. Programmes that recognize this reach new audiences effectively; those that try to translate the music itself spend a great deal to produce something the audience did not want.</p>
+<h2 id="live-and-performance-content">Live and Performance Content</h2>
+<p>Concert film, live sessions, and performance content sit between music and documentary, and the treatment differs from studio music video.</p>
+<p>The performance is the point, so the audio stays untouched for the same reasons.</p>
+<p>Between-song content — artist address to the audience, introductions, banter, storytelling — is ordinary spoken content and should be subtitled. This frequently carries substantial value for international audiences, since it is where the artist&#39;s personality comes through and where context about the songs is given.</p>
+<p>Crowd interaction and audience response is atmospheric rather than informational and generally does not need subtitling beyond marking it where a caption track requires non-speech information.</p>
+<p>Multi-language performances, where an artist addresses an audience in more than one language, need the source language identified per segment so the pipeline handles each correctly.</p>
+<p>Documentary and behind-the-scenes material accompanying live content is conventional spoken content and localizes normally.</p>
+<h2 id="fan-communities-and-unofficial-translation">Fan Communities and Unofficial Translation</h2>
+<p>Music has unusually active fan translation communities, and this shapes the landscape an official localization enters.</p>
+<p>For many artists, fan-made lyric translations already exist in the major target languages, often produced quickly after release and sometimes to a high standard.</p>
+<p>This has two implications. Official translations are competing with existing versions the audience may already know, and departing substantially from an established fan rendering can be jarring even where the official version is more accurate.</p>
+<p>It also means demand is demonstrated. Where fan translations exist in volume for a particular language, that is direct evidence of an audience.</p>
+<p>Engaging with fan translators is an option some artists and labels take, and it can produce good results with community goodwill. It raises rights questions that need settling explicitly rather than being left ambiguous.</p>
+<p>Transliteration demand is particularly visible in fan communities, and providing it officially often serves an existing need.</p>
+<h2 id="a-note-on-scale">A Note on Scale</h2>
+<p>For a label or artist with a substantial catalogue, the practical question is where to concentrate.</p>
+<p>Metadata localization applies cheaply across the whole catalogue and delivers discovery value everywhere.</p>
+<p>Lyric subtitling is worth doing selectively — for tracks with the strongest existing international interest, for singles being actively promoted, and for songs where the lyrical content is central to the work.</p>
+<p>Surrounding content localization concentrates on the assets that introduce new listeners: interviews, documentary material, and commentary. These are where audience growth originates, and they localize as ordinary spoken content at ordinary cost.</p>
+<p>Watch where international interest already exists. Streaming and platform data show which markets are listening, and that is a far better guide to where to invest than any assumption about market size.</p>
+<p>The pattern that works is broad metadata coverage, selective lyric work, and concentrated investment in the spoken content that brings people in. Attempting comprehensive lyric localization across a catalogue is expensive, rights-encumbered, and produces less audience growth than the same budget spent on context.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmusic-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmusic-video-translation&amp;text=Music%20Video%20and%20Lyric%20Translation%3A%20Where%20Dubbing%20Should%20Not%20Go" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmusic-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/localization">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/choosing-languages-to-localize" aria-label="Read Choosing Which Languages to Localize Into: A Decision Framework"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="Choosing Which Languages to Localize Into: A Decision Framework" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Choosing Which Languages to Localize Into: A Decision Framework</h2><p class="blog-card-description">Speaker count is the worst available basis for choosing target languages, and it is the one most programs use.</p>
+      <time class="blog-card-date" datetime="2026-08-20T14:00:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/sermon-translation-for-congregations" aria-label="Read Sermon Translation for Multilingual Congregations"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Sermon Translation for Multilingual Congregations" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Sermon Translation for Multilingual Congregations</h2><p class="blog-card-description">Most congregations discover they are multilingual long before their communication does.</p>
+      <time class="blog-card-date" datetime="2026-08-25T20:30:00Z">Aug 25, 2026 · 9 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/museum-audio-guide-translation" aria-label="Read Museum Audio Guide Translation with AI Voice"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gallery-glass-plinths.png" alt="Museum Audio Guide Translation with AI Voice" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Museum Audio Guide Translation with AI Voice</h2><p class="blog-card-description">A museum that welcomes the world in forty languages and speaks in three has made a decision it probably never discussed.</p>
+      <time class="blog-card-date" datetime="2026-08-25T17:30:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

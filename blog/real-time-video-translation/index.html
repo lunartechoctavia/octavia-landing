@@ -1,0 +1,692 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Real-Time Video Translation: How It Works and What to Expect | Octavia</title>
+    <meta name="description" content="Learn how real-time video translation works, what constrains it, where it performs well, and how to set realistic expectations for live translation.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/real-time-video-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Real-Time Video Translation: How It Works and What to Expect">
+    <meta property="og:description" content="Learn how real-time video translation works, what constrains it, where it performs well, and how to set realistic expectations for live translation.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/real-time-video-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/radiating-signal-web.png">
+    <meta property="article:published_time" content="2026-08-19T09:00:00Z">
+    <meta property="article:modified_time" content="2026-08-19T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Real-Time Video Translation: How It Works and What to Expect">
+    <meta name="twitter:description" content="Learn how real-time video translation works, what constrains it, where it performs well, and how to set realistic expectations for live translation.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/radiating-signal-web.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Real-Time Video Translation: How It Works and What to Expect","description":"Learn how real-time video translation works, what constrains it, where it performs well, and how to set realistic expectations for live translation.","image":"https://octavia.lunartech.ai/assets/blog/images/radiating-signal-web.png","datePublished":"2026-08-19T09:00:00Z","dateModified":"2026-08-19T09:00:00Z","wordCount":2744,"timeRequired":"PT13M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/real-time-video-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Real-Time Video Translation: How It Works and What to Expect","item":"https://octavia.lunartech.ai/blog/real-time-video-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/translation-guides">Translation Guides</a>
+        <h1 class="article-title">Real-Time Video Translation: How It Works and What to Expect</h1><p class="article-deck">Real-time video translation processes spoken language as it happens, delivering translated text or audio with minimal delay. This guide explains the underlying workflow, latency factors, practical use cases, and quality considerations.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-19T09:00:00Z">Aug 19, 2026</time><span class="article-meta-dot"></span><span>13 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/radiating-signal-web.png" alt="Real-Time Video Translation: How It Works and What to Expect" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-real-time-translation-means-in-practice">What real-time translation means in practice</a></li><li><a class="toc-h2" data-toc-link href="#how-the-real-time-translation-pipeline-works">How the real-time translation pipeline works</a></li><li><a class="toc-h3" data-toc-link href="#audio-capture-and-streaming">Audio capture and streaming</a></li><li><a class="toc-h3" data-toc-link href="#speech-recognition-with-partial-results">Speech recognition with partial results</a></li><li><a class="toc-h3" data-toc-link href="#language-detection-and-translation">Language detection and translation</a></li><li><a class="toc-h3" data-toc-link href="#subtitle-rendering-or-voice-synthesis">Subtitle rendering or voice synthesis</a></li><li><a class="toc-h2" data-toc-link href="#what-causes-latency-in-real-time-translation">What causes latency in real-time translation</a></li><li><a class="toc-h3" data-toc-link href="#audio-buffering">Audio buffering</a></li><li><a class="toc-h3" data-toc-link href="#transcription-processing-time">Transcription processing time</a></li><li><a class="toc-h3" data-toc-link href="#translation-engine-response">Translation engine response</a></li><li><a class="toc-h3" data-toc-link href="#synthesis-and-rendering">Synthesis and rendering</a></li><li><a class="toc-h3" data-toc-link href="#network-transmission">Network transmission</a></li><li><a class="toc-h2" data-toc-link href="#where-real-time-translation-performs-well">Where real-time translation performs well</a></li><li><a class="toc-h3" data-toc-link href="#webinars-and-live-presentations">Webinars and live presentations</a></li><li><a class="toc-h3" data-toc-link href="#remote-meetings-and-video-calls">Remote meetings and video calls</a></li><li><a class="toc-h3" data-toc-link href="#live-streaming-and-broadcasts">Live streaming and broadcasts</a></li><li><a class="toc-h3" data-toc-link href="#educational-lectures-and-courses">Educational lectures and courses</a></li><li><a class="toc-h3" data-toc-link href="#customer-support-and-service-interactions">Customer support and service interactions</a></li><li><a class="toc-h2" data-toc-link href="#limitations-and-trade-offs-to-consider">Limitations and trade-offs to consider</a></li><li><a class="toc-h3" data-toc-link href="#accuracy-is-lower-than-offline-translation">Accuracy is lower than offline translation</a></li><li><a class="toc-h3" data-toc-link href="#limited-language-and-dialect-coverage">Limited language and dialect coverage</a></li><li><a class="toc-h3" data-toc-link href="#speaker-and-audio-constraints">Speaker and audio constraints</a></li><li><a class="toc-h3" data-toc-link href="#no-editorial-review-or-correction">No editorial review or correction</a></li><li><a class="toc-h3" data-toc-link href="#viewer-experience-challenges">Viewer experience challenges</a></li><li><a class="toc-h2" data-toc-link href="#how-to-improve-real-time-translation-quality">How to improve real-time translation quality</a></li><li><a class="toc-h3" data-toc-link href="#optimize-audio-capture">Optimize audio capture</a></li><li><a class="toc-h3" data-toc-link href="#provide-vocabulary-and-glossary-support">Provide vocabulary and glossary support</a></li><li><a class="toc-h3" data-toc-link href="#structure-speech-for-machine-processing">Structure speech for machine processing</a></li><li><a class="toc-h3" data-toc-link href="#set-viewer-expectations">Set viewer expectations</a></li><li><a class="toc-h3" data-toc-link href="#combine-real-time-and-post-event-workflows">Combine real-time and post-event workflows</a></li><li><a class="toc-h2" data-toc-link href="#comparing-real-time-and-offline-video-translation">Comparing real-time and offline video translation</a></li><li><a class="toc-h2" data-toc-link href="#practical-recommendations-for-teams-evaluating-real-time-translation">Practical recommendations for teams evaluating real-time translation</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#how-much-delay-should-i-expect-with-real-time-video-translation">How much delay should I expect with real-time video translation?</a></li><li><a class="toc-h3" data-toc-link href="#can-real-time-translation-handle-multiple-speakers-at-once">Can real-time translation handle multiple speakers at once?</a></li><li><a class="toc-h3" data-toc-link href="#is-real-time-translation-accurate-enough-for-professional-use">Is real-time translation accurate enough for professional use?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-special-equipment-for-real-time-video-translation">Do I need special equipment for real-time video translation?</a></li><li><a class="toc-h3" data-toc-link href="#can-i-correct-errors-during-a-live-real-time-translation-session">Can I correct errors during a live real-time translation session?</a></li><li><a class="toc-h3" data-toc-link href="#should-i-use-real-time-translation-or-hire-human-interpreters">Should I use real-time translation or hire human interpreters?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Real-time video translation lets viewers understand spoken content in another language as it happens. A presenter speaks, the system recognizes and translates their words, and viewers see captions or hear a translated voice within seconds. The experience can make live events, webinars, remote meetings, and streaming broadcasts accessible to a wider audience without requiring every participant to share a common language.</p>
+<p>That immediacy comes with technical and linguistic constraints. Unlike offline translation workflows that allow human review and iterative refinement, real-time systems must balance speed against accuracy. The result is useful but imperfect: clear speakers and structured formats tend to produce better output than noisy environments or casual conversation.</p>
+<p>This guide explains how real-time video translation actually works, what causes delay, where the technology performs well, and how to set appropriate expectations for teams evaluating it.</p>
+<h2 id="what-real-time-translation-means-in-practice">What real-time translation means in practice</h2>
+<p>Real-time video translation is the automated conversion of spoken language into another language during live or streaming video, with minimal delay between original speech and translated output. The system typically captures audio, transcribes it, translates the text, and delivers either subtitles or synthesized speech.</p>
+<p>The term &quot;real-time&quot; is approximate. Even optimized systems introduce a few seconds of latency as audio buffers, transcription models process speech, and translation engines return results. The goal is perceptible immediacy rather than zero delay.</p>
+<p>Real-time translation differs from pre-translated content. Pre-recorded videos can be reviewed, corrected, and refined before publishing. Live translation must commit to each sentence as soon as it is recognized, with no opportunity to revisit earlier mistakes or adjust for context that arrives later.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Live translation display showing subtitles appearing in real time"></a></p>
+<h2 id="how-the-real-time-translation-pipeline-works">How the real-time translation pipeline works</h2>
+<p>A functional real-time system orchestrates several stages that operate concurrently. Understanding each stage helps teams identify where delays or errors originate.</p>
+<h3 id="audio-capture-and-streaming">Audio capture and streaming</h3>
+<p>The video source—whether a webcam, conference platform, or broadcast encoder—sends audio to the translation service. The audio may arrive as discrete chunks (every 500 milliseconds, for example) or as a continuous stream. Chunk size affects both latency and transcription accuracy: smaller chunks reduce delay but provide less context, while larger chunks improve word recognition at the cost of a longer wait.</p>
+<p>Network stability matters. Packet loss, jitter, or bandwidth constraints can cause audio gaps, repeated segments, or out-of-order delivery. Systems designed for live use typically include buffering and error correction, but they cannot repair audio that never arrives.</p>
+<h3 id="speech-recognition-with-partial-results">Speech recognition with partial results</h3>
+<p>Automatic speech recognition converts audio into text. In real-time mode, the system often emits partial transcripts as speech continues, then revises them as more context becomes available. A speaker may say &quot;I think the best approach is...&quot; and the initial transcript might read &quot;I think the best a poach is&quot; before correcting itself once the full sentence is heard.</p>
+<p>This incremental output reduces perceived latency but can create visible text changes. Some systems display only finalized sentences, while others show provisional text that updates in place. The choice affects how viewers experience corrections and whether they trust intermediate results.</p>
+<p>Recognition quality depends on audio clarity, accent familiarity, speaking pace, background noise, and vocabulary. Technical terms, proper names, acronyms, and rapid speech are common failure points. For recurring presenters or topics, custom vocabulary lists can improve accuracy.</p>
+<h3 id="language-detection-and-translation">Language detection and translation</h3>
+<p>Once the system has a stable transcript segment, it determines the source language (if not specified) and translates the text. Translation models optimized for speed may sacrifice nuance or context compared to models designed for offline use. They typically handle individual sentences or short utterances rather than paragraphs, which limits their ability to resolve ambiguity using distant context.</p>
+<p>Real-time translation also cannot look ahead. If a speaker says &quot;The bank was steep,&quot; a human translator might wait to hear whether the next sentence mentions a river or a financial institution. A real-time system must commit immediately, sometimes choosing the statistically common interpretation.</p>
+<p>Terminology consistency across a live session is another challenge. Without a pre-established glossary or memory of earlier translations, the same source term might be rendered differently each time it appears.</p>
+<h3 id="subtitle-rendering-or-voice-synthesis">Subtitle rendering or voice synthesis</h3>
+<p>The translated text is displayed as captions or converted into synthesized speech. Subtitle rendering is faster and simpler: the system writes text to the video overlay with minimal additional processing. <a href="/features/subtitle-generation">Subtitle generation</a> for live use must handle rapidly changing text, appropriate display duration, and safe positioning that does not obscure critical visuals.</p>
+<p>Voice synthesis adds another processing step. The translated text is passed to a text-to-speech model, which generates audio in the target language. This audio must be streamed back to the viewer, mixed with or replacing the original audio, and synchronized loosely with the video. The cumulative delay from speech recognition, translation, and synthesis can reach several seconds.</p>
+<p>For live dubbing, the system must also manage audio transitions, prevent overlapping speech, and handle silence or pauses gracefully. Abrupt cuts or robotic pacing can make synthesized audio harder to follow than on-screen text.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Developer monitoring real-time translation latency metrics"></a></p>
+<h2 id="what-causes-latency-in-real-time-translation">What causes latency in real-time translation</h2>
+<p>Latency is the delay between when a speaker finishes a sentence and when a viewer sees or hears the translation. Several factors contribute to total latency.</p>
+<h3 id="audio-buffering">Audio buffering</h3>
+<p>Systems collect audio over a short window before processing it. A 500-millisecond buffer means the system waits half a second to gather enough audio for reliable recognition. Reducing buffer size decreases delay but increases the chance of incomplete or misrecognized words.</p>
+<h3 id="transcription-processing-time">Transcription processing time</h3>
+<p>Speech recognition models require computational resources. Faster models may produce less accurate transcripts, while more accurate models introduce additional delay. Cloud-based services add network round-trip time, while on-device models trade latency for hardware requirements and model size.</p>
+<h3 id="translation-engine-response">Translation engine response</h3>
+<p>Translation time depends on sentence length, model complexity, language pair, and server load. Some engines return results in under 100 milliseconds, while others may take a full second for complex sentences. Batch translation of multiple sentences can improve throughput but increases per-sentence delay.</p>
+<h3 id="synthesis-and-rendering">Synthesis and rendering</h3>
+<p>If the output is synthesized speech, the text-to-speech model must generate audio and stream it to the viewer. Rendering time depends on sentence length and voice model complexity. Subtitle rendering is nearly instantaneous by comparison, adding only the time required to encode and transmit overlay data.</p>
+<h3 id="network-transmission">Network transmission</h3>
+<p>Every remote processing step adds network latency. A round trip to a cloud service might add 50–200 milliseconds depending on geography and connection quality. Systems that chain multiple remote services accumulate delay at each hop.</p>
+<p>Typical end-to-end latency for real-time subtitle translation ranges from 2 to 6 seconds. Real-time voice dubbing can reach 5 to 10 seconds. Teams should measure latency in their specific environment rather than relying on vendor claims, which often reflect ideal conditions.</p>
+<h2 id="where-real-time-translation-performs-well">Where real-time translation performs well</h2>
+<p>Real-time translation is most effective in structured formats with clear audio and predictable content.</p>
+<h3 id="webinars-and-live-presentations">Webinars and live presentations</h3>
+<p>A single speaker delivering prepared remarks in a quiet environment produces the best recognition and translation results. Slides, agendas, and planned topics provide implicit context. Audiences expect to absorb information rather than participate, so a few seconds of delay is rarely disruptive.</p>
+<p>For organizations hosting multilingual webinars, real-time translation extends reach without requiring separate sessions per language. Octavia&#39;s <a href="/features/video-translation">video translation</a> tools can also produce polished, reviewed versions of the same content after the live event.</p>
+<h3 id="remote-meetings-and-video-calls">Remote meetings and video calls</h3>
+<p>Real-time translation can support distributed teams where participants speak different languages. It works best when speakers take turns, avoid overlapping conversation, and use clear terminology. Informal discussion, jokes, and rapid back-and-forth are harder to translate accurately in real time.</p>
+<h3 id="live-streaming-and-broadcasts">Live streaming and broadcasts</h3>
+<p>Streaming platforms can integrate real-time translation to offer multi-language captions for live events, product launches, earnings calls, and community broadcasts. Subtitle output is more practical than synthesized audio because it avoids mixing challenges and allows viewers to see the original speaker&#39;s voice.</p>
+<h3 id="educational-lectures-and-courses">Educational lectures and courses</h3>
+<p>Lectures with clear structure, defined vocabulary, and deliberate pacing benefit from real-time translation. Instructors can make the content more accessible by speaking clearly, pausing between topics, and avoiding idioms or culturally specific references.</p>
+<p>For recorded courses that will be reused, offline translation with human review produces higher quality. Real-time translation is most valuable for live instruction that cannot be scripted or when immediate access matters more than perfection.</p>
+<h3 id="customer-support-and-service-interactions">Customer support and service interactions</h3>
+<p>Some support platforms use real-time translation to connect agents and customers who do not share a language. Success depends on clear audio, structured exchanges, and tolerance for occasional errors. Critical or sensitive interactions may still require human interpreters.</p>
+<h2 id="limitations-and-trade-offs-to-consider">Limitations and trade-offs to consider</h2>
+<p>Real-time translation cannot match the quality of carefully reviewed offline translation. Teams should understand the constraints before committing to live workflows.</p>
+<h3 id="accuracy-is-lower-than-offline-translation">Accuracy is lower than offline translation</h3>
+<p>Real-time systems prioritize speed over perfection. They handle sentences in isolation, commit to translations before full context is available, and cannot revise earlier output. The result is functional but imperfect communication.</p>
+<p>Errors accumulate: a misrecognized word leads to a mistranslation, which produces confusing captions or unnatural synthesized speech. Critical content such as legal disclosures, medical instructions, or contractual terms should not rely solely on real-time translation without human oversight.</p>
+<h3 id="limited-language-and-dialect-coverage">Limited language and dialect coverage</h3>
+<p>Real-time translation engines typically support a smaller set of languages than offline systems. Less common language pairs, regional dialects, and low-resource languages may not be available or may produce poor results.</p>
+<p>Even supported languages vary in quality. High-resource pairs like English-Spanish or English-Mandarin benefit from more training data and better models than less common combinations.</p>
+<h3 id="speaker-and-audio-constraints">Speaker and audio constraints</h3>
+<p>Real-time translation assumes one speaker at a time, clear audio, minimal background noise, and consistent volume. Multi-speaker conversations, cross-talk, laughter, shouting, or poor microphone quality degrade both transcription and translation.</p>
+<p>Accents, speaking pace, and pronunciation also affect accuracy. Systems trained primarily on standard dialects may struggle with regional accents or non-native speakers.</p>
+<h3 id="no-editorial-review-or-correction">No editorial review or correction</h3>
+<p>Once a translation is displayed or spoken, it cannot be retracted. Offensive mistranslations, factual errors, or confusing phrasing remain in the live experience. Offline workflows allow review and correction before publication, but real-time systems must accept whatever the models produce.</p>
+<h3 id="viewer-experience-challenges">Viewer experience challenges</h3>
+<p>Subtitle lag can confuse viewers when the speaker has already moved to the next topic. Synthesized voice delay makes interactive discussion awkward because responses arrive several seconds late. Both issues become more noticeable in fast-paced or conversational formats.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Audience watching a multilingual live stream with real-time captions"></a></p>
+<h2 id="how-to-improve-real-time-translation-quality">How to improve real-time translation quality</h2>
+<p>While real-time translation cannot achieve offline quality, thoughtful preparation and configuration can reduce errors.</p>
+<h3 id="optimize-audio-capture">Optimize audio capture</h3>
+<p>Use a high-quality microphone positioned close to the speaker. Minimize background noise, echo, and audio compression. Test the full chain—from microphone through streaming encoder to translation service—before the live event.</p>
+<h3 id="provide-vocabulary-and-glossary-support">Provide vocabulary and glossary support</h3>
+<p>Many platforms allow custom terminology lists that guide transcription and translation. Include product names, technical terms, proper nouns, acronyms, and frequently used phrases. This reduces the chance of misrecognition and improves translation consistency.</p>
+<h3 id="structure-speech-for-machine-processing">Structure speech for machine processing</h3>
+<p>Speakers who pause between sentences, articulate clearly, avoid filler words, and use straightforward sentence structures produce better transcription. Encourage presenters to speak as if they are dictating rather than chatting informally.</p>
+<h3 id="set-viewer-expectations">Set viewer expectations</h3>
+<p>Inform audiences that translation is automated and may contain errors. Display captions as approximate rather than authoritative. For critical content, provide reviewed translations or human interpreters alongside automated systems.</p>
+<h3 id="combine-real-time-and-post-event-workflows">Combine real-time and post-event workflows</h3>
+<p>Use real-time translation during the live event for immediate access, then produce a polished version afterward with human review, corrected transcripts, and refined translation. Octavia&#39;s <a href="/features/subtitle-translation">subtitle translation</a> tools can generate reviewed captions from corrected transcripts for permanent publication.</p>
+<h2 id="comparing-real-time-and-offline-video-translation">Comparing real-time and offline video translation</h2>
+<p>The choice between real-time and offline workflows depends on content lifecycle, quality requirements, and audience needs.</p>
+<p>Real-time translation is appropriate when immediate access matters more than accuracy, when content is ephemeral or low-stakes, and when the format is structured enough to support automated processing. It works for live events that will not be re-published, preliminary access to breaking content, and situations where even imperfect translation provides value.</p>
+<p>Offline translation is better when content will be reused, when errors could cause confusion or harm, when production quality reflects brand standards, and when budget allows for human review. It works for marketing videos, courses, product documentation, legal content, and high-visibility media.</p>
+<p>Many organizations use both: real-time translation provides immediate access during live events, while offline workflows produce permanent, reviewed versions for long-term distribution. This layered approach balances urgency with quality.</p>
+<h2 id="practical-recommendations-for-teams-evaluating-real-time-translation">Practical recommendations for teams evaluating real-time translation</h2>
+<p>Before committing to a real-time translation system, consider these factors:</p>
+<ul><li><strong>Measure actual latency</strong> in your production environment with representative content and network conditions. Vendor benchmarks often reflect ideal scenarios that may not match real use.</li></ul>
+<ul><li><strong>Test recognition accuracy</strong> with your actual speakers, accents, and terminology. Record sample sessions and review transcripts for errors before going live.</li></ul>
+<ul><li><strong>Define acceptable error rates</strong> for your content type. A mistranslated word in a casual product demo may be tolerable; the same error in a compliance training session may not be.</li></ul>
+<ul><li><strong>Provide fallback options</strong> such as original audio, human interpreters, or post-event reviewed translations for critical content.</li></ul>
+<ul><li><strong>Train presenters</strong> to speak clearly, structure their remarks, and avoid idioms or culturally specific references that translation systems struggle with.</li></ul>
+<ul><li><strong>Monitor live sessions</strong> so technical staff can detect and address transcription failures, audio issues, or service outages before they affect the full audience.</li></ul>
+<ul><li><strong>Collect viewer feedback</strong> on translation quality, latency, and usability. Real-world experience often reveals issues that controlled testing misses.</li></ul>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="how-much-delay-should-i-expect-with-real-time-video-translation">How much delay should I expect with real-time video translation?</h3>
+<p>Typical latency ranges from 2 to 6 seconds for subtitle output and 5 to 10 seconds for synthesized audio dubbing. Actual delay depends on audio buffering, transcription speed, translation processing, network latency, and rendering time. Test your specific setup to measure real-world performance.</p>
+<h3 id="can-real-time-translation-handle-multiple-speakers-at-once">Can real-time translation handle multiple speakers at once?</h3>
+<p>Most systems are optimized for one speaker at a time. Overlapping speech, interruptions, and rapid turn-taking degrade transcription accuracy. For panel discussions or interviews, encourage speakers to take turns and avoid cross-talk.</p>
+<h3 id="is-real-time-translation-accurate-enough-for-professional-use">Is real-time translation accurate enough for professional use?</h3>
+<p>It depends on the use case. Real-time translation works for webinars, lectures, and informational content where approximate understanding is sufficient. It is not suitable for legal, medical, or contractual content where errors could have serious consequences. Always provide disclaimers and consider human review for critical material.</p>
+<h3 id="do-i-need-special-equipment-for-real-time-video-translation">Do I need special equipment for real-time video translation?</h3>
+<p>You need a reliable internet connection, clear audio input (a good microphone), and access to a translation service or platform. The translation processing typically happens on remote servers, so local hardware requirements are modest. Audio quality matters more than video resolution for translation accuracy.</p>
+<h3 id="can-i-correct-errors-during-a-live-real-time-translation-session">Can I correct errors during a live real-time translation session?</h3>
+<p>No. Real-time systems commit to translations as they produce them, with no opportunity to revise earlier output. This is a fundamental difference from offline workflows, where transcripts and translations can be reviewed and corrected before publication.</p>
+<h3 id="should-i-use-real-time-translation-or-hire-human-interpreters">Should I use real-time translation or hire human interpreters?</h3>
+<p>Real-time translation is faster to set up, scales to many languages simultaneously, and costs less than human interpreters. Human interpreters provide higher accuracy, cultural context, and the ability to handle complex conversation, but they require advance scheduling and are limited to one or two languages per session. For high-stakes events or sensitive topics, human interpreters remain the better choice.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Real-time video translation makes spoken content accessible across language boundaries with minimal delay. It works best for structured formats, clear audio, and audiences who value immediate access over perfection. The technology accelerates access but does not replace the accuracy of reviewed offline translation.</p>
+<p>Teams should evaluate real-time translation based on actual latency, recognition accuracy with their speakers, acceptable error rates, and content lifecycle. For live events that will be archived, consider combining real-time access with post-event reviewed translation to serve both immediate and long-term audience needs.</p>
+<p>When configured thoughtfully and used within its strengths, real-time translation can extend the reach of live content without requiring multilingual speakers or separate sessions per language.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Freal-time-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Freal-time-video-translation&amp;text=Real-Time%20Video%20Translation%3A%20How%20It%20Works%20and%20What%20to%20Expect" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Freal-time-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/translation-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/science-communication-video-translation" aria-label="Read Science Communication Video Translation Without Losing Precision"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/lattice-precision-glass.jpg" alt="Science Communication Video Translation Without Losing Precision" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Science Communication Video Translation Without Losing Precision</h2><p class="blog-card-description">Every hedge a scientist writes is load-bearing. Translation is where hedges go to die.</p>
+      <time class="blog-card-date" datetime="2026-08-25T19:00:00Z">Aug 25, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/chinese-video-translation-guide" aria-label="Read Chinese Video Translation: Simplified vs Traditional and What Changes"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/layered-glass-panels.png" alt="Chinese Video Translation: Simplified vs Traditional and What Changes" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Chinese Video Translation: Simplified vs Traditional and What Changes</h2><p class="blog-card-description">Chinese is not a single translation target — the script, vocabulary, and market preferences differ significantly between Mainland China, Taiwan, Hong Kong, and Singapore.</p>
+      <time class="blog-card-date" datetime="2026-08-24T09:00:00Z">Aug 24, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/translate-video-to-finnish" aria-label="Read Translate Video into Finnish: Fifteen Cases and Extreme Agglutination"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/eclipse-light-streaks.png" alt="Translate Video into Finnish: Fifteen Cases and Extreme Agglutination" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Translation Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Translate Video into Finnish: Fifteen Cases and Extreme Agglutination</h2><p class="blog-card-description">Finnish packs into single words what English spreads across a phrase, which makes subtitle line breaking harder than in almost any other European language.</p>
+      <time class="blog-card-date" datetime="2026-08-20T13:45:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="overflow-hidden bg-[#050505] w-full border-white/5 border-t pt-20 pb-0 relative">
+        <!-- Footer content same as other pages -->
+        <div class="w-full px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20">
+            <div class="lg:col-span-7">
+                <h2
+                    class="text-5xl lg:text-[6rem] leading-[0.9] font-medium text-white tracking-tighter mb-10 font-display">
+                    Translate. <span class="text-neutral-700">Dub.</span> Reach.
+                </h2>
+            </div>
+            <div class="lg:col-span-5 flex lg:justify-end items-center">
+                <div
+                    class="w-full max-w-sm bg-purple-600 p-8 relative overflow-hidden group transform hover:-translate-y-2 transition-transform duration-500 rounded-3xl">
+                    <iconify-icon icon="lucide:globe" width="128"
+                        class="absolute -right-4 -top-4 text-black/10 rotate-12"></iconify-icon>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4 tracking-tight font-display">Start Translating Now
+                        </h3>
+                        <p class="text-white/80 text-sm font-medium leading-relaxed mb-8">Join thousands of creators using Octavia to reach a global audience.</p>
+                        <div class="flex items-center justify-between border-t border-white/20 pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-white">60+ Languages</span>
+                            <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-white"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative w-full overflow-hidden pointer-events-none select-none pt-12">
+            <h1
+                class="text-[20vw] leading-none font-bold text-white/20 text-center -mb-12 tracking-tighter font-display" style="margin-bottom:-1.5rem">
+                OCTAVIA</h1>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#050505] to-transparent"></div>
+        </div>
+        <div class="absolute bottom-6 w-full flex justify-center z-30">
+            <p class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest">(c) 2026 Octavia by LunarTech</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>
