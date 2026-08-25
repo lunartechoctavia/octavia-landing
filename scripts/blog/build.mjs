@@ -463,10 +463,12 @@ function generateSitemap(articles, categories, totalPages) {
   const rootPages = fs.readdirSync(ROOT, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'blog.html')
     .map((entry) => ({ loc: entry.name === 'index.html' ? `${SITE_URL}/` : `${SITE_URL}/${entry.name.replace(/\.html$/, '')}` }));
-  const featurePages = fs.existsSync(path.join(ROOT, 'features'))
-    ? fs.readdirSync(path.join(ROOT, 'features')).filter((file) => file.endsWith('.html')).map((file) => ({ loc: `${SITE_URL}/features/${file.replace(/\.html$/, '')}` }))
-    : [];
-  const urls = [...rootPages, ...featurePages, { loc: `${SITE_URL}/blog`, lastmod: articles[0].updatedAt }];
+  const dirPages = (dir) => (fs.existsSync(path.join(ROOT, dir))
+    ? fs.readdirSync(path.join(ROOT, dir)).filter((file) => file.endsWith('.html')).map((file) => ({ loc: `${SITE_URL}/${dir}/${file.replace(/\.html$/, '')}` }))
+    : []);
+  const featurePages = dirPages('features');
+  const audiencePages = dirPages('for');
+  const urls = [...rootPages, ...featurePages, ...audiencePages, { loc: `${SITE_URL}/blog`, lastmod: articles[0].updatedAt }];
   for (let page = 2; page <= totalPages; page += 1) urls.push({ loc: `${SITE_URL}/blog/page/${page}`, lastmod: articles[0].updatedAt });
   for (const category of categories) urls.push({ loc: `${SITE_URL}/blog/category/${category.slug}`, lastmod: articles.find((article) => article.categorySlug === category.slug)?.updatedAt });
   for (const article of articles) urls.push({ loc: `${SITE_URL}/blog/${article.slug}`, lastmod: article.updatedAt });

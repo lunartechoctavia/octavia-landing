@@ -14,9 +14,14 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
 
+const subdir = (dir) => (fs.existsSync(path.join(ROOT, dir))
+  ? fs.readdirSync(path.join(ROOT, dir)).filter((f) => f.endsWith('.html')).map((f) => `${dir}/${f}`)
+  : []);
+
 const PAGES = [
   ...fs.readdirSync(ROOT).filter((f) => f.endsWith('.html')),
-  ...fs.readdirSync(path.join(ROOT, 'features')).filter((f) => f.endsWith('.html')).map((f) => `features/${f}`),
+  ...subdir('features'),
+  ...subdir('for'),
 ];
 
 const SOCIAL = [
@@ -50,6 +55,16 @@ const COLUMNS = [
     ['Translation guides', '/blog/category/translation-guides'],
     ['AI dubbing', '/blog/category/ai-dubbing'],
     ['Enterprise', '/blog/category/enterprise'],
+  ]],
+  ['Who it’s for', [
+    ['Creators', '/for/creators'],
+    ['Artists &amp; Labels', '/for/music'],
+    ['Filmmakers &amp; Studios', '/for/film'],
+    ['Documentary Teams', '/for/documentary'],
+    ['Podcasters', '/for/podcasters'],
+    ['Game Studios', '/for/gaming'],
+    ['Educators &amp; Trainers', '/for/educators'],
+    ['Enterprise Teams', '/for/enterprise'],
   ]],
   ['Company', [
     ['Team', '/team'],
