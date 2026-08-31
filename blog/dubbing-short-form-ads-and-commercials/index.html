@@ -1,0 +1,705 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Dubbing Commercials and Short-Form Ads: Where Every Second Is Load-Bearing | Octavia</title>
+    <meta name="description" content="Why fifteen and thirty-second ads need a different dubbing approach than long-form video: punchline timing, brand mnemonic protection, and CTA placement.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/dubbing-short-form-ads-and-commercials">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Dubbing Commercials and Short-Form Ads: Where Every Second Is Load-Bearing">
+    <meta property="og:description" content="Why fifteen and thirty-second ads need a different dubbing approach than long-form video: punchline timing, brand mnemonic protection, and CTA placement.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/dubbing-short-form-ads-and-commercials">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/staged-glass-timeline.png">
+    <meta property="article:published_time" content="2026-08-30T17:00:00Z">
+    <meta property="article:modified_time" content="2026-08-30T17:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dubbing Commercials and Short-Form Ads: Where Every Second Is Load-Bearing">
+    <meta name="twitter:description" content="Why fifteen and thirty-second ads need a different dubbing approach than long-form video: punchline timing, brand mnemonic protection, and CTA placement.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/staged-glass-timeline.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Dubbing Commercials and Short-Form Ads: Where Every Second Is Load-Bearing","description":"Why fifteen and thirty-second ads need a different dubbing approach than long-form video: punchline timing, brand mnemonic protection, and CTA placement.","image":"https://octavia.lunartech.ai/assets/blog/images/staged-glass-timeline.png","datePublished":"2026-08-30T17:00:00Z","dateModified":"2026-08-30T17:00:00Z","wordCount":2332,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/dubbing-short-form-ads-and-commercials","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Dubbing Commercials and Short-Form Ads: Where Every Second Is Load-Bearing","item":"https://octavia.lunartech.ai/blog/dubbing-short-form-ads-and-commercials"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/ai-dubbing">AI Dubbing</a>
+        <h1 class="article-title">Dubbing Commercials and Short-Form Ads: Where Every Second Is Load-Bearing</h1><p class="article-deck">A thirty-second ad has no slack. Every consideration that is a minor issue in a ten-minute video becomes a make-or-break constraint in an ad.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-30T17:00:00Z">Aug 30, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/staged-glass-timeline.png" alt="Dubbing Commercials and Short-Form Ads: Where Every Second Is Load-Bearing" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-short-form-ads-are-a-different-dubbing-problem">Why Short-Form Ads Are a Different Dubbing Problem</a></li><li><a class="toc-h2" data-toc-link href="#the-punchline-and-reveal-problem">The Punchline and Reveal Problem</a></li><li><a class="toc-h2" data-toc-link href="#brand-mnemonics-and-sonic-branding">Brand Mnemonics and Sonic Branding</a></li><li><a class="toc-h2" data-toc-link href="#call-to-action-placement-and-timing">Call-to-Action Placement and Timing</a></li><li><a class="toc-h2" data-toc-link href="#working-within-extremely-tight-timing">Working Within Extremely Tight Timing</a></li><li><a class="toc-h2" data-toc-link href="#voice-direction-for-advertising-specifically">Voice Direction for Advertising Specifically</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Video editing timeline on a monitor"></a></p>
+<h2 id="why-short-form-ads-are-a-different-dubbing-problem">Why Short-Form Ads Are a Different Dubbing Problem</h2>
+<p>Everything covered elsewhere in this series about text expansion, dub timing, and pacing headroom applies to a fifteen-second advertisement, and it applies with dramatically less room to absorb any of it than the same considerations have in a ten-minute video. A source language running five percent longer in translation is a minor, easily absorbed pacing adjustment across ten minutes of content, and it is a genuinely serious structural problem across fifteen seconds, where five percent is a meaningful fraction of the entire available runtime and there is no slack anywhere in the script to quietly absorb it.</p>
+<p>This compression of every timing and pacing consideration into a much smaller absolute space is the defining characteristic of dubbing short-form advertising content, and it means techniques that are optional refinements for long-form content become close to mandatory disciplines for ads: every single word in the script needs to be doing real work, because there is no room for a word that is not.</p>
+<h2 id="the-punchline-and-reveal-problem">The Punchline and Reveal Problem</h2>
+<p><strong>Many advertisements are structured around a specific comedic, emotional, or persuasive beat landing at a precise moment, frequently timed to a specific visual reveal, a product shot, or a final tagline</strong>, and this timing precision is exactly what text expansion and dub timing pressure threatens most directly, since a translated line that runs even slightly longer than the source can push the actual payoff moment out of sync with its corresponding visual beat, which is a considerably more damaging failure in a tightly constructed short ad than the equivalent minor timing drift would be in long-form content with more forgiving pacing throughout.</p>
+<p><strong>Where the original ad&#39;s structure depends on a specific word or phrase landing at a specific instant — a pun resolving, a brand name appearing on screen exactly as it is spoken, a visual gag paying off in sync with a line of dialogue</strong> — a literal translation preserving meaning but not this precise structural timing has failed at the ad&#39;s actual job even if it is linguistically accurate, in the same way a technically accurate but unsingable song translation, as covered in more detail elsewhere in this series, fails at its actual job despite being linguistically correct.</p>
+<p><strong>This is a case where creative adaptation, not literal translation, is frequently the right approach</strong>, treating the ad&#39;s actual comedic or persuasive mechanism, rather than its specific words, as the thing to be faithfully preserved and adapted for the target language and market, similar in spirit to the singable-song adaptation approach and the culturally-adapted humor considerations discussed elsewhere in this series, and this needs to be recognized and budgeted as a genuinely different, more creative task than routine dialogue translation from the outset, rather than discovered as a problem only after a literal translation has already been attempted and has already failed to work.</p>
+<h2 id="brand-mnemonics-and-sonic-branding">Brand Mnemonics and Sonic Branding</h2>
+<p><strong>A brand&#39;s specific jingle, sonic logo, or spoken tagline is frequently one of the most carefully protected and most consistently used elements across all of a brand&#39;s advertising, and it deserves the same protection in dubbed versions that it receives in the original</strong>, connecting directly to the discussion of music and branded jingles elsewhere in this series, where the observation is made that many brands deliberately choose not to translate a jingle at all, since the melody and sonic signature travel across markets more reliably than a forced rhymed translation would.</p>
+<p><strong>Where a spoken tagline or brand mnemonic phrase is translated rather than left untranslated, it deserves the same specialized creative adaptation treatment as the ad&#39;s punchline structure discussed above, not routine dialogue translation</strong>, since a tagline is meant to be memorable and repeatable in a way that ordinary dialogue is not, and a literal translation optimized for accuracy rather than for memorability and natural repeatability in the target language frequently fails at the tagline&#39;s actual communicative job even while being linguistically correct.</p>
+<p><strong>Decide and lock the treatment of your specific brand mnemonic once, as an explicit brand governance decision connecting to the multilingual voice branding discussion elsewhere in this series, and apply that decision consistently across every market and every ad using that mnemonic</strong>, rather than allowing each individual ad&#39;s translation to independently reinvent the tagline&#39;s treatment, which risks the same kind of brand fragmentation across markets that inconsistent voice branding produces more generally.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Editing suite with monitors and console"></a></p>
+<h2 id="call-to-action-placement-and-timing">Call-to-Action Placement and Timing</h2>
+<p><strong>The call to action — visit a website, use a promotional code, call a number, download an app — is frequently the single most commercially important line in the entire advertisement, and it deserves review priority disproportionate to its brevity</strong>, since a mistranslated or badly timed call-to-action line can undermine the commercial purpose of the entire ad even when every other line in the same ad is translated flawlessly, making this specific line worth a dedicated verification pass rather than being treated as just one more line among many in a general review.</p>
+<p><strong>Verify that any spoken numbers, codes, or web addresses in the call to action are rendered correctly and clearly in the target language</strong>, connecting to the number and figure accuracy concerns raised throughout this series, since an error in exactly this specific content — a misheard phone number, an incorrectly rendered promotional code — is a direct, measurable commercial failure in a way that a more general translation imprecision elsewhere in the ad is not, and this warrants explicit dedicated checking beyond routine translation review.</p>
+<p><strong>Confirm the call-to-action&#39;s timing and pacing gives the audience adequate time to actually register and act on the information given how briefly it typically appears on screen</strong>, particularly where text expansion in the target language has compressed the available delivery time for this specific line, since a call to action delivered too quickly to be absorbed is functionally equivalent to having no call to action at all, regardless of how accurately it was translated.</p>
+<h2 id="working-within-extremely-tight-timing">Working Within Extremely Tight Timing</h2>
+<p><strong>Prioritize meaning preservation for the ad&#39;s core persuasive message over completeness of every minor descriptive or qualifying detail present in the source script</strong>, since short-form advertising scripts are often already tightly written with little room for elaboration even in the source language, and a translation needing to compress further to fit target-language expansion within the same runtime should cut supporting or qualifying detail before cutting anything core to the ad&#39;s actual persuasive argument or brand message.</p>
+<p><strong>Consider whether the specific ad concept and script were actually designed with multilingual dubbing in mind from the outset, and treat scripts that were not as requiring more substantial adaptation rather than direct translation</strong>, since an ad script written without any awareness that it would eventually need to be dubbed into languages with different expansion characteristics is more likely to already be running at its absolute time limit in the source language alone, leaving essentially no room at all to absorb the pacing pressure that translation into a longer-running target language will inevitably introduce.</p>
+<p><strong>Where the specific runtime constraint genuinely cannot accommodate an accurate, natural-sounding, and properly paced translation of the full source script, consider whether an adapted, shortened script preserving the ad&#39;s core message is a better outcome than either compressing delivery to an unnaturally rushed pace or extending the ad&#39;s runtime beyond what the specific media buy or platform slot actually allows</strong>, since this is a legitimate and sometimes necessary trade-off decision that should be made deliberately by someone with authority over the ad&#39;s actual content, rather than defaulted to by whoever happens to be doing the dub timing under pressure to make the source script&#39;s translation fit no matter what.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Studio monitors and audio equipment"></a></p>
+<h2 id="voice-direction-for-advertising-specifically">Voice Direction for Advertising Specifically</h2>
+<p><strong>Advertising delivery style is frequently more energetic, more emphatic, and more deliberately persuasive in its prosody than the more neutral delivery appropriate for informational or instructional content</strong>, connecting directly to the prosody and emotion discussion elsewhere in this series, and this specific delivery register needs to be explicitly directed for dubbed ad content rather than defaulting to a more neutral voice generation setting that would actually be appropriate for a different content type.</p>
+<p><strong>Match the dubbed voice&#39;s energy and delivery style to the specific ad&#39;s actual tone rather than to a single generic &quot;advertising voice&quot; applied uniformly across every ad</strong>, since advertising itself spans a wide range of registers, from high-energy retail promotion to quiet, understated luxury brand messaging, and a single default advertising delivery style applied uniformly regardless of the specific ad&#39;s actual intended register produces content that is tonally wrong for whichever ads do not happen to match whatever default was chosen.</p>
+<p><strong>Given the sheer compressed runtime, review the full dubbed ad multiple times specifically checking that pacing, energy, and timing all land correctly together, rather than reviewing translation accuracy and vocal delivery as separate, sequential checks</strong>, since in a fifteen or thirty-second ad, these dimensions interact tightly enough with each other that evaluating them independently risks missing a problem that only becomes apparent when the full combination is actually experienced together as the audience will actually experience it.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Treat text expansion and timing pressure in short-form ads as a much less forgiving version of the same issue in long-form content.</li><li>Identify whether the ad&#39;s structure depends on a specific word or phrase landing at a precise visual moment.</li><li>Use creative adaptation rather than literal translation where a punchline or reveal depends on precise timing or wordplay.</li><li>Protect the brand jingle or sonic mnemonic consistently, considering leaving it untranslated across markets.</li><li>Apply specialized creative adaptation, not routine dialogue translation, to any translated spoken tagline.</li><li>Lock brand mnemonic treatment once as a governance decision and apply it consistently across every market.</li><li>Give the call-to-action line dedicated, disproportionate review priority relative to its brevity.</li><li>Verify spoken numbers, codes, and web addresses in the call to action explicitly and separately.</li><li>Confirm the call to action&#39;s timing gives the audience adequate time to register and act on it.</li><li>Cut supporting or qualifying detail before cutting anything core to the ad&#39;s persuasive message when compression is needed.</li><li>Recognise that source scripts not designed with dubbing in mind are more likely to already be at their time limit.</li><li>Consider an adapted, shortened script as a legitimate alternative to unnaturally rushed delivery when timing truly cannot accommodate a full translation.</li><li>Direct dubbed voice energy and delivery style to match the specific ad&#39;s actual tone, not a generic advertising default.</li><li>Review the full dubbed ad holistically for combined pacing, energy, and timing rather than checking translation and delivery separately.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Why is text expansion a bigger problem for a thirty-second ad than for a longer video?</strong></p>
+<p>Because there is no slack anywhere in the script to absorb it. A five percent runtime increase from translation is a minor, easily accommodated adjustment across ten minutes of content, but the same five percent is a meaningful fraction of a thirty-second ad&#39;s entire available runtime, with no room elsewhere in the tightly written script to quietly compensate for it. Every timing and pacing consideration that is a moderate concern in long-form content becomes a much tighter constraint in short-form advertising.</p>
+<p><strong>Should a joke or wordplay-based ad be translated literally?</strong></p>
+<p>Usually not, if the joke&#39;s timing or resolution depends on a specific word landing at a specific moment. A literal translation preserving meaning but not this precise structural timing fails at the ad&#39;s actual persuasive job even when it is linguistically accurate. Creative adaptation, treating the ad&#39;s actual comedic mechanism rather than its literal words as the thing to preserve, is generally the right approach and should be budgeted as a distinct, more creative task from the outset.</p>
+<p><strong>Should a brand&#39;s jingle be translated for every market?</strong></p>
+<p>Often not, and many brands deliberately keep a jingle in its original language or leave it wordless across markets, since the melody and sonic signature travel more reliably than a forced rhymed translation would. Where a spoken tagline is translated, it deserves specialized creative adaptation for memorability and natural repeatability, not routine literal dialogue translation, and the treatment should be locked once as a brand governance decision and applied consistently.</p>
+<p><strong>What part of a dubbed ad deserves the most careful review?</strong></p>
+<p>The call to action, disproportionate to its brevity, since it is frequently the single most commercially important line in the entire ad. A mistranslated phone number, promotional code, or web address is a direct, measurable commercial failure in a way that a more general translation imprecision elsewhere in the ad is not, and it warrants a dedicated verification pass beyond routine translation review.</p>
+<p><strong>What should happen if a translated script simply can&#39;t fit the ad&#39;s runtime naturally?</strong></p>
+<p>Consider an adapted, shortened script preserving the ad&#39;s core persuasive message as a deliberate alternative to either an unnaturally rushed delivery or extending the runtime beyond what the media slot allows. This is a legitimate trade-off that should be made deliberately by someone with authority over the ad&#39;s actual content, rather than left to whoever is doing the dub timing to solve under pressure by any means necessary.</p>
+<p><strong>Does dubbed ad voice direction need anything different from long-form content?</strong></p>
+<p>Yes. Advertising delivery is often more energetic and deliberately persuasive in its prosody than the more neutral register appropriate for informational content, and this needs explicit direction rather than a default voice generation setting. It also needs to match the specific ad&#39;s actual register rather than one generic &quot;advertising voice,&quot; since advertising itself spans everything from high-energy retail promotion to quiet, understated luxury messaging.</p>
+<hr>
+<p>Related reading: <a href="/blog/music-and-singing-in-dubbed-video">Music and Singing in Dubbed Video</a> | <a href="/blog/multilingual-voice-branding-strategy">Multilingual Voice Branding Strategy</a> | <a href="/blog/emotion-and-prosody-in-ai-voice">Emotion and Prosody in AI Voice</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fdubbing-short-form-ads-and-commercials" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fdubbing-short-form-ads-and-commercials&amp;text=Dubbing%20Commercials%20and%20Short-Form%20Ads%3A%20Where%20Every%20Second%20Is%20Load-Bearing" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fdubbing-short-form-ads-and-commercials" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/ai-dubbing">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-dubbing-explained" aria-label="Read AI Dubbing Explained: How It Works, Benefits, and Best Uses"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/ai-voice-portal.png" alt="AI Dubbing Explained: How It Works, Benefits, and Best Uses" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Dubbing Explained: How It Works, Benefits, and Best Uses</h2><p class="blog-card-description">AI dubbing combines speech recognition, translation, voice synthesis, and synchronization to recreate spoken content in another language. This complete guide explains the technology, ideal use cases, quality factors, limitations, and evaluation criteria.</p>
+      <time class="blog-card-date" datetime="2026-08-06T09:00:00Z">Aug 6, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/voice-aging-in-ai-dubbing" aria-label="Read Voice Aging in AI Dubbing: Matching Vocal Age to the Person on Screen"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/embedded-glass-module.jpg" alt="Voice Aging in AI Dubbing: Matching Vocal Age to the Person on Screen" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Voice Aging in AI Dubbing: Matching Vocal Age to the Person on Screen</h2><p class="blog-card-description">A twenty-five-year-old&#39;s voice dubbing a visibly elderly speaker is a mismatch every viewer notices immediately, even if they can&#39;t say why.</p>
+      <time class="blog-card-date" datetime="2026-08-30T16:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/dubbing-period-and-historical-content" aria-label="Read Dubbing Period and Historical Content: Anachronism, Register, and What Not to Modernize"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Dubbing Period and Historical Content: Anachronism, Register, and What Not to Modernize" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">AI Dubbing</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Dubbing Period and Historical Content: Anachronism, Register, and What Not to Modernize</h2><p class="blog-card-description">A perfectly natural, perfectly modern translation of a nineteenth-century speech is a translation of the wrong thing.</p>
+      <time class="blog-card-date" datetime="2026-08-29T01:30:00Z">Aug 29, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,710 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>How to Write an Audio Description Script That Actually Fits the Gaps | Octavia</title>
+    <meta name="description" content="A practical guide to writing audio description scripts: what to describe, how to fit it into natural pauses, objectivity, and translating AD across languages.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/audio-description-scripting-guide">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Write an Audio Description Script That Actually Fits the Gaps">
+    <meta property="og:description" content="A practical guide to writing audio description scripts: what to describe, how to fit it into natural pauses, objectivity, and translating AD across languages.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/audio-description-scripting-guide">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/halo-ring-solo.png">
+    <meta property="article:published_time" content="2026-08-30T13:30:00Z">
+    <meta property="article:modified_time" content="2026-08-30T13:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Write an Audio Description Script That Actually Fits the Gaps">
+    <meta name="twitter:description" content="A practical guide to writing audio description scripts: what to describe, how to fit it into natural pauses, objectivity, and translating AD across languages.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/halo-ring-solo.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Write an Audio Description Script That Actually Fits the Gaps","description":"A practical guide to writing audio description scripts: what to describe, how to fit it into natural pauses, objectivity, and translating AD across languages.","image":"https://octavia.lunartech.ai/assets/blog/images/halo-ring-solo.png","datePublished":"2026-08-30T13:30:00Z","dateModified":"2026-08-30T13:30:00Z","wordCount":2480,"timeRequired":"PT12M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/audio-description-scripting-guide","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"How to Write an Audio Description Script That Actually Fits the Gaps","item":"https://octavia.lunartech.ai/blog/audio-description-scripting-guide"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/accessibility">Accessibility</a>
+        <h1 class="article-title">How to Write an Audio Description Script That Actually Fits the Gaps</h1><p class="article-deck">Audio description is not a running commentary. It is a script written against a stopwatch, fitted into gaps the original recording never planned for it.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-30T13:30:00Z">Aug 30, 2026</time><span class="article-meta-dot"></span><span>12 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/halo-ring-solo.png" alt="How to Write an Audio Description Script That Actually Fits the Gaps" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-audio-description-actually-is">What Audio Description Actually Is</a></li><li><a class="toc-h2" data-toc-link href="#what-to-describe">What to Describe</a></li><li><a class="toc-h2" data-toc-link href="#fitting-description-into-available-time">Fitting Description Into Available Time</a></li><li><a class="toc-h2" data-toc-link href="#objectivity-and-tone">Objectivity and Tone</a></li><li><a class="toc-h2" data-toc-link href="#translating-audio-description">Translating Audio Description</a></li><li><a class="toc-h2" data-toc-link href="#working-with-automation">Working With Automation</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person watching content on a laptop at a desk"></a></p>
+<h2 id="what-audio-description-actually-is">What Audio Description Actually Is</h2>
+<p>Audio description is a spoken narration track, inserted into the natural pauses of a video&#39;s existing audio, describing visual information a blind or low-vision viewer would otherwise miss entirely. It is a required element of full accessibility compliance at higher conformance levels, as covered in more detail in the discussion of WCAG video compliance elsewhere in this series, and it is also one of the most commonly under-resourced accessibility deliverables, largely because writing it well is a genuinely distinct skill from ordinary scriptwriting or captioning, with its own specific constraints and craft.</p>
+<p>The fundamental constraint that shapes everything else about audio description writing is that it has to fit into gaps that already exist in the original recording — the pauses between lines of dialogue, the quiet moments in a scene — without extending the video&#39;s runtime or talking over existing dialogue. This is a genuinely different writing discipline from most other content work: you are not deciding how much space your content needs and then finding room for it; you are measuring the room that already exists and writing content precisely sized to fit inside it.</p>
+<h2 id="what-to-describe">What to Describe</h2>
+<p><strong>Describe visual information that is necessary to understand the content and is not already conveyed through dialogue or other audio</strong>, which is the core selection principle and the one most often misapplied by inexperienced describers who default to narrating everything visible rather than everything necessary. A shot of a character nodding in agreement while saying &quot;yes&quot; needs no description, since the dialogue already conveys the meaning; a shot of a character shaking their head while saying nothing at all needs description, since without it the moment is lost entirely to a listener.</p>
+<p><strong>Prioritize actions, expressions, and visual information that affects plot or meaning over purely decorative or atmospheric visual detail</strong>, particularly under real time constraints, since available pause time is finite and a describer choosing what to include when there is not room for everything should favor content the audience actually needs to follow the story or understand the point being made, over incidental visual texture that would be nice to include but is not load-bearing.</p>
+<p><strong>Describe on-screen text that carries information not otherwise spoken aloud</strong> — a title card, a caption, a sign, a piece of correspondence shown on screen — since a blind or low-vision viewer has no other way to access this information, and it is easy for a sighted describer, who absorbed this text visually without conscious effort, to simply forget it needs describing at all.</p>
+<p><strong>Identify speakers when it is not otherwise clear who is speaking</strong>, similar to the speaker identification requirement covered in the discussion of SDH captions elsewhere in this series, though audio description handles this through natural narrative phrasing — &quot;Sarah frowns&quot; rather than a bracketed speaker label — since it is a spoken narration track rather than a text caption, and the stylistic conventions differ accordingly even where the underlying informational need is closely related.</p>
+<p><strong>Avoid describing what dialogue or other audio already makes clear</strong>, resisting the instinct to add description as a form of general enrichment or explanation rather than as a targeted fill for a genuine information gap — over-description wastes scarce pause time on redundant information and can crowd out something that was genuinely needed elsewhere in the same scene.</p>
+<h2 id="fitting-description-into-available-time">Fitting Description Into Available Time</h2>
+<p><strong>Identify and measure every usable pause in the original audio before writing a single word of description</strong>, treating this as a distinct, sequential first step rather than writing description first and then discovering it does not fit — a pause inventory, timestamped and measured in advance, is the actual constraint the entire script has to work within, and writing against it from the start avoids the wasted effort of drafting description that then has to be cut down after the fact to fit a gap that was never actually measured.</p>
+<p><strong>Write to the available time, not to the ideal level of detail</strong>, which means accepting that some visual information genuinely cannot be described given the pauses available in a specific scene, and prioritizing accordingly rather than attempting to cram more content into a gap than natural, comprehensible speaking pace actually allows — description delivered too quickly to fit an inadequate gap is a worse outcome than shorter, clearer description that respects a natural speaking pace within the time genuinely available.</p>
+<p><strong>Consider extended audio description for content where the available pauses are genuinely insufficient for the visual complexity involved</strong>, a distinct technique that pauses the video itself to insert additional description time beyond what the original recording&#39;s natural gaps provide, appropriate for visually dense content — an instructional video demonstrating a complex physical process, for instance — where standard audio description&#39;s fit-into-existing-gaps constraint would force unacceptable compromises in what can actually be conveyed.</p>
+<p><strong>Time description precisely against the actual video, not against an estimate</strong>, since even a small timing misalignment between spoken description and the visual moment it refers to undermines the description&#39;s usefulness, and this is a case where the same kind of precise timing verification discussed for subtitle work elsewhere in this series applies with equal or greater force to audio description specifically.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Recording studio with microphone and acoustic panels"></a></p>
+<h2 id="objectivity-and-tone">Objectivity and Tone</h2>
+<p><strong>Describe what is visible, not what it means or how the describer interprets it</strong>, which is a foundational principle of audio description craft: &quot;she clenches her fists&quot; is objective description of a visible action, while &quot;she is furious&quot; is an interpretation that the audience should be allowed to draw themselves from the same visual information a sighted viewer would use to reach that same conclusion independently, rather than having the interpretation handed to them pre-digested.</p>
+<p><strong>This objectivity principle has real limits and requires judgment rather than being an absolute rule applied mechanically in every case</strong>, since some visual information is genuinely ambiguous even to a sighted viewer, and in these specific cases a describer may need to convey a reasonable interpretation rather than an impossible, purely mechanical description of raw visual data with no framing at all — the skill is knowing where description can and should remain objective, and where some interpretive framing is genuinely necessary to convey what a sighted viewer would actually understand from the same shot.</p>
+<p><strong>Match the tone and register of the description to the tone of the content itself</strong>, since a flat, clinical narration style appropriate for a technical demonstration video would feel jarring and tonally wrong applied to an emotionally charged dramatic scene, and the describer&#39;s voice and word choice should support the content&#39;s own intended emotional register rather than working against it or flattening it uniformly regardless of context.</p>
+<p><strong>Use present tense and active, concrete language</strong>, generally the established convention in professional audio description practice, since it reads and sounds more immediate and natural than a more distant, passive, or overly formal narration style would, and it more closely matches the real-time nature of the visual experience being described as it actually happens.</p>
+<h2 id="translating-audio-description">Translating Audio Description</h2>
+<p><strong>Audio description scripts need translation like any other spoken content, and the same timing constraint that shaped the original description applies again, independently, in every target language</strong>, meaning a well-fitted English audio description script translated into a language with meaningfully different text expansion characteristics, as covered throughout this series for different language pairs, may no longer fit the same pause it was originally written for, and this needs to be checked and potentially rewritten rather than assumed to transfer automatically.</p>
+<p><strong>Translate for meaning and timing fit together, not for literal word-for-word accuracy alone</strong>, since a literal translation that accurately conveys every word of the source description but no longer fits the available pause in the target language has failed at the actual job, in the same way an overly literal dubbing translation that ignores lip-sync timing fails at its actual job even while being technically accurate to the source text.</p>
+<p><strong>Consider that some visual or cultural references in the original description may need adaptation for a different market</strong>, similar in kind to the broader cultural adaptation considerations covered elsewhere in this series, since a description referencing a culturally specific visual detail that would be unfamiliar or require additional unpacking for a different audience may need to be reframed rather than translated literally, to actually achieve the same communicative effect for its new audience that the original achieved for its own.</p>
+<p><strong>Where audio description exists for a piece of content that is also being dubbed into other languages, plan the audio description translation and the dubbing work together rather than as entirely separate, uncoordinated workstreams</strong>, since both need to fit around the same underlying pauses and pacing in the source video, and coordinating them avoids each workstream independently discovering and separately solving the same fundamental timing constraint problem without benefiting from what the other has already learned about it.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Studio microphone with acoustic treatment"></a></p>
+<h2 id="working-with-automation">Working With Automation</h2>
+<p><strong>Automated tools can assist with identifying candidate pauses in the audio track for a describer to review</strong>, using the same kind of voice activity detection covered elsewhere in this series to flag silence and low-activity segments as candidate description windows, which speeds up the otherwise time-consuming manual process of scanning through a full video to build the pause inventory that good description writing depends on.</p>
+<p><strong>Automated scene and object detection can assist with flagging moments that likely warrant description consideration</strong> — a scene change, a new character entering frame, an on-screen text element appearing — as candidates for a human describer to evaluate and decide whether description is actually warranted, though the actual judgment about what specifically to describe, how to phrase it, and whether it is genuinely necessary given the surrounding dialogue remains a human writing and editorial task that current automation does not reliably perform well on its own.</p>
+<p><strong>Text-to-speech generation of the description narration itself is increasingly viable for audio description delivery</strong>, similar to voice generation used elsewhere in this series, provided the underlying script was well-written by a human with genuine audio description craft and the generated voice is clear, appropriately paced, and does not itself introduce any new timing problems relative to the carefully measured pauses the script was written to fit.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Describe visual information necessary to understanding, not everything visible.</li><li>Prioritize plot- and meaning-relevant visual content over decorative detail under time pressure.</li><li>Describe on-screen text that carries information not otherwise spoken.</li><li>Identify unclear speakers through natural narrative phrasing rather than bracketed labels.</li><li>Avoid describing what dialogue or other audio already makes clear.</li><li>Build a timestamped pause inventory before writing any description.</li><li>Write to the available time rather than to an ideal level of detail.</li><li>Consider extended audio description for visually dense content where natural pauses are insufficient.</li><li>Time description precisely against the actual video rather than an estimate.</li><li>Describe objectively where possible, using interpretive framing only where genuinely necessary for clarity.</li><li>Match description tone and register to the content&#39;s own tone.</li><li>Use present tense and active, concrete language as the general convention.</li><li>Translate audio description for meaning and timing fit together, not literal accuracy alone.</li><li>Re-verify that translated description still fits its original pause given target-language text expansion.</li><li>Adapt culturally specific visual references where a literal translation would not convey the same effect.</li><li>Coordinate audio description translation with dubbing work on the same content rather than as separate workstreams.</li><li>Use automated pause and scene detection to assist a human describer, not to replace editorial judgment.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>What is the difference between audio description and a full audio description script for someone who cannot see at all?</strong></p>
+<p>They are usually the same thing described from two angles — audio description is written specifically to convey what a sighted viewer sees, fitted into existing pauses in the audio, so that a blind or low-vision listener receives equivalent information through sound alone. Extended audio description is a distinct technique that pauses the video to insert additional description time when the natural pauses are not sufficient for genuinely visually dense content, used as an exception rather than the default approach.</p>
+<p><strong>How do I decide what to describe when there isn&#39;t enough time to describe everything visible?</strong></p>
+<p>Prioritize what is necessary to understand the plot or meaning of the content over decorative or atmospheric visual detail. Build a timestamped inventory of actual available pauses before writing anything, and write to that measured time rather than to an ideal level of completeness. Description delivered too quickly to fit an inadequate gap is worse than shorter, clearer description that respects natural speaking pace within the time genuinely available.</p>
+<p><strong>Should audio description ever include interpretation rather than pure objective description?</strong></p>
+<p>Mostly not, but with real limits rather than as an absolute rule. The standard principle is describing what is visible rather than what it means, letting the audience draw their own conclusions the way a sighted viewer would from the same visual information. Some visual information is genuinely ambiguous even to a sighted viewer, and in those specific cases some interpretive framing may be necessary to convey what a sighted viewer would actually understand, which requires judgment rather than mechanical rule-following.</p>
+<p><strong>Does a translated audio description script need to be re-timed?</strong></p>
+<p>Yes, and this is commonly overlooked. The original script was fitted precisely to available pauses in the source language, but the same text expansion considerations that affect subtitles and dubbing across languages, covered throughout this series, apply to audio description translation too. A literal translation may no longer fit the pause it was written for, and translating for meaning and timing fit together, rather than word-for-word accuracy alone, is what actually solves this.</p>
+<p><strong>Can audio description be generated automatically?</strong></p>
+<p>Partially. Automated tools can identify candidate pauses and flag moments likely to warrant description, using techniques like voice activity detection and scene change detection, which speeds up the pause-inventory and candidate-identification work. The actual judgment about what to describe, how to phrase it objectively and concisely, and whether it is genuinely necessary given surrounding dialogue remains a human writing and editorial skill that current automation does not reliably replace.</p>
+<p><strong>Should audio description translation be coordinated with dubbing work on the same video?</strong></p>
+<p>Yes, when both exist for the same content. Both workstreams need to fit around the exact same underlying pauses and pacing in the source video, and coordinating them avoids each one independently rediscovering and separately solving the same fundamental timing constraint without benefiting from what the other workstream has already learned about the video&#39;s specific pause structure.</p>
+<hr>
+<p>Related reading: <a href="/blog/video-accessibility-guide">Video Accessibility Guide</a> | <a href="/blog/wcag-video-compliance-guide">WCAG Video Compliance</a> | <a href="/blog/sdh-captions-explained">SDH Captions Explained</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Faudio-description-scripting-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Faudio-description-scripting-guide&amp;text=How%20to%20Write%20an%20Audio%20Description%20Script%20That%20Actually%20Fits%20the%20Gaps" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Faudio-description-scripting-guide" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/accessibility">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-transcripts-seo-and-accessibility" aria-label="Read Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/edition-glass-spreads.png" alt="Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once</h2><p class="blog-card-description">Most teams treat the transcript as a byproduct of captioning. It is closer to the single most valuable asset your video program produces.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/caption-accuracy-regulatory-standards" aria-label="Read Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gauge-glass-dials.jpg" alt="Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks</h2><p class="blog-card-description">WCAG says captions must be accurate. Broadcast regulators actually define what accuracy means, in numbers, and audit against it.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/color-contrast-for-video-text-overlays" aria-label="Read Color Contrast and Colorblindness in Video Text and Graphics"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/neon-violet-curve.png" alt="Color Contrast and Colorblindness in Video Text and Graphics" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Color Contrast and Colorblindness in Video Text and Graphics</h2><p class="blog-card-description">Red and green look identical to a meaningful share of viewers. A chart or a status indicator relying on that distinction alone has already failed them.</p>
+      <time class="blog-card-date" datetime="2026-08-29T02:30:00Z">Aug 29, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

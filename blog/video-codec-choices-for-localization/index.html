@@ -1,0 +1,719 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Video Codec and Container Choices for Localization Pipelines | Octavia</title>
+    <meta name="description" content="How codec and container choice affects a localization pipeline: mezzanine formats, subtitle and audio track muxing, re-encoding loss, and platform delivery.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/video-codec-choices-for-localization">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Video Codec and Container Choices for Localization Pipelines">
+    <meta property="og:description" content="How codec and container choice affects a localization pipeline: mezzanine formats, subtitle and audio track muxing, re-encoding loss, and platform delivery.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/video-codec-choices-for-localization">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/lattice-precision-glass.jpg">
+    <meta property="article:published_time" content="2026-08-28T18:00:00Z">
+    <meta property="article:modified_time" content="2026-08-28T18:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Video Codec and Container Choices for Localization Pipelines">
+    <meta name="twitter:description" content="How codec and container choice affects a localization pipeline: mezzanine formats, subtitle and audio track muxing, re-encoding loss, and platform delivery.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/lattice-precision-glass.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Video Codec and Container Choices for Localization Pipelines","description":"How codec and container choice affects a localization pipeline: mezzanine formats, subtitle and audio track muxing, re-encoding loss, and platform delivery.","image":"https://octavia.lunartech.ai/assets/blog/images/lattice-precision-glass.jpg","datePublished":"2026-08-28T18:00:00Z","dateModified":"2026-08-28T18:00:00Z","wordCount":2407,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/video-codec-choices-for-localization","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Video Codec and Container Choices for Localization Pipelines","item":"https://octavia.lunartech.ai/blog/video-codec-choices-for-localization"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">Video Codec and Container Choices for Localization Pipelines</h1><p class="article-deck">The codec decision made once, at ingest, determines how many times your video gets re-encoded before it reaches a viewer — and every re-encode costs quality.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-28T18:00:00Z">Aug 28, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/lattice-precision-glass.jpg" alt="Video Codec and Container Choices for Localization Pipelines" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-this-matters-specifically-for-localization">Why This Matters Specifically for Localization</a></li><li><a class="toc-h2" data-toc-link href="#codec-versus-container-getting-the-terms-right">Codec Versus Container: Getting the Terms Right</a></li><li><a class="toc-h2" data-toc-link href="#the-mezzanine-format-decision">The Mezzanine Format Decision</a></li><li><a class="toc-h2" data-toc-link href="#audio-only-processing-should-not-touch-video">Audio-Only Processing Should Not Touch Video</a></li><li><a class="toc-h2" data-toc-link href="#multiple-audio-and-subtitle-tracks-in-one-container">Multiple Audio and Subtitle Tracks in One Container</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-format-within-the-pipeline">Subtitle Format Within the Pipeline</a></li><li><a class="toc-h2" data-toc-link href="#codec-choice-for-delivery">Codec Choice for Delivery</a></li><li><a class="toc-h2" data-toc-link href="#frame-rate-and-resolution-consistency">Frame Rate and Resolution Consistency</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Server racks in a data centre"></a></p>
+<h2 id="why-this-matters-specifically-for-localization">Why This Matters Specifically for Localization</h2>
+<p>Codec and container choices are usually a video engineering concern that content and localization teams do not think about directly. For a multilingual pipeline specifically, though, the choices made at ingest and during intermediate processing determine how many languages you can produce cheaply, how much quality is lost along the way, and how easy it is to make a change to one language without touching the others.</p>
+<p>The core issue is that a localization pipeline processes the same video many times over — once per language, plus revisions — in ways a single-language production pipeline does not. Decisions that cost nothing for one output multiply across eight, twelve, or twenty language versions, and decisions that are invisible in a single pass compound visibly across repeated processing.</p>
+<h2 id="codec-versus-container-getting-the-terms-right">Codec Versus Container: Getting the Terms Right</h2>
+<p>This distinction is worth being precise about because it affects which tools and which settings actually matter for which decision.</p>
+<p><strong>A codec</strong> — H.264, H.265/HEVC, AV1, ProRes, and others — is the compression algorithm that determines how the video and audio data are actually encoded, and it determines quality, file size, and encoding and decoding computational cost.</p>
+<p><strong>A container</strong> — MP4, MOV, MKV, WebM — is the wrapper format that holds the encoded video, audio, subtitle tracks, and metadata together, and determines what kinds of tracks can be included, how they are organised, and which platforms and players will accept the file.</p>
+<p>The two are independent: an MP4 container can hold H.264 or H.265 video, and a given codec can be wrapped in more than one container format. Localization workflow questions about multiple audio and subtitle tracks are almost entirely container questions; questions about visual quality after multiple processing passes are almost entirely codec questions.</p>
+<h2 id="the-mezzanine-format-decision">The Mezzanine Format Decision</h2>
+<p>The single highest-leverage decision in a localization pipeline is what format the master or mezzanine file is kept in — the version everything else is generated from.</p>
+<p><strong>Every re-encode of a lossy codec loses quality</strong>, even at nominally identical settings, because lossy compression discards information on each pass and that loss accumulates with repeated encode-decode-re-encode cycles. A video encoded once from a high-quality source to a delivery codec loses relatively little. A video re-encoded five times as it passes through different processing stages accumulates generational loss that becomes visible, particularly in motion and in fine detail.</p>
+<p><strong>A localization pipeline is exactly the scenario where this compounds</strong>, because the source video may be transcoded for transcription, again for separation and dubbing preparation, again for burned-in subtitle rendering, and again for final delivery encoding — and if each of those stages re-encodes from the previous stage&#39;s lossy output rather than from a common high-quality source, quality degrades with every language produced.</p>
+<p><strong>The correct pattern is to keep one high-quality mezzanine master and always encode delivery outputs from it</strong>, rather than from a previously-encoded delivery output. Processing stages that only need to read the video — transcription, translation, most subtitle work — do not need to touch the video encoding at all and should work from extracted audio or from the mezzanine, never re-encoding the video track in the process.</p>
+<p><strong>Choose a mezzanine codec designed for this purpose rather than a delivery codec.</strong> Intermediate or mezzanine codecs — ProRes, DNxHD/DNxHR, or a high-bitrate intraframe format — are designed to tolerate repeated encode-decode cycles with minimal cumulative loss, at the cost of much larger file sizes than delivery codecs. This size cost is worth paying for a master that many delivery variants will be generated from, and is not worth paying for the final delivered files themselves.</p>
+<p><strong>If a true mezzanine format is impractical for storage reasons</strong>, at minimum use the highest reasonable bitrate delivery codec as the working master, and be disciplined about never re-encoding a re-encoded file — always branch new outputs from the single working master, not from a previously generated delivery file.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Editing suite with monitors and console"></a></p>
+<h2 id="audio-only-processing-should-not-touch-video">Audio-Only Processing Should Not Touch Video</h2>
+<p><strong>Transcription, translation, dubbing script generation, and voice generation only need the audio track</strong>, and a pipeline that re-encodes or even re-muxes the full video file to pass it through these stages is doing unnecessary work and introducing unnecessary risk of quality loss or corruption.</p>
+<p><strong>Extract audio once, in a lossless or high-quality format, and run all audio-only processing against that extracted file.</strong> Only remux the final generated audio track back into the video at the delivery stage, keeping the video stream itself completely untouched — a stream copy rather than a re-encode — throughout every stage that does not need to modify the picture.</p>
+<p><strong>Verify your tooling is actually doing a stream copy where it should be.</strong> Some processing tools and libraries default to fully re-encoding both audio and video even when only the audio needs to change, silently introducing video quality loss that was entirely avoidable. This is worth checking explicitly in your pipeline rather than assuming.</p>
+<h2 id="multiple-audio-and-subtitle-tracks-in-one-container">Multiple Audio and Subtitle Tracks in One Container</h2>
+<p><strong>Not every container supports multiple tracks equally well, and this affects whether you can deliver one file per video with all languages included, or need separate files per language.</strong></p>
+<p><strong>MP4 supports multiple audio tracks and multiple subtitle tracks</strong>, though platform support for actually exposing and switching between them varies, and subtitle support within MP4 specifically has some format fragmentation — some players expect timed text tracks in a specific format within the container, others do not support in-container subtitles at all and expect a separate file.</p>
+<p><strong>MKV has broad and mature support for multiple audio tracks, multiple subtitle tracks in various formats, and rich metadata</strong>, making it a strong choice for an internal working or archival master containing every language in one file, even where it is not the format ultimately delivered to end platforms.</p>
+<p><strong>Streaming formats like HLS and DASH handle multi-language delivery through manifest-level track selection</strong> — separate underlying media segments per language, referenced and switched by a manifest file — rather than through multiple tracks muxed into one physical file, which is a different mechanism from a downloadable MP4 or MKV and needs to be understood as such when building a delivery pipeline that targets adaptive streaming.</p>
+<p><strong>Decide the delivery mechanism based on your actual distribution platforms, not based on what is technically possible in the abstract</strong>, since a beautifully engineered multi-track MKV master is only useful if something downstream can actually consume and expose those tracks to a viewer, and most direct-to-consumer platforms have their own specific ingestion requirements that need to be checked rather than assumed.</p>
+<h2 id="subtitle-format-within-the-pipeline">Subtitle Format Within the Pipeline</h2>
+<p><strong>Keep subtitles as a separate, editable text-based file throughout the pipeline for as long as possible</strong>, in SRT, WebVTT, or a similar format, rather than burning them into the video image early. A text-based subtitle track can be corrected, re-timed, translated into additional languages, and re-styled without touching the video at all, whereas burned-in text requires re-rendering the entire video for even a single-word correction.</p>
+<p><strong>Burn in only at final delivery, and only for platforms or use cases that specifically require it</strong> — some social platforms and some viewing contexts where sound-off consumption is the norm benefit from burned-in captions, but this should be the last step applied to a final delivery encode, generated fresh from the mezzanine and the current subtitle file, never as an intermediate working state.</p>
+<p><strong>If burned-in delivery is needed for multiple languages, this multiplies the number of final video renders needed</strong>, since each language&#39;s burned-in version is a distinct video file rather than a shared video with a switchable track — a real cost difference from soft-subtitle delivery worth factoring into planning and pricing.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1551288049-a23a13c4a2e0?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Terminal window with text output"></a></p>
+<h2 id="codec-choice-for-delivery">Codec Choice for Delivery</h2>
+<p><strong>H.264 remains the safest and most broadly compatible delivery codec</strong> across the widest range of devices, browsers, and platforms, and is a reasonable default where compatibility matters more than achieving the smallest possible file size.</p>
+<p><strong>H.265/HEVC and AV1 achieve meaningfully better compression at equivalent visual quality</strong>, which matters for a large multilingual catalogue where storage and bandwidth costs scale with every additional language version, but both have less universal playback support than H.264 and licensing considerations that vary by use case, and AV1 encoding is considerably more computationally expensive.</p>
+<p><strong>For a large-scale multilingual video operation, the storage and bandwidth savings of a more efficient codec compound significantly across a big catalogue</strong>, and it is worth evaluating deliberately rather than defaulting to whatever codec a single-language pipeline happened to use, particularly for platforms where you control playback and are not constrained by the lowest-common-denominator compatibility requirement of open web delivery.</p>
+<p><strong>Audio codec choice matters less for storage but still matters for quality</strong>, particularly for dubbed content where multiple audio tracks accumulate: AAC is broadly compatible and efficient at a reasonable bitrate; avoid re-encoding already-lossy audio multiple times through a pipeline for the same generational-loss reasons that apply to video.</p>
+<h2 id="frame-rate-and-resolution-consistency">Frame Rate and Resolution Consistency</h2>
+<p><strong>Keep frame rate and resolution consistent across the mezzanine and all delivery renders for a given video</strong>, since converting frame rate introduces its own quality and, more critically for localization, subtitle timing risks discussed at length elsewhere — mismatched frame rates between a subtitle file&#39;s assumed timing and the actual delivered video is one of the most common causes of drifting subtitle sync.</p>
+<p><strong>Where source material genuinely varies in frame rate or resolution across a catalogue</strong> — footage shot at different times with different equipment — normalise to a single working standard during mezzanine creation rather than carrying the inconsistency through every subsequent processing stage, where it becomes a recurring source of errors for anyone downstream who assumes a consistent standard.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Understand codec and container as independent decisions serving different purposes.</li><li>Keep one high-quality mezzanine master and generate every delivery output from it, never from a previous delivery output.</li><li>Use an intermediate codec designed for repeated processing, such as ProRes or DNxHR, for the mezzanine where storage allows.</li><li>Never re-encode a re-encoded file; always branch from the single working master.</li><li>Extract audio once for all audio-only processing stages and keep the video stream untouched via stream copy.</li><li>Verify your tooling performs stream copy rather than silently re-encoding video during audio-only steps.</li><li>Choose a container based on which platforms will actually consume the multi-track file.</li><li>Use MKV for internal multi-language working masters where broad multi-track support matters.</li><li>Understand that adaptive streaming formats handle multi-language delivery through manifests, not in-file tracks.</li><li>Keep subtitles as editable text files for as long as possible in the pipeline.</li><li>Burn in subtitles only at final delivery and only where the destination specifically requires it.</li><li>Budget for burned-in delivery multiplying the number of final video renders per video.</li><li>Evaluate H.265 or AV1 against H.264 based on your actual catalogue scale and platform compatibility needs.</li><li>Keep frame rate and resolution consistent across the mezzanine and every delivery render.</li><li>Normalise inconsistent source material to one working standard during mezzanine creation.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Does re-encoding video actually lose noticeable quality?</strong></p>
+<p>Yes, cumulatively, even when each individual re-encode looks fine on its own. Lossy codecs discard information on every encode pass, and repeated encode-decode-re-encode cycles compound that loss in ways that become visible in motion and fine detail after several generations, even at nominally high quality settings each time. This matters specifically for localization pipelines because the same video often passes through several processing stages per language.</p>
+<p><strong>What is a mezzanine file and do I actually need one?</strong></p>
+<p>A mezzanine file is a high-quality intermediate master, typically in a codec designed to tolerate repeated processing with minimal loss, that every delivery output is generated from directly rather than from a previously encoded delivery file. You need one if you are producing more than a couple of language versions from the same source, because without it, quality degrades a little more with every additional language as outputs get generated from other outputs rather than from a common high-quality source.</p>
+<p><strong>Can I put subtitles for eight languages into one video file?</strong></p>
+<p>Technically yes, in containers like MKV or MP4 with sufficient subtitle track support, but whether your actual delivery platform can expose and let a viewer switch between that many tracks is a separate question that depends entirely on the destination. Adaptive streaming platforms typically handle this through manifest-level track references rather than tracks embedded in one physical file, which is a different delivery mechanism worth confirming against your specific platforms before building around either assumption.</p>
+<p><strong>Should I burn subtitles into the video or keep them as a separate track?</strong></p>
+<p>Keep them separate for as long as possible. A text-based subtitle file can be corrected, re-timed, or translated into additional languages without touching the video at all, while burned-in text requires re-rendering the entire video for even a single-word fix. Burn in only at the final delivery step, and only for the specific platforms or use cases that genuinely require it, generating that render fresh from the mezzanine rather than treating a burned-in version as a working intermediate.</p>
+<p><strong>Does codec choice matter more for a large multilingual catalogue than for a single video?</strong></p>
+<p>Yes, because storage and bandwidth costs from codec efficiency scale with every additional language version of every video, so a marginal efficiency gain compounds significantly across a large catalogue in a way it simply does not for one file. It is worth evaluating more efficient codecs like H.265 or AV1 deliberately for large-scale operations, balanced against the playback compatibility and encoding cost trade-offs each involves relative to the more universally compatible H.264.</p>
+<p><strong>Why did my subtitle timing break after a video re-encode?</strong></p>
+<p>Most likely a frame rate mismatch introduced during the re-encode, which is one of the most common causes of subtitle drift and is a separate and more detailed problem worth understanding on its own terms. Keeping frame rate consistent between your mezzanine, your subtitle timing, and every delivery render avoids this category of error entirely, and any legitimate frame rate conversion needs to be applied to the subtitle timecodes as well as to the video.</p>
+<hr>
+<p>Related reading: <a href="/blog/frame-rate-and-subtitle-timing">Frame Rates and Subtitle Timing</a> | <a href="/blog/video-translation-file-formats-guide">Video Translation File Formats Guide</a> | <a href="/blog/ci-cd-for-localized-video">CI/CD for Localized Video</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-codec-choices-for-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-codec-choices-for-localization&amp;text=Video%20Codec%20and%20Container%20Choices%20for%20Localization%20Pipelines" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-codec-choices-for-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/integrity-verification-in-media-pipelines" aria-label="Read Data Integrity Verification Across Multi-Stage Video Translation Pipelines"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/chassis-glass-frame.jpg" alt="Data Integrity Verification Across Multi-Stage Video Translation Pipelines" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Data Integrity Verification Across Multi-Stage Video Translation Pipelines</h2><p class="blog-card-description">A truncated audio file that passes every downstream stage without an error is a worse failure than one that crashes immediately.</p>
+      <time class="blog-card-date" datetime="2026-08-30T18:00:00Z">Aug 30, 2026 · 12 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/timecode-and-edl-workflows-for-localization" aria-label="Read Timecode and EDL Workflows for Conforming Localized Video"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/quarterly-glass-columns.png" alt="Timecode and EDL Workflows for Conforming Localized Video" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Timecode and EDL Workflows for Conforming Localized Video</h2><p class="blog-card-description">A post-production team re-cuts a video by editing a timeline. A localization pipeline needs to know exactly what changed, and an EDL is how it finds out.</p>
+      <time class="blog-card-date" datetime="2026-08-30T17:30:00Z">Aug 30, 2026 · 12 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-fingerprinting-for-localized-catalogs" aria-label="Read Content Fingerprinting and Rights Matching for Localized Video Catalogs"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/particle-halo-ring.png" alt="Content Fingerprinting and Rights Matching for Localized Video Catalogs" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Content Fingerprinting and Rights Matching for Localized Video Catalogs</h2><p class="blog-card-description">A dub changes the audio enough to break simple fingerprint matching, and that has real consequences for both rights protection and false claims.</p>
+      <time class="blog-card-date" datetime="2026-08-29T03:30:00Z">Aug 29, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

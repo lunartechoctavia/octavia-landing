@@ -1,0 +1,706 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Generic Text-to-Speech or Voice Cloning: A Decision Framework | Octavia</title>
+    <meta name="description" content="When to use a stock synthetic voice versus a cloned one for video localization, weighing cost, consent, consistency, and what the content actually needs.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/text-to-speech-vs-voice-cloning">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Generic Text-to-Speech or Voice Cloning: A Decision Framework">
+    <meta property="og:description" content="When to use a stock synthetic voice versus a cloned one for video localization, weighing cost, consent, consistency, and what the content actually needs.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/text-to-speech-vs-voice-cloning">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/twin-light-portals.png">
+    <meta property="article:published_time" content="2026-08-30T15:30:00Z">
+    <meta property="article:modified_time" content="2026-08-30T15:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Generic Text-to-Speech or Voice Cloning: A Decision Framework">
+    <meta name="twitter:description" content="When to use a stock synthetic voice versus a cloned one for video localization, weighing cost, consent, consistency, and what the content actually needs.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/twin-light-portals.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Generic Text-to-Speech or Voice Cloning: A Decision Framework","description":"When to use a stock synthetic voice versus a cloned one for video localization, weighing cost, consent, consistency, and what the content actually needs.","image":"https://octavia.lunartech.ai/assets/blog/images/twin-light-portals.png","datePublished":"2026-08-30T15:30:00Z","dateModified":"2026-08-30T15:30:00Z","wordCount":2160,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/text-to-speech-vs-voice-cloning","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Generic Text-to-Speech or Voice Cloning: A Decision Framework","item":"https://octavia.lunartech.ai/blog/text-to-speech-vs-voice-cloning"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/voice-ai">Voice AI</a>
+        <h1 class="article-title">Generic Text-to-Speech or Voice Cloning: A Decision Framework</h1><p class="article-deck">Cloning a voice is not automatically the better choice. Sometimes a good stock voice is faster, cheaper, and genuinely more appropriate.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-30T15:30:00Z">Aug 30, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/twin-light-portals.png" alt="Generic Text-to-Speech or Voice Cloning: A Decision Framework" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-default-assumption-worth-questioning">The Default Assumption Worth Questioning</a></li><li><a class="toc-h2" data-toc-link href="#what-voice-cloning-actually-buys-you">What Voice Cloning Actually Buys You</a></li><li><a class="toc-h2" data-toc-link href="#what-generic-text-to-speech-actually-buys-you">What Generic Text-to-Speech Actually Buys You</a></li><li><a class="toc-h2" data-toc-link href="#a-practical-decision-framework">A Practical Decision Framework</a></li><li><a class="toc-h2" data-toc-link href="#mixed-approaches-within-one-content-program">Mixed Approaches Within One Content Program</a></li><li><a class="toc-h2" data-toc-link href="#disclosure-implications-differ-between-the-two">Disclosure Implications Differ Between the Two</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Sound engineer at a recording console"></a></p>
+<h2 id="the-default-assumption-worth-questioning">The Default Assumption Worth Questioning</h2>
+<p>Voice cloning has become accessible enough, and prominent enough in how AI dubbing is marketed and discussed, that many teams now default to it as the assumed choice for any localization project without seriously evaluating whether a well-selected generic text-to-speech voice would actually serve the content better, faster, and at lower cost and lower risk. This is worth pausing on, because the decision genuinely depends on specific properties of the content, and treating voice cloning as the automatic premium default produces real costs — consent overhead, higher per-project setup time, ongoing rights management as covered in more detail elsewhere in this series — for content that never actually needed the specific benefit cloning provides in the first place.</p>
+<p>The reverse mistake also happens, though less often given current marketing trends: defaulting to generic text-to-speech for content where voice cloning&#39;s specific value — preserving a recognizable individual&#39;s identity across languages — is actually the entire point of the exercise, and using a disconnected stock voice instead genuinely undermines what the content was trying to achieve.</p>
+<h2 id="what-voice-cloning-actually-buys-you">What Voice Cloning Actually Buys You</h2>
+<p><strong>Voice cloning&#39;s core value proposition is preserving a specific, real individual&#39;s recognizable vocal identity across languages they do not speak</strong>, which matters specifically and primarily when that individual&#39;s voice is itself part of what makes the content work — a company founder whose voice is closely associated with the brand, a well-known creator whose audience has a genuine relationship with their specific voice and delivery, an executive whose recognizable presence carries authority that a generic voice cannot replicate.</p>
+<p><strong>It also matters for content where continuity between the original and the localized version is itself part of the audience&#39;s expectation</strong>, such as a documentary subject or interviewee whose actual voice, even filtered through translation, carries some of the same personal authenticity that the original recording had, connecting to the broader authenticity considerations discussed in the context of dubbing archival and testimony content elsewhere in this series.</p>
+<p><strong>Voice cloning does not inherently produce better audio quality than well-executed generic text-to-speech</strong>, and this is a common misconception worth correcting directly: the underlying speech synthesis technology quality is largely independent of whether the specific voice model was built from a cloned reference or is a stock voice offered by the same provider, so the choice between them should be driven by whether identity preservation specifically matters for this content, not by an assumption that cloning is simply the higher-quality option in some general sense.</p>
+<h2 id="what-generic-text-to-speech-actually-buys-you">What Generic Text-to-Speech Actually Buys You</h2>
+<p><strong>Generic, stock synthetic voices avoid the consent, licensing, and ongoing rights management overhead entirely</strong>, since there is no real individual&#39;s identity or consent to manage, which is a genuine and often underappreciated advantage for high-volume content where per-project consent friction, even when the underlying process is well-designed, still adds real time and coordination cost multiplied across every project it touches.</p>
+<p><strong>They are immediately available with no setup or creation lead time</strong>, unlike a cloned voice, which requires sourcing adequate reference audio, going through a creation and consent process, and validating the resulting voice quality before it is ready for production use, as covered in more detail in the discussion of voice consistency across episodes elsewhere in this series — for a time-sensitive project, this lead time difference can be decisive on its own.</p>
+<p><strong>A well-selected generic voice is often the more appropriate choice specifically because it does not compete with or distract from other content elements</strong>, particularly for narration-style content — instructional material, corporate training, documentary voice-over — where a professional, clear, appropriately paced voice is what the content actually needs, and where introducing a specific recognizable individual&#39;s cloned voice into content they were never actually associated with in the source material can feel like an odd or unnecessary addition rather than an enhancement.</p>
+<p><strong>Cost is generally lower for generic voices at typical commercial licensing terms</strong>, both in immediate use and in avoiding the ongoing management overhead of tracking consent scope, renewal terms, and usage boundaries for a cloned voice asset over its operational life, as covered in more detail in the discussion of budgeting for localization programs elsewhere in this series.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Recording studio with microphone and acoustic panels"></a></p>
+<h2 id="a-practical-decision-framework">A Practical Decision Framework</h2>
+<p><strong>Ask first whether a specific, real, identifiable individual&#39;s voice is actually meaningful to this content&#39;s purpose</strong>, which is the single most decisive question in this entire framework. If the answer is genuinely no — the content is instructional, informational, or narration-driven with no specific individual&#39;s identity central to its value — generic text-to-speech is very likely the right default, and voice cloning would be adding cost, complexity, and consent overhead in service of a benefit the content does not actually need or use.</p>
+<p><strong>If the answer is yes, ask whether that specific individual has actually consented, or can be reasonably approached to consent, to having their voice cloned for this specific purpose and scope</strong>, since voice cloning without genuine consent is not a viable option regardless of how much the content might benefit from identity preservation in principle, as covered extensively in the discussion of ethical voice cloning and the legal landscape for voice cloning elsewhere in this series — a content need for identity preservation does not create a right to clone a voice without permission.</p>
+<p><strong>Where consent is available, weigh the actual expected content volume and duration of use against the setup and ongoing management cost of cloning</strong>, since a one-off, short piece of content may not justify the full cloning setup process relative to its value, while an ongoing series or a substantial content library featuring the same individual clearly does, connecting to the same volume-versus-setup-cost tradeoff discussed for voice creation more generally elsewhere in this series.</p>
+<p><strong>Where the content sits genuinely between these cases</strong> — a recognizable public figure&#39;s content where cloning would be valuable but is not strictly necessary, or content where the individual&#39;s identity matters somewhat but not as the central point — consider a middle path such as a carefully selected generic voice matched for general demographic and tonal fit rather than for genuine identity preservation, which serves much of the practical need for a fitting, appropriate-sounding voice without the full cloning consent and management overhead, while being transparent that this is a fit-matched rather than identity-preserving choice.</p>
+<h2 id="mixed-approaches-within-one-content-program">Mixed Approaches Within One Content Program</h2>
+<p><strong>A single organisation&#39;s content library frequently contains a genuine mix of content types warranting different choices, and applying one uniform policy across the whole library is usually the wrong approach</strong>, since a company&#39;s flagship founder-led content genuinely benefits from voice cloning&#39;s identity preservation, while the same company&#39;s routine instructional and support content is very likely better served by a well-selected generic voice, and forcing one uniform choice across both content types either over-invests in cloning infrastructure for content that does not need it, or under-serves flagship content by denying it the specific benefit cloning would genuinely provide.</p>
+<p><strong>Decide this at the content-category level as an explicit policy, documented alongside the other production standards discussed throughout this series, rather than leaving it to be decided ad hoc per individual video</strong>, since ad hoc per-video decision-making, made independently by whoever happens to be producing a given piece of content, produces inconsistency across genuinely similar content and misses the efficiency of having a clear, pre-established default that most projects can simply follow without needing a fresh decision each time.</p>
+<p><strong>Maintain both a cloned voice library for individuals whose identity genuinely matters and a curated set of preferred generic voices for content that does not need identity preservation</strong>, as parallel, coexisting assets within the same content operation, rather than treating the choice between them as an either-or decision made once for an entire organisation, since most real content operations genuinely need both categories available and appropriately applied to the right content.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person speaking into a studio microphone"></a></p>
+<h2 id="disclosure-implications-differ-between-the-two">Disclosure Implications Differ Between the Two</h2>
+<p><strong>As covered in more detail in the discussion of synthetic voice disclosure elsewhere in this series, disclosure obligations and audience expectations genuinely differ between generic synthetic narration and cloned voice content</strong>, with cloned voice content generally warranting more explicit and more prominent disclosure given the identity-specific nature of what is being represented, while generic synthetic narration sits at a comparatively lower-stakes point on the same disclosure spectrum.</p>
+<p><strong>This disclosure difference is itself a relevant input into the decision framework above, not just a downstream consequence of whichever choice is made</strong>, since content where prominent, unavoidable disclosure of synthetic identity use would itself be disruptive or undesirable to the content&#39;s actual purpose is a signal worth weighing when deciding whether the identity-preservation benefit of cloning is actually worth the disclosure obligation that comes attached to it for that specific piece of content.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Ask first whether a specific, real, identifiable individual&#39;s voice is actually meaningful to the content&#39;s purpose.</li><li>Default to generic text-to-speech for instructional, informational, and narration-driven content with no specific individual central to its value.</li><li>Confirm genuine consent exists or is realistically obtainable before considering voice cloning for any specific individual.</li><li>Weigh expected content volume and duration of use against cloning&#39;s setup and ongoing management cost.</li><li>Consider a demographically and tonally fit-matched generic voice as a middle path where full identity preservation is not essential.</li><li>Set voice choice policy at the content-category level, not ad hoc per individual video.</li><li>Maintain both a cloned voice library and a curated generic voice set as coexisting organisational assets.</li><li>Factor disclosure obligation differences between cloned and generic voices into the upfront decision, not only as a downstream consequence.</li><li>Do not assume voice cloning produces inherently higher audio quality than well-executed generic text-to-speech.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Does voice cloning sound better than generic text-to-speech?</strong></p>
+<p>Not inherently. The underlying speech synthesis technology quality is largely independent of whether a specific voice model was built from a cloned reference or is a stock voice from the same provider. The choice between them should be driven by whether preserving a specific individual&#39;s recognizable identity actually matters for the content, not by an assumption that cloning is simply the higher-quality option.</p>
+<p><strong>When is voice cloning clearly worth the extra cost and complexity?</strong></p>
+<p>When a specific, real, identifiable individual&#39;s voice is itself part of what makes the content work — a founder closely associated with a brand, a creator whose audience has a genuine relationship with their specific delivery, an executive whose recognizable presence carries authority a generic voice cannot replicate. If no specific individual&#39;s identity is central to the content&#39;s purpose, this benefit does not apply and generic text-to-speech is very likely the better default.</p>
+<p><strong>Can I use a generic voice that just sounds similar to a real person instead of cloning their actual voice?</strong></p>
+<p>This is a reasonable middle path for content where full identity preservation is not essential but a fitting, appropriate-sounding voice still matters — selecting a generic voice matched for general demographic and tonal fit rather than genuine identity preservation. Be transparent internally and, depending on context, with your audience that this is a fit-matched choice rather than an actual representation of that specific person&#39;s voice, since the two carry different implications and different disclosure expectations.</p>
+<p><strong>Should our whole content library use one voice approach consistently?</strong></p>
+<p>Usually not, and most content operations genuinely benefit from maintaining both approaches side by side rather than picking one uniformly. Flagship, founder-led, or personality-driven content often genuinely benefits from voice cloning, while routine instructional and support content is very likely better served by a well-selected generic voice. Decide this at the content-category level as an explicit, documented policy rather than ad hoc per video.</p>
+<p><strong>Does disclosure work differently for cloned voices versus generic synthetic voices?</strong></p>
+<p>Yes. Cloned voice content generally warrants more explicit and prominent disclosure given its identity-specific nature, while generic synthetic narration sits at a comparatively lower-stakes point on the same spectrum, as covered in more detail in the dedicated discussion of synthetic voice disclosure. This difference is worth weighing as part of the upfront decision about whether cloning is actually the right choice for a given piece of content, not just handled afterward as a compliance formality.</p>
+<p><strong>Is it ever worth cloning a voice for a single one-off piece of content?</strong></p>
+<p>Sometimes, but weigh the volume and duration of expected use against the setup and consent overhead honestly before committing. A single short piece of content may not justify the full cloning process relative to its value, while an ongoing series or substantial content library featuring the same individual clearly does. This is the same volume-versus-setup-cost tradeoff that applies to building any new voice asset for production use.</p>
+<hr>
+<p>Related reading: <a href="/blog/synthetic-voice-disclosure">Synthetic Voice Disclosure</a> | <a href="/blog/voice-cloning-for-call-centers">Voice Cloning for Call Centers</a> | <a href="/blog/ethical-voice-cloning">Ethical Voice Cloning</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftext-to-speech-vs-voice-cloning" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftext-to-speech-vs-voice-cloning&amp;text=Generic%20Text-to-Speech%20or%20Voice%20Cloning%3A%20A%20Decision%20Framework" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftext-to-speech-vs-voice-cloning" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/voice-ai">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/multilingual-voice-branding-strategy" aria-label="Read Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/voice-waveform-portal.png" alt="Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets</h2><p class="blog-card-description">A visual brand guide specifies exact colors and fonts for every market. Most companies have no equivalent document for how their brand actually sounds.</p>
+      <time class="blog-card-date" datetime="2026-08-30T16:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/voice-cloning-legal-landscape-by-country" aria-label="Read The Legal Landscape for Voice Cloning: A Jurisdiction-by-Jurisdiction Starting Point"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/mirrored-identity-portal.png" alt="The Legal Landscape for Voice Cloning: A Jurisdiction-by-Jurisdiction Starting Point" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">The Legal Landscape for Voice Cloning: A Jurisdiction-by-Jurisdiction Starting Point</h2><p class="blog-card-description">There is no single global law governing voice cloning. There are a dozen overlapping ones, moving at different speeds, and most companies are tracking none of them.</p>
+      <time class="blog-card-date" datetime="2026-08-30T15:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/filler-words-and-breath-in-ai-dubbing" aria-label="Read Filler Words, Breath, and Disfluency in AI Dubbing: Clean Them or Keep Them?"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/black-silk-wave.png" alt="Filler Words, Breath, and Disfluency in AI Dubbing: Clean Them or Keep Them?" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Filler Words, Breath, and Disfluency in AI Dubbing: Clean Them or Keep Them?</h2><p class="blog-card-description">A dub with every um and false start removed sounds polished. A dub of an unscripted interview with every um removed sounds like a different person.</p>
+      <time class="blog-card-date" datetime="2026-08-29T01:00:00Z">Aug 29, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

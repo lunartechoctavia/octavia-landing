@@ -1,0 +1,709 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Video Accessibility on Low Bandwidth and Older Devices | Octavia</title>
+    <meta name="description" content="Why accessibility strategy has to account for connectivity and device constraints: text-first delivery, adaptive captions, and reaching underserved markets.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/low-bandwidth-video-accessibility">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Video Accessibility on Low Bandwidth and Older Devices">
+    <meta property="og:description" content="Why accessibility strategy has to account for connectivity and device constraints: text-first delivery, adaptive captions, and reaching underserved markets.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/low-bandwidth-video-accessibility">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/wing-glass-section.jpg">
+    <meta property="article:published_time" content="2026-08-28T20:00:00Z">
+    <meta property="article:modified_time" content="2026-08-28T20:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Video Accessibility on Low Bandwidth and Older Devices">
+    <meta name="twitter:description" content="Why accessibility strategy has to account for connectivity and device constraints: text-first delivery, adaptive captions, and reaching underserved markets.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/wing-glass-section.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Video Accessibility on Low Bandwidth and Older Devices","description":"Why accessibility strategy has to account for connectivity and device constraints: text-first delivery, adaptive captions, and reaching underserved markets.","image":"https://octavia.lunartech.ai/assets/blog/images/wing-glass-section.jpg","datePublished":"2026-08-28T20:00:00Z","dateModified":"2026-08-28T20:00:00Z","wordCount":2249,"timeRequired":"PT10M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/low-bandwidth-video-accessibility","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Video Accessibility on Low Bandwidth and Older Devices","item":"https://octavia.lunartech.ai/blog/low-bandwidth-video-accessibility"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/accessibility">Accessibility</a>
+        <h1 class="article-title">Video Accessibility on Low Bandwidth and Older Devices</h1><p class="article-deck">A captioned, dubbed, richly accessible video that never finishes buffering has accomplished nothing for the viewer it was meant to reach.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-28T20:00:00Z">Aug 28, 2026</time><span class="article-meta-dot"></span><span>10 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/wing-glass-section.jpg" alt="Video Accessibility on Low Bandwidth and Older Devices" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#an-accessibility-dimension-most-frameworks-skip">An Accessibility Dimension Most Frameworks Skip</a></li><li><a class="toc-h2" data-toc-link href="#video-s-weight-problem">Video&#39;s Weight Problem</a></li><li><a class="toc-h2" data-toc-link href="#text-first-and-audio-only-alternatives">Text-First and Audio-Only Alternatives</a></li><li><a class="toc-h2" data-toc-link href="#adaptive-delivery-and-quality-selection">Adaptive Delivery and Quality Selection</a></li><li><a class="toc-h2" data-toc-link href="#device-constraints-beyond-connectivity">Device Constraints Beyond Connectivity</a></li><li><a class="toc-h2" data-toc-link href="#prioritisation-for-constrained-connectivity-markets">Prioritisation for Constrained-Connectivity Markets</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person watching content on a mobile device"></a></p>
+<h2 id="an-accessibility-dimension-most-frameworks-skip">An Accessibility Dimension Most Frameworks Skip</h2>
+<p>Accessibility guidance overwhelmingly addresses sensory, cognitive, and motor access to content that a viewer can actually receive. It has comparatively little to say about access to content that a viewer&#39;s connection or device cannot actually deliver, even though this is a real and often larger barrier for a substantial share of the global audience many organisations are actively trying to reach through localization.</p>
+<p>This gap matters directly for video localization specifically, because the markets most often targeted by expanded language support — many with rapidly growing but not yet uniformly high connectivity, and many where a large share of viewers access content on older or budget mobile devices rather than modern hardware — are frequently the same markets where bandwidth and device constraints bite hardest. A localization programme that reaches new languages while assuming broadband connectivity and current-generation devices is solving one access problem while leaving a comparably significant one unaddressed for the same expanding audience.</p>
+<h2 id="video-s-weight-problem">Video&#39;s Weight Problem</h2>
+<p><strong>Video is, by a wide margin, the heaviest common content format on the web</strong>, and the gap between a comfortable viewing experience and a genuinely constrained one is large — a few minutes of video at typical delivery quality can represent a meaningful fraction of a day&#39;s data allowance on a constrained mobile plan, or take an impractically long time to buffer on a slow connection, in a way that text or even images generally do not approach.</p>
+<p><strong>This creates a real and specific tension with accessibility efforts that add more tracks and richer media to a video</strong> — additional audio tracks for dubbing, sign language video overlays, high-quality caption rendering — each of which adds weight to what is already the heaviest common format, meaning some accessibility improvements can, without deliberate mitigation, actively work against access for exactly the bandwidth-constrained segment of the audience that most needs the accessibility improvement to begin with.</p>
+<p><strong>The tension is real but not unresolvable</strong>, and resolving it requires treating connectivity and device constraints as a first-class design input alongside sensory and cognitive accessibility, rather than as a separate performance concern to be handled by an engineering team independent of accessibility strategy.</p>
+<h2 id="text-first-and-audio-only-alternatives">Text-First and Audio-Only Alternatives</h2>
+<p><strong>The single most effective mitigation is offering genuine non-video alternatives for content where the core information can be conveyed without video at all</strong>, not merely captions attached to a video stream that still has to buffer, but an actual separate lightweight delivery path — a full transcript as a standalone, fast-loading text page, or an audio-only version of the content at a small fraction of video&#39;s data cost.</p>
+<p><strong>This should be a real, independently discoverable and usable path, not merely captions layered onto a video that still requires the full video stream to load before the captions are of any use</strong> — a transcript page or audio download that a viewer on a constrained connection can access directly, without ever initiating the video load at all, is a meaningfully different and more genuinely accessible offering than captions that only become available once a heavy video asset has started loading.</p>
+<p><strong>For instructional and informational content specifically, a well-structured transcript with embedded still images at key moments</strong> can convey a very large share of the actual informational content of a video at a small fraction of the data cost, and is worth offering as a first-class alternative rather than treating text as a fallback of last resort only for people who cannot access video at all.</p>
+<p><strong>This connects directly to localization workflow, since a transcript already exists as an intermediate artefact of the transcription and translation pipeline for any localized video</strong> — surfacing it as a standalone accessible and lightweight product in its own right, in every target language, is a comparatively small additional step once it already exists as pipeline output, rather than a separate content creation effort.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Learner watching an online course on a laptop"></a></p>
+<h2 id="adaptive-delivery-and-quality-selection">Adaptive Delivery and Quality Selection</h2>
+<p><strong>Adaptive bitrate streaming, which automatically adjusts video quality to available bandwidth, is now standard on major platforms and is a meaningful accessibility mitigation in its own right</strong>, since it allows a viewer on a constrained connection to receive a lower-quality but still functional stream rather than either a stalled high-quality stream or no video access at all.</p>
+<p><strong>Ensure the lowest quality tier in your adaptive streaming ladder is genuinely low enough to be usable on the constrained connections your actual target audience has, not just modestly lower than your default tier</strong> — a lowest tier that still assumes reasonably strong connectivity does not meaningfully serve viewers on the connections this consideration is meant to address, and testing your actual lowest tier against genuinely constrained, real-world-representative connection speeds is worth doing explicitly rather than assuming a platform default is adequate for every target market.</p>
+<p><strong>Caption and subtitle tracks are extremely lightweight relative to video or audio</strong> and should be prioritised for early, fast delivery independent of video quality tier — a viewer on a very slow connection watching a heavily buffered low-quality video stream should still receive fully synchronized, high-quality captions, since captions cost almost nothing in bandwidth terms relative to the video itself and there is no reason for caption quality to degrade in step with video quality.</p>
+<p><strong>Allow explicit manual quality selection, not only automatic adaptation</strong>, since automatic adaptive systems do not always correctly detect a genuinely constrained connection, particularly on connections that are inconsistent rather than uniformly slow, and a viewer who can manually select a lower quality tier proactively is not dependent on the adaptive algorithm correctly diagnosing their situation.</p>
+<h2 id="device-constraints-beyond-connectivity">Device Constraints Beyond Connectivity</h2>
+<p><strong>Older and budget mobile devices, common in many markets that are also targets for expanded language localization, often have meaningfully less processing power for video decoding, less available storage for offline download, and smaller, lower-resolution screens</strong> that all interact with accessibility considerations independently of bandwidth.</p>
+<p><strong>Video codec choice affects decoding performance on older hardware, not only file size</strong>, and a more modern, more efficient codec that produces smaller files can simultaneously be more computationally demanding to decode, which can cause playback stuttering or complete failure on older devices even when the file itself downloaded successfully — this is a real trade-off worth testing explicitly on actual representative older hardware from your target markets rather than assuming smaller file size is a uniformly positive trade with no downside.</p>
+<p><strong>Offline download and playback support is a significant accessibility feature for viewers with limited, expensive, or highly inconsistent connectivity</strong>, letting them download content once, ideally on an available fast or free connection such as public wifi, and view it later without needing a live connection at the moment of viewing — this is a meaningfully different use pattern from adaptive streaming and serves a different, often more severely constrained segment of the audience.</p>
+<p><strong>Caption rendering and legibility on small, lower-resolution screens common on budget devices needs its own explicit testing</strong>, since caption sizing and contrast validated on a modern high-resolution display may not translate directly to a smaller or lower-density budget device screen, and the specific devices common in your priority markets are worth testing against directly rather than assuming a general standard developed and validated primarily on higher-end hardware transfers uniformly.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Team collaborating around a laptop"></a></p>
+<h2 id="prioritisation-for-constrained-connectivity-markets">Prioritisation for Constrained-Connectivity Markets</h2>
+<p><strong>For content specifically targeting markets with known significant connectivity or device constraints, prioritise text and audio-only delivery paths over video as the primary access route</strong>, treating video itself as an enhancement layer for viewers whose connection comfortably supports it, rather than assuming video-first delivery with text as a secondary fallback is the right default orientation for every market equally.</p>
+<p><strong>This has real implications for content format decisions made upstream of localization, not only for delivery engineering</strong> — content designed from the outset to work well as audio-only or as a structured text-plus-image format serves these markets fundamentally better than content designed exclusively as a rich, image-dense video experience with text treated as an afterthought bolted on for accessibility compliance.</p>
+<p><strong>Dubbed audio without video, delivered as a lightweight, standalone audio file, is a genuinely underused format for constrained-connectivity markets specifically</strong> — the accessibility and localization investment already made in producing quality dubbed audio can be delivered as its own lightweight product, entirely independent of the video file, reaching an audience segment that video delivery, at any quality tier, may simply never practically reach given their actual connectivity.</p>
+<p><strong>Coordinate this prioritisation directly with the language and market decisions already being made in a broader localization programme</strong>, since the markets that most justify adding a new language for audience-size or strategic reasons are frequently, though not universally, the same markets where connectivity and device constraints are most likely to be significant — treating language coverage and connectivity-appropriate delivery as one coordinated market-access decision, rather than two entirely separate and independently staffed workstreams, produces a materially more coherent and effective overall market access strategy.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Treat connectivity and device constraints as a first-class accessibility input, not a separate performance-engineering concern.</li><li>Offer a standalone, independently accessible transcript or audio-only version for content whose core information does not require video.</li><li>Surface the transcript already produced as a pipeline artefact as a first-class lightweight product in every target language.</li><li>Verify your adaptive streaming ladder&#39;s lowest tier is genuinely usable on real constrained connections in your target markets, not just modestly reduced.</li><li>Prioritise fast, full-quality delivery of caption tracks independent of the video quality tier being streamed.</li><li>Offer manual quality selection alongside automatic adaptive streaming.</li><li>Test codec decoding performance on actual older or budget devices common in your target markets, not only on modern hardware.</li><li>Support offline download and playback for viewers with limited or inconsistent connectivity.</li><li>Test caption legibility and sizing on the actual smaller, lower-resolution screens common on budget devices in priority markets.</li><li>Consider standalone dubbed audio-only delivery as a distinct, lightweight product for constrained-connectivity markets.</li><li>Coordinate connectivity-appropriate delivery decisions with language and market prioritisation as one combined market-access strategy.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Is bandwidth and device access really an accessibility issue, or is it just a performance concern?</strong></p>
+<p>It functions as a genuine accessibility barrier for a significant share of any global audience, even though it is rarely framed that way in mainstream accessibility guidance, which focuses primarily on sensory, cognitive, and motor access to content a viewer can actually receive. A perfectly captioned, described, and translated video that a viewer&#39;s connection cannot practically load has not actually reached that viewer, and this barrier disproportionately affects some of the same markets that language expansion efforts specifically aim to reach.</p>
+<p><strong>Doesn&#39;t adding more accessibility tracks make bandwidth problems worse?</strong></p>
+<p>It can, and this tension is real rather than imaginary — additional audio tracks, sign language video, and richer caption rendering all add weight to video content. The resolution is not to skip accessibility features but to treat bandwidth as a design input alongside them: prioritise fast delivery of lightweight tracks like captions independent of video quality, offer genuine non-video alternatives such as standalone transcripts and audio-only versions, and ensure the lowest quality tier in adaptive streaming is actually usable on constrained connections.</p>
+<p><strong>What is the single most effective thing to offer for constrained-connectivity audiences?</strong></p>
+<p>A genuine, independently accessible non-video alternative — typically a standalone transcript or an audio-only version — that a viewer can access without ever loading the video at all. This is meaningfully different from captions attached to a video stream, since captions still require the underlying video asset to start loading before they are of any use. For many organisations this is close to a free addition, since the transcript already exists as an intermediate output of the transcription and translation pipeline.</p>
+<p><strong>Does smaller video file size always mean better accessibility for constrained devices?</strong></p>
+<p>Not automatically. More efficient modern codecs that produce smaller files can be more computationally demanding to decode, which can cause playback problems on older hardware even when the smaller file downloads successfully. This is a genuine trade-off worth testing explicitly on real representative devices from your target markets, rather than assuming a smaller file size is a uniformly positive change with no downside for decoding performance.</p>
+<p><strong>Should caption quality be reduced along with video quality on a slow connection?</strong></p>
+<p>No, and this is a case where the two should be decoupled deliberately. Caption and subtitle tracks are extremely lightweight compared with video or audio, so there is no meaningful bandwidth reason for caption quality or timing to degrade in step with a reduced video quality tier. A viewer on a very slow connection watching a heavily reduced-quality video stream should still receive fully synchronized, high-quality captions.</p>
+<p><strong>How does this connect to decisions about which languages to localize into?</strong></p>
+<p>Directly, and coordinating the two produces a more coherent strategy than treating them separately. The markets that most justify adding a new language for audience size or strategic reasons are often, though not always, markets where connectivity and device constraints are also significant. Making language coverage and connectivity-appropriate delivery format decisions together, as one market-access strategy, reaches the target audience more effectively than adding a language while assuming broadband connectivity and current-generation devices for that same market.</p>
+<hr>
+<p>Related reading: <a href="/blog/video-accessibility-guide">Video Accessibility Guide</a> | <a href="/blog/video-translation-for-startups">Video Translation for Startups</a> | <a href="/blog/global-content-distribution-guide">Global Content Distribution Guide</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flow-bandwidth-video-accessibility" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flow-bandwidth-video-accessibility&amp;text=Video%20Accessibility%20on%20Low%20Bandwidth%20and%20Older%20Devices" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Flow-bandwidth-video-accessibility" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/accessibility">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-transcripts-seo-and-accessibility" aria-label="Read Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/edition-glass-spreads.png" alt="Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once</h2><p class="blog-card-description">Most teams treat the transcript as a byproduct of captioning. It is closer to the single most valuable asset your video program produces.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/caption-accuracy-regulatory-standards" aria-label="Read Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gauge-glass-dials.jpg" alt="Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks</h2><p class="blog-card-description">WCAG says captions must be accurate. Broadcast regulators actually define what accuracy means, in numbers, and audit against it.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/audio-description-scripting-guide" aria-label="Read How to Write an Audio Description Script That Actually Fits the Gaps"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/halo-ring-solo.png" alt="How to Write an Audio Description Script That Actually Fits the Gaps" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Write an Audio Description Script That Actually Fits the Gaps</h2><p class="blog-card-description">Audio description is not a running commentary. It is a script written against a stopwatch, fitted into gaps the original recording never planned for it.</p>
+      <time class="blog-card-date" datetime="2026-08-30T13:30:00Z">Aug 30, 2026 · 12 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

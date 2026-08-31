@@ -1,0 +1,707 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Measuring ROI on Video Localization: Attribution Beyond View Counts | Octavia</title>
+    <meta name="description" content="How to actually measure return on video localization investment: attribution challenges, leading indicators, and the metrics that predict long-term value.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/measuring-roi-video-localization">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Measuring ROI on Video Localization: Attribution Beyond View Counts">
+    <meta property="og:description" content="How to actually measure return on video localization investment: attribution challenges, leading indicators, and the metrics that predict long-term value.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/measuring-roi-video-localization">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/expanding-glass-bars.png">
+    <meta property="article:published_time" content="2026-08-30T18:30:00Z">
+    <meta property="article:modified_time" content="2026-08-30T18:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Measuring ROI on Video Localization: Attribution Beyond View Counts">
+    <meta name="twitter:description" content="How to actually measure return on video localization investment: attribution challenges, leading indicators, and the metrics that predict long-term value.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/expanding-glass-bars.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Measuring ROI on Video Localization: Attribution Beyond View Counts","description":"How to actually measure return on video localization investment: attribution challenges, leading indicators, and the metrics that predict long-term value.","image":"https://octavia.lunartech.ai/assets/blog/images/expanding-glass-bars.png","datePublished":"2026-08-30T18:30:00Z","dateModified":"2026-08-30T18:30:00Z","wordCount":2539,"timeRequired":"PT12M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/measuring-roi-video-localization","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Measuring ROI on Video Localization: Attribution Beyond View Counts","item":"https://octavia.lunartech.ai/blog/measuring-roi-video-localization"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/enterprise">Enterprise</a>
+        <h1 class="article-title">Measuring ROI on Video Localization: Attribution Beyond View Counts</h1><p class="article-deck">View count in a new language tells you almost nothing about whether localizing that language was actually worth the money spent.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-30T18:30:00Z">Aug 30, 2026</time><span class="article-meta-dot"></span><span>12 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/expanding-glass-bars.png" alt="Measuring ROI on Video Localization: Attribution Beyond View Counts" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-this-is-genuinely-hard-to-measure-well">Why This Is Genuinely Hard to Measure Well</a></li><li><a class="toc-h2" data-toc-link href="#the-attribution-problem">The Attribution Problem</a></li><li><a class="toc-h2" data-toc-link href="#leading-indicators-worth-tracking-before-lagging-revenue-data-arrives">Leading Indicators Worth Tracking Before Lagging Revenue Data Arrives</a></li><li><a class="toc-h2" data-toc-link href="#cost-side-precision-enables-better-roi-conclusions">Cost-Side Precision Enables Better ROI Conclusions</a></li><li><a class="toc-h2" data-toc-link href="#what-return-actually-means-depends-on-content-purpose">What &quot;Return&quot; Actually Means Depends on Content Purpose</a></li><li><a class="toc-h2" data-toc-link href="#building-an-ongoing-measurement-practice">Building an Ongoing Measurement Practice</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person analysing metrics on a dashboard"></a></p>
+<h2 id="why-this-is-genuinely-hard-to-measure-well">Why This Is Genuinely Hard to Measure Well</h2>
+<p>Video localization sits in an awkward measurement position relative to most other marketing and content investments. It is not a direct-response channel with an obvious, immediately attributable conversion event the way a paid search ad click is. It is also not purely a cost center with no measurable output, the way some categories of compliance spending genuinely are. It produces value through a combination of expanded reach, improved engagement within markets already being served, and longer-term brand and market-position effects that are each individually real but none of which map cleanly onto a single, simple return-on-investment number that a finance team can drop straight into a budget justification without real analytical work behind it.</p>
+<p>The most common measurement mistake, covered briefly in the discussion of budgeting for localization programs elsewhere in this series, is treating view count in a newly localized language as the primary success metric on its own. View count tells you that content was watched; it tells you essentially nothing about whether that viewing translated into any of the actual business outcomes — revenue, retention, brand consideration, reduced support burden — that justified the localization investment being made at all in the first place.</p>
+<h2 id="the-attribution-problem">The Attribution Problem</h2>
+<p><strong>Video content, localized or otherwise, frequently sits several steps removed from any specific, directly measurable conversion event, and this attribution gap is not unique to localization — it is a genuine and familiar challenge across video content marketing generally</strong>, but it becomes specifically more pronounced for localization ROI measurement because the incremental cost of a specific language is comparatively easy to isolate precisely, while the incremental revenue or business value attributable to having that specific language available is considerably harder to isolate with the same precision.</p>
+<p><strong>Multi-touch attribution models, where available and already in use for other marketing measurement purposes within your organisation, can and should be extended to include localized video content as a distinct, trackable touchpoint</strong>, rather than treating video content as an undifferentiated single channel with no visibility into which specific language version a given customer actually engaged with along their path to conversion, since without this language-level breakdown, even a reasonably sophisticated general attribution model cannot actually answer the specific localization-focused question being asked here.</p>
+<p><strong>Where a genuinely clean, controlled comparison is achievable, it is worth pursuing deliberately rather than relying purely on attribution modeling of naturally occurring traffic</strong>, for instance by comparing business outcomes for otherwise comparable customer segments in a specific market before and after a language becomes available, or comparing outcomes for customers who engaged with localized content against a similar comparison group in the same market who did not, controlling as carefully as practically possible for other differences between the groups being compared, since this kind of genuinely controlled comparison produces a considerably more defensible ROI estimate than attribution modeling of naturally occurring, uncontrolled traffic alone can typically provide.</p>
+<h2 id="leading-indicators-worth-tracking-before-lagging-revenue-data-arrives">Leading Indicators Worth Tracking Before Lagging Revenue Data Arrives</h2>
+<p><strong>Engagement depth and completion rate within a specific localized language, compared against the same content&#39;s performance in the original language and against other localized languages, is a meaningful leading indicator available considerably sooner than any downstream revenue or retention data</strong>, since content that is being watched to completion at a rate comparable to your best-performing original-language content suggests the localization itself is working well and resonating with that specific audience, while a language showing consistently lower completion rates relative to your other languages may indicate either a translation and dubbing quality problem specific to that language, or a genuine content-market fit issue independent of translation quality, both of which are worth investigating before drawing any broader ROI conclusion from that language&#39;s data.</p>
+<p><strong>Search and organic discovery growth specifically attributable to newly published localized content, connecting directly to the multilingual SEO discussion elsewhere in this series, is another leading indicator that becomes measurable well before any downstream conversion or revenue data has had time to actually materialize</strong>, since growth in organic search visibility and traffic in a specific target language, following the publication of localized content and transcripts in that language, is a genuine, measurable early signal of expanding reach that long precedes any eventual downstream conversion happening much further along the customer journey.</p>
+<p><strong>Direct audience feedback and engagement signals — comments, shares, and any explicit audience request signals for a specific language, as covered in the discussion of community subtitling and audience-driven language prioritization elsewhere in this series — provide qualitative but genuinely meaningful evidence of audience reception</strong>, distinct from and complementary to the purely quantitative engagement metrics discussed above, and both categories of signal are worth tracking together rather than relying on either quantitative metrics or qualitative feedback alone.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Automated dashboard with charts"></a></p>
+<h2 id="cost-side-precision-enables-better-roi-conclusions">Cost-Side Precision Enables Better ROI Conclusions</h2>
+<p><strong>Precise, per-language cost tracking, connecting directly to the budgeting discussion elsewhere in this series, is a genuine prerequisite for any meaningful ROI calculation, and it is worth getting this side of the equation right independent of and before tackling the harder attribution-side measurement challenge</strong>, since an imprecise or blended cost figure — treating your total localization spend as one undifferentiated number rather than breaking it down accurately per language — makes any subsequent ROI comparison across languages meaningless from the outset, regardless of how sophisticated the revenue attribution methodology applied to the other side of the calculation happens to be.</p>
+<p><strong>Include the full cost picture per language, not only the marginal translation and dubbing cost of an individual piece of content</strong>, incorporating the one-time setup and terminology-build costs, the ongoing revision and maintenance cost, and a fair proportional share of shared platform and tooling costs, all as discussed in more detail in the dedicated budgeting piece elsewhere in this series, since comparing a new language&#39;s revenue attribution against only its marginal per-video cost, while ignoring its real setup and ongoing maintenance costs, systematically and artificially overstates that specific language&#39;s apparent ROI relative to a fuller and more honest accounting of its true total cost.</p>
+<p><strong>Track cost trends over time per language, not just a single point-in-time snapshot</strong>, since a language&#39;s true cost profile typically decreases as terminology stabilizes, translation memory accumulates reusable value, and reviewer familiarity with the specific content improves, exactly as discussed in the ramp-up-versus-steady-state cost distinction covered in the budgeting piece elsewhere in this series, meaning an ROI calculation performed too early in a new language&#39;s lifecycle, using its higher initial ramp-up cost, will understate its true long-term ROI relative to what that same language will actually deliver once it reaches a more mature, lower ongoing cost, steady-state operation.</p>
+<h2 id="what-return-actually-means-depends-on-content-purpose">What &quot;Return&quot; Actually Means Depends on Content Purpose</h2>
+<p><strong>For revenue-driving commercial content, the relevant return is measurable through the attribution approaches discussed above, connecting engagement in a specific language to actual downstream revenue, conversion, or customer acquisition outcomes in that market</strong>, and this is the case where the most rigorous quantitative ROI methodology genuinely applies most directly and most naturally.</p>
+<p><strong>For customer support and product training content, the relevant return is more directly measurable through reduced support ticket volume, reduced average resolution time, or improved customer satisfaction scores specifically in the markets where localized support content became newly available</strong>, connecting to the customer support video translation discussion elsewhere in this series, and this specific category of content frequently has a more directly measurable, more immediately quantifiable ROI than commercial marketing content does, precisely because the causal chain from localized content to a measurable operational outcome is considerably shorter and more direct.</p>
+<p><strong>For brand and market-positioning content — flagship content signaling genuine commitment to a specific market, as discussed in the context of small-language markets like Icelandic and Welsh elsewhere in this series — the actual return is more genuinely long-term, more qualitative, and harder to reduce to a single clean quantitative ROI figure</strong>, and forcing this specific content category into the same quantitative revenue-attribution framework appropriate for direct commercial content risks either badly understating its real value, since much of that value is genuinely difficult to capture in near-term measurable data, or producing a misleadingly precise-looking number that does not actually reflect what is genuinely happening.</p>
+<p><strong>Compliance and legally required localization, as covered throughout this series for markets with specific statutory requirements, should generally not be evaluated through an ROI lens at all</strong>, since the actual &quot;return&quot; in this specific case is regulatory compliance and genuine risk avoidance rather than any positive revenue or engagement outcome, and this content category is better evaluated against compliance adequacy and cost efficiency than forced awkwardly into a revenue-based ROI framework that was never actually designed to evaluate this specific kind of legally mandated spending.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Team reviewing a project plan on a shared screen"></a></p>
+<h2 id="building-an-ongoing-measurement-practice">Building an Ongoing Measurement Practice</h2>
+<p><strong>Establish ROI measurement as an ongoing, periodic practice rather than a one-time analysis performed only when initially justifying a localization budget or program to leadership</strong>, connecting to the quarterly budget review cadence recommended elsewhere in this series, since a language&#39;s actual ROI genuinely changes over time as covered above, and a single point-in-time analysis, however well done, becomes progressively less representative of current reality the further removed it is from when it was actually performed.</p>
+<p><strong>Segment ROI analysis by content type and by language separately, avoiding a single blended organisation-wide localization ROI figure that obscures genuinely important underlying variation</strong>, since a single blended number can mask a genuinely strong-performing language or content category being offset by a genuinely weaker one, and this blended obscuring prevents exactly the kind of targeted resource-reallocation decision that a properly segmented analysis would actually enable an organisation to make with real confidence.</p>
+<p><strong>Use ROI findings to actively inform resource allocation decisions going forward, not merely to retrospectively justify past spending decisions that have already been made</strong>, since the genuine value of this entire measurement exercise lies in what it tells you about where to invest more, where to invest differently, or where to reconsider an existing investment going forward, rather than existing solely as a backward-looking, purely retrospective justification exercise with no actual forward-looking decision-making value attached to it.</p>
+<p><strong>Share ROI findings transparently across the teams actually involved in producing, translating, and deploying localized content, not only with the specific finance or leadership audience the original analysis may have been prepared for</strong>, since teams doing the actual production work benefit directly from understanding which of their own specific choices and practices are actually associated with stronger measured outcomes, creating a genuine feedback loop that can improve future localization decisions in a way that an ROI analysis kept purely internal to a finance or leadership reporting function cannot achieve on its own.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Do not treat view count in a newly localized language as a primary standalone success metric.</li><li>Extend existing multi-touch attribution models to include localized video content as a distinct, trackable touchpoint.</li><li>Pursue genuinely controlled before-and-after or comparison-group analysis where practically achievable.</li><li>Track engagement depth and completion rate per language as an early leading indicator.</li><li>Track organic search growth specifically attributable to newly published localized content and transcripts.</li><li>Track qualitative audience feedback and explicit language demand signals alongside quantitative metrics.</li><li>Establish precise, fully-loaded per-language cost tracking as a prerequisite before attempting ROI calculation.</li><li>Include setup, maintenance, and proportional shared platform costs, not only marginal per-video cost, in the cost side.</li><li>Track cost trends over time per language rather than relying on a single point-in-time snapshot.</li><li>Measure commercial content ROI through revenue and conversion attribution specifically.</li><li>Measure support and training content ROI through ticket volume, resolution time, and satisfaction metrics.</li><li>Evaluate brand and market-positioning content on its genuinely long-term, qualitative terms rather than forcing a near-term revenue figure.</li><li>Evaluate compliance-driven localization on adequacy and cost efficiency rather than forcing it into an ROI framework.</li><li>Perform ROI measurement as an ongoing, periodic practice, not a one-time analysis.</li><li>Segment ROI findings by content type and language rather than reporting one blended organisation-wide figure.</li><li>Use ROI findings to actively inform forward resource allocation, not only to retrospectively justify past spending.</li><li>Share ROI findings transparently with the production teams themselves, not only with finance or leadership audiences.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Is view count in a new language a good measure of localization ROI?</strong></p>
+<p>No, and relying on it is the most common measurement mistake in this area. View count only tells you that content was watched, not whether that viewing translated into any actual business outcome — revenue, retention, reduced support cost, brand consideration — that justified the localization investment. It is worth tracking as one input among several, particularly alongside completion rate, but should never stand alone as the primary success metric.</p>
+<p><strong>Why is localization ROI harder to measure than other content marketing investments?</strong></p>
+<p>Because video content generally sits several steps removed from any directly measurable conversion event, and while the incremental cost of adding a specific language is comparatively easy to isolate precisely, the incremental business value attributable to that language is considerably harder to isolate with the same precision. This attribution gap is not unique to localization, but it is specifically pronounced here because the cost side is unusually clean while the value side is unusually diffuse.</p>
+<p><strong>What should I measure before revenue data is available to judge whether a new language is working?</strong></p>
+<p>Engagement depth and completion rate compared against your best-performing content in other languages, organic search growth in that specific language following publication of localized content and transcripts, and qualitative audience feedback and explicit demand signals. All three are available considerably sooner than downstream revenue or retention data and give genuine early signal about whether a language is resonating with its intended audience.</p>
+<p><strong>Should compliance-driven localization be evaluated with an ROI calculation?</strong></p>
+<p>Generally not through a revenue-based ROI framework. The actual &quot;return&quot; for legally required localization is regulatory compliance and risk avoidance, not a positive revenue or engagement outcome, and this content category is better evaluated on compliance adequacy and cost efficiency than forced into an ROI methodology that was never designed to evaluate this kind of mandated spending.</p>
+<p><strong>Why might a new language&#39;s ROI look worse than it actually is?</strong></p>
+<p>Because ROI calculated too early in a language&#39;s lifecycle uses its higher initial ramp-up cost — setup, terminology building, less mature reviewer familiarity — rather than its eventual lower steady-state cost once terminology has stabilized and translation memory has accumulated reusable value. Measuring ROI at a single early point in time, rather than tracking cost trends over the language&#39;s actual lifecycle, systematically understates its true long-term return.</p>
+<p><strong>Should ROI be measured once or on an ongoing basis?</strong></p>
+<p>On an ongoing, periodic basis, connecting to the same quarterly budget review cadence recommended for localization budgeting generally. A language&#39;s actual ROI genuinely changes over time as costs mature and audience reach compounds, so a single point-in-time analysis becomes progressively less representative of current reality the further removed it is from when it was originally performed.</p>
+<hr>
+<p>Related reading: <a href="/blog/budgeting-video-localization-programs">Budgeting a Video Localization Program</a> | <a href="/blog/video-translation-pricing-models">Video Translation Pricing Models</a> | <a href="/blog/localization-metrics-that-matter">Localization Metrics That Matter</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmeasuring-roi-video-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmeasuring-roi-video-localization&amp;text=Measuring%20ROI%20on%20Video%20Localization%3A%20Attribution%20Beyond%20View%20Counts" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmeasuring-roi-video-localization" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/enterprise">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-localization-franchise-businesses" aria-label="Read Video Localization for Franchise and Multi-Location Businesses"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/cohort-glass-risers.png" alt="Video Localization for Franchise and Multi-Location Businesses" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Localization for Franchise and Multi-Location Businesses</h2><p class="blog-card-description">A franchise system has one brand and hundreds of locations, and its video localization problem looks nothing like a single company&#39;s does.</p>
+      <time class="blog-card-date" datetime="2026-08-29T04:30:00Z">Aug 29, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/localizing-video-for-mergers-and-acquisitions" aria-label="Read Localizing Video Content After a Merger or Acquisition"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/embedded-vs-layered-glass.png" alt="Localizing Video Content After a Merger or Acquisition" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Localizing Video Content After a Merger or Acquisition</h2><p class="blog-card-description">A merger doesn&#39;t just combine two companies. It combines two glossaries, two vendor relationships, and two ideas of what the product is called.</p>
+      <time class="blog-card-date" datetime="2026-08-28T22:00:00Z">Aug 28, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-localization-crisis-communication" aria-label="Read Multilingual Crisis Communication: Localizing Video When There Is No Time"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/stadium-light-rings.png" alt="Multilingual Crisis Communication: Localizing Video When There Is No Time" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Enterprise</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Multilingual Crisis Communication: Localizing Video When There Is No Time</h2><p class="blog-card-description">A recall notice translated a week late has already failed. Crisis communication needs a different pipeline built before the crisis, not during it.</p>
+      <time class="blog-card-date" datetime="2026-08-28T21:30:00Z">Aug 28, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

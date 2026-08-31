@@ -1,0 +1,722 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Translation Memory Database Design: Storing Segments You Can Actually Reuse | Octavia</title>
+    <meta name="description" content="How to design a translation memory store for video localization: segment matching, fuzzy match scoring, versioning, and schema choices that scale.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/translation-memory-database-design">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Translation Memory Database Design: Storing Segments You Can Actually Reuse">
+    <meta property="og:description" content="How to design a translation memory store for video localization: segment matching, fuzzy match scoring, versioning, and schema choices that scale.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/translation-memory-database-design">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/gallery-glass-plinths.png">
+    <meta property="article:published_time" content="2026-08-28T15:30:00Z">
+    <meta property="article:modified_time" content="2026-08-28T15:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Translation Memory Database Design: Storing Segments You Can Actually Reuse">
+    <meta name="twitter:description" content="How to design a translation memory store for video localization: segment matching, fuzzy match scoring, versioning, and schema choices that scale.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/gallery-glass-plinths.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Translation Memory Database Design: Storing Segments You Can Actually Reuse","description":"How to design a translation memory store for video localization: segment matching, fuzzy match scoring, versioning, and schema choices that scale.","image":"https://octavia.lunartech.ai/assets/blog/images/gallery-glass-plinths.png","datePublished":"2026-08-28T15:30:00Z","dateModified":"2026-08-28T15:30:00Z","wordCount":2353,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/translation-memory-database-design","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Translation Memory Database Design: Storing Segments You Can Actually Reuse","item":"https://octavia.lunartech.ai/blog/translation-memory-database-design"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/developer-guides">Developer Guides</a>
+        <h1 class="article-title">Translation Memory Database Design: Storing Segments You Can Actually Reuse</h1><p class="article-deck">A translation memory that only ever gives you exact matches is a lookup table. The value is entirely in the fuzzy matching, and that is the hard part to design.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-28T15:30:00Z">Aug 28, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/gallery-glass-plinths.png" alt="Translation Memory Database Design: Storing Segments You Can Actually Reuse" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-a-translation-memory-actually-is">What a Translation Memory Actually Is</a></li><li><a class="toc-h2" data-toc-link href="#schema-fundamentals">Schema Fundamentals</a></li><li><a class="toc-h2" data-toc-link href="#matching-strategy">Matching Strategy</a></li><li><a class="toc-h2" data-toc-link href="#indexing-for-scale">Indexing for Scale</a></li><li><a class="toc-h2" data-toc-link href="#handling-updates-and-corrections">Handling Updates and Corrections</a></li><li><a class="toc-h2" data-toc-link href="#quality-signals-to-store">Quality Signals to Store</a></li><li><a class="toc-h2" data-toc-link href="#integration-with-the-translation-pipeline">Integration With the Translation Pipeline</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Server racks in a data centre"></a></p>
+<h2 id="what-a-translation-memory-actually-is">What a Translation Memory Actually Is</h2>
+<p>A translation memory is a store of previously translated segments, each paired with its source, kept so that the next time a similar segment appears it does not have to be translated from scratch.</p>
+<p>For video localization specifically, the segments are usually subtitle cues or sentence-level transcript units, and the store accumulates across every video a channel or organisation produces. The value compounds: a recurring introduction, a repeated disclaimer, a product name used in every video, a phrase your presenter says in nearly every episode — each of these gets translated once and reused indefinitely rather than re-translated, and re-reviewed, every time it appears.</p>
+<p>The distinction that matters for design is between an exact match and a fuzzy match. An exact match is character-for-character identical to something already translated, and reuse is trivial — a lookup. A fuzzy match is similar but not identical, and reuse requires judgement about whether the existing translation still applies and how much of it needs to change. Most of the design difficulty, and most of the value, is in fuzzy matching.</p>
+<h2 id="schema-fundamentals">Schema Fundamentals</h2>
+<p><strong>Store source and target as a linked pair, not as separate tables joined by a foreign key that can drift.</strong> A translation unit is source text, target text, source language, target language, and metadata, kept together as one immutable record once approved.</p>
+<p><strong>Segment at a stable granularity.</strong> Sentence or subtitle-cue level is the usual choice, small enough to be reusable across contexts, large enough to carry meaningful matching signal. Word-level storage loses too much context to match usefully; paragraph-level storage rarely finds an exact repeat.</p>
+<p><strong>Keep a context window, not just the isolated segment.</strong> Storing the preceding and following segment alongside each unit lets you disambiguate matches where the same source sentence has legitimately different correct translations depending on what surrounds it — a common situation with short, generic phrases.</p>
+<p><strong>Version every record.</strong> A translation approved a year ago, corrected six months ago, and corrected again last week should have that history retrievable, not just the current state. When a terminology decision changes, you need to know what to re-review, and that requires knowing which segments used the old rendering and when.</p>
+<p><strong>Store provenance.</strong> Whether a unit came from human translation, machine translation with human review, or machine translation alone, and who approved it. Fuzzy match ranking should weight a human-reviewed unit more heavily than an unreviewed one, which requires the field to exist.</p>
+<p><strong>Separate the memory from the glossary.</strong> A translation memory holds sentence-level units; a glossary holds term-level entries with locked renderings. They serve different matching purposes and conflating them in one table produces awkward queries for both.</p>
+<p><strong>Scope by domain and by project, but allow cross-scope search.</strong> A term translated one way in marketing content and another way in legal content are both legitimate, and the memory needs to let a match come from the right scope by default while still surfacing a cross-scope match when nothing closer exists.</p>
+<h2 id="matching-strategy">Matching Strategy</h2>
+<p><strong>Exact match on normalised text first.</strong> Normalise whitespace, punctuation variants, and case before comparing, since two segments differing only in a trailing space should count as identical.</p>
+<p><strong>Fuzzy match needs a similarity metric appropriate to the content.</strong> Edit distance at the character or token level is the traditional approach and works reasonably for short segments. For longer segments, token-level Jaccard or cosine similarity over a bag-of-words or n-gram representation scales better and is less sensitive to minor reordering.</p>
+<p><strong>Embedding-based semantic similarity catches what edit distance misses.</strong> Two sentences that are worded completely differently but mean the same thing will not match on edit distance at all, and will match well on embedding similarity. This is worth adding as a second signal rather than a replacement, because embedding similarity can also produce false positives — semantically close sentences that need genuinely different translations because of subtle differences in scope or emphasis.</p>
+<p><strong>Set and expose a match threshold rather than hiding it.</strong> A common convention is to bucket matches: above roughly 95% is treated as near-exact and needs minimal review, 75 to 95% is a fuzzy match worth showing to a reviewer with the differences highlighted, and below that the match is not useful enough to surface and a fresh translation is faster than editing it. These thresholds are conventions from the broader translation industry and are a reasonable starting point rather than a fixed rule — tune them against your own reviewers&#39; judgement of what saves them time.</p>
+<p><strong>Highlight the difference, not just the match.</strong> A fuzzy match is only useful to a reviewer if they can see immediately what changed between the stored source and the new one. Computing and displaying a diff at the point of match is what makes a 90% match actually save time rather than requiring the reviewer to read both versions in full to find the difference themselves.</p>
+<p><strong>Rank multiple candidate matches, do not just return the top one.</strong> Where several stored segments are close matches, surfacing the best two or three with their scores lets a reviewer pick the one whose surrounding context best fits, particularly useful where the context window reveals that one candidate is a better fit than its raw similarity score suggests.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Automated dashboard with charts"></a></p>
+<h2 id="indexing-for-scale">Indexing for Scale</h2>
+<p><strong>Exact match is a straightforward indexed lookup</strong> on the normalised source text, and should stay fast regardless of memory size with an ordinary database index.</p>
+<p><strong>Fuzzy match at scale needs approximate search, not brute-force comparison.</strong> Comparing a new segment against every stored segment does not scale past a modest memory size. Token-based approaches can use inverted indexes, similar to search engines, to narrow candidates before computing exact similarity. Embedding-based approaches need a vector index supporting approximate nearest-neighbour search.</p>
+<p><strong>Two-stage retrieval is the standard pattern.</strong> Use a cheap, broad first pass — an inverted index or an approximate vector search — to retrieve a candidate set quickly, then apply the more expensive exact similarity computation only to that narrowed set. This keeps latency low without sacrificing match quality.</p>
+<p><strong>Reindex incrementally, not in a full rebuild, as new segments are approved.</strong> A memory that only picks up new content on a nightly batch rebuild means the segment translated an hour ago is not yet available to match against, which matters in an active production pipeline.</p>
+<p><strong>Partition by language pair at minimum.</strong> There is no value in searching English-to-French memory when translating English to German, and keeping them in separate indexes or partitions keeps each one smaller and faster.</p>
+<h2 id="handling-updates-and-corrections">Handling Updates and Corrections</h2>
+<p><strong>A correction to an approved translation should not silently overwrite history.</strong> Insert a new version, mark the old one superseded, and keep both queryable. This is what makes &quot;which videos used the old rendering of this term&quot; an answerable question rather than a forensic exercise.</p>
+<p><strong>Propagating a correction is a deliberate operation, not automatic.</strong> When a reviewer fixes a translation memory entry, decide explicitly whether that fix should retroactively flag every prior use of the old version for re-review, or apply only going forward. Silent retroactive application can overwrite content a customer has already approved; silent forward-only application means an error persists in workflows that happen to reuse an old cached match rather than querying the memory fresh.</p>
+<p><strong>Track which finished assets consumed which memory version.</strong> This is what makes retroactive updates tractable — without it, applying a terminology fix means searching every delivered asset for the old text rather than looking up a recorded dependency.</p>
+<p><strong>Support merging memories from different sources</strong> — an agency handover, an acquired product line&#39;s existing translations, a legacy system export — without silently overwriting better internal data with worse external data or vice versa. A merge needs the same provenance and quality signals as ordinary ingestion so the ranking logic can prefer the better source.</p>
+<h2 id="quality-signals-to-store">Quality Signals to Store</h2>
+<p><strong>Reviewer identity and review date</strong>, not just a boolean reviewed flag, so a stale review from a departed reviewer can be distinguished from a recent one from a trusted specialist.</p>
+<p><strong>Usage count.</strong> A segment reused successfully forty times is more trustworthy than one used once, and this is a useful tie-breaker when two candidates have similar similarity scores.</p>
+<p><strong>Rejection history.</strong> If a fuzzy match was previously surfaced to a reviewer and rejected in favour of a fresh translation, recording that discourages surfacing the same match again for a very similar segment, and can indicate the stored unit has a quality problem worth investigating.</p>
+<p><strong>Domain and register tags.</strong> A segment approved for casual creator content and one approved for formal enterprise training content may share source text and require different target text, and tagging by register lets matching respect that rather than treating all past translations as interchangeable.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person reviewing dashboards on a monitor"></a></p>
+<h2 id="integration-with-the-translation-pipeline">Integration With the Translation Pipeline</h2>
+<p><strong>Query the memory before invoking translation, not after.</strong> Checking for a match first and only falling through to fresh translation for segments without a usable match is both cheaper and produces more consistent output, since the memory match is by definition consistent with prior approved work.</p>
+<p><strong>Write back only approved output.</strong> Machine-translated segments that have not been reviewed should either not enter the memory at all, or enter it explicitly flagged as unreviewed, so the ranking and threshold logic can treat them differently from human-approved content.</p>
+<p><strong>Make the memory queryable independent of any single project&#39;s pipeline.</strong> A memory embedded inside one video&#39;s processing job is not reusable across the organisation. Treat it as a shared service other projects and other content types can query, not as pipeline-local state.</p>
+<p><strong>Export in a standard interchange format.</strong> TMX is the established interchange format for translation memory and is worth supporting for import and export even if your internal storage is a different schema, because it is what lets you move data between an agency, a CAT tool, and your own system without a bespoke conversion each time.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Store source and target as a linked immutable pair per segment version.</li><li>Segment at sentence or subtitle-cue granularity, with a stored context window.</li><li>Version every record and keep superseded versions queryable, not deleted.</li><li>Record provenance — human-translated, reviewed machine translation, or unreviewed — on every unit.</li><li>Keep the translation memory and the terminology glossary as separate structures.</li><li>Scope by project and domain while allowing cross-scope fallback search.</li><li>Normalise text before exact matching.</li><li>Combine token-level similarity with embedding-based semantic similarity for fuzzy matching.</li><li>Bucket match quality into thresholds and tune them against reviewer feedback.</li><li>Compute and display a diff alongside every fuzzy match.</li><li>Return multiple ranked candidates, not only the top match.</li><li>Use two-stage retrieval — cheap candidate generation, then precise scoring — for scale.</li><li>Reindex incrementally as new segments are approved.</li><li>Partition indexes by language pair.</li><li>Decide explicitly, per correction, whether to propagate retroactively or only forward.</li><li>Track which delivered assets consumed which memory version.</li><li>Store reviewer identity, review date, usage count, and rejection history as ranking signals.</li><li>Query the memory before invoking fresh translation.</li><li>Write back only approved output, flagging unreviewed content distinctly.</li><li>Support TMX import and export for interoperability.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>What is the difference between a translation memory and a glossary?</strong></p>
+<p>A translation memory stores sentence or segment-level translations for reuse when similar text recurs. A glossary stores term-level entries — specific words or short phrases with a locked, approved rendering that should be used consistently wherever they appear. They serve different matching purposes: memory suggests whole reusable translations, glossary enforces specific vocabulary within any translation. Keep them as separate structures rather than one conflated table.</p>
+<p><strong>What fuzzy match threshold should I use?</strong></p>
+<p>Common industry convention treats above roughly 95% as a near-exact match needing minimal review, 75 to 95% as worth surfacing to a reviewer with differences highlighted, and below that as not useful enough to bother showing. These are starting points rather than fixed rules — the right threshold depends on your content and your reviewers, and it is worth tuning against actual feedback about which matches saved time and which wasted it.</p>
+<p><strong>Should I use edit distance or embeddings for fuzzy matching?</strong></p>
+<p>Both, as complementary signals. Edit distance and token-level similarity catch segments that are worded almost identically, which covers most real reuse in video content — recurring intros, disclaimers, product references. Embedding-based semantic similarity catches sentences that mean the same thing with completely different wording, which edit distance misses entirely. Neither alone is sufficient; together they cover more of the genuine reuse opportunity.</p>
+<p><strong>How do I handle correcting a translation that has already been used in published content?</strong></p>
+<p>Insert a new version rather than overwriting, and decide explicitly whether the correction propagates retroactively or applies only going forward — this should never happen silently either way. Retroactive propagation without review can overwrite content a customer already approved; forward-only application means the error persists wherever a cached match was already applied. Tracking which delivered assets consumed which memory version is what makes this decision tractable rather than a search through your entire catalogue.</p>
+<p><strong>Does translation memory scale to a large catalogue?</strong></p>
+<p>Yes, with the right indexing. Exact match is a straightforward lookup regardless of size. Fuzzy match needs approximate search rather than brute-force comparison against every stored segment — an inverted index for token-based similarity, a vector index for embedding-based similarity — retrieving a narrow candidate set cheaply before applying precise scoring only to that set. Partitioning by language pair keeps each index smaller and faster.</p>
+<p><strong>Should unreviewed machine translation go into the memory?</strong></p>
+<p>Only if explicitly flagged as such, and many teams choose to exclude it entirely. Feeding unreviewed output into the memory risks propagating an error every time that segment recurs, compounding rather than reducing the review burden. If you do include it, store provenance clearly enough that ranking logic can prefer human-reviewed matches over machine-only ones when both are available.</p>
+<hr>
+<p>Related reading: <a href="/blog/video-translation-glossary-building">Video Translation Glossary Building</a> | <a href="/blog/video-translation-terminology-extraction">Video Translation Terminology Extraction</a> | <a href="/blog/localization-automation-guide">Localization Automation Guide</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslation-memory-database-design" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslation-memory-database-design&amp;text=Translation%20Memory%20Database%20Design%3A%20Storing%20Segments%20You%20Can%20Actually%20Reuse" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Ftranslation-memory-database-design" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/developer-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/multi-tenant-translation-platform-design" aria-label="Read Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/container-glass-formats.jpg" alt="Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Developer Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use</h2><p class="blog-card-description">One customer&#39;s overnight batch job should never be the reason another customer&#39;s job is late. That guarantee has to be designed in, not assumed.</p>
+      <time class="blog-card-date" datetime="2026-08-30T13:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/building-a-glossary-api" aria-label="Read Building a Terminology Glossary API for a Localization Pipeline"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/policy-glass-folds.png" alt="Building a Terminology Glossary API for a Localization Pipeline" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Developer Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Building a Terminology Glossary API for a Localization Pipeline</h2><p class="blog-card-description">A glossary that lives in a spreadsheet is a policy document. A glossary behind an API is something a pipeline can actually enforce.</p>
+      <time class="blog-card-date" datetime="2026-08-30T12:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/resumable-video-upload-pipelines" aria-label="Read Resumable and Chunked Uploads for Large Video Translation Jobs"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/platform-glass-conduit.png" alt="Resumable and Chunked Uploads for Large Video Translation Jobs" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Developer Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Resumable and Chunked Uploads for Large Video Translation Jobs</h2><p class="blog-card-description">A ninety-minute source video failing at ninety-eight percent uploaded, with no way to resume, is a solved problem that keeps getting unsolved.</p>
+      <time class="blog-card-date" datetime="2026-08-30T12:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

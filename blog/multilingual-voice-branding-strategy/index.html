@@ -1,0 +1,707 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets | Octavia</title>
+    <meta name="description" content="How to design a consistent brand voice identity across every language a company operates in, from casting principles to governance and long-term ownership.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/multilingual-voice-branding-strategy">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets">
+    <meta property="og:description" content="How to design a consistent brand voice identity across every language a company operates in, from casting principles to governance and long-term ownership.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/multilingual-voice-branding-strategy">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/voice-waveform-portal.png">
+    <meta property="article:published_time" content="2026-08-30T16:00:00Z">
+    <meta property="article:modified_time" content="2026-08-30T16:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets">
+    <meta name="twitter:description" content="How to design a consistent brand voice identity across every language a company operates in, from casting principles to governance and long-term ownership.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/voice-waveform-portal.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets","description":"How to design a consistent brand voice identity across every language a company operates in, from casting principles to governance and long-term ownership.","image":"https://octavia.lunartech.ai/assets/blog/images/voice-waveform-portal.png","datePublished":"2026-08-30T16:00:00Z","dateModified":"2026-08-30T16:00:00Z","wordCount":2336,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/multilingual-voice-branding-strategy","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets","item":"https://octavia.lunartech.ai/blog/multilingual-voice-branding-strategy"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/voice-ai">Voice AI</a>
+        <h1 class="article-title">Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets</h1><p class="article-deck">A visual brand guide specifies exact colors and fonts for every market. Most companies have no equivalent document for how their brand actually sounds.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-30T16:00:00Z">Aug 30, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/voice-waveform-portal.png" alt="Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-gap-most-brand-guidelines-have">The Gap Most Brand Guidelines Have</a></li><li><a class="toc-h2" data-toc-link href="#what-a-voice-brand-actually-consists-of">What a Voice Brand Actually Consists Of</a></li><li><a class="toc-h2" data-toc-link href="#consistency-across-languages-is-not-the-same-as-sameness">Consistency Across Languages Is Not the Same as Sameness</a></li><li><a class="toc-h2" data-toc-link href="#building-the-voice-brand-guide">Building the Voice Brand Guide</a></li><li><a class="toc-h2" data-toc-link href="#governance-and-ownership">Governance and Ownership</a></li><li><a class="toc-h2" data-toc-link href="#when-a-cloned-executive-voice-is-part-of-the-brand">When a Cloned Executive Voice Is Part of the Brand</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Team discussing brand guidelines in a meeting"></a></p>
+<h2 id="the-gap-most-brand-guidelines-have">The Gap Most Brand Guidelines Have</h2>
+<p>A mature company&#39;s brand guidelines typically specify colors, typography, logo usage, and photographic style with real precision, and they typically say almost nothing concrete about voice — what the company should sound like when a synthetic or human voice speaks on its behalf, and critically, whether and how that sonic identity should stay consistent as the company produces content across ten or twenty languages rather than one.</p>
+<p>This gap has become more consequential as voice generation and AI dubbing have made producing voiced content in many languages routine rather than exceptional, which is precisely the shift covered throughout this series. A company that would never allow its logo to appear in a subtly different color in each market frequently has no equivalent standard at all governing whether its brand should sound warm or authoritative, fast-paced or measured, in Spanish versus Japanese versus German, and the result is a sonic identity that drifts by accident, market by market, purely because nobody was ever assigned to define and protect it in the first place.</p>
+<h2 id="what-a-voice-brand-actually-consists-of">What a Voice Brand Actually Consists Of</h2>
+<p><strong>Tonal character</strong> — warm, authoritative, energetic, calm, playful — is the most fundamental dimension, analogous to how a visual brand identity specifies a mood or personality that every visual choice should express, and it needs to be defined in language specific enough to actually guide a voice casting or generation decision, not left as a vague aspiration that different people interpret differently when they actually have to choose a specific voice.</p>
+<p><strong>Pacing and delivery style</strong> — measured and deliberate versus brisk and energetic, heavily emphasized versus even and understated — is a distinct dimension from tonal character and needs its own explicit specification, since two voices can share the same general warmth or authority while differing considerably in how quickly and how emphatically they actually deliver content, and this difference is genuinely noticeable to an audience even when they could not articulate exactly why one version feels different from another.</p>
+<p><strong>Demographic and register signals</strong> — the apparent age, formality level, and social register a voice projects — need deliberate specification too, connecting to the accent and dialect considerations covered elsewhere in this series regarding regional variety selection, since a brand voice that reads as youthful and casual in its home market but is rendered by an older-sounding, more formal voice in a different language has drifted in a way that a purely tonal specification alone would not necessarily catch or prevent.</p>
+<p><strong>What the voice should never sound like is as valuable a specification as what it should sound like</strong>, similar in function to a visual brand guide&#39;s explicit list of colors or treatments that should never appear, and defining explicit boundaries — never rushed, never overly theatrical, never using a specific regional accent inappropriate to the brand&#39;s positioning — gives whoever is actually selecting or directing a voice in a new market concrete guardrails rather than only a positive aspiration to interpret.</p>
+<h2 id="consistency-across-languages-is-not-the-same-as-sameness">Consistency Across Languages Is Not the Same as Sameness</h2>
+<p><strong>The goal is not literally the same voice, or even the same specific vocal qualities, in every language, since this is often not achievable or even desirable given the accent and regional variety considerations covered in detail elsewhere in this series</strong> — a voice&#39;s pitch, pacing, and specific tonal qualities that read as warm and approachable in one language do not automatically translate to an equivalent perception when the same specific acoustic qualities are rendered in a language with entirely different prosodic and phonological norms, as covered in the discussion of prosody elsewhere in this series.</p>
+<p><strong>The actual goal is consistent brand personality expressed through voice choices appropriate to each language&#39;s own norms</strong>, which means the specification needs to operate at the level of personality and character — what the brand voice should communicate and feel like to a listener — translated into locally appropriate vocal execution per language, rather than at the level of literal acoustic parameters that are expected to transfer unchanged across every language.</p>
+<p><strong>This is directly analogous to how visual brand identity handles genuinely different cultural contexts</strong>, where a color that carries positive associations in one market can carry different or even negative associations in another, and a mature visual brand guide accounts for this by specifying the underlying brand attribute the color choice is meant to express, with some flexibility in specific execution across genuinely different cultural contexts, rather than mandating identical literal colors be used unthinkingly regardless of local meaning — voice branding needs the same conceptual structure, specifying the underlying brand attribute rather than demanding identical literal acoustic execution everywhere.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Recording studio with microphone and acoustic panels"></a></p>
+<h2 id="building-the-voice-brand-guide">Building the Voice Brand Guide</h2>
+<p><strong>Start from your existing visual and verbal brand identity documentation as the foundation, rather than starting from scratch</strong>, since the underlying brand personality, values, and target audience perception that your voice identity needs to express are, in a well-run brand program, already articulated in your existing brand strategy work — the voice brand guide&#39;s job is translating that already-established personality into specific guidance for vocal execution, not inventing a new, separate brand character from nothing.</p>
+<p><strong>Involve people with genuine native fluency and cultural fit judgment for each priority market in actually validating the translated voice specification, not just the marketing or brand team from headquarters</strong>, since a specification written entirely by people evaluating it through their own native language and cultural lens risks encoding assumptions about what &quot;warm&quot; or &quot;authoritative&quot; actually sounds like that do not transfer accurately to a different language&#39;s own norms, connecting to the same native-reviewer requirement emphasized throughout this series for other localization quality dimensions.</p>
+<p><strong>Document specific reference examples — actual audio clips exemplifying the target voice character per language, not only written descriptions</strong> — since written descriptions of vocal qualities are inherently somewhat abstract and open to interpretation, while a concrete audio reference gives anyone selecting or directing a voice in that language something specific and unambiguous to match against, considerably reducing the drift that comes from different people interpreting the same written specification differently.</p>
+<p><strong>Specify the process for selecting or validating a new voice in a newly added language, not only the standard for languages already covered</strong>, since a growing company&#39;s voice brand guide needs to anticipate and support ongoing expansion into new markets, connecting directly to the language-portfolio governance considerations discussed elsewhere in this series, rather than only documenting the current state for languages already in active use with no guidance for how the standard should be extended and applied consistently as new languages are added over time.</p>
+<h2 id="governance-and-ownership">Governance and Ownership</h2>
+<p><strong>Assign clear ownership of the voice brand identity, distinct from ownership of any individual localization project or vendor relationship</strong>, mirroring the terminology governance structure discussed in more detail elsewhere in this series, since voice brand consistency, like terminology consistency, degrades without a specific person or function actually responsible for noticing and correcting drift across a growing catalog of content and an expanding set of languages and vendors.</p>
+<p><strong>Require voice brand compliance as an explicit criterion in vendor evaluation and ongoing vendor management</strong>, connecting to the vendor management discussion elsewhere in this series, since a vendor selected purely on translation quality and cost, with no specific evaluation against your voice brand standard, may produce technically excellent localized content that nonetheless drifts from your actual intended brand sound in ways that erode consistency over time without anyone having explicitly signed off on that drift.</p>
+<p><strong>Periodically audit actual published content across languages against the voice brand guide, the same way visual brand compliance is periodically audited</strong>, rather than assuming a written specification, once established, is being followed correctly indefinitely without any verification — this is the same audit discipline recommended for terminology governance elsewhere in this series, applied here specifically to the sonic dimension of brand consistency rather than the linguistic dimension.</p>
+<p><strong>Treat voice asset selection and any cloned voice usage as brand assets requiring the same protection and access control as a logo or other core brand asset</strong>, since an unauthorized or off-brand voice choice used in some corner of the organisation&#39;s content — a regional team independently selecting its own voice without reference to the central guide, for instance — represents the same kind of brand dilution risk that an unauthorized logo variant or off-brand color choice would represent in the visual domain, and deserves the same level of organisational protection.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person listening on headphones at a workstation"></a></p>
+<h2 id="when-a-cloned-executive-voice-is-part-of-the-brand">When a Cloned Executive Voice Is Part of the Brand</h2>
+<p><strong>Where a specific individual&#39;s cloned voice — typically a founder or a prominent spokesperson — is itself a core part of the brand identity, as covered in more detail in the text-to-speech versus voice cloning decision framework elsewhere in this series, the voice brand guide needs to specifically address how that individual&#39;s identity is represented consistently across languages</strong>, which is a more constrained and specific problem than the general multilingual voice character specification discussed above, since the goal here is genuine identity consistency for one specific recognizable person rather than a more flexible brand-personality-through-locally-appropriate-execution approach.</p>
+<p><strong>Coordinate this specifically with the voice consistency practices discussed in more detail elsewhere in this series regarding maintaining a stable voice identity across an ongoing content series</strong>, since a founder&#39;s cloned voice needs both the cross-episode consistency discussed there and the cross-language brand consistency discussed here, and these are related but distinct consistency dimensions that both need active management for content featuring a specific cloned individual&#39;s voice across a multilingual, ongoing content program.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Define tonal character, pacing and delivery style, and demographic register as distinct, explicit specification dimensions.</li><li>Document explicit boundaries for what the brand voice should never sound like, not only positive aspirations.</li><li>Specify brand personality and character to be locally expressed, not identical literal acoustic parameters to be replicated everywhere.</li><li>Base the voice brand guide on existing visual and verbal brand identity documentation rather than starting fresh.</li><li>Involve genuinely native, culturally fluent reviewers per priority market in validating the translated voice specification.</li><li>Document concrete audio reference examples per language, not only written descriptions.</li><li>Specify the process for validating a voice in a newly added language, anticipating future expansion.</li><li>Assign clear, dedicated ownership of voice brand identity, distinct from any individual project or vendor relationship.</li><li>Require voice brand compliance as an explicit vendor evaluation and ongoing management criterion.</li><li>Periodically audit actual published content against the voice brand guide.</li><li>Protect voice assets and any cloned executive voice with the same access control rigor as a logo or core brand asset.</li><li>Coordinate cross-language brand consistency with cross-episode voice consistency for any cloned individual&#39;s voice.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Should our brand sound identical in every language?</strong></p>
+<p>No, and aiming for literal sameness usually backfires. The actual goal is consistent brand personality expressed through vocal choices appropriate to each language&#39;s own prosodic and cultural norms, not identical acoustic parameters. A voice&#39;s specific pitch and pacing that reads as warm in one language does not automatically produce the same perception when rendered with the same literal qualities in a language with different prosodic norms, so the specification should focus on the underlying brand attribute rather than exact acoustic replication.</p>
+<p><strong>Who should own our organisation&#39;s voice brand identity?</strong></p>
+<p>A specific, clearly assigned owner distinct from any individual localization project manager or vendor relationship, mirroring the terminology governance structure recommended elsewhere in this series for the same reason: without dedicated ownership, sonic brand consistency drifts silently across a growing catalog of content and expanding set of languages, exactly the way terminology consistency drifts without a defined governance structure.</p>
+<p><strong>How do I create a voice brand guide if we don&#39;t have one yet?</strong></p>
+<p>Start from your existing visual and verbal brand identity documentation, since the underlying personality and audience perception your voice needs to express is likely already articulated there. Translate that established personality into specific tonal, pacing, and demographic guidance, validate the translated specification with genuinely native, culturally fluent reviewers per priority market, and document concrete audio reference clips per language rather than relying only on written descriptions, which are inherently open to varying interpretation.</p>
+<p><strong>Does this apply if our brand voice content is mostly generic text-to-speech rather than a cloned voice?</strong></p>
+<p>Yes, and the guide matters just as much either way. Whether you use generic synthetic voices selected for brand fit or a cloned individual&#39;s voice, the same tonal, pacing, and demographic specification is what ensures consistency across languages and across whoever is selecting or directing the voice for a given project. The specific voice source technology is a separate decision, covered in more detail in the dedicated comparison of text-to-speech and voice cloning, from the brand consistency question addressed here.</p>
+<p><strong>How is this different from just having terminology and style guides?</strong></p>
+<p>Terminology and style guides, covered extensively elsewhere in this series, govern what words are used and how text is structured. A voice brand guide governs how the brand actually sounds — tonal character, pacing, demographic register — which is a genuinely separate dimension that a terminology guide does not address at all. Both are needed together for full brand consistency in voiced, multilingual content, and treating one as covering the other leaves a real gap.</p>
+<p><strong>Should regional teams be allowed to select their own voices independently?</strong></p>
+<p>Generally not without reference to the central voice brand guide, for the same reason a regional team should not independently select its own logo variant or off-brand color scheme. Unauthorized or off-brand voice choices made independently in one part of the organisation represent a genuine brand dilution risk, and voice asset selection should be treated with the same access control and central oversight as any other core brand asset.</p>
+<hr>
+<p>Related reading: <a href="/blog/voice-consistency-across-episodes">Voice Consistency Across Episodes</a> | <a href="/blog/text-to-speech-vs-voice-cloning">Text-to-Speech vs Voice Cloning</a> | <a href="/blog/choosing-voices-for-multilingual-video">Choosing Voices for Multilingual Video</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmultilingual-voice-branding-strategy" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmultilingual-voice-branding-strategy&amp;text=Multilingual%20Voice%20Branding%3A%20Giving%20Your%20Company%20a%20Consistent%20Sonic%20Identity%20Across%20Markets" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmultilingual-voice-branding-strategy" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/voice-ai">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/text-to-speech-vs-voice-cloning" aria-label="Read Generic Text-to-Speech or Voice Cloning: A Decision Framework"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/twin-light-portals.png" alt="Generic Text-to-Speech or Voice Cloning: A Decision Framework" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Generic Text-to-Speech or Voice Cloning: A Decision Framework</h2><p class="blog-card-description">Cloning a voice is not automatically the better choice. Sometimes a good stock voice is faster, cheaper, and genuinely more appropriate.</p>
+      <time class="blog-card-date" datetime="2026-08-30T15:30:00Z">Aug 30, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/voice-cloning-legal-landscape-by-country" aria-label="Read The Legal Landscape for Voice Cloning: A Jurisdiction-by-Jurisdiction Starting Point"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/mirrored-identity-portal.png" alt="The Legal Landscape for Voice Cloning: A Jurisdiction-by-Jurisdiction Starting Point" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">The Legal Landscape for Voice Cloning: A Jurisdiction-by-Jurisdiction Starting Point</h2><p class="blog-card-description">There is no single global law governing voice cloning. There are a dozen overlapping ones, moving at different speeds, and most companies are tracking none of them.</p>
+      <time class="blog-card-date" datetime="2026-08-30T15:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/filler-words-and-breath-in-ai-dubbing" aria-label="Read Filler Words, Breath, and Disfluency in AI Dubbing: Clean Them or Keep Them?"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/black-silk-wave.png" alt="Filler Words, Breath, and Disfluency in AI Dubbing: Clean Them or Keep Them?" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Filler Words, Breath, and Disfluency in AI Dubbing: Clean Them or Keep Them?</h2><p class="blog-card-description">A dub with every um and false start removed sounds polished. A dub of an unscripted interview with every um removed sounds like a different person.</p>
+      <time class="blog-card-date" datetime="2026-08-29T01:00:00Z">Aug 29, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

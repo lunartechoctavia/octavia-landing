@@ -1,0 +1,705 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once | Octavia</title>
+    <meta name="description" content="Why a well-structured video transcript serves search discoverability, accessibility compliance, and multilingual localization from a single production asset.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/video-transcripts-seo-and-accessibility">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once">
+    <meta property="og:description" content="Why a well-structured video transcript serves search discoverability, accessibility compliance, and multilingual localization from a single production asset.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/video-transcripts-seo-and-accessibility">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/edition-glass-spreads.png">
+    <meta property="article:published_time" content="2026-08-30T14:30:00Z">
+    <meta property="article:modified_time" content="2026-08-30T14:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once">
+    <meta name="twitter:description" content="Why a well-structured video transcript serves search discoverability, accessibility compliance, and multilingual localization from a single production asset.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/edition-glass-spreads.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once","description":"Why a well-structured video transcript serves search discoverability, accessibility compliance, and multilingual localization from a single production asset.","image":"https://octavia.lunartech.ai/assets/blog/images/edition-glass-spreads.png","datePublished":"2026-08-30T14:30:00Z","dateModified":"2026-08-30T14:30:00Z","wordCount":2275,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/video-transcripts-seo-and-accessibility","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once","item":"https://octavia.lunartech.ai/blog/video-transcripts-seo-and-accessibility"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/accessibility">Accessibility</a>
+        <h1 class="article-title">Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once</h1><p class="article-deck">Most teams treat the transcript as a byproduct of captioning. It is closer to the single most valuable asset your video program produces.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-30T14:30:00Z">Aug 30, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/edition-glass-spreads.png" alt="Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#one-asset-three-uses-that-rarely-get-coordinated">One Asset, Three Uses That Rarely Get Coordinated</a></li><li><a class="toc-h2" data-toc-link href="#what-makes-a-transcript-serve-all-three-purposes-at-once">What Makes a Transcript Serve All Three Purposes at Once</a></li><li><a class="toc-h2" data-toc-link href="#the-seo-case-specifically">The SEO Case Specifically</a></li><li><a class="toc-h2" data-toc-link href="#building-the-shared-production-workflow">Building the Shared Production Workflow</a></li><li><a class="toc-h2" data-toc-link href="#what-good-transcript-formatting-actually-looks-like">What Good Transcript Formatting Actually Looks Like</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person reading text on a tablet"></a></p>
+<h2 id="one-asset-three-uses-that-rarely-get-coordinated">One Asset, Three Uses That Rarely Get Coordinated</h2>
+<p>A reviewed, accurate transcript of a video&#39;s spoken content sits at the intersection of three organisational goals that are usually owned by three different people: an accessibility or compliance function that needs it to satisfy the media-alternative requirement covered in the discussion of WCAG video compliance elsewhere in this series, an SEO or content marketing function that wants search engines and AI-driven answer systems to actually understand and surface the video&#39;s content, and a localization function, as covered throughout this series, for whom the transcript is the literal foundation of every subtitle, dub script, and translated deliverable.</p>
+<p>The common failure pattern is that these three functions each independently produce or commission their own version of essentially the same underlying asset, at different quality levels, on different schedules, with no shared ownership — an accessibility-driven transcript produced quickly to satisfy a compliance checkbox, a separately written SEO-oriented video description that only loosely resembles what was actually said, and a translation vendor&#39;s own transcription produced from scratch because nobody told them an accurate transcript already existed elsewhere in the organisation. Recognising these as one shared asset, produced once to a standard that serves all three purposes, is a straightforward efficiency gain that most video-producing organisations are simply not capturing.</p>
+<h2 id="what-makes-a-transcript-serve-all-three-purposes-at-once">What Makes a Transcript Serve All Three Purposes at Once</h2>
+<p><strong>Accuracy is the baseline requirement shared identically across all three uses</strong>, since an inaccurate transcript fails the accessibility purpose by misrepresenting the actual audio content, fails the SEO purpose by causing search engines to index and potentially surface incorrect information about what the video actually says, and fails the localization purpose by propagating the same error through every subsequent translated deliverable, as covered in more detail in the discussion of transcription quality throughout this series — there is no version of &quot;accurate enough for one purpose but not another&quot; that makes sense once accuracy is understood as the shared foundation for everything built on top of it.</p>
+<p><strong>Structure and formatting matter differently for each purpose, which is where a single flat transcript falls short and a more deliberately structured document serves better</strong>, since the accessibility use case benefits from clear speaker labels and paragraph breaks corresponding to actual topic or scene shifts, the SEO use case benefits from headings and a logical document structure that search systems and, increasingly, AI-driven summarization and retrieval systems can parse and understand, and the localization use case benefits from clean sentence boundaries and consistent formatting that segmentation and alignment tools, as covered in the discussion of forced alignment elsewhere in this series, can process reliably.</p>
+<p><strong>Timestamps or timing metadata serve the accessibility and localization purposes directly</strong>, letting a transcript function as the actual basis for a synchronized caption track and letting a translation and dubbing pipeline align segments back to their exact position in the source audio, while serving the SEO purpose more indirectly, through supporting deep-linking to specific moments in a video from search results or from within the transcript page itself, which is an increasingly valued feature in video-heavy search results.</p>
+<p><strong>Publishing the transcript as genuinely readable, well-formatted text on an actual accessible page, not merely embedding it as an invisible or awkwardly formatted block, serves the accessibility purpose for viewers who prefer or need to read rather than watch, serves the SEO purpose since search engines and AI systems index actual readable page text far more reliably than they process video or audio content directly, and serves the low-bandwidth accessibility purpose discussed elsewhere in this series, letting a viewer with limited or expensive connectivity access the content&#39;s substance without loading the video at all.</strong></p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Automated dashboard with charts"></a></p>
+<h2 id="the-seo-case-specifically">The SEO Case Specifically</h2>
+<p><strong>Search engines and increasingly AI-driven answer and summarization systems cannot directly understand the content of a video or audio file the way they can process text</strong>, which means a video with no accompanying transcript or accurate caption text is, from the perspective of these systems, largely opaque content whose actual substance is invisible to indexing and retrieval, regardless of how valuable or relevant that content genuinely is to someone who actually watches it.</p>
+<p><strong>A published transcript makes a video&#39;s full content genuinely discoverable through search in a way that a title, a short description, and a handful of tags cannot approach</strong>, since it contains the complete, actual substance of what is said, including specific terms, questions, and phrases a searcher might use that a short manually written description would never happen to include, which meaningfully expands the surface area through which the video&#39;s content can actually be found by someone searching for exactly what it happens to discuss.</p>
+<p><strong>This matters increasingly for AI-driven search and answer systems specifically, which frequently synthesize responses by drawing on indexed text content rather than by processing video directly</strong>, meaning a video without an accompanying transcript is effectively invisible to being cited, referenced, or drawn upon by these systems in a way that is likely to matter more, not less, as this style of search and information retrieval continues to grow relative to traditional link-based search results.</p>
+<p><strong>For a localization program specifically, this SEO benefit compounds directly across every language a video is translated into</strong>, since a translated transcript published as its own accessible page in the target language makes that specific language version of the content independently discoverable through search in that language, which is a distinct and genuine value beyond simply serving viewers who land on the video page through some other route, connecting directly to the broader case for multilingual SEO covered elsewhere in this series.</p>
+<h2 id="building-the-shared-production-workflow">Building the Shared Production Workflow</h2>
+<p><strong>Establish transcript production as a single, shared, upstream step in the video production process, owned clearly by one function, rather than as something each downstream function separately commissions or reconstructs for its own specific purpose</strong>, which is the same underlying principle covered in more detail in the discussion of multi-format content localization elsewhere in this series, applied here specifically to the relationship between accessibility, SEO, and localization rather than between different content formats.</p>
+<p><strong>Review the transcript once, to a standard rigorous enough to serve the most demanding of the three use cases, rather than separately reviewing three different versions to three different lower standards</strong>, since accuracy requirements are effectively shared across all three purposes as established above, and a single thorough review pass that produces one genuinely reliable transcript is both more efficient and produces a better outcome for every downstream use than three separate, lighter review passes each cutting corners appropriate only to their own specific narrower purpose.</p>
+<p><strong>Make the reviewed transcript genuinely available and discoverable to every team that needs it, not siloed within whichever function happened to produce it</strong>, through the same kind of shared terminology and asset governance discussed in the context of managing terminology across a language portfolio elsewhere in this series — a transcript that exists but that the localization team does not know about, because it was produced by the accessibility team using a completely separate tool and workflow with no visibility to other teams, delivers none of the efficiency this shared-asset approach is actually meant to provide.</p>
+<p><strong>Publish the transcript, or a well-formatted version of it, as an accessible page associated with the video, in every language the video is localized into</strong>, treating this publication step as a standard, expected part of the localization workflow output rather than an optional extra that only happens when someone specifically remembers to request it, since this is precisely the step that actually realizes the combined SEO, accessibility, and low-bandwidth accessibility benefits discussed throughout this piece.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Learner watching an online course on a laptop"></a></p>
+<h2 id="what-good-transcript-formatting-actually-looks-like">What Good Transcript Formatting Actually Looks Like</h2>
+<p><strong>Break the transcript into paragraphs corresponding to actual topic or scene shifts, not into arbitrary fixed-length blocks</strong>, mirroring the plain-language and structural clarity guidance covered elsewhere in this series, since this genuinely aids a reader&#39;s comprehension, aids a search system&#39;s ability to parse distinct topics within the content, and aids a translator&#39;s ability to work with coherent, meaningful units of content rather than arbitrarily sliced fragments.</p>
+<p><strong>Include clear speaker labels for any multi-speaker content</strong>, consistent with the diarization and speaker identification practices covered throughout this series, since this serves the accessibility reader directly, and it also serves a search or AI system&#39;s ability to correctly attribute specific statements to specific speakers, which matters for content like interviews or panel discussions where who said something can be as significant as what was actually said.</p>
+<p><strong>Add descriptive headings for distinct sections of longer content</strong>, similar in spirit to how a well-structured written article uses headings, which aids scanability for a human reader, aids a search system&#39;s ability to understand the document&#39;s actual structure and surface the specific relevant section in response to a specific search query, and provides natural navigation anchor points for deep-linking into specific moments in the associated video.</p>
+<p><strong>Clean up disfluencies for the published transcript&#39;s readability while retaining the option to work from a more verbatim version for other purposes</strong>, connecting directly to the disfluency-handling considerations covered in more detail elsewhere in this series for dubbing specifically — a published, SEO- and accessibility-oriented transcript generally benefits from readability-focused cleanup, while a translation and localization pipeline may specifically want to work from a more verbatim source depending on the content type and the disfluency-preservation decisions relevant to that specific content, as covered in that dedicated discussion.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Recognise the video transcript as one shared asset serving accessibility, SEO, and localization simultaneously.</li><li>Produce and review the transcript once, to the standard required by the most demanding of the three uses.</li><li>Structure the transcript with topic-based paragraphs, not arbitrary fixed-length blocks.</li><li>Include clear speaker labels for multi-speaker content.</li><li>Add descriptive section headings for longer content to aid scanability and search parsing.</li><li>Retain timestamp or timing metadata to support captioning, alignment, and deep-linking.</li><li>Publish the transcript as genuinely readable, accessible page text, not an invisible or poorly formatted embed.</li><li>Publish translated transcripts as their own accessible pages in every localized language.</li><li>Establish transcript production as a single owned upstream step rather than three separately commissioned versions.</li><li>Make the reviewed transcript genuinely discoverable and available across every team that needs it.</li><li>Clean disfluencies for the published readable version while preserving verbatim options where localization needs them.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Isn&#39;t a caption file already the same thing as a transcript?</strong></p>
+<p>Related but not identical. A caption or subtitle file is timed, segmented text designed to be displayed synchronously with video, typically broken into short cues constrained by reading speed and line length. A published transcript is generally formatted as continuous, readable prose with paragraphs and headings, better suited for reading independently of the video and for search indexing. Both can and should derive from the same underlying accurate source text, but they serve different specific formatting purposes.</p>
+<p><strong>Does publishing a transcript actually help with SEO in a measurable way?</strong></p>
+<p>Search engines and increasingly AI-driven answer systems cannot directly process video or audio content the way they process text, so a video with no accompanying transcript is largely invisible to text-based indexing and retrieval regardless of how valuable its actual content is. A published transcript makes the complete substance of the video discoverable through search terms a short manual description would never happen to include, which is a genuine and measurable discoverability gain, not a marginal one.</p>
+<p><strong>Should the published transcript be verbatim or cleaned up?</strong></p>
+<p>Generally cleaned up for readability in the published, reader-facing version — removing filler words and false starts the same way you might edit a written article — while a more verbatim version may still be valuable to retain internally for localization purposes, depending on the disfluency-preservation decisions relevant to that specific content type, as covered in more detail in the dedicated discussion of disfluency handling in dubbing.</p>
+<p><strong>Who should own transcript production if it serves three different teams?</strong></p>
+<p>It should be established as one shared, upstream production step with clear single ownership, rather than three separate teams each commissioning or producing their own version for their own narrower purpose. The specific team that owns it matters less than ensuring the resulting reviewed transcript is genuinely discoverable and available to every other team that needs it, avoiding the common failure of an accessibility team&#39;s transcript existing in complete isolation from what the localization team is doing.</p>
+<p><strong>Does this apply to translated versions of the video too?</strong></p>
+<p>Yes, and this is where the benefit compounds. Publishing a translated transcript as its own accessible page in each target language makes that specific language version of the content independently discoverable through search in that language, extending the same SEO and accessibility benefits described for the source-language transcript across every market a video is localized into.</p>
+<p><strong>What is the minimum formatting a transcript needs to serve all three purposes well?</strong></p>
+<p>Topic-based paragraph breaks rather than arbitrary chunking, clear speaker labels for multi-speaker content, descriptive section headings for longer content, and retained timing metadata to support captioning and deep-linking. None of this is elaborate, but a flat, unstructured wall of text serves none of the three purposes as well as a modestly structured document does, at very little additional production cost once the underlying accurate transcript already exists.</p>
+<hr>
+<p>Related reading: <a href="/blog/multilingual-seo-for-video">Multilingual SEO for Video</a> | <a href="/blog/low-bandwidth-video-accessibility">Low Bandwidth Video Accessibility</a> | <a href="/blog/wcag-video-compliance-guide">WCAG Video Compliance</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-transcripts-seo-and-accessibility" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-transcripts-seo-and-accessibility&amp;text=Video%20Transcripts%3A%20The%20One%20Asset%20That%20Serves%20SEO%2C%20Accessibility%2C%20and%20Localization%20at%20Once" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvideo-transcripts-seo-and-accessibility" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/accessibility">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/caption-accuracy-regulatory-standards" aria-label="Read Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gauge-glass-dials.jpg" alt="Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks</h2><p class="blog-card-description">WCAG says captions must be accurate. Broadcast regulators actually define what accuracy means, in numbers, and audit against it.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/audio-description-scripting-guide" aria-label="Read How to Write an Audio Description Script That Actually Fits the Gaps"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/halo-ring-solo.png" alt="How to Write an Audio Description Script That Actually Fits the Gaps" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">How to Write an Audio Description Script That Actually Fits the Gaps</h2><p class="blog-card-description">Audio description is not a running commentary. It is a script written against a stopwatch, fitted into gaps the original recording never planned for it.</p>
+      <time class="blog-card-date" datetime="2026-08-30T13:30:00Z">Aug 30, 2026 · 12 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/color-contrast-for-video-text-overlays" aria-label="Read Color Contrast and Colorblindness in Video Text and Graphics"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/neon-violet-curve.png" alt="Color Contrast and Colorblindness in Video Text and Graphics" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Color Contrast and Colorblindness in Video Text and Graphics</h2><p class="blog-card-description">Red and green look identical to a meaningful share of viewers. A chart or a status indicator relying on that distinction alone has already failed them.</p>
+      <time class="blog-card-date" datetime="2026-08-29T02:30:00Z">Aug 29, 2026 · 10 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

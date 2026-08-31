@@ -1,0 +1,709 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use | Octavia</title>
+    <meta name="description" content="How to design quotas, rate limits, and data isolation for a multi-tenant video translation service so one customer&#39;s usage never degrades another&#39;s.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/multi-tenant-translation-platform-design">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use">
+    <meta property="og:description" content="How to design quotas, rate limits, and data isolation for a multi-tenant video translation service so one customer&#39;s usage never degrades another&#39;s.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/multi-tenant-translation-platform-design">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/container-glass-formats.jpg">
+    <meta property="article:published_time" content="2026-08-30T13:00:00Z">
+    <meta property="article:modified_time" content="2026-08-30T13:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use">
+    <meta name="twitter:description" content="How to design quotas, rate limits, and data isolation for a multi-tenant video translation service so one customer&#39;s usage never degrades another&#39;s.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/container-glass-formats.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use","description":"How to design quotas, rate limits, and data isolation for a multi-tenant video translation service so one customer's usage never degrades another's.","image":"https://octavia.lunartech.ai/assets/blog/images/container-glass-formats.jpg","datePublished":"2026-08-30T13:00:00Z","dateModified":"2026-08-30T13:00:00Z","wordCount":2468,"timeRequired":"PT11M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/multi-tenant-translation-platform-design","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use","item":"https://octavia.lunartech.ai/blog/multi-tenant-translation-platform-design"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/developer-guides">Developer Guides</a>
+        <h1 class="article-title">Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use</h1><p class="article-deck">One customer&#39;s overnight batch job should never be the reason another customer&#39;s job is late. That guarantee has to be designed in, not assumed.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-08-30T13:00:00Z">Aug 30, 2026</time><span class="article-meta-dot"></span><span>11 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/container-glass-formats.jpg" alt="Multi-Tenant Design for a Video Translation Platform: Quotas, Isolation, and Fair Use" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-provider-side-problem">The Provider-Side Problem</a></li><li><a class="toc-h2" data-toc-link href="#quota-design">Quota Design</a></li><li><a class="toc-h2" data-toc-link href="#isolation-strategies">Isolation Strategies</a></li><li><a class="toc-h2" data-toc-link href="#rate-limiting-implementation">Rate Limiting Implementation</a></li><li><a class="toc-h2" data-toc-link href="#monitoring-and-observability-per-tenant">Monitoring and Observability Per Tenant</a></li><li><a class="toc-h2" data-toc-link href="#handling-noisy-neighbors">Handling Noisy Neighbors</a></li><li><a class="toc-h2" data-toc-link href="#a-working-checklist">A Working Checklist</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently Asked Questions</a></li></ol></aside>
+        <article class="article-body" data-article-body><p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Server racks in a data centre"></a></p>
+<h2 id="the-provider-side-problem">The Provider-Side Problem</h2>
+<p>Most guidance about building against a video translation API addresses the consumer side: how to handle errors, retries, and webhooks when calling someone else&#39;s service. This piece addresses the other side of that relationship — the design decisions that matter when you are the one operating a multi-tenant translation platform serving many independent customers or teams from shared underlying infrastructure.</p>
+<p>The central challenge is that video translation workloads are genuinely resource-intensive and genuinely bursty. A single customer submitting an overnight batch job covering a large content library, or a customer launching a product and suddenly needing many languages produced quickly, can consume a disproportionate share of shared compute, queue capacity, and underlying model access relative to other tenants operating at a steady, predictable pace. Without deliberate isolation and fairness design, one tenant&#39;s burst becomes every other tenant&#39;s degraded service, discovered not through a clear error message but through mysteriously slow or delayed processing that is hard to diagnose without visibility into what is actually happening across the whole shared system.</p>
+<h2 id="quota-design">Quota Design</h2>
+<p><strong>Set quotas along more than one dimension, since a single &quot;requests per minute&quot; limit does not capture the actual resource cost variation across different job types</strong>, and a customer submitting many small, short jobs consumes a very different resource profile than one submitting fewer but much longer jobs — dimensions worth considering separately include job submission rate, total concurrent processing minutes across all in-flight jobs, and total monthly volume, each of which protects against a different kind of resource exhaustion pattern.</p>
+<p><strong>Distinguish burst capacity from sustained rate explicitly, rather than enforcing one flat limit that treats all usage patterns identically</strong>, since a customer with genuinely bursty, predictable usage — a monthly content batch, a periodic large upload — has a legitimate need that a purely flat rate limit would either unnecessarily restrict or, if set generously enough to accommodate the burst, would then also permit as a sustained pattern from every tenant simultaneously, which is a different and more dangerous situation for overall system capacity than one tenant&#39;s occasional burst.</p>
+<p><strong>Communicate quota limits and current usage clearly and proactively to customers, not just enforce them silently at the point of rejection</strong>, since a customer who understands their actual quota and their current consumption against it can plan their own usage accordingly, submit large batches at appropriate times, or request a quota increase in advance, rather than discovering a limit only when a time-sensitive job is unexpectedly rejected or throttled with no advance warning.</p>
+<p><strong>Support quota increases as a deliberate, reviewable process rather than either a fully manual, slow negotiation or an unlimited self-service increase with no actual review</strong>, since an appropriate middle ground — a self-service request that gets a fast, largely automated approval up to some reasonable ceiling, with genuinely large increases requiring an actual conversation — serves both the platform&#39;s need to protect shared capacity and the customer&#39;s need for a response quick enough to not block their own legitimate business plans.</p>
+<h2 id="isolation-strategies">Isolation Strategies</h2>
+<p><strong>Isolate queue capacity per tenant, or per tenant tier, so that one tenant&#39;s queue depth does not directly determine another tenant&#39;s wait time</strong>, since a shared, single first-in-first-out queue across all tenants means a customer submitting a genuinely enormous batch job can push every other tenant&#39;s jobs meaningfully further back in the queue purely through submission volume, regardless of how reasonable each individual tenant&#39;s own usage pattern actually is relative to their own agreed quota.</p>
+<p><strong>Implement weighted fair queuing or an equivalent scheduling approach that allocates processing capacity proportionally across active tenants, rather than strictly by arrival order alone</strong>, so that a tenant with a small number of jobs queued does not wait behind an unrelated tenant&#39;s much larger batch simply because that batch happened to arrive first — this is a meaningfully more sophisticated scheduling approach than simple first-in-first-out, and it is specifically what prevents the burst-versus-fairness tension described above from actually degrading other tenants&#39; experience in practice.</p>
+<p><strong>Consider dedicated infrastructure tiers for customers with genuinely different isolation or performance requirements</strong>, since some customers — particularly those with regulatory, security, or strict service-level requirements — may need guarantees that shared multi-tenant infrastructure, however well designed its fairness scheduling, cannot fully provide, and offering a genuinely separate dedicated tier is often a cleaner solution than attempting to engineer arbitrarily strong isolation guarantees into a fundamentally shared system for every customer regardless of their actual need for that level of guarantee.</p>
+<p><strong>Isolate data storage and access per tenant at the architecture level, not only through application-level access control checks</strong>, since defense in depth matters considerably more for a multi-tenant platform handling potentially sensitive customer video content than it would for a single-tenant system, and a data isolation failure in a multi-tenant context is a categorically more severe incident — one tenant&#39;s content becoming visible to another — than the equivalent failure mode in a system with only one customer&#39;s data present at all.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Automated dashboard with charts"></a></p>
+<h2 id="rate-limiting-implementation">Rate Limiting Implementation</h2>
+<p><strong>Implement rate limiting at the API gateway or edge layer, before requests reach the core processing pipeline</strong>, so that a tenant exceeding their limit is rejected quickly and cheaply at the perimeter, rather than being allowed through to consume actual processing resources before eventually failing deeper in the pipeline, which wastes real capacity on work that was always going to be rejected.</p>
+<p><strong>Use a token bucket or leaky bucket algorithm rather than a simple fixed-window counter for rate limiting</strong>, since fixed-window approaches allow a burst of twice the intended rate right at a window boundary — the end of one window and the start of the next both permitting a full quota&#39;s worth of requests in quick succession — while token bucket and leaky bucket approaches smooth this out and better reflect the actual intended sustained rate limit without this specific boundary-timing loophole.</p>
+<p><strong>Return clear, structured rate limit information in every API response, not only in the specific response that actually triggers a limit</strong>, including current usage, the limit itself, and when the limit will reset, exactly as covered in more detail in the discussion of consumer-side error handling elsewhere in this series, since providing this information consistently is what actually enables well-behaved client-side backoff behavior rather than clients discovering limits only through trial and error at the point of rejection.</p>
+<p><strong>Rate limit is separate from queue-based fairness, and both are needed together, not one instead of the other</strong>, since rate limiting protects against a tenant simply making too many requests too quickly, while queue-based fairness protects against a tenant whose individually valid, quota-respecting requests still collectively represent enough total processing work to disproportionately affect other tenants&#39; wait times purely through volume submitted within their allowed limits — these are genuinely different failure modes requiring genuinely different mitigations.</p>
+<h2 id="monitoring-and-observability-per-tenant">Monitoring and Observability Per Tenant</h2>
+<p><strong>Track resource consumption, latency, and error rate broken down per tenant, not only in aggregate across the whole platform</strong>, since aggregate metrics can look entirely healthy while masking a genuine problem specifically affecting one or a few tenants, and per-tenant breakdown is what actually surfaces this kind of localized issue before it becomes a support escalation from an affected customer who noticed the problem before your own monitoring did.</p>
+<p><strong>Alert on anomalous usage patterns per tenant, not only on absolute quota breaches</strong>, since a sudden, unexplained spike in a tenant&#39;s usage — potentially indicating a bug in their own integration causing a retry storm, or a compromised credential being used to submit unauthorized jobs — is worth investigating and potentially reaching out about even where it has not yet actually crossed any hard quota limit, since catching this early protects both that tenant and overall shared platform capacity from a problem that will otherwise likely worsen.</p>
+<p><strong>Provide tenants with visibility into their own consumption and performance metrics through a dashboard or API</strong>, not just internal-only monitoring, since a tenant who can see their own actual usage pattern, queue wait times, and quota consumption directly is better equipped to self-diagnose an integration problem or plan their own capacity needs than one who has to file a support request every time they want to understand their own platform usage.</p>
+<p><strong>Correlate cross-tenant platform health metrics with individual tenant experience metrics</strong>, since a genuine platform-wide capacity or infrastructure problem should show up consistently across many tenants&#39; latency and error metrics at once, while a problem specific to one tenant&#39;s own usage pattern, integration, or content characteristics should show up in isolation — being able to distinguish these two categories quickly during an incident meaningfully speeds up correct diagnosis and appropriate response.</p>
+<p><a href="https://octavia.lunartech.ai"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&amp;q=80&amp;fm=jpg&amp;fit=crop" alt="Person analysing metrics on a dashboard"></a></p>
+<h2 id="handling-noisy-neighbors">Handling Noisy Neighbors</h2>
+<p><strong>Define and enforce a maximum single-job resource footprint independent of a tenant&#39;s overall quota</strong>, since even a tenant with ample remaining quota submitting one single, unusually enormous job — an extremely long video, an unusually large batch within one logical submission — can create a resource allocation problem for the shared scheduling system distinct from ordinary rate or volume limiting, and this needs its own explicit ceiling rather than being handled only through the general quota mechanisms described above.</p>
+<p><strong>Build the ability to identify and, where genuinely necessary, temporarily deprioritize a specific tenant&#39;s processing without fully suspending their service</strong>, as a middle-ground operational response to a tenant whose usage pattern is degrading shared platform performance for others but has not violated any specific quota or terms of service in a way that would justify a harder action like suspension — this kind of graduated response capability is worth having available before an actual incident makes it urgently needed, rather than only having binary options between doing nothing and fully suspending a paying customer&#39;s access.</p>
+<p><strong>Communicate proactively with a tenant whose usage pattern is causing genuine platform-wide impact, rather than silently throttling them with no explanation</strong>, since an unexplained degradation in service that a tenant experiences without understanding why is a worse outcome for the customer relationship than a direct conversation about their usage pattern and how it might be adjusted, batched differently, or accommodated through a different service tier better suited to their actual needs.</p>
+<h2 id="a-working-checklist">A Working Checklist</h2>
+<ul><li>Set quotas along multiple dimensions — submission rate, concurrent processing volume, and total monthly volume — not one flat limit.</li><li>Distinguish burst capacity from sustained rate explicitly in quota design.</li><li>Communicate quota limits and current usage proactively, not only at the point of rejection.</li><li>Support a fast, largely automated path for reasonable quota increase requests.</li><li>Isolate queue capacity per tenant or tenant tier rather than using one shared first-in-first-out queue.</li><li>Implement weighted fair queuing or equivalent proportional scheduling across active tenants.</li><li>Offer dedicated infrastructure tiers for tenants with genuine isolation or compliance requirements.</li><li>Isolate tenant data storage and access at the architecture level, not only through application-level checks.</li><li>Enforce rate limits at the edge layer before requests reach core processing resources.</li><li>Use a token bucket or leaky bucket algorithm rather than a simple fixed-window rate limit counter.</li><li>Return structured rate limit status information in every API response, not only in rejections.</li><li>Maintain both rate limiting and queue-based fairness together, since they address different failure modes.</li><li>Track resource consumption, latency, and error rate broken down per tenant, not only in aggregate.</li><li>Alert on anomalous per-tenant usage patterns, not only on hard quota breaches.</li><li>Give tenants visibility into their own consumption and performance metrics directly.</li><li>Define a maximum single-job resource footprint independent of overall tenant quota.</li><li>Build graduated response capability between doing nothing and full suspension for a problematic usage pattern.</li><li>Communicate proactively with a tenant whose usage is affecting shared platform performance.</li></ul>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<p><strong>Why isn&#39;t a simple requests-per-minute rate limit enough for a video translation platform?</strong></p>
+<p>Because video translation jobs vary enormously in actual resource cost — a short clip and a multi-hour recording submitted as single requests consume very different amounts of processing time and capacity. A single rate-limit dimension does not capture this variation, which is why quotas need multiple dimensions: submission rate, total concurrent processing volume, and total monthly volume each protect against a different resource exhaustion pattern that a request-count limit alone would miss.</p>
+<p><strong>What is the difference between rate limiting and queue-based fairness?</strong></p>
+<p>Rate limiting protects against a tenant making too many requests too quickly, typically enforced at the edge before requests consume real processing resources. Queue-based fairness protects against a tenant whose individually valid, quota-respecting requests still represent enough total volume to disproportionately delay other tenants&#39; jobs, addressed through proportional scheduling like weighted fair queuing rather than strict first-in-first-out ordering. Both are needed together since they address genuinely different failure modes.</p>
+<p><strong>Should every tenant on a multi-tenant platform share the same infrastructure?</strong></p>
+<p>Not necessarily. Customers with genuine regulatory, security, or strict service-level requirements may need guarantees that even a well-designed shared multi-tenant system cannot fully provide, and offering a dedicated infrastructure tier for these cases is often cleaner than trying to engineer arbitrarily strong isolation into a fundamentally shared system for every customer regardless of their actual need for that level of guarantee.</p>
+<p><strong>How do I stop one customer&#39;s large batch job from delaying every other tenant&#39;s work?</strong></p>
+<p>Isolate queue capacity per tenant or tenant tier rather than using a single shared queue, and implement proportional scheduling such as weighted fair queuing that allocates processing capacity across active tenants rather than strictly by arrival order. Also set a maximum single-job resource footprint independent of overall quota, since even a tenant with plenty of remaining quota can submit one unusually large job that creates a distinct scheduling problem.</p>
+<p><strong>What should happen when a customer&#39;s usage looks anomalous but hasn&#39;t technically violated their quota?</strong></p>
+<p>Alert on the anomaly and investigate rather than waiting for an actual hard quota breach, since an unexplained usage spike can indicate an integration bug causing a retry storm or a compromised credential, either of which is worth catching early. Build a graduated response capability — the ability to temporarily deprioritize a tenant&#39;s processing without fully suspending their access — and communicate proactively with the tenant about what you are observing rather than silently throttling them with no explanation.</p>
+<p><strong>Should customers see their own usage and performance metrics?</strong></p>
+<p>Yes, through a dashboard or API rather than only through internal monitoring. A tenant who can see their own actual consumption, queue wait times, and quota status directly is better equipped to self-diagnose an integration problem or plan their capacity needs than one who has to file a support request every time they want visibility into their own platform usage.</p>
+<hr>
+<p>Related reading: <a href="/blog/video-translation-api-error-handling">Error Handling for Video Translation APIs</a> | <a href="/blog/video-translation-webhooks-guide">Webhooks for Video Translation</a> | <a href="/blog/video-translation-caching-strategies">Video Translation Caching Strategies</a></p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmulti-tenant-translation-platform-design" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmulti-tenant-translation-platform-design&amp;text=Multi-Tenant%20Design%20for%20a%20Video%20Translation%20Platform%3A%20Quotas%2C%20Isolation%2C%20and%20Fair%20Use" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fmulti-tenant-translation-platform-design" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/developer-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/building-a-glossary-api" aria-label="Read Building a Terminology Glossary API for a Localization Pipeline"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/policy-glass-folds.png" alt="Building a Terminology Glossary API for a Localization Pipeline" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Developer Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Building a Terminology Glossary API for a Localization Pipeline</h2><p class="blog-card-description">A glossary that lives in a spreadsheet is a policy document. A glossary behind an API is something a pipeline can actually enforce.</p>
+      <time class="blog-card-date" datetime="2026-08-30T12:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/resumable-video-upload-pipelines" aria-label="Read Resumable and Chunked Uploads for Large Video Translation Jobs"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/platform-glass-conduit.png" alt="Resumable and Chunked Uploads for Large Video Translation Jobs" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Developer Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Resumable and Chunked Uploads for Large Video Translation Jobs</h2><p class="blog-card-description">A ninety-minute source video failing at ninety-eight percent uploaded, with no way to resume, is a solved problem that keeps getting unsolved.</p>
+      <time class="blog-card-date" datetime="2026-08-30T12:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-translation-caching-strategies" aria-label="Read Caching Strategies for Video Translation Pipelines"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/shelf-glass-aisle.png" alt="Caching Strategies for Video Translation Pipelines" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Developer Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Caching Strategies for Video Translation Pipelines</h2><p class="blog-card-description">Caching a translation is not like caching an API response. The wrong invalidation strategy silently ships yesterday&#39;s terminology decision forever.</p>
+      <time class="blog-card-date" datetime="2026-08-30T11:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>
