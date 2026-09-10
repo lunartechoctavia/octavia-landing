@@ -1,0 +1,758 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Writing a Voice Casting Brief for Dubbing: Getting the Right Voice First Time | Octavia</title>
+    <meta name="description" content="A clear voice casting brief helps dubbing teams define tone, age, pace, and energy so the right voice is chosen first time and costly re-records are avoided.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/voice-casting-brief-for-dubbing">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Writing a Voice Casting Brief for Dubbing: Getting the Right Voice First Time">
+    <meta property="og:description" content="A clear voice casting brief helps dubbing teams define tone, age, pace, and energy so the right voice is chosen first time and costly re-records are avoided.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/voice-casting-brief-for-dubbing">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/container-glass-formats.jpg">
+    <meta property="article:published_time" content="2026-09-09T09:00:00Z">
+    <meta property="article:modified_time" content="2026-09-09T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Writing a Voice Casting Brief for Dubbing: Getting the Right Voice First Time">
+    <meta name="twitter:description" content="A clear voice casting brief helps dubbing teams define tone, age, pace, and energy so the right voice is chosen first time and costly re-records are avoided.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/container-glass-formats.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Writing a Voice Casting Brief for Dubbing: Getting the Right Voice First Time","description":"A clear voice casting brief helps dubbing teams define tone, age, pace, and energy so the right voice is chosen first time and costly re-records are avoided.","image":"https://octavia.lunartech.ai/assets/blog/images/container-glass-formats.jpg","datePublished":"2026-09-09T09:00:00Z","dateModified":"2026-09-09T09:00:00Z","wordCount":2890,"timeRequired":"PT13M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/voice-casting-brief-for-dubbing","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Writing a Voice Casting Brief for Dubbing: Getting the Right Voice First Time","item":"https://octavia.lunartech.ai/blog/voice-casting-brief-for-dubbing"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/voice-ai">Voice AI</a>
+        <h1 class="article-title">Writing a Voice Casting Brief for Dubbing: Getting the Right Voice First Time</h1><p class="article-deck">Learn how to write a voice casting brief that defines role, audience, register, age, energy, and pace before auditions begin. This guide helps dubbing teams brief across languages, judge consistently, and choose the right voice first time.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-09T09:00:00Z">Sep 9, 2026</time><span class="article-meta-dot"></span><span>13 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/container-glass-formats.jpg" alt="Abstract dark-glass panels with a microphone silhouette and soft studio light reflections" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#the-fields-a-voice-casting-brief-must-define">The fields a voice casting brief must define</a></li><li><a class="toc-h3" data-toc-link href="#turning-field-values-into-something-a-candidate-can-hit">Turning field values into something a candidate can hit</a></li><li><a class="toc-h3" data-toc-link href="#what-the-brief-should-not-try-to-control">What the brief should not try to control</a></li><li><a class="toc-h3" data-toc-link href="#the-one-page-test">The one-page test</a></li><li><a class="toc-h2" data-toc-link href="#describing-voice-qualities-so-a-reviewer-in-another-language-can-apply-them">Describing voice qualities so a reviewer in another language can apply them</a></li><li><a class="toc-h3" data-toc-link href="#replace-adjectives-with-observable-behavior">Replace adjectives with observable behavior</a></li><li><a class="toc-h3" data-toc-link href="#anchor-every-descriptor-to-a-reference-and-a-counterexample">Anchor every descriptor to a reference and a counterexample</a></li><li><a class="toc-h3" data-toc-link href="#keep-a-shared-vocabulary-sheet">Keep a shared vocabulary sheet</a></li><li><a class="toc-h3" data-toc-link href="#separate-performance-from-production">Separate performance from production</a></li><li><a class="toc-h2" data-toc-link href="#keeping-brand-voice-consistent-when-every-target-voice-is-a-different-person">Keeping brand voice consistent when every target voice is a different person</a></li><li><a class="toc-h3" data-toc-link href="#split-the-brief-into-an-invariant-layer-and-a-local-layer">Split the brief into an invariant layer and a local layer</a></li><li><a class="toc-h3" data-toc-link href="#adapt-the-traits-not-the-adjectives">Adapt the traits, not the adjectives</a></li><li><a class="toc-h3" data-toc-link href="#judge-consistency-across-the-set-not-language-by-language">Judge consistency across the set, not language by language</a></li><li><a class="toc-h2" data-toc-link href="#using-reference-clips-without-asking-for-an-impersonation">Using reference clips without asking for an impersonation</a></li><li><a class="toc-h3" data-toc-link href="#what-the-reference-clip-is-for">What the reference clip is for</a></li><li><a class="toc-h3" data-toc-link href="#label-every-reference-with-the-dimension-it-illustrates">Label every reference with the dimension it illustrates</a></li><li><a class="toc-h3" data-toc-link href="#the-impersonation-trap">The impersonation trap</a></li><li><a class="toc-h3" data-toc-link href="#keep-some-references-internal">Keep some references internal</a></li><li><a class="toc-h2" data-toc-link href="#when-to-clone-a-speaker-instead-of-casting">When to clone a speaker instead of casting</a></li><li><a class="toc-h3" data-toc-link href="#the-cases-where-cloning-is-the-right-call">The cases where cloning is the right call</a></li><li><a class="toc-h3" data-toc-link href="#consent-and-disclosure">Consent and disclosure</a></li><li><a class="toc-h3" data-toc-link href="#what-cloning-does-not-fix">What cloning does not fix</a></li><li><a class="toc-h2" data-toc-link href="#multi-speaker-content-and-the-voice-map">Multi-speaker content and the voice map</a></li><li><a class="toc-h3" data-toc-link href="#building-the-map">Building the map</a></li><li><a class="toc-h3" data-toc-link href="#keeping-the-map-stable-across-episodes">Keeping the map stable across episodes</a></li><li><a class="toc-h3" data-toc-link href="#overlapping-speech-and-speaker-separation">Overlapping speech and speaker separation</a></li><li><a class="toc-h3" data-toc-link href="#roles-that-return-after-a-long-gap">Roles that return after a long gap</a></li><li><a class="toc-h2" data-toc-link href="#shortlisting-candidates-on-the-same-test-lines">Shortlisting candidates on the same test lines</a></li><li><a class="toc-h3" data-toc-link href="#choosing-test-lines">Choosing test lines</a></li><li><a class="toc-h3" data-toc-link href="#the-comparison-grid">The comparison grid</a></li><li><a class="toc-h3" data-toc-link href="#listening-conditions">Listening conditions</a></li><li><a class="toc-h3" data-toc-link href="#the-shortlist-process-in-order">The shortlist process, in order</a></li><li><a class="toc-h2" data-toc-link href="#documenting-the-decision-and-the-reusable-voice-casting-brief-template">Documenting the decision and the reusable voice casting brief template</a></li><li><a class="toc-h3" data-toc-link href="#the-casting-record">The casting record</a></li><li><a class="toc-h3" data-toc-link href="#change-control">Change control</a></li><li><a class="toc-h3" data-toc-link href="#the-reusable-voice-casting-brief-template">The reusable voice casting brief template</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#does-the-whole-brief-need-translating-into-every-target-language">Does the whole brief need translating into every target language?</a></li><li><a class="toc-h3" data-toc-link href="#how-long-should-a-voice-casting-brief-be">How long should a voice casting brief be?</a></li><li><a class="toc-h3" data-toc-link href="#can-one-voice-cover-more-than-one-role">Can one voice cover more than one role?</a></li><li><a class="toc-h3" data-toc-link href="#what-if-the-client-rejects-every-candidate">What if the client rejects every candidate?</a></li><li><a class="toc-h3" data-toc-link href="#is-a-reference-clip-the-same-as-a-style-guide">Is a reference clip the same as a style guide?</a></li><li><a class="toc-h3" data-toc-link href="#when-is-cloning-the-wrong-choice">When is cloning the wrong choice?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A dubbing project rarely fails its first review because the translation was wrong. It fails because the voice was wrong, and nobody in the room can say precisely why. The lines are accurate, the timing is close, the audio is clean, and the client still comes back with &quot;not quite right.&quot; That note is impossible to act on, so the team re-records, guesses again, and burns a cycle. Two or three cycles later, the launch date is the only thing still moving.</p>
+<p>The missing artifact is a voice casting brief. It is a short document, usually one to three pages, that settles the decisions a voice has to satisfy before anyone auditions. It names the role, the audience, the register, the age range, the energy, the pace, and the qualities that separate an acceptable read from the correct one. Its purpose is not to be elegant. It is to make a casting director in one country, a reviewer in another, and a brand manager in a third judge the same thing.</p>
+<p>The brief matters more in dubbing than in original production because the people applying it sit in different time zones and often do not share a native language. A note like &quot;warmer&quot; survives a desk conversation and dies in a translated email. A brief that says &quot;lets the end of a sentence fall instead of lifting, and holds volume steady when the script gets excited&quot; survives both.</p>
+<p>What follows covers what a brief contains, how to describe voice quality so a reviewer in another language can apply it, how to hold brand voice across a set of different speakers, when cloning beats casting, and how to document the decision so episode twelve inherits the reasoning from episode one.</p>
+<h2 id="the-fields-a-voice-casting-brief-must-define">The fields a voice casting brief must define</h2>
+<p>Most briefs arrive as one sentence: &quot;warm, friendly, professional, male, thirties.&quot; Every word in it means something different to each reader, and two casting directors will return two different slates that both technically satisfy it. The fix is not better adjectives. It is a fixed field set with written values.</p>
+<p>The minimum set:</p>
+<ul><li>Role and function: whether the voice is on camera, off camera, narrating, or a character in dialogue, and whether it guides, explains, questions, or opposes.</li><li>Audience: who is watching, in what setting, and what they already know about the subject.</li><li>Market: the language and territory the voice is cast for, and the delivery conventions that audience expects.</li><li>Register: the formality of the delivery, which is not the formality of the script.</li><li>Age band: a range such as 30 to 45, never a single number.</li><li>Energy: sustained, conversational, or deliberately restrained, stated as a target rather than a mood.</li><li>Pace: a words-per-minute band with a tolerance at each end.</li><li>Warmth: whether the voice leans toward the listener or presents from a distance.</li><li>Texture: breathiness, rasp, brightness, resonance, and anything that would disqualify a candidate no matter how well they read.</li></ul>
+<h3 id="turning-field-values-into-something-a-candidate-can-hit">Turning field values into something a candidate can hit</h3>
+<p>A field value only a linguist can apply is unfinished. Warmth becomes usable when it reads as &quot;addresses one listener closely, keeps volume even when the script gets excited.&quot; Pace becomes usable when it reads as &quot;155 to 175 words per minute, may drop to 145 for technical passages, never exceeds 185.&quot; Each field should describe something a candidate can choose to do on the next take.</p>
+<h3 id="what-the-brief-should-not-try-to-control">What the brief should not try to control</h3>
+<p>Casting is not script editing, mixing, or translation. A line that needs a rewrite to land in a target language is a translation decision, and folding it into the brief confuses candidates about what they are being asked to change.</p>
+<h3 id="the-one-page-test">The one-page test</h3>
+<p>If a candidate&#39;s agent can read the brief and predict the three things that will get their client rejected, the brief is finished. If they cannot, it is still a description of a feeling.</p>
+<h2 id="describing-voice-qualities-so-a-reviewer-in-another-language-can-apply-them">Describing voice qualities so a reviewer in another language can apply them</h2>
+<p>Adjectives describe the effect on the listener, not the behavior of the speaker. Two reviewers in different languages map &quot;warm&quot; onto different behaviors: one hears lower volume and slower pace, the other hears a smile in the voice. When they disagree about a candidate, they are usually disagreeing about the definition rather than the audio.</p>
+<h3 id="replace-adjectives-with-observable-behavior">Replace adjectives with observable behavior</h3>
+<p>Behavioral descriptors give both reviewers the same thing to listen for:</p>
+<ul><li>Sentence-final behavior: does the pitch fall, stay level, or lift?</li><li>Volume stability: does loudness track the emotional cues in the script, or stay even through them?</li><li>Distance: does the voice address one listener closely, or present to a room?</li><li>Pause behavior: does the speaker pause for punctuation, or for thought?</li><li>Consonant energy: crisp and forward, or soft and blended?</li></ul>
+<h3 id="anchor-every-descriptor-to-a-reference-and-a-counterexample">Anchor every descriptor to a reference and a counterexample</h3>
+<p>Give one clip that is right and one that is close but wrong, with a note on the single dimension that fails. This teaches the definition faster than a word list and gives the reviewer something to point at when they argue.</p>
+<h3 id="keep-a-shared-vocabulary-sheet">Keep a shared vocabulary sheet</h3>
+<p>Build a one-page glossary with a timecode example for each term, then translate the glossary, not just the brief. A reviewer applying notes in Japanese, Polish, or Portuguese needs the same definitions the original casting director used, or the two are running different projects that happen to share a script.</p>
+<h3 id="separate-performance-from-production">Separate performance from production</h3>
+<p>&quot;Recorded in a small room&quot; is a technical fault, not a casting note. A brief that mixes the two invites candidates to solve a problem they cannot solve from a booth in another country.</p>
+<h2 id="keeping-brand-voice-consistent-when-every-target-voice-is-a-different-person">Keeping brand voice consistent when every target voice is a different person</h2>
+<p>A brand does not have one voice. It has one set of behaviors that different speakers in different languages approximate. Consistency comes from deciding which behaviors are non-negotiable and which are expected to shift. On-screen text carries register decisions of its own, so the same logic applies when you handle <a href="/features/subtitle-translation">subtitle translation</a> alongside the dub.</p>
+<h3 id="split-the-brief-into-an-invariant-layer-and-a-local-layer">Split the brief into an invariant layer and a local layer</h3>
+<p>The invariant layer holds pace band, energy curve across a paragraph, sentence-final behavior, distance from the listener, how humor is handled, and how the brand name is pronounced. The local layer holds perceived age, perceived authority, formality register, forms of address, and dialect expectations. Mark each field as one or the other. Unmarked fields are where reviewers argue.</p>
+<h3 id="adapt-the-traits-not-the-adjectives">Adapt the traits, not the adjectives</h3>
+<p>&quot;Young and current&quot; resolves differently in different markets: bright and fast in one, low and dry in another. If the brief specifies the adjective, the target casting director hands back a local cliché of the adjective. If it specifies the behavior, they cast for the behavior.</p>
+<h3 id="judge-consistency-across-the-set-not-language-by-language">Judge consistency across the set, not language by language</h3>
+<p>Play the first thirty seconds of each language back to back and ask whether a listener who understands none of the languages would describe them as one brand. This is also how you catch the language that sounds correct in isolation and wrong in company.</p>
+<h2 id="using-reference-clips-without-asking-for-an-impersonation">Using reference clips without asking for an impersonation</h2>
+<h3 id="what-the-reference-clip-is-for">What the reference clip is for</h3>
+<p>A reference clip is a calibration instrument. It demonstrates pace, energy, sentence-final behavior, and distance. It does not specify an identity. Candidates who treat it as a template produce a shallow copy; candidates who treat it as a measuring stick produce something that fits the role.</p>
+<h3 id="label-every-reference-with-the-dimension-it-illustrates">Label every reference with the dimension it illustrates</h3>
+<p>Write the timecode, what to listen for, and what to ignore, in that order. A usable label reads: &quot;Reference A, 0:14 to 0:22, sentence-final fall and even volume. Ignore the accent, the recording quality, and the subject matter.&quot; Without the ignore clause, every candidate copies the accent.</p>
+<h3 id="the-impersonation-trap">The impersonation trap</h3>
+<p>Never write &quot;we want someone who sounds like&quot; a named person. That instruction asks for a surface rather than a fit, it demands a performance few candidates can sustain across a full script, and in many jurisdictions a recognizable imitation of a living person carries right-of-publicity exposure. Ask for the pacing of one voice and the warmth of another, and state plainly which aspects are not wanted.</p>
+<h3 id="keep-some-references-internal">Keep some references internal</h3>
+<p>A rejected voice from a previous round is useful calibration for the casting team and harmful to candidates. Keep a short internal appendix for clips the candidate should never see.</p>
+<h2 id="when-to-clone-a-speaker-instead-of-casting">When to clone a speaker instead of casting</h2>
+<p>Casting assumes the voice is interchangeable. Sometimes it is not, and preserving the original speaker across languages is the correct answer rather than a shortcut.</p>
+<h3 id="the-cases-where-cloning-is-the-right-call">The cases where cloning is the right call</h3>
+<ul><li>The speaker is the brand asset: a founder, a named expert, a presenter whose identity is why people watch.</li><li>Series continuity: the voice itself is the recognition cue across episodes or seasons.</li><li>Identity-carrying content: testimony, executive announcements, statements where the audience must know who said it.</li><li>Volume: the speaker cannot re-record for every language and every content update.</li></ul>
+<h3 id="consent-and-disclosure">Consent and disclosure</h3>
+<p>Authorization should be written and specific: which languages, which content types, what term, whether new scripts may be generated, and who signs off. Disclosure is a policy decision before it is a legal one, and several jurisdictions require that synthetic voice use be disclosed. Decide where the disclosure lives, whether that is the description, an end card, or an on-screen label, and apply it in every language.</p>
+<h3 id="what-cloning-does-not-fix">What cloning does not fix</h3>
+<p>Cloning preserves timbre and delivery habits. It does not translate, direct, or adjust pace. A clone of a fast speaker is still fast in a language that needs more syllables. The performance still needs a director, and the same <a href="/features/speech-generation">speech generation</a> pipeline that produces the dub still needs a brief. Where the per-language cost of a full cast against cloned output decides the approach, the plans are laid out on the <a href="/pricing">pricing page</a>.</p>
+<h2 id="multi-speaker-content-and-the-voice-map">Multi-speaker content and the voice map</h2>
+<h3 id="building-the-map">Building the map</h3>
+<p>A voice map is a table listing every speaking role, its brief identifier, the cast voice per language, and the episodes it covers. Build it before the first recording session rather than after the first consistency complaint. Add a register distance column: two roles with the same age band, energy, and register are hard to tell apart, so the map has to record how they differ.</p>
+<h3 id="keeping-the-map-stable-across-episodes">Keeping the map stable across episodes</h3>
+<p>Listeners notice a voice that shifts slightly between episode two and episode three more than they notice an imperfect but constant voice. Lock the cast per role per language for the life of the series. If a change is unavoidable, make it at a season boundary rather than mid-arc.</p>
+<h3 id="overlapping-speech-and-speaker-separation">Overlapping speech and speaker separation</h3>
+<p>Multi-speaker source audio often arrives with people talking over each other. Speaker diarization establishes who spoke when, and dialogue and music separation isolates speech before the <a href="/features/audio-translation">audio translation</a> pass begins. Without those steps, a casting decision cannot be applied cleanly to the right line, and the dub will attribute the wrong voice to the wrong character.</p>
+<h3 id="roles-that-return-after-a-long-gap">Roles that return after a long gap</h3>
+<p>If a voice is unavailable for a returning character, note the reason in the map. Otherwise the next person re-casts from memory and the character changes without anyone deciding to change it.</p>
+<h2 id="shortlisting-candidates-on-the-same-test-lines">Shortlisting candidates on the same test lines</h2>
+<h3 id="choosing-test-lines">Choosing test lines</h3>
+<p>Three to five lines stress different dimensions at once:</p>
+<ul><li>A long expository sentence, to test breath control and pace.</li><li>A line containing a proper noun, a number, and a unit, to test pronunciation.</li><li>An emotional beat, to test range without pushing the candidate into performance.</li><li>A line with humor, to test timing.</li><li>The brand&#39;s own tagline, read the way it appears in the content.</li></ul>
+<h3 id="the-comparison-grid">The comparison grid</h3>
+<p>Score each candidate on a fixed set: pace, energy, sentence-final behavior, distance, pronunciation of brand and product names, and overall fit. A number alone is not enough. Each score needs one sentence of justification, because that sentence is what makes the decision reviewable three months later.</p>
+<h3 id="listening-conditions">Listening conditions</h3>
+<p>Same headphones, same loudness normalization, and the candidate&#39;s name hidden where possible. A few decibels of loudness difference changes perceived warmth and confidence, which is enough to swing a close call between two competent reads.</p>
+<h3 id="the-shortlist-process-in-order">The shortlist process, in order</h3>
+<ol><li>Send the brief, the labeled references, and the test lines to casters in each target language.</li><li>Ask for three candidates per role, each reading the identical lines.</li><li>Normalize loudness across all submissions before comparing anything.</li><li>Blind-listen to the full set once without scoring, then a second time with the grid open.</li><li>Shortlist two candidates per role and record them again on the full emotional range the role requires.</li><li>Decide, write the reason, and archive the losing takes beside the winning one.</li></ol>
+<p>Running the comparison inside a <a href="/features/video-dubbing">video dubbing</a> workflow keeps the test lines, the language, and the role versioned in one place, which matters once the project passes its tenth deliverable.</p>
+<h2 id="documenting-the-decision-and-the-reusable-voice-casting-brief-template">Documenting the decision and the reusable voice casting brief template</h2>
+<h3 id="the-casting-record">The casting record</h3>
+<p>Append one page to the brief. It carries the date, the decision-maker, the candidates reviewed, the chosen voice, the reason in one or two sentences, and the file names of the winning takes. When someone asks in episode nine why the narrator sounds the way it does, the answer is on that page rather than in someone&#39;s memory.</p>
+<h3 id="change-control">Change control</h3>
+<p>Any change to a field after casting begins should be dated and attributed. A brief that quietly shifts between episode three and episode eleven is how a series acquires a voice that matches nothing, and no single person notices until a viewer does.</p>
+<h3 id="the-reusable-voice-casting-brief-template">The reusable voice casting brief template</h3>
+<p>The fields that matter, in order:</p>
+<ul><li>Project name and content type</li><li>Language and territory</li><li>Role name and function in the content</li><li>Audience and viewing context</li><li>Register</li><li>Age band</li><li>Energy target</li><li>Pace band in words per minute, with tolerance at each end</li><li>Warmth and distance</li><li>Texture notes and disqualifiers</li><li>Pronunciation rules for the brand name, product names, numbers, and units</li><li>Reference clips, each labeled with the dimension it illustrates</li><li>Counterexample clips, each labeled with the dimension that fails</li><li>Test lines</li><li>Delivery requirements: file format, sample rate, channel count, noise floor</li><li>Approval chain and turnaround</li><li>Consent and disclosure status, where the voice is cloned</li></ul>
+<p>Teams that assign voices in software can hold these fields as structured data attached to a role, so the brief travels with the assignment instead of living in a separate document that goes stale. The <a href="/docs">API documentation</a> shows how structured metadata and voice identifiers are attached at the project level.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="does-the-whole-brief-need-translating-into-every-target-language">Does the whole brief need translating into every target language?</h3>
+<p>No, but the vocabulary sheet does. Reviewers working from their own translation of &quot;warm&quot; are not applying the same instruction, and the disagreement surfaces as inconsistent casting rather than as a translation problem.</p>
+<h3 id="how-long-should-a-voice-casting-brief-be">How long should a voice casting brief be?</h3>
+<p>One to three pages for a single role. Longer briefs usually mean translation notes, script notes, or mixing notes have been folded into casting, and each addition makes the actual voice criteria harder to find.</p>
+<h3 id="can-one-voice-cover-more-than-one-role">Can one voice cover more than one role?</h3>
+<p>Sometimes, if the roles never appear in the same scene and the register distance is wide enough. Record the overlap in the voice map so no listener hears the same speaker on both sides of a conversation.</p>
+<h3 id="what-if-the-client-rejects-every-candidate">What if the client rejects every candidate?</h3>
+<p>That usually means the brief describes an effect no speaker can produce, or two fields are in conflict, such as a sustained high-energy target combined with a deliberately restrained register. Re-check the field set before running another round.</p>
+<h3 id="is-a-reference-clip-the-same-as-a-style-guide">Is a reference clip the same as a style guide?</h3>
+<p>No. A style guide describes the brand&#39;s language and visual rules; a reference clip illustrates one dimension of a voice. Keeping them separate prevents a candidate from being asked to imitate a look instead of a delivery.</p>
+<h3 id="when-is-cloning-the-wrong-choice">When is cloning the wrong choice?</h3>
+<p>When the role is a character rather than the speaker, when the speaker has not given written authorization covering the intended languages and content types, or when the audience would reasonably feel misled by not knowing the voice is synthetic.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The next time a voice comes back wrong, the first question is whether a brief existed. In most cases it did not, and the fix is not a new round of candidates. It is a page of decisions: the fields, the behavioral definitions, the labeled references, and the scored test lines, filed somewhere the next episode can find them.</p>
+<p>Start with one role on the next project rather than the whole cast. Write the invariant layer, pick three test lines, run three candidates per language, and score them on the same grid. That produces a decision you can defend to a client and reuse next season without rebuilding the reasoning from scratch.</p>
+<p>Where the voice has to be the original speaker, treat cloning as a casting decision with its own consent and disclosure requirements rather than a technical convenience. Where the content is episodic and multi-speaker, let the voice map do the remembering. Both belong in the same file as the brief, which means the next project begins with a document instead of a guess.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvoice-casting-brief-for-dubbing" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvoice-casting-brief-for-dubbing&amp;text=Writing%20a%20Voice%20Casting%20Brief%20for%20Dubbing%3A%20Getting%20the%20Right%20Voice%20First%20Time" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fvoice-casting-brief-for-dubbing" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/voice-ai">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/audio-drama-localization" aria-label="Read Audio Drama Localization: Multi-Voice Fiction in New Languages"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/ai-voice-portal-alt.png" alt="Abstract dark-glass audio waveforms and overlapping voice silhouettes" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Audio Drama Localization: Multi-Voice Fiction in New Languages</h2><p class="blog-card-description">This guide explains how audio drama localization rebuilds a cast for new languages, from casting and voice maps to directing emotional performance and protecting music and sound design. Readers get practical steps for keeping multi-voice fiction clear, distinct, and immersive by ear alone.</p>
+      <time class="blog-card-date" datetime="2026-09-05T14:00:00Z">Sep 5, 2026 · 13 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/audiobook-localization-guide" aria-label="Read Audiobook Localization: Producing Multilingual Editions With AI Narration"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/twin-glass-obelisks.png" alt="Abstract dark-glass waveform with layered multilingual audiobook narration fragments." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Audiobook Localization: Producing Multilingual Editions With AI Narration</h2><p class="blog-card-description">Discover how audiobook localization differs from video dubbing, from narrator identity and consent to pronunciation lexicons, breath control, and chapter-level retail delivery. Get a practical workflow for producing multilingual editions with AI narration.</p>
+      <time class="blog-card-date" datetime="2026-09-04T16:30:00Z">Sep 4, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/multilingual-voice-branding-strategy" aria-label="Read Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/voice-waveform-portal.png" alt="Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Voice AI</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Multilingual Voice Branding: Giving Your Company a Consistent Sonic Identity Across Markets</h2><p class="blog-card-description">A visual brand guide specifies exact colors and fonts for every market. Most companies have no equivalent document for how their brand actually sounds.</p>
+      <time class="blog-card-date" datetime="2026-08-30T16:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

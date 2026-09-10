@@ -1,0 +1,762 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Transit Announcement Translation: Multilingual Audio and Screens That Work | Octavia</title>
+    <meta name="description" content="A practical guide to transit announcement translation: multilingual audio, synchronized screens, station-name rules, and platform testing.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/public-transit-announcement-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Transit Announcement Translation: Multilingual Audio and Screens That Work">
+    <meta property="og:description" content="A practical guide to transit announcement translation: multilingual audio, synchronized screens, station-name rules, and platform testing.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/public-transit-announcement-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/black-silk-wave.png">
+    <meta property="article:published_time" content="2026-09-06T19:00:00Z">
+    <meta property="article:modified_time" content="2026-09-06T19:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Transit Announcement Translation: Multilingual Audio and Screens That Work">
+    <meta name="twitter:description" content="A practical guide to transit announcement translation: multilingual audio, synchronized screens, station-name rules, and platform testing.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/black-silk-wave.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Transit Announcement Translation: Multilingual Audio and Screens That Work","description":"A practical guide to transit announcement translation: multilingual audio, synchronized screens, station-name rules, and platform testing.","image":"https://octavia.lunartech.ai/assets/blog/images/black-silk-wave.png","datePublished":"2026-09-06T19:00:00Z","dateModified":"2026-09-06T19:00:00Z","wordCount":2932,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/public-transit-announcement-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Transit Announcement Translation: Multilingual Audio and Screens That Work","item":"https://octavia.lunartech.ai/blog/public-transit-announcement-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/accessibility">Accessibility</a>
+        <h1 class="article-title">Transit Announcement Translation: Multilingual Audio and Screens That Work</h1><p class="article-deck">Learn a working method for transit announcement translation across routine, disruption, and emergency messages. You get concrete rules for multilingual audio, station names, screen and audio alignment, and testing every message type on a real platform.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-06T19:00:00Z">Sep 6, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/black-silk-wave.png" alt="Abstract dark-glass transit map with glowing multilingual lines and platform icons." fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#routine-disruption-and-emergency-announcements-need-different-pipelines">Routine, disruption, and emergency announcements need different pipelines</a></li><li><a class="toc-h3" data-toc-link href="#routine">Routine</a></li><li><a class="toc-h3" data-toc-link href="#service-disruption">Service disruption</a></li><li><a class="toc-h3" data-toc-link href="#emergency">Emergency</a></li><li><a class="toc-h2" data-toc-link href="#station-and-stop-names-in-transit-announcement-translation">Station and stop names in transit announcement translation</a></li><li><a class="toc-h3" data-toc-link href="#meaning-bearing-names">Meaning-bearing names</a></li><li><a class="toc-h3" data-toc-link href="#proper-names">Proper names</a></li><li><a class="toc-h3" data-toc-link href="#codes-and-numbers">Codes and numbers</a></li><li><a class="toc-h3" data-toc-link href="#pronunciation-is-part-of-the-string">Pronunciation is part of the string</a></li><li><a class="toc-h3" data-toc-link href="#never-translate-these">Never translate these</a></li><li><a class="toc-h2" data-toc-link href="#noise-and-reverberation-set-the-intelligibility-budget">Noise and reverberation set the intelligibility budget</a></li><li><a class="toc-h3" data-toc-link href="#what-the-environment-does-to-speech">What the environment does to speech</a></li><li><a class="toc-h3" data-toc-link href="#write-and-mix-for-the-worst-platform">Write and mix for the worst platform</a></li><li><a class="toc-h3" data-toc-link href="#if-the-hardware-is-the-limit-say-so">If the hardware is the limit, say so</a></li><li><a class="toc-h2" data-toc-link href="#how-many-languages-can-a-transit-announcement-translation-carry">How many languages can a transit announcement translation carry</a></li><li><a class="toc-h3" data-toc-link href="#the-dwell-time-ceiling">The dwell-time ceiling</a></li><li><a class="toc-h3" data-toc-link href="#three-sequencing-strategies">Three sequencing strategies</a></li><li><a class="toc-h3" data-toc-link href="#legal-obligations-and-the-visual-pressure-valve">Legal obligations and the visual pressure valve</a></li><li><a class="toc-h3" data-toc-link href="#a-defensible-rule">A defensible rule</a></li><li><a class="toc-h2" data-toc-link href="#pairing-screen-text-with-audio">Pairing screen text with audio</a></li><li><a class="toc-h3" data-toc-link href="#one-source-of-truth">One source of truth</a></li><li><a class="toc-h3" data-toc-link href="#let-the-visual-lead">Let the visual lead</a></li><li><a class="toc-h3" data-toc-link href="#match-specificity-across-channels">Match specificity across channels</a></li><li><a class="toc-h3" data-toc-link href="#format-for-a-two-second-glance">Format for a two-second glance</a></li><li><a class="toc-h2" data-toc-link href="#accessibility-beyond-audio">Accessibility beyond audio</a></li><li><a class="toc-h3" data-toc-link href="#deaf-and-hard-of-hearing-riders">Deaf and hard of hearing riders</a></li><li><a class="toc-h3" data-toc-link href="#blind-and-low-vision-riders">Blind and low-vision riders</a></li><li><a class="toc-h3" data-toc-link href="#hearing-loops-and-assisted-listening">Hearing loops and assisted listening</a></li><li><a class="toc-h3" data-toc-link href="#neither-channel-is-a-fallback-for-the-other">Neither channel is a fallback for the other</a></li><li><a class="toc-h2" data-toc-link href="#one-voice-across-the-network">One voice across the network</a></li><li><a class="toc-h3" data-toc-link href="#consistency-is-functional-not-decorative">Consistency is functional, not decorative</a></li><li><a class="toc-h3" data-toc-link href="#matching-one-voice-across-many-languages">Matching one voice across many languages</a></li><li><a class="toc-h3" data-toc-link href="#cloning-the-system-voice">Cloning the system voice</a></li><li><a class="toc-h3" data-toc-link href="#live-staff-announcements">Live staff announcements</a></li><li><a class="toc-h2" data-toc-link href="#pre-recorded-library-versus-generated-announcements">Pre-recorded library versus generated announcements</a></li><li><a class="toc-h3" data-toc-link href="#what-belongs-in-the-library">What belongs in the library</a></li><li><a class="toc-h3" data-toc-link href="#what-has-to-be-generated">What has to be generated</a></li><li><a class="toc-h3" data-toc-link href="#keep-the-latency-measurement-honest">Keep the latency measurement honest</a></li><li><a class="toc-h2" data-toc-link href="#test-on-the-platform-not-in-the-office">Test on the platform, not in the office</a></li><li><a class="toc-h3" data-toc-link href="#choose-the-sites">Choose the sites</a></li><li><a class="toc-h3" data-toc-link href="#the-listening-pass">The listening pass</a></li><li><a class="toc-h3" data-toc-link href="#sign-off-and-cadence">Sign-off and cadence</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#how-many-languages-should-a-transit-announcement-carry-in-audio">How many languages should a transit announcement carry in audio?</a></li><li><a class="toc-h3" data-toc-link href="#should-station-names-be-translated">Should station names be translated?</a></li><li><a class="toc-h3" data-toc-link href="#can-a-synthesized-voice-be-used-for-emergency-announcements">Can a synthesized voice be used for emergency announcements?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-we-stop-screens-and-audio-from-contradicting-each-other">How do we stop screens and audio from contradicting each other?</a></li><li><a class="toc-h3" data-toc-link href="#is-voice-cloning-allowed-for-a-transit-system-voice">Is voice cloning allowed for a transit system voice?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-most-common-failure-in-practice">What is the most common failure in practice?</a></li><li><a class="toc-h3" data-toc-link href="#how-often-should-announcements-be-re-tested-on-site">How often should announcements be re-tested on site?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A transit announcement is not marketing copy. It tells a rider which platform, which direction, how long the wait is, and whether the vehicle they are about to board is safe. It arrives once, in noise, to someone who is moving, carrying bags, and possibly anxious about a system they do not know.</p>
+<p>The failure modes are specific: a platform number masked by an arriving train; a station name pronounced so no local recognizes it, costing the rider the one form of help standing beside them; a screen reading &quot;minor delays&quot; against a PA announcement of &quot;no service&quot;; a tenth language pushing the message past the door cycle, so the final languages are cut off mid-sentence.</p>
+<p>This article sets out a working method for transit announcement translation: separate pipelines per announcement class, a rule for station names, how many languages audio can carry, how to keep screens and audio aligned, and how to test all of it on a platform rather than in an office.</p>
+<h2 id="routine-disruption-and-emergency-announcements-need-different-pipelines">Routine, disruption, and emergency announcements need different pipelines</h2>
+<p>Transit messages split by how much warning the agency has and how much a misunderstanding costs.</p>
+<h3 id="routine">Routine</h3>
+<p>Next stop, doors closing, transfer points, this train is for a named destination. The content is known months ahead and repeats thousands of times, so record it once per language, verify it, and reuse it: this is the only class where quality can be guaranteed before the message airs. Keep each line short, because a rendering in German or Finnish runs longer than the English source and collides with the door chime.</p>
+<h3 id="service-disruption">Service disruption</h3>
+<p>The structure is known, the details are not. Build the sentence as a template, record it in every language, then fill the slots from a controlled list: line, station, cause, expected duration. The rider hears a sentence a human reviewed, produced within seconds of the incident. This is where an <a href="/features/audio-translation">audio translation workflow</a> earns its place, because one reviewed template feeds both the display text and the voice.</p>
+<h3 id="emergency">Emergency</h3>
+<p>Enumerate what can actually happen: evacuate the station, stand behind the yellow line, the platform is closed, follow staff instructions. Translate and record each one with sign-off from accessibility and legal staff, because there is no time to review a generated sentence in an emergency. Anything not enumerated falls to a scripted staff card in every supported language. Spend the review budget on emergency and disruption, and check the routine lines once.</p>
+<h2 id="station-and-stop-names-in-transit-announcement-translation">Station and stop names in transit announcement translation</h2>
+<h3 id="meaning-bearing-names">Meaning-bearing names</h3>
+<p>Central, City Hall, Airport, University, Harbor. A rider who does not speak the local language still needs to know the stop is the airport. Translate the descriptor, but check local convention first: some cities use the English word on signage, and an announcement that translates it then mismatches the sign.</p>
+<h3 id="proper-names">Proper names</h3>
+<p>Invented names, family names, streets with no semantic content. Translating them produces nonsense. Transliterate into the target script, then compare the result against the spelling the local diaspora community already uses. A new spelling fragments the network&#39;s vocabulary and makes the name harder to find in an app.</p>
+<h3 id="codes-and-numbers">Codes and numbers</h3>
+<p>Line letters, platform numbers, track numbers, exit numbers, bus routes. Never translate the identifier. Localize only the noun around it: the target-language word for platform, followed by the same numeral shown on signage.</p>
+<h3 id="pronunciation-is-part-of-the-string">Pronunciation is part of the string</h3>
+<p>A transliteration fixes spelling and says nothing about how the voice should say it. Two failures recur: a synthesized voice applies its own phonology and produces a name locals do not recognize, or it reads a written respelling literally. Store a pronunciation for every name in every language, as IPA or as a native-speaker-verified respelling, and treat it as part of the source string.</p>
+<h3 id="never-translate-these">Never translate these</h3>
+<ul><li>Interchange names, because a transferring rider must match the announcement to the sign and the map.</li><li>Line and route names, because the map is the reference.</li><li>Anything printed on the vehicle&#39;s exterior display, because the announcement and the headsign must agree.</li></ul>
+<h2 id="noise-and-reverberation-set-the-intelligibility-budget">Noise and reverberation set the intelligibility budget</h2>
+<h3 id="what-the-environment-does-to-speech">What the environment does to speech</h3>
+<p>Tunnel platforms are hard-surfaced and reverberant, and reverberation smears consonants, which is where intelligibility lives. Rail joints, ventilation, and engines concentrate energy at low frequencies and mask the vowel band. The consonant band, roughly 2 to 4 kHz, is what lets a listener separate fifteen from fifty. An announcement that is clear in a studio can be unintelligible twenty meters down a platform.</p>
+<h3 id="write-and-mix-for-the-worst-platform">Write and mix for the worst platform</h3>
+<ul><li>Shorten. One idea per sentence, two clauses at most.</li><li>Slow the delivery to a pace clearly below conversational speech.</li><li>Treat numerals as the highest-risk content. Two and twenty collapse in noise in many languages, so prefer &quot;platform two&quot; to &quot;two&quot; and read long numbers in groups.</li><li>Avoid negation in critical messages. &quot;This train does not stop at X&quot; and &quot;This train stops at X&quot; differ by a consonant cluster a noisy PA can swallow. Rephrase: &quot;Next stop is Y. This train skips X.&quot;</li><li>Level everything to one loudness target, so riders are not adjusting between stations.</li></ul>
+<h3 id="if-the-hardware-is-the-limit-say-so">If the hardware is the limit, say so</h3>
+<p>No translation work rescues a distorted amplifier or a speaker aimed at a wall. Where the PA is beyond repair, move the message to the visual channel and treat audio as supplementary. That is a communications decision, and it should be made deliberately rather than discovered by riders.</p>
+<h2 id="how-many-languages-can-a-transit-announcement-translation-carry">How many languages can a transit announcement translation carry</h2>
+<h3 id="the-dwell-time-ceiling">The dwell-time ceiling</h3>
+<p>Every language costs seconds. In a station with a twenty-second door cycle, three languages at full fidelity already consume the window, and a fourth pushes the last one into the chime or past departure. Truncation is not the only cost: riders stop listening when their language sits at position seven.</p>
+<h3 id="three-sequencing-strategies">Three sequencing strategies</h3>
+<ul><li>Tiering. Full detail in the two to four languages with the largest ridership, headline only in the rest, with a pointer to the display.</li><li>Rotation. Cycle full text through languages across repeated plays. This works for a doors-closing message that repeats every minute, and fails for a one-shot disruption announcement.</li><li>Escalation. Two languages for routine, three or four for disruption, and every supported language for an emergency, with all other audio stopped so the emergency message owns the channel.</li></ul>
+<h3 id="legal-obligations-and-the-visual-pressure-valve">Legal obligations and the visual pressure valve</h3>
+<p>Some jurisdictions require equal treatment across languages, which may rule out headline-only delivery in the long tail; confirm what the obligation says before designing around it. The reliable pressure valve is the screen: text has no dwell-time cost, so the long tail of languages belongs on a display or in an app, provided a display exists everywhere the audio plays.</p>
+<h3 id="a-defensible-rule">A defensible rule</h3>
+<p>Set the audio language list by dwell time first, ridership second, and legal obligation as a constraint. Then measure: if the longest disruption message in the slowest language does not fit the shortest dwell time on the network, the list is too long.</p>
+<h2 id="pairing-screen-text-with-audio">Pairing screen text with audio</h2>
+<h3 id="one-source-of-truth">One source of truth</h3>
+<p>Almost every screen-audio contradiction traces to two pipelines. Screen text is edited in one system, audio is produced in another, and a display caches an old version after the audio has moved on. Build one message record per announcement, containing every language and every channel, and generate both the display text and the audio from that record.</p>
+<h3 id="let-the-visual-lead">Let the visual lead</h3>
+<p>Text updates instantly; audio waits for a slot in the announcement cycle. Use that asymmetry deliberately: publish a confirmed disruption to screens immediately and let audio follow on the next play. If the audio cannot be updated yet, suppress the stale version rather than let a recorded &quot;minor delays&quot; play against a screen reading &quot;no service.&quot;</p>
+<h3 id="match-specificity-across-channels">Match specificity across channels</h3>
+<p>A screen saying &quot;delays&quot; beside an announcement saying &quot;no service between two stations&quot; reads as an error even when both were true at different moments. Fix the level of detail per class and hold it in both channels: emergency messages short in both, disruption messages naming the affected segment in both.</p>
+<h3 id="format-for-a-two-second-glance">Format for a two-second glance</h3>
+<ul><li>Lead with the disruption or the destination, not the agency name or a timestamp.</li><li>Cap the message at two short lines and split long station lists into separate frames instead of shrinking type.</li><li>Keep the destination visible continuously and rotate secondary messages around it.</li><li>Never require scrolling. If it does not fit, it belongs in the app.</li></ul>
+<p>When an announcement also runs as captioned video in an app or on an on-board display, the voice and the text need timecodes to stay aligned, which obeys the same source-of-truth rule.</p>
+<h2 id="accessibility-beyond-audio">Accessibility beyond audio</h2>
+<h3 id="deaf-and-hard-of-hearing-riders">Deaf and hard of hearing riders</h3>
+<p>Audio-only announcements fail both the law and the rider in most jurisdictions. Every audible message needs a visual equivalent at the same level of detail, positioned where the rider is standing when they hear it, not only in an app they have not opened. Captions must carry the content, not a summary. Generating them from the same record as the audio removes the hand-transcription step where drift creeps in.</p>
+<h3 id="blind-and-low-vision-riders">Blind and low-vision riders</h3>
+<p>The reverse failure is more common than agencies expect. Operational information lives only on a screen: an arrow, an exit number, a &quot;see staff&quot; note, a temporary platform change. If it is not in the audio, the rider cannot reach it. Give every visual element that carries operational meaning an audio equivalent, and never let the audio say &quot;as shown on the display.&quot;</p>
+<h3 id="hearing-loops-and-assisted-listening">Hearing loops and assisted listening</h3>
+<p>A loop or telecoil feed is often patched from a different source than the PA, sometimes from a microphone that picks up only live announcements in the majority language, so localized audio never reaches hearing aid users. Confirm that the assistive feed carries the same localized program as the PA at the same moment, and test it with a receiver rather than a signal light.</p>
+<h3 id="neither-channel-is-a-fallback-for-the-other">Neither channel is a fallback for the other</h3>
+<p>Using audio to cover a broken screen, or a screen to cover a broken PA, fails the rider who depends on the missing channel. Both channels should carry the message independently, in a form complete enough to act on.</p>
+<h2 id="one-voice-across-the-network">One voice across the network</h2>
+<h3 id="consistency-is-functional-not-decorative">Consistency is functional, not decorative</h3>
+<p>Riders learn to filter. Advertising, ambient conversation, and unrelated audio get tuned out; a known system voice gets attention. A network with a different voice per line, or a synthesized voice that changes character between messages, loses that filter and with it the ability to cut through platform noise.</p>
+<h3 id="matching-one-voice-across-many-languages">Matching one voice across many languages</h3>
+<p>The traditional route is a voice actor per language, matched in timbre and delivery against a style guide covering pace, pitch range, numeral reading, and name pronunciation. Matching is difficult, and it drifts as actors are replaced.</p>
+<h3 id="cloning-the-system-voice">Cloning the system voice</h3>
+<p>Voice cloning with the speaker&#39;s written authorization lets the recognizable system voice speak languages the original speaker does not, and produce new disruption lines without a studio session. For a network of any size it is the practical way to hold one identity. Two rules apply. Secure written authorization defining scope, term, and what happens to the voice asset when the speaker leaves the organization, before any recording is used. Then audit the output on fragile strings: numerals, platform designators, and station names, where prosody flattens easily and a misread digit is the difference between two platforms. The <a href="/features/speech-generation">speech generation tooling</a> handles synthesis; the string audit is the agency&#39;s job.</p>
+<h3 id="live-staff-announcements">Live staff announcements</h3>
+<p>When an operator speaks live, the pattern breaks and riders notice. Provide short scripted lines on a card for each supported language, keep the phrasing identical to the recorded version, and treat the live announcement as a supplement rather than a replacement.</p>
+<h2 id="pre-recorded-library-versus-generated-announcements">Pre-recorded library versus generated announcements</h2>
+<h3 id="what-belongs-in-the-library">What belongs in the library</h3>
+<p>Routine announcements, enumerated emergency messages, station names in context, and the fixed template for each disruption class. Library content is verified once per language and reused, the only reliable way to guarantee a native speaker has heard a sentence before it airs, and it adds no latency at the moment of use.</p>
+<h3 id="what-has-to-be-generated">What has to be generated</h3>
+<p>Variable content: the station closed today, the platform change, the elevator outage at one stop, the expected duration. These combinations are effectively unlimited and cannot be pre-recorded. Generate them from reviewed templates and a controlled variable list, in the same voice as the library, so the seams are not audible.</p>
+<h3 id="keep-the-latency-measurement-honest">Keep the latency measurement honest</h3>
+<p>A disruption announcement has value in the first few minutes and very little after that. Measure the interval from incident to audio playing in the station, and count the human approval step inside it: a pipeline that generates in seconds but waits nine minutes for sign-off has a nine-minute latency. Where alerts originate in an upstream control or service system, an API integration is usually the difference between an automatic announcement and a copy-paste; the integration path is covered in the <a href="/docs">documentation</a>.</p>
+<h2 id="test-on-the-platform-not-in-the-office">Test on the platform, not in the office</h2>
+<h3 id="choose-the-sites">Choose the sites</h3>
+<p>Pick one location per acoustic archetype: a deep tunnel platform, an open-air elevated station, a bus interior, and the busiest interchange. Add one quiet station as a control, because a message that only works in a quiet station has not been tested.</p>
+<h3 id="the-listening-pass">The listening pass</h3>
+<p>Run it in this order:</p>
+<ol><li>Assemble the test set: the shortest and longest routine messages, the longest disruption template in the slowest language, and every enumerated emergency message.</li><li>Play everything through the actual PA, in the actual station, at the ambient noise of a normal service period, not a speaker on a desk or a file over headphones.</li><li>Listen from several positions: under the speaker, at the far end of the platform, inside a stopped train with doors open, and beside the ticket machines where riders stand.</li><li>Use listeners who speak the target language natively and have not read the script. Measure comprehension by asking them to repeat the message, not whether they liked the voice.</li><li>Run screen and audio together in real timing, and check that they never contradict or describe different severities.</li><li>Log failures by category: mispronounced name, masked numeral, truncation by the door chime, stale audio, missing language, caption mismatch.</li><li>Fix and re-test. Any change to voice, text, timing, or station hardware invalidates the previous pass.</li></ol>
+<h3 id="sign-off-and-cadence">Sign-off and cadence</h3>
+<p>Sign-off should come from someone who heard the announcement on the platform: operations, the accessibility lead, and a native-speaker reviewer for each language. Re-run the pass before go-live, after any change to the voice or message set, and on a recurring schedule, because ambient noise changes with the seasons and with rolling stock. Office listening finds typos. Platform listening finds unintelligibility, and those are different defects with different fixes.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="how-many-languages-should-a-transit-announcement-carry-in-audio">How many languages should a transit announcement carry in audio?</h3>
+<p>As many as fit the shortest dwell time on the network without truncation, which is usually fewer than the languages the agency serves. Route the remainder to screens and apps, where there is no dwell-time cost.</p>
+<h3 id="should-station-names-be-translated">Should station names be translated?</h3>
+<p>Split them into three groups. Translate descriptors that carry meaning, such as Central, Airport, or University. Transliterate names with no semantic value. Never translate codes, line letters, exit numbers, or platform numbers.</p>
+<h3 id="can-a-synthesized-voice-be-used-for-emergency-announcements">Can a synthesized voice be used for emergency announcements?</h3>
+<p>No. Emergency messages should be pre-translated, pre-recorded, and reviewed by accessibility and legal staff in advance. Generation suits disruption content built from reviewed templates, where a mistake is far less costly.</p>
+<h3 id="how-do-we-stop-screens-and-audio-from-contradicting-each-other">How do we stop screens and audio from contradicting each other?</h3>
+<p>Generate both from one message record. Let the screen update first and the audio follow on the next cycle, and suppress stale audio rather than playing an old recording against a new display.</p>
+<h3 id="is-voice-cloning-allowed-for-a-transit-system-voice">Is voice cloning allowed for a transit system voice?</h3>
+<p>With written authorization from the speaker that defines the scope and term of use, it is a normal production arrangement. Document what happens to the voice asset when the speaker leaves the organization before anything is recorded.</p>
+<h3 id="what-is-the-most-common-failure-in-practice">What is the most common failure in practice?</h3>
+<p>Numbers and negations surviving the PA. Masked numerals, &quot;does not stop&quot; heard as &quot;stops,&quot; and station names pronounced in a way no local recognizes account for most comprehension failures.</p>
+<h3 id="how-often-should-announcements-be-re-tested-on-site">How often should announcements be re-tested on site?</h3>
+<p>Before go-live, after any change to voice, text, timing, or station hardware, and on a recurring schedule, because ambient noise and rolling stock change over time.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Start with the class that carries the liability. Before expanding language coverage anywhere, confirm that every enumerated emergency message exists as a reviewed, pre-recorded asset in each language you claim to support, and that disruption templates are structured so a station name can be swapped without re-recording a sentence. Routine announcements can follow, since they are the least risky and the easiest to correct later.</p>
+<p>Then run one honest test. Pick a single busy station and one disruption message in three languages, and take it to the platform with native-speaker listeners who have not seen the script. If the message survives the noise and matches the screen, the pipeline scales. If it does not, added languages will not fix it.</p>
+<p>If you are planning a rollout and want to work through the template structure, the name and pronunciation lexicon, or the voice authorization workflow before recording the first line, <a href="/contact">get in touch with the team</a>. Building the string database first is considerably cheaper than re-recording a library after the script turns out to be wrong.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpublic-transit-announcement-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpublic-transit-announcement-translation&amp;text=Transit%20Announcement%20Translation%3A%20Multilingual%20Audio%20and%20Screens%20That%20Work" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpublic-transit-announcement-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/accessibility">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/subtitle-positioning-and-overlap" aria-label="Read Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/condensing-particle-frame.png" alt="Dark glass layers with floating subtitle bars avoiding a face, graphic, and caption block" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions</h2><p class="blog-card-description">Subtitle positioning is a deliberate choice, not a default. This practical guide shows how to place captions around graphics, faces, lower thirds, and player controls across broadcast, mobile, social, and vertical video so text stays readable.</p>
+      <time class="blog-card-date" datetime="2026-09-08T16:30:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-transcripts-seo-and-accessibility" aria-label="Read Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/edition-glass-spreads.png" alt="Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once</h2><p class="blog-card-description">Most teams treat the transcript as a byproduct of captioning. It is closer to the single most valuable asset your video program produces.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/caption-accuracy-regulatory-standards" aria-label="Read Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gauge-glass-dials.jpg" alt="Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks</h2><p class="blog-card-description">WCAG says captions must be accurate. Broadcast regulators actually define what accuracy means, in numbers, and audit against it.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,755 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust | Octavia</title>
+    <meta name="description" content="Learn how number and date localization in subtitles prevents costly trust breaks, with practical rules for separators, units, QA, and review.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/numbers-dates-units-in-subtitles">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust">
+    <meta property="og:description" content="Learn how number and date localization in subtitles prevents costly trust breaks, with practical rules for separators, units, QA, and review.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/numbers-dates-units-in-subtitles">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/classroom-glass-panes.jpg">
+    <meta property="article:published_time" content="2026-09-07T19:00:00Z">
+    <meta property="article:modified_time" content="2026-09-07T19:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust">
+    <meta name="twitter:description" content="Learn how number and date localization in subtitles prevents costly trust breaks, with practical rules for separators, units, QA, and review.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/classroom-glass-panes.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust","description":"Learn how number and date localization in subtitles prevents costly trust breaks, with practical rules for separators, units, QA, and review.","image":"https://octavia.lunartech.ai/assets/blog/images/classroom-glass-panes.jpg","datePublished":"2026-09-07T19:00:00Z","dateModified":"2026-09-07T19:00:00Z","wordCount":3175,"timeRequired":"PT15M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/numbers-dates-units-in-subtitles","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust","item":"https://octavia.lunartech.ai/blog/numbers-dates-units-in-subtitles"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust</h1><p class="article-deck">This guide explains how numbers, dates, and units break subtitle trust across markets, then gives editors and QA reviewers a repeatable system for catching errors. You get separator and unit rules, failure modes, and a spot-check method that works on a full deliverable without reading every cue.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-07T19:00:00Z">Sep 7, 2026</time><span class="article-meta-dot"></span><span>15 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/classroom-glass-panes.jpg" alt="Dark-glass abstract hero with subtitle lines, numeric glyphs, and decimal separator split" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#decimal-separators-and-digit-grouping-the-first-place-number-and-date-localization-in-subtitles-breaks">Decimal separators and digit grouping: the first place number and date localization in subtitles breaks</a></li><li><a class="toc-h3" data-toc-link href="#the-separator-inversion">The separator inversion</a></li><li><a class="toc-h3" data-toc-link href="#grouping-is-not-universal">Grouping is not universal</a></li><li><a class="toc-h3" data-toc-link href="#the-ambiguity-test">The ambiguity test</a></li><li><a class="toc-h2" data-toc-link href="#date-order-month-names-and-the-dates-that-are-genuinely-dangerous">Date order, month names, and the dates that are genuinely dangerous</a></li><li><a class="toc-h3" data-toc-link href="#order-conventions-and-the-ambiguous-middle">Order conventions and the ambiguous middle</a></li><li><a class="toc-h3" data-toc-link href="#where-an-ambiguous-date-is-dangerous">Where an ambiguous date is dangerous</a></li><li><a class="toc-h3" data-toc-link href="#month-names-ordinals-and-other-calendars">Month names, ordinals, and other calendars</a></li><li><a class="toc-h2" data-toc-link href="#clocks-time-zones-and-time-spoken-aloud">Clocks, time zones, and time spoken aloud</a></li><li><a class="toc-h3" data-toc-link href="#twelve-hour-and-twenty-four-hour-systems">Twelve-hour and twenty-four-hour systems</a></li><li><a class="toc-h3" data-toc-link href="#time-zones-spoken-aloud">Time zones spoken aloud</a></li><li><a class="toc-h3" data-toc-link href="#durations-and-the-colon">Durations and the colon</a></li><li><a class="toc-h2" data-toc-link href="#currency-symbol-placement-conversion-and-when-not-to-convert">Currency: symbol placement, conversion, and when not to convert</a></li><li><a class="toc-h3" data-toc-link href="#placement-spacing-and-shared-symbols">Placement, spacing, and shared symbols</a></li><li><a class="toc-h3" data-toc-link href="#when-conversion-helps-and-when-it-destroys">When conversion helps and when it destroys</a></li><li><a class="toc-h3" data-toc-link href="#working-currency-rules">Working currency rules</a></li><li><a class="toc-h2" data-toc-link href="#measurement-units-and-the-rounding-decision">Measurement units and the rounding decision</a></li><li><a class="toc-h3" data-toc-link href="#convert-or-leave-the-unit-alone">Convert or leave the unit alone</a></li><li><a class="toc-h3" data-toc-link href="#rounding-instead-of-precision">Rounding instead of precision</a></li><li><a class="toc-h2" data-toc-link href="#large-numbers-lakh-and-crore-and-scripts-with-their-own-digits">Large numbers, lakh and crore, and scripts with their own digits</a></li><li><a class="toc-h3" data-toc-link href="#short-scale-long-scale-and-the-word-billion">Short scale, long scale, and the word billion</a></li><li><a class="toc-h3" data-toc-link href="#the-indian-numbering-system">The Indian numbering system</a></li><li><a class="toc-h3" data-toc-link href="#scripts-with-their-own-digit-forms">Scripts with their own digit forms</a></li><li><a class="toc-h2" data-toc-link href="#percentages-ranges-ratios-and-how-they-are-read-aloud-in-a-dub">Percentages, ranges, ratios, and how they are read aloud in a dub</a></li><li><a class="toc-h3" data-toc-link href="#percentages-and-the-percentage-point-trap">Percentages and the percentage-point trap</a></li><li><a class="toc-h3" data-toc-link href="#ranges-spans-and-dashes">Ranges, spans, and dashes</a></li><li><a class="toc-h3" data-toc-link href="#ratios-and-odds">Ratios and odds</a></li><li><a class="toc-h2" data-toc-link href="#a-qa-rule-set-for-number-and-date-localization-in-subtitles">A QA rule set for number and date localization in subtitles</a></li><li><a class="toc-h3" data-toc-link href="#the-rules">The rules</a></li><li><a class="toc-h3" data-toc-link href="#severity-classes-and-the-spot-check-method">Severity classes and the spot-check method</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#why-is-1-500-more-dangerous-than-1234-567">Why is 1.500 more dangerous than 1234.567?</a></li><li><a class="toc-h3" data-toc-link href="#should-currency-be-converted-in-subtitles-at-all">Should currency be converted in subtitles at all?</a></li><li><a class="toc-h3" data-toc-link href="#how-should-an-ambiguous-date-be-handled-when-context-gives-nothing">How should an ambiguous date be handled when context gives nothing?</a></li><li><a class="toc-h3" data-toc-link href="#do-arabic-subtitles-need-arabic-indic-digits">Do Arabic subtitles need Arabic-Indic digits?</a></li><li><a class="toc-h3" data-toc-link href="#how-much-rounding-is-acceptable-in-a-converted-measurement">How much rounding is acceptable in a converted measurement?</a></li><li><a class="toc-h3" data-toc-link href="#can-automated-tooling-find-these-errors">Can automated tooling find these errors?</a></li><li><a class="toc-h3" data-toc-link href="#what-belongs-in-a-shared-style-sheet">What belongs in a shared style sheet?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A subtitle that renders 1.500 where the audience expects 1,500 carries a thousandfold error, and it passes every spell check, character limit, and reading-speed check in the pipeline. Numeric defects are the smallest class of localization error by character count and among the largest by consequence, because a viewer who catches one stops trusting the track.</p>
+<p>Numbers, dates, and units are compressed notation for conventions that differ between markets, and the compression is what makes them fragile. A decimal comma and a decimal point trade roles between English and most of continental Europe. A date written 04/05/2025 is two different days depending on where it is read. A billion is a different quantity in English and in French.</p>
+<p>This guide treats number and date localization in subtitles as a system rather than a list of trivia. Each section covers the mechanism, the failure mode, and the decision an editor or QA reviewer has to make, closing with a rule set and a spot-check method that can be applied to a full deliverable without reading every cue.</p>
+<h2 id="decimal-separators-and-digit-grouping-the-first-place-number-and-date-localization-in-subtitles-breaks">Decimal separators and digit grouping: the first place number and date localization in subtitles breaks</h2>
+<h3 id="the-separator-inversion">The separator inversion</h3>
+<p>English writes 1,234.56: comma for grouping, period for the decimal. German inverts both to 1.234,56, French uses a space and a comma, and Swiss German uses an apostrophe in 1&#39;234.56.</p>
+<p>A separator followed by three digits is dangerous. In English, 1.500 means one thousand five hundred; in German it means one and a half. Below one, en-US writes 0.5 where several locales write ,5, and the dropped zero can parse as a list item or a typo.</p>
+<h3 id="grouping-is-not-universal">Grouping is not universal</h3>
+<p>Three-digit grouping is a default, not a rule. Indian English groups the first three digits then pairs: 12,34,567. ISO and SI style prefer thin spaces, and Chinese and Japanese count in units of ten thousand, so the grouping rhythm is four digits.</p>
+<p>Negatives vary: English writes -5, accounting (5). In right-to-left scripts, a leading minus can render on the wrong side unless bidi-isolated, turning a debit into a credit.</p>
+<h3 id="the-ambiguity-test">The ambiguity test</h3>
+<p>For every numeric string, ask whether another convention would change the value. Only a few formats fail: a separator followed by three digits, a date with two components below thirteen, and a number word such as billion or crore. Extraction cannot resolve the ambiguous set, so review survives automation. Good <a href="/features/subtitle-translation">subtitle translation</a> work flags these classes before the language pass; the reviewer works from that list.</p>
+<h2 id="date-order-month-names-and-the-dates-that-are-genuinely-dangerous">Date order, month names, and the dates that are genuinely dangerous</h2>
+<h3 id="order-conventions-and-the-ambiguous-middle">Order conventions and the ambiguous middle</h3>
+<p>The United States writes month-day-year. Most of Europe, Latin America, Africa, and much of Asia write day-month-year. China, Japan, Korea, Hungary, and Sweden use year-month-day, matching ISO 8601. When both leading components are twelve or below, the string is genuinely ambiguous: 04/05/2025 is April 5 in one market and May 4 in another. A two-line subtitle offers nothing to disambiguate it.</p>
+<h3 id="where-an-ambiguous-date-is-dangerous">Where an ambiguous date is dangerous</h3>
+<p>Most date confusion is cosmetic. These categories are not, and they justify spelling the month regardless of house convention:</p>
+<ul><li>Statutory and contractual deadlines, filing windows, visa validity, notice periods</li><li>Travel dates on itineraries, boarding passes, and check-in captions</li><li>Medical schedules, dosage intervals, and appointment reminders</li><li>Release, embargo, expiry, and renewal dates</li><li>Payroll, settlement, and billing dates</li><li>Any date inside a safety instruction or legal disclosure</li></ul>
+<p>For these, write &quot;May 4, 2025&quot; or &quot;4 May 2025&quot; as the target locale requires; where the audience accepts ISO form, 2025-05-04 removes the ambiguity outright. Spelling the month costs roughly eight characters on one cue. Getting it wrong costs a missed deadline or a missed flight, and no reviewer catches it later, because the subtitle looks correct in both readings.</p>
+<h3 id="month-names-ordinals-and-other-calendars">Month names, ordinals, and other calendars</h3>
+<p>Abbreviations are locale-specific: Jan, Ene, janv., Gen., 1月. Slavic month names inflect, so the form used in a date differs from the form used in a heading, and a find-and-replace produces grammatically wrong output. Ordinal markers differ too: English 1st, French 1er, Spanish 1.º, German 1 followed by a period that is not stray punctuation.</p>
+<p>Non-Gregorian calendars appear in real deliverables. Thai Buddhist Era years run 543 ahead of the Gregorian count, so a production for a Thai audience may legitimately show a year in the 2500s. Taiwan&#39;s Minguo calendar counts from 1912, Japanese era names sit alongside Gregorian years in broadcast, and Hijri dates are lunar and do not map by a fixed offset. Normalizing all of these to the Gregorian calendar can be technically defensible and culturally wrong. Decide per deliverable, then confirm the export path preserves the formatted artifact that reaches the encoder, since not every <a href="/features/subtitle-generation">subtitle generation</a> pipeline handles non-Gregorian strings the same way.</p>
+<h2 id="clocks-time-zones-and-time-spoken-aloud">Clocks, time zones, and time spoken aloud</h2>
+<h3 id="twelve-hour-and-twenty-four-hour-systems">Twelve-hour and twenty-four-hour systems</h3>
+<p>American broadcasting uses twelve-hour with a.m. and p.m. Most of Europe, Latin America, aviation, and military contexts use twenty-four-hour notation; Japan uses it widely. Rendering 21:00 as &quot;9 p.m.&quot; is correct for a US audience and wrong for a German one—the source convention leaking into the target.</p>
+<p>&quot;Half&quot; constructions survive careful editing. English &quot;half seven&quot; means 7:30; German &quot;halb sieben&quot; means 6:30, as does Dutch. In dubs or synthesized tracks, avoid the construction and write digits.</p>
+<h3 id="time-zones-spoken-aloud">Time zones spoken aloud</h3>
+<p>&quot;Three o&#39;clock Eastern&quot; is underspecified for roughly half the year, because Eastern Standard and Eastern Daylight differ by an hour. A caption for an event needs the zone named unambiguously, with an offset, a context-dated abbreviation, or both. UTC is an offset standard, not a time zone, so treating it as GMT introduces inaccuracy.</p>
+<p>Offsets are not all whole hours: India UTC+5:30, Nepal UTC+5:45, parts of Australia UTC+9:30. Daylight transitions duplicate an hour in autumn and remove one in spring, affecting scheduling and live programming. For live captions, give absolute and local time together.</p>
+<h3 id="durations-and-the-colon">Durations and the colon</h3>
+<p>A colon can be a clock time or a duration: &quot;1:30&quot; is either half past one or ninety minutes. In locales where the colon is a decimal separator, it can read as 1.3. Write durations as &quot;1 hr 30 min&quot; or &quot;90 minutes&quot; where confusion is possible; never let source timecode reach subtitle text. <a href="/features/audio-translation">Audio translation</a> workflows producing a spoken track face the same constraint, because a performer reading &quot;1:30&quot; commits to one interpretation throughout.</p>
+<h2 id="currency-symbol-placement-conversion-and-when-not-to-convert">Currency: symbol placement, conversion, and when not to convert</h2>
+<h3 id="placement-spacing-and-shared-symbols">Placement, spacing, and shared symbols</h3>
+<p>Symbol placement is a locale setting: the United States writes $5, most of Europe 5 €, Japan ¥5, Poland 5 zł. Wrong placement is visible but rarely dangerous. Shared symbols are common: the dollar sign covers the United States, Canada, Australia, and more, so write USD, CAD, or AUD where a figure could be misattributed. Check minor units: yen has no practical subdivision, so ¥1,200 should not become ¥1,200.00; currencies with three decimals should not be truncated to two.</p>
+<h3 id="when-conversion-helps-and-when-it-destroys">When conversion helps and when it destroys</h3>
+<p>Convert when the number is contextual and the audience needs scale. Do not convert in dialogue subtitles: the audio says the original figure, and a subtitle showing a different number contradicts it. Do not convert anything transactional, contractual, or regulatory, because the converted number is not the governing number.</p>
+<p>Conversion has a shelf life. A figure accurate at translation drifts as markets move, while video is long-lived. An unmarked conversion becomes a stale claim nobody corrects. A marked conversion, with rate and date, records what was true when the work was done.</p>
+<h3 id="working-currency-rules">Working currency rules</h3>
+<ul><li>Dialogue: keep currency and amount as spoken, in the audience&#39;s numeral convention.</li><li>Captions and graphics: convert only when marked, with rate and date, or approximate.</li><li>Contracts, salaries, prices, fines, tax figures: never convert or round.</li><li>Rhetorical amounts: &quot;a million dollars&quot; is emphasis, not data; conversion strips it.</li><li>Zero-decimal currencies: omit decimals rather than pad them.</li></ul>
+<h2 id="measurement-units-and-the-rounding-decision">Measurement units and the rounding decision</h2>
+<h3 id="convert-or-leave-the-unit-alone">Convert or leave the unit alone</h3>
+<p>Conversion is not always right. A twelve-inch pizza is a product name; a six-foot fence is a description. The test is whether the number identifies or measures. Identifiers stay; measurements convert, with a gloss rather than a replacement.</p>
+<p>Some units have no clean equivalent. Cups and sticks of butter convert to grams only under assumptions about density, producing false precision in a recipe. Stone is standard in the UK and Ireland but meaningless elsewhere. A US gallon and an imperial gallon differ by roughly a fifth. Ton has three units: US short ton, UK long ton, metric tonne. Fuel economy is harder: miles per gallon and liters per 100 kilometers run opposite, so larger numbers mean better economy in one and worse in the other.</p>
+<h3 id="rounding-instead-of-precision">Rounding instead of precision</h3>
+<p>A source saying &quot;about twenty miles&quot; does not license &quot;32.1869 kilometers&quot;. Match its significant figures, or reduce them. Extra precision implies accuracy that does not exist and reads as machine output.</p>
+<p>Rounding breaks exact equality; sometimes that is correct. A fever threshold of 100.4 °F maps to 38 °C, the figure a metric-market clinician recognizes; 38.0 °C is a different statement. Speed limits, blood alcohol limits, and safety margins are legislated as round local numbers, so use the local legal figure, not a converted approximation. Where no recognized local equivalent exists, mark the figure approximate. At</p>
+<h2 id="large-numbers-lakh-and-crore-and-scripts-with-their-own-digits">Large numbers, lakh and crore, and scripts with their own digits</h2>
+<h3 id="short-scale-long-scale-and-the-word-billion">Short scale, long scale, and the word billion</h3>
+<p>English uses the short scale: billion is 10^9, trillion is 10^12. French uses billion for 10^12 and milliard for 10^9. Spanish expresses 10^9 as mil millones and reserves billón for 10^12. Rendering &quot;billion&quot; as the cognate overstates the quantity by a factor of a thousand, and the reverse direction is equally wrong. A terminology database should carry per-locale entries for million, billion, and trillion with the exponent stated, not just the word.</p>
+<h3 id="the-indian-numbering-system">The Indian numbering system</h3>
+<p>Lakh is 100,000. Crore is 10,000,000, or one hundred lakh. Arab, less common in speech but frequent in finance and news, is 1,000,000,000, or one hundred crore. Hindi and other South Asian languages use these words as ordinary vocabulary, and Indian English subtitles leave them untranslated. Grouping follows the same system: 12,34,567, not 1,234,567.</p>
+<p>The decision is audience-based. A domestic audience hearing &quot;two crore&quot; should read two crore. An international audience needs twenty million if the figure is informational. If the figure is rhetorical, keep the speaker&#39;s form; converting it produces a subtitle that is arithmetically correct and rhetorically dead.</p>
+<h3 id="scripts-with-their-own-digit-forms">Scripts with their own digit forms</h3>
+<p>Arabic-Indic digits ٠١٢٣٤٥٦٧٨٩ are standard across much of the Arab world, and Persian, Urdu, and Pashto use extended forms ۰۱۲۳۴۵۶۷۸۹. Devanagari digits ० to ९ appear in Hindi, Marathi, and Nepali, and Bengali, Tamil, Thai, Burmese, Khmer, and Lao each maintain their own sets. Japanese and Korean use Western digits in most modern contexts while retaining kanji numerals in formal settings. Broadcast style guides often override the language default: Arabic-language news subtitles frequently use Western digits for legibility and font coverage even where print publications use Arabic-Indic. The deciding document is the outlet&#39;s style guide, not the script&#39;s historical form.</p>
+<p>Two technical failures sit underneath. Bidirectional text can reorder punctuation around a number, so digit sequences embedded in Arabic or Hebrew need bidi isolation. Font fallback can substitute a missing glyph, which renders as a box in the burned-in video even though the text file contains the right character. Both are render-time defects, so check a frame of burned-in video for every locale that uses a non-Latin digit set.</p>
+<h2 id="percentages-ranges-ratios-and-how-they-are-read-aloud-in-a-dub">Percentages, ranges, ratios, and how they are read aloud in a dub</h2>
+<h3 id="percentages-and-the-percentage-point-trap">Percentages and the percentage-point trap</h3>
+<p>Percentage spacing varies: English writes 12%, French inserts a space, 12 %. Either is defensible if internally consistent. A change from 4% to 6% is two percentage points, also a fifty percent relative increase. Rendering one as the other misstates the data, and a dubbed track will speak the wrong claim confidently, since the performer cannot know the subtitle was wrong.</p>
+<p>Spoken forms add a layer written subtitles do not face. &quot;Up five percent&quot; and &quot;up five points&quot; are different claims, and a script rendering both as 5% erases the distinction. Basis points are worse: 100 basis points is 1%, so &quot;100 bp&quot; read as a percentage is off by two orders of magnitude. If the speaker said basis points, keep the words. Building the spoken track through <a href="/features/subtitle-to-audio">subtitle-to-audio</a> from the same approved text keeps the artifacts aligned.</p>
+<h3 id="ranges-spans-and-dashes">Ranges, spans, and dashes</h3>
+<p>Ranges use a dash, an en dash, or the words &quot;to&quot; and &quot;and&quot;. An en dash at small size can read as a minus sign, so &quot;1–3&quot; and &quot;1-3&quot; are fragile. In subtitles, prefer the spoken form: &quot;ten to fifteen percent&quot;. It removes ambiguity and lets a performer read it without deciding which mark is on the page.</p>
+<p>Open-ended ranges follow conventions: 10+, up to 50, 50 and above. Date spans crossing a year boundary read more clearly with both years written out. Some locales repeat the unit on both ends, some do not—a style-sheet decision, not a translation one.</p>
+<h3 id="ratios-and-odds">Ratios and odds</h3>
+<p>Ratios are written with a colon: 3:1, 16:9. Where the colon is a decimal separator, 1:5 can be misread as 1.5. For mixed audiences, write &quot;three to one&quot;.</p>
+<p>Odds are a separate hazard. Bookmaker odds of 3:1 and a probability of 3:1 describe different things, and markets use each convention without labels. Follow the local sports style guide rather than translating notation, and never silently convert one into the other. Scores use a dash, not a ratio; set as a ratio, a score reads as a comparison, not a result. IP addresses, phone numbers, and version strings look like ratios; carry them through verbatim.</p>
+<h2 id="a-qa-rule-set-for-number-and-date-localization-in-subtitles">A QA rule set for number and date localization in subtitles</h2>
+<h3 id="the-rules">The rules</h3>
+<ol><li>Write the locale pair&#39;s conventions on the work order before touching a cue: decimal symbol, grouping symbol, date order, clock system, currency placement.</li><li>Extract every numeric string. Separators followed by three digits, two-component dates below thirteen, and number words such as billion get individual review.</li><li>Resolve every date against context. If context does not resolve it, spell the month.</li><li>Read every colon-bearing value twice, once as a clock and once as a duration.</li><li>Treat currency as unconvertible unless the style sheet names the exception and the rate date.</li><li>Match the source&#39;s significant figures on any converted measurement, then reduce if the audience uses a rounder local figure.</li><li>Check the burned-in video, not the text file, for every locale with a non-Latin digit set.</li><li>Record every judgment call in one shared style sheet. A convention kept in a reviewer&#39;s head is lost at the next handoff.</li></ol>
+<h3 id="severity-classes-and-the-spot-check-method">Severity classes and the spot-check method</h3>
+<p>Not every numeric defect deserves the same response. Classify them so the fix pass has an order.</p>
+<ul><li>Blocking: a wrong day, a thousandfold magnitude error, a currency mismatch, or a time that contradicts the audio.</li><li>Major: an inconsistent separator within one deliverable, a clock system that does not match the target market, or a converted threshold that no longer matches the local legal figure.</li><li>Minor: spacing before a percent sign, symbol placement, or a grouping choice that is internally consistent but differs from a house preference.</li></ul>
+<p>For the spot check, work in a fixed sequence:</p>
+<ol><li>Segment the deliverable into blocks of roughly one hundred cues.</li><li>Run the numeric extraction over the whole file, which takes minutes and requires no reading.</li><li>Sample ten percent of the blocks, plus the first cue of every scene, since scene starts carry the highest density of on-screen dates and figures.</li><li>Review every cue in the flagged set, and the first and last cue of each block whether or not it was flagged.</li><li>Log each finding by severity and locale, then read the log rather than the subtitles when deciding whether the next deliverable needs a heavier pass.</li></ol>
+<p>Two consecutive clean blocks at blocking severity is a reasonable signal to move from full review to sampling. One blocking finding resets the count.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="why-is-1-500-more-dangerous-than-1234-567">Why is 1.500 more dangerous than 1234.567?</h3>
+<p>The glyph string is valid in two conventions, meaning different quantities. A separator followed by exactly three digits lets both readings survive a reader&#39;s habits; consistency cannot resolve it.</p>
+<h3 id="should-currency-be-converted-in-subtitles-at-all">Should currency be converted in subtitles at all?</h3>
+<p>In dialogue, no: audio and converted subtitle conflict. In captions and graphics, conversion is acceptable if rate and date are marked; avoid it for contractual, regulatory, or transactional.</p>
+<h3 id="how-should-an-ambiguous-date-be-handled-when-context-gives-nothing">How should an ambiguous date be handled when context gives nothing?</h3>
+<p>Spell the month: &quot;May 4&quot; or &quot;4 May&quot; removes the ambiguity. Where ISO form is accepted, the year-first format does the same.</p>
+<h3 id="do-arabic-subtitles-need-arabic-indic-digits">Do Arabic subtitles need Arabic-Indic digits?</h3>
+<p>Not by default. Broadcast style in the Arab world uses Western digits for legibility; print uses Arabic-Indic forms. The outlet&#39;s style guide decides.</p>
+<h3 id="how-much-rounding-is-acceptable-in-a-converted-measurement">How much rounding is acceptable in a converted measurement?</h3>
+<p>Match source precision or reduce it. &quot;About twenty miles&quot; cannot support four decimal places; a legislated round number should use that number.</p>
+<h3 id="can-automated-tooling-find-these-errors">Can automated tooling find these errors?</h3>
+<p>It can extract numeric strings and flag ambiguous formats. It cannot decide if a date is a deadline, a figure rhetorical, or the audience expects lakh or million.</p>
+<h3 id="what-belongs-in-a-shared-style-sheet">What belongs in a shared style sheet?</h3>
+<p>Locale pair&#39;s decimal and grouping symbols, date order, clock system, currency placement, conversion policy with rate dates, unit policy, and figures never to be converted.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Number and date localization in subtitles is not a matter of learning every convention. It is a matter of identifying the small set of formats where a wrong reading is possible and treating those as blocking defects rather than cosmetic ones. Separators followed by three digits, two-component dates below thirteen, number words such as billion, colon-bearing time values, and unconverted currency are the whole list. Everything else can be settled by a style sheet and a consistency check.</p>
+<p>The practical next step is to write that style sheet before the next deliverable, not after the first review round. Put the locale pair&#39;s decimal symbol, date order, clock system, currency policy, and rounding rule on one page, add the eight rules above as the reviewer&#39;s checklist, and keep the severity classes so a fix pass has an order. If a locale pair is new to the team, <a href="/contact">contact</a> the localization lead before the first episode rather than at delivery.</p>
+<p>Run the extraction, sample the blocks, log findings by severity, and carry the log into the next episode. That sequence takes less time than reading the deliverable twice, and it catches the failures a careful read-through misses precisely because the wrong number looks right.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fnumbers-dates-units-in-subtitles" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fnumbers-dates-units-in-subtitles&amp;text=Numbers%2C%20Dates%2C%20and%20Units%20in%20Subtitles%3A%20Localization%20Details%20That%20Break%20Trust" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fnumbers-dates-units-in-subtitles" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/audio-ducking-for-dubbed-video" aria-label="Read Audio Ducking in Dubbing: Balancing Voice, Music, and Effects"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Abstract dark-glass panels with waveforms and fader lines for dubbing." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Audio Ducking in Dubbing: Balancing Voice, Music, and Effects</h2><p class="blog-card-description">This guide explains how to rebuild the balance between dubbed dialogue, music, and effects. You will learn when a static offset beats a dynamic envelope, how attack and release shape artifacts, and what stems and normalization make possible.</p>
+      <time class="blog-card-date" datetime="2026-09-08T19:00:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/code-switching-in-video-translation" aria-label="Read Code-Switching in Video Translation: When Speakers Mix Languages"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/clinical-glass-lattice.png" alt="Dark glass layers with overlapping language fragments and glowing translation paths." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Code-Switching in Video Translation: When Speakers Mix Languages</h2><p class="blog-card-description">Learn why single-language pipelines fail when speakers mix languages, how code-switching carries meaning that gets lost, and what practical steps keep bilingual video translation accurate and usable. See how to detect mixed-language segments and preserve speaker intent.</p>
+      <time class="blog-card-date" datetime="2026-09-08T11:30:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/pronunciation-dictionaries-for-dubbing" aria-label="Read Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/civic-glass-arches.jpg" alt="abstract dark-glass hero image of layered waveform and phonetic symbols" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right</h2><p class="blog-card-description">Learn how to treat a pronunciation dictionary for dubbing as a versioned production artifact. The guide covers entry design, phonetic notation, per-language variants, ownership, review, and testing to stop recurring name errors.</p>
+      <time class="blog-card-date" datetime="2026-09-07T16:30:00Z">Sep 7, 2026 · 13 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

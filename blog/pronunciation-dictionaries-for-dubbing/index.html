@@ -1,0 +1,746 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right | Octavia</title>
+    <meta name="description" content="A pronunciation dictionary for dubbing keeps names and terms consistent across languages, voices, and episodes. Learn to build and maintain one.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/pronunciation-dictionaries-for-dubbing">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right">
+    <meta property="og:description" content="A pronunciation dictionary for dubbing keeps names and terms consistent across languages, voices, and episodes. Learn to build and maintain one.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/pronunciation-dictionaries-for-dubbing">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/civic-glass-arches.jpg">
+    <meta property="article:published_time" content="2026-09-07T16:30:00Z">
+    <meta property="article:modified_time" content="2026-09-07T16:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right">
+    <meta name="twitter:description" content="A pronunciation dictionary for dubbing keeps names and terms consistent across languages, voices, and episodes. Learn to build and maintain one.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/civic-glass-arches.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right","description":"A pronunciation dictionary for dubbing keeps names and terms consistent across languages, voices, and episodes. Learn to build and maintain one.","image":"https://octavia.lunartech.ai/assets/blog/images/civic-glass-arches.jpg","datePublished":"2026-09-07T16:30:00Z","dateModified":"2026-09-07T16:30:00Z","wordCount":2741,"timeRequired":"PT13M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/pronunciation-dictionaries-for-dubbing","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right","item":"https://octavia.lunartech.ai/blog/pronunciation-dictionaries-for-dubbing"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right</h1><p class="article-deck">Learn how to treat a pronunciation dictionary for dubbing as a versioned production artifact. The guide covers entry design, phonetic notation, per-language variants, ownership, review, and testing to stop recurring name errors.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-07T16:30:00Z">Sep 7, 2026</time><span class="article-meta-dot"></span><span>13 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/civic-glass-arches.jpg" alt="abstract dark-glass hero image of layered waveform and phonetic symbols" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-belongs-in-a-pronunciation-dictionary-for-dubbing">What belongs in a pronunciation dictionary for dubbing</a></li><li><a class="toc-h3" data-toc-link href="#the-categories-worth-an-entry">The categories worth an entry</a></li><li><a class="toc-h3" data-toc-link href="#what-does-not-belong">What does not belong</a></li><li><a class="toc-h2" data-toc-link href="#choosing-a-notation-precision-against-maintainability">Choosing a notation: precision against maintainability</a></li><li><a class="toc-h3" data-toc-link href="#phonetic-notation">Phonetic notation</a></li><li><a class="toc-h3" data-toc-link href="#plain-respelling">Plain respelling</a></li><li><a class="toc-h3" data-toc-link href="#a-convention-that-holds-up">A convention that holds up</a></li><li><a class="toc-h2" data-toc-link href="#per-language-entries-one-name-several-pronunciations">Per-language entries: one name, several pronunciations</a></li><li><a class="toc-h3" data-toc-link href="#native-pronunciation-against-target-language-adaptation">Native pronunciation against target-language adaptation</a></li><li><a class="toc-h3" data-toc-link href="#acronyms-that-behave-differently-per-language">Acronyms that behave differently per language</a></li><li><a class="toc-h3" data-toc-link href="#numbers-dates-and-units">Numbers, dates, and units</a></li><li><a class="toc-h2" data-toc-link href="#resolving-conflicts-with-ordinary-words">Resolving conflicts with ordinary words</a></li><li><a class="toc-h3" data-toc-link href="#diagnose-before-you-patch">Diagnose before you patch</a></li><li><a class="toc-h3" data-toc-link href="#three-resolutions-in-order-of-preference">Three resolutions, in order of preference</a></li><li><a class="toc-h2" data-toc-link href="#testing-a-pronunciation-dictionary-for-dubbing-entry-before-a-full-render">Testing a pronunciation dictionary for dubbing entry before a full render</a></li><li><a class="toc-h3" data-toc-link href="#the-short-probe">The short probe</a></li><li><a class="toc-h3" data-toc-link href="#what-to-listen-for">What to listen for</a></li><li><a class="toc-h3" data-toc-link href="#record-the-verdict-with-the-entry">Record the verdict with the entry</a></li><li><a class="toc-h2" data-toc-link href="#ownership-review-and-change-control">Ownership, review, and change control</a></li><li><a class="toc-h3" data-toc-link href="#who-owns-it">Who owns it</a></li><li><a class="toc-h3" data-toc-link href="#change-control">Change control</a></li><li><a class="toc-h3" data-toc-link href="#deprecate-rather-than-delete">Deprecate rather than delete</a></li><li><a class="toc-h2" data-toc-link href="#making-a-batch-pipeline-inherit-the-dictionary">Making a batch pipeline inherit the dictionary</a></li><li><a class="toc-h3" data-toc-link href="#inheritance-and-overrides">Inheritance and overrides</a></li><li><a class="toc-h3" data-toc-link href="#validation-before-the-render">Validation before the render</a></li><li><a class="toc-h3" data-toc-link href="#version-the-dictionary-with-the-deliverable">Version the dictionary with the deliverable</a></li><li><a class="toc-h2" data-toc-link href="#a-starter-template-you-can-populate-in-an-afternoon">A starter template you can populate in an afternoon</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#how-large-should-a-pronunciation-dictionary-be">How large should a pronunciation dictionary be?</a></li><li><a class="toc-h3" data-toc-link href="#should-entries-be-shared-across-target-languages">Should entries be shared across target languages?</a></li><li><a class="toc-h3" data-toc-link href="#what-if-the-client-pronounces-a-name-inconsistently">What if the client pronounces a name inconsistently?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-ipa-at-all">Do I need IPA at all?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-i-handle-a-term-that-is-also-a-common-word">How do I handle a term that is also a common word?</a></li><li><a class="toc-h3" data-toc-link href="#who-should-approve-changes">Who should approve changes?</a></li><li><a class="toc-h3" data-toc-link href="#does-the-dictionary-affect-timing-in-a-lip-synced-dub">Does the dictionary affect timing in a lip-synced dub?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A viewer will forgive a slightly flat delivery, a minor timing drift, or a voice that sits a little lower in the mix than the original. They will not forgive the host mispronouncing the guest&#39;s name in the first ten seconds. Dubbing systems have become good at the broad strokes of a script: syntax, prosody, turn-taking, the shape of a sentence in a target language. The defects that still reach an audience are lexical, and they cluster around a small set of tokens the engine has never seen in context and has no reason to guess correctly.</p>
+<p>A producer who fixes those tokens one at a time, per episode, is doing work that evaporates when the job closes. A producer who maintains a pronunciation dictionary for dubbing is doing work that compounds. Every entry added this week is an error that cannot recur next month, in any target language, in any episode, for any voice the pipeline uses.</p>
+<p>This guide treats the dictionary as what it is: a versioned production artifact with an owner, a review process, and a test step. It covers what belongs in an entry and what does not, how to notate sounds without making the file unmaintainable, why one name needs different entries per target language, how to resolve collisions with ordinary words, how to validate an entry on a short sample before committing to a full render, and how to make every job in a batch inherit the current dictionary without an operator remembering to attach it.</p>
+<h2 id="what-belongs-in-a-pronunciation-dictionary-for-dubbing">What belongs in a pronunciation dictionary for dubbing</h2>
+<p>The dictionary is not a glossary. It holds no meanings, no translations, no style preferences. Each entry answers one narrow question: given this exact string in this exact target language, which sequence of sounds should the system produce?</p>
+<h3 id="the-categories-worth-an-entry">The categories worth an entry</h3>
+<p>Six categories account for nearly all audible defects in a <a href="/features/video-dubbing">video dubbing</a> pipeline:</p>
+<ul><li>Proper names of people, including presenters, interviewees, and anyone named in a credit sequence, plus any inflected form the script uses.</li><li>Organizations and brand names, especially names that were coined rather than derived, where spelling carries no pronunciation clue.</li><li>Place names: domestic places with irregular local pronunciations, and foreign places filtered through a target-language reading system.</li><li>Acronyms and initialisms, split into those read letter by letter and those read as a word, because the two need opposite treatment.</li><li>Product, model, and SKU terminology: part numbers, version strings, and internal codenames that appear in spoken lines.</li><li>Numbers in constrained formats: years, currency, measurements, and phone-like strings where the reading follows convention rather than digits.</li></ul>
+<h3 id="what-does-not-belong">What does not belong</h3>
+<p>Ordinary vocabulary needs no entry. If a common word is being misread, the cause is almost always a language or locale setting on the job, not a lexical gap, and adding it to the dictionary hides the real problem behind a patch that will never generalize. Slang, idiom, and register are style decisions made upstream in the script or in voice direction. Punctuation and pause behavior belong to the text normalization layer.</p>
+<p>Keep the file narrow. A dictionary with four hundred entries that are all genuinely irregular can be audited in an afternoon. A dictionary with four thousand entries, most of them compensating for a misconfigured job, cannot be audited at all.</p>
+<h2 id="choosing-a-notation-precision-against-maintainability">Choosing a notation: precision against maintainability</h2>
+<p>An entry has two halves: the match string, which is what the script contains, and the pronunciation, which is what the <a href="/features/speech-generation">speech generation</a> stage should produce. The second half is where teams argue.</p>
+<h3 id="phonetic-notation">Phonetic notation</h3>
+<p>The International Phonetic Alphabet is unambiguous and complete. X-SAMPA and ARPABET cover similar ground using ASCII, which matters when the dictionary lives in a repository where reviewers read it as a diff and non-ASCII characters attract encoding bugs. All three describe sound at a level of detail that many voice models do not independently expose, and all three require a reviewer who reads them fluently.</p>
+<p>The cost is not writing the first entry. It is reviewing the four hundredth, six months later, by a producer without phonetic training. A dictionary nobody dares edit decays into a list of exceptions everyone routes around.</p>
+<h3 id="plain-respelling">Plain respelling</h3>
+<p>Respelling uses the orthography of the target language to approximate the sound: &quot;KOV-uh-nen&quot;, &quot;shuh-NEL&quot;. Anyone on the team can read it, it survives copy-paste between tools, and it is fast to write. Its weakness is that respelling is only as precise as the target language&#39;s spelling rules allow, and those rules are least reliable exactly where problems occur. English respelling is the worst offender, because English spelling maps to sound inconsistently.</p>
+<h3 id="a-convention-that-holds-up">A convention that holds up</h3>
+<p>Most production dictionaries work best as a two-tier file. The default tier is plain respelling, written by whoever owns the script, covering the large majority of entries. The second tier is reserved for names where respelling has been tried and failed, written in IPA by a reviewer qualified to do it. State the split in the file header so nobody has to guess which tier an entry belongs to. Whichever notation you choose, keep the pronunciation field inside the script of the target language, since mixing writing systems in one field is a common cause of silent render failures.</p>
+<h2 id="per-language-entries-one-name-several-pronunciations">Per-language entries: one name, several pronunciations</h2>
+<p>A name is not pronounced identically in every target language, and a single global entry guarantees errors in most of them.</p>
+<h3 id="native-pronunciation-against-target-language-adaptation">Native pronunciation against target-language adaptation</h3>
+<p>Two policies are defensible, and they produce different dictionaries. Under a native policy, a name is rendered as close to its source pronunciation as the target language&#39;s phonology permits. Under an assimilation policy, the name is rendered the way a fluent speaker of the target language would naturally say it, inside that language&#39;s own sound system. Broadcasters in most markets use assimilation for places and native for people; corporate communications usually want native for both. Decide the policy per category, write it down, then generate entries per language rather than sharing one. A dictionary with a single entry for a French city name is already wrong in half the languages you ship.</p>
+<h3 id="acronyms-that-behave-differently-per-language">Acronyms that behave differently per language</h3>
+<p>This case surprises teams more than any other. An initialism may be read letter by letter in one language and as a word in another, and the split is not always predictable.</p>
+<ul><li>In English, some well-known agency names are read as words and others are spelled out letter by letter.</li><li>In languages with different letter names, a string is read as a word only if it is pronounceable under local rules.</li><li>A product name that is an acronym in the source market may function as a brand word in a target market, spoken as a word by every customer there.</li></ul>
+<p>The entry must therefore be defined per target language even when the source string is identical, and it must state whether the engine should spell or say.</p>
+<h3 id="numbers-dates-and-units">Numbers, dates, and units</h3>
+<p>Numeric strings are read by convention, not by arithmetic. A four-digit year, a range, a version string, a price, and a measurement each have distinct readings, and the readings differ across languages. Most pipelines handle common number formats correctly by default. The entries worth writing are the exceptions: model numbers containing letters, dashed identifiers, and anything the script intends as digits rather than as a quantity.</p>
+<h2 id="resolving-conflicts-with-ordinary-words">Resolving conflicts with ordinary words</h2>
+<p>The most damaging entry class is the one that collides with an existing word. If a product line shares its name with a color, a global rule forcing the product reading corrupts every ordinary use of the color in the same script.</p>
+<h3 id="diagnose-before-you-patch">Diagnose before you patch</h3>
+<p>Confirm the miss is steady. Play three instances from different positions in a script. If the engine gets the word right sometimes, the problem is contextual handling rather than the lexicon, and a dictionary entry will overcorrect.</p>
+<h3 id="three-resolutions-in-order-of-preference">Three resolutions, in order of preference</h3>
+<ol><li>Define the entry at the narrowest scope the platform supports, using phrase-level match strings such as the two-word product name rather than the bare token.</li><li>Where the platform matches on an exact string only, add entries for the inflected and adjacent forms that actually occur in your scripts, and accept that the bare token stays unpinned.</li><li>Where neither is possible, move the problem into the script: use the full product name on first mention and keep bare uses out of spoken lines.</li></ol>
+<p>Renaming is the fourth option and often the correct one. If a term cannot be pinned without breaking an ordinary word, and the term sits in narrated copy a writer controls, a small wording change in the source costs less over time than a permanent maintenance liability.</p>
+<h2 id="testing-a-pronunciation-dictionary-for-dubbing-entry-before-a-full-render">Testing a pronunciation dictionary for dubbing entry before a full render</h2>
+<p>Never apply a new entry to a full episode as its first test. A render that takes an hour to expose a bad entry costs that hour plus a re-render, and across a series with many episodes in flight the cost multiplies quickly.</p>
+<h3 id="the-short-probe">The short probe</h3>
+<p>Generate a short sample containing the entry plus a control sentence. Ten to twenty seconds is enough. Include one instance of the target term and one sentence of surrounding natural speech, so you can hear whether the entry changes the delivery or the timing of adjacent words.</p>
+<h3 id="what-to-listen-for">What to listen for</h3>
+<ul><li>Segment accuracy: are the individual sounds the ones you wrote, or did the engine approximate them?</li><li>Stress placement: wrong stress is more noticeable than a wrong vowel, and it is the most common respelling error.</li><li>Duration: a respelled entry can stretch a word until it no longer fits the shot, which matters most in lip-synced work.</li><li>Prosody spillover: a forced pronunciation sometimes flattens the intonation of the following clause.</li></ul>
+<h3 id="record-the-verdict-with-the-entry">Record the verdict with the entry</h3>
+<p>Store the sample reference and a one-line verdict alongside the entry, in a comment or a neighboring field. When a reviewer asks six months from now whether an entry was checked, the answer should live in the file rather than in someone&#39;s memory.</p>
+<h2 id="ownership-review-and-change-control">Ownership, review, and change control</h2>
+<p>A dictionary without an owner becomes a shared folder of contradictions.</p>
+<h3 id="who-owns-it">Who owns it</h3>
+<p>One named owner, plus two supporting roles. The owner approves changes and is accountable for the file&#39;s coherence. A contributor, usually the localization engineer or script supervisor, adds entries as production surfaces them. A reviewer with phonetic competence adjudicates the small IPA tier. On a small team the owner and the reviewer may be the same person, but the accountability should still be written down.</p>
+<h3 id="change-control">Change control</h3>
+<p>Every entry carries at minimum an author, a date, and a reason. The reason field is what prevents the same term from being added twice with conflicting readings six months apart. Review on a fixed cadence rather than continuously: a monthly pass over newly added entries, and a quarterly pass that looks for duplicates, contradictions, and entries that no longer occur in any current script.</p>
+<h3 id="deprecate-rather-than-delete">Deprecate rather than delete</h3>
+<p>When a product line retires or a campaign ends, mark the entry inactive instead of removing it. Deletion destroys the record of a decision that may need revisiting, and it makes older deliverables impossible to reproduce against the dictionary version that produced them.</p>
+<h2 id="making-a-batch-pipeline-inherit-the-dictionary">Making a batch pipeline inherit the dictionary</h2>
+<p>The dictionary pays off only when it applies automatically. If an operator has to remember to attach it, it will be attached inconsistently.</p>
+<h3 id="inheritance-and-overrides">Inheritance and overrides</h3>
+<p>Attach the dictionary at the project or organization level so every job inherits it, and allow job-level overrides for one-off work such as a guest voice or a single-title release. Keep the override surface small and log every use, because an override that persists is a dictionary change that never went through review.</p>
+<h3 id="validation-before-the-render">Validation before the render</h3>
+<p>Run a gate before synthesis that checks the file for structural problems: duplicate match strings within the same language, entries with an empty pronunciation field, mixed scripts inside a field, and entries whose match string never occurs in the current script. That last check is informational rather than blocking, but it shows which entries are dead weight.</p>
+<h3 id="version-the-dictionary-with-the-deliverable">Version the dictionary with the deliverable</h3>
+<p>Record the dictionary version in job metadata and ship it with the deliverable. When a client requests a change months later, a re-render against the same version produces the same output, and a diff between two versions explains exactly what changed. The request shape for attaching a dictionary, overriding at job level, and querying the version in use is covered in the <a href="/docs">platform documentation</a>. The same inheritance model applies whether the output is a full dubbed mix or a standalone <a href="/features/audio-translation">audio translation</a> delivered without video.</p>
+<h2 id="a-starter-template-you-can-populate-in-an-afternoon">A starter template you can populate in an afternoon</h2>
+<p>The goal is not completeness. It is a file that already covers the terms your next ten episodes will contain.</p>
+<ol><li>Pull the last three scripts the team produced and extract every capitalized token that is not sentence-initial, plus every all-caps token.</li><li>De-duplicate, then remove anything that is ordinary vocabulary in its target language.</li><li>Sort what remains into the six categories above.</li><li>Write a plain respelling entry for each term in every target language you ship, not only the source.</li><li>Mark acronyms explicitly as spelled or spoken, per language.</li><li>Run the short probe on the twenty entries most likely to be heard by an audience, and record each verdict.</li><li>Name an owner and a reviewer, and put the file under version control with authors and dates on every row.</li></ol>
+<p>Fields per entry: match string, target language, pronunciation, notation tier, category, status, author, date, reason, sample reference. Ten fields is enough. Anything beyond that tends to go unused, and unused fields decay first.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="how-large-should-a-pronunciation-dictionary-be">How large should a pronunciation dictionary be?</h3>
+<p>As small as possible while covering the terms that actually occur. A few hundred well-chosen entries for a long-running series is typical, and the count matters less than whether every entry is irregular enough to justify itself.</p>
+<h3 id="should-entries-be-shared-across-target-languages">Should entries be shared across target languages?</h3>
+<p>No. Share the source string, but define the pronunciation per target language, because letter names, stress rules, and adaptation conventions all differ.</p>
+<h3 id="what-if-the-client-pronounces-a-name-inconsistently">What if the client pronounces a name inconsistently?</h3>
+<p>Ask which form is authoritative and record the answer in the reason field. If the client genuinely alternates, pin the form used in the most prominent placement and treat the rest as acceptable variation.</p>
+<h3 id="do-i-need-ipa-at-all">Do I need IPA at all?</h3>
+<p>Only for the small tier of entries where respelling has demonstrably failed. Most teams run entirely on respelling and add IPA for a handful of names per language.</p>
+<h3 id="how-do-i-handle-a-term-that-is-also-a-common-word">How do I handle a term that is also a common word?</h3>
+<p>Narrow the match to a phrase, add entries for the forms that actually occur, or change the wording in the source. Do not force the reading on the bare token across an entire catalog.</p>
+<h3 id="who-should-approve-changes">Who should approve changes?</h3>
+<p>A single named owner, supported by a reviewer with phonetic competence. The owner&#39;s job is coherence, not volume.</p>
+<h3 id="does-the-dictionary-affect-timing-in-a-lip-synced-dub">Does the dictionary affect timing in a lip-synced dub?</h3>
+<p>It can. A forced pronunciation may run longer or shorter than the engine&#39;s default, so probe any entry destined for on-camera dialogue rather than assuming it fits.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Start with the last three scripts your team produced, not with an aspirational list of every term the organization uses. Extract the irregular tokens, write entries per target language, run the short probe on the twenty that reach an audience most often, and put the file under version control with an owner&#39;s name at the top. That is already a working pronunciation dictionary for dubbing, and it will prevent a meaningful share of the defects that currently make it into finished output.</p>
+<p>From there the discipline is maintenance rather than construction. Attach the file at the project level so every job inherits it, gate renders on a structural validation pass, and review new entries on a fixed cadence. Treat the dictionary as infrastructure rather than as a per-episode fix, and the cost of each new term drops toward zero.</p>
+<p>If the dictionary sits inside a pipeline you do not control, or if you need a reviewer with phonetic competence to sign off on the IPA tier, that is worth raising directly rather than working around. Bring the scripts and the current file, and <a href="/contact">talk to the Octavia team</a> about where the dictionary should live and who should own it.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpronunciation-dictionaries-for-dubbing" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpronunciation-dictionaries-for-dubbing&amp;text=Pronunciation%20Dictionaries%20for%20Dubbing%3A%20Getting%20Names%20and%20Terms%20Right" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fpronunciation-dictionaries-for-dubbing" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/audio-ducking-for-dubbed-video" aria-label="Read Audio Ducking in Dubbing: Balancing Voice, Music, and Effects"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Abstract dark-glass panels with waveforms and fader lines for dubbing." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Audio Ducking in Dubbing: Balancing Voice, Music, and Effects</h2><p class="blog-card-description">This guide explains how to rebuild the balance between dubbed dialogue, music, and effects. You will learn when a static offset beats a dynamic envelope, how attack and release shape artifacts, and what stems and normalization make possible.</p>
+      <time class="blog-card-date" datetime="2026-09-08T19:00:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/code-switching-in-video-translation" aria-label="Read Code-Switching in Video Translation: When Speakers Mix Languages"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/clinical-glass-lattice.png" alt="Dark glass layers with overlapping language fragments and glowing translation paths." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Code-Switching in Video Translation: When Speakers Mix Languages</h2><p class="blog-card-description">Learn why single-language pipelines fail when speakers mix languages, how code-switching carries meaning that gets lost, and what practical steps keep bilingual video translation accurate and usable. See how to detect mixed-language segments and preserve speaker intent.</p>
+      <time class="blog-card-date" datetime="2026-09-08T11:30:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/numbers-dates-units-in-subtitles" aria-label="Read Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/classroom-glass-panes.jpg" alt="Dark-glass abstract hero with subtitle lines, numeric glyphs, and decimal separator split" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust</h2><p class="blog-card-description">This guide explains how numbers, dates, and units break subtitle trust across markets, then gives editors and QA reviewers a repeatable system for catching errors. You get separator and unit rules, failure modes, and a spot-check method that works on a full deliverable without reading every cue.</p>
+      <time class="blog-card-date" datetime="2026-09-07T19:00:00Z">Sep 7, 2026 · 15 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

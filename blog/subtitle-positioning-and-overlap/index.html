@@ -1,0 +1,742 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions | Octavia</title>
+    <meta name="description" content="Learn how subtitle positioning prevents captions from covering graphics, faces, and lower thirds across mobile, social, and vertical video.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/subtitle-positioning-and-overlap">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions">
+    <meta property="og:description" content="Learn how subtitle positioning prevents captions from covering graphics, faces, and lower thirds across mobile, social, and vertical video.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/subtitle-positioning-and-overlap">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/condensing-particle-frame.png">
+    <meta property="article:published_time" content="2026-09-08T16:30:00Z">
+    <meta property="article:modified_time" content="2026-09-08T16:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions">
+    <meta name="twitter:description" content="Learn how subtitle positioning prevents captions from covering graphics, faces, and lower thirds across mobile, social, and vertical video.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/condensing-particle-frame.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions","description":"Learn how subtitle positioning prevents captions from covering graphics, faces, and lower thirds across mobile, social, and vertical video.","image":"https://octavia.lunartech.ai/assets/blog/images/condensing-particle-frame.png","datePublished":"2026-09-08T16:30:00Z","dateModified":"2026-09-08T16:30:00Z","wordCount":2951,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/subtitle-positioning-and-overlap","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions","item":"https://octavia.lunartech.ai/blog/subtitle-positioning-and-overlap"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/accessibility">Accessibility</a>
+        <h1 class="article-title">Subtitle Positioning: Avoiding Overlap With Graphics, Faces, and Captions</h1><p class="article-deck">Subtitle positioning is a deliberate choice, not a default. This practical guide shows how to place captions around graphics, faces, lower thirds, and player controls across broadcast, mobile, social, and vertical video so text stays readable.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-08T16:30:00Z">Sep 8, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/condensing-particle-frame.png" alt="Dark glass layers with floating subtitle bars avoiding a face, graphic, and caption block" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#where-the-bottom-center-default-breaks-down">Where the bottom-center default breaks down</a></li><li><a class="toc-h3" data-toc-link href="#the-assumptions-behind-the-default">The assumptions behind the default</a></li><li><a class="toc-h3" data-toc-link href="#when-the-lower-third-is-already-occupied">When the lower third is already occupied</a></li><li><a class="toc-h3" data-toc-link href="#the-cost-of-leaving-it-alone">The cost of leaving it alone</a></li><li><a class="toc-h2" data-toc-link href="#reading-the-frame-before-placing-a-cue">Reading the frame before placing a cue</a></li><li><a class="toc-h3" data-toc-link href="#protecting-the-mouth-and-eyes">Protecting the mouth and eyes</a></li><li><a class="toc-h3" data-toc-link href="#burned-in-graphics-versus-platform-overlays">Burned-in graphics versus platform overlays</a></li><li><a class="toc-h3" data-toc-link href="#action-that-matters-more-than-the-face">Action that matters more than the face</a></li><li><a class="toc-h2" data-toc-link href="#platform-chrome-aspect-ratios-and-safe-zones">Platform chrome, aspect ratios, and safe zones</a></li><li><a class="toc-h3" data-toc-link href="#the-mobile-lower-third">The mobile lower third</a></li><li><a class="toc-h3" data-toc-link href="#safe-zones-by-aspect-ratio">Safe zones by aspect ratio</a></li><li><a class="toc-h3" data-toc-link href="#one-master-many-crops">One master, many crops</a></li><li><a class="toc-h2" data-toc-link href="#line-breaking-line-count-and-placement">Line breaking, line count, and placement</a></li><li><a class="toc-h3" data-toc-link href="#reading-speed-sets-the-line-count">Reading speed sets the line count</a></li><li><a class="toc-h3" data-toc-link href="#where-the-line-break-falls">Where the line break falls</a></li><li><a class="toc-h3" data-toc-link href="#stability-across-cues">Stability across cues</a></li><li><a class="toc-h2" data-toc-link href="#speaker-identification-in-multi-speaker-scenes">Speaker identification in multi-speaker scenes</a></li><li><a class="toc-h3" data-toc-link href="#labels-dashes-and-color">Labels, dashes, and color</a></li><li><a class="toc-h3" data-toc-link href="#positional-attribution">Positional attribution</a></li><li><a class="toc-h3" data-toc-link href="#knowing-when-to-stop">Knowing when to stop</a></li><li><a class="toc-h2" data-toc-link href="#legibility-over-unpredictable-footage">Legibility over unpredictable footage</a></li><li><a class="toc-h3" data-toc-link href="#boxes-versus-outlines">Boxes versus outlines</a></li><li><a class="toc-h3" data-toc-link href="#shadow-fill-and-opacity">Shadow, fill, and opacity</a></li><li><a class="toc-h2" data-toc-link href="#what-srt-vtt-and-ass-can-express">What SRT, VTT, and ASS can express</a></li><li><a class="toc-h3" data-toc-link href="#srt-timing-and-text">SRT: timing and text</a></li><li><a class="toc-h3" data-toc-link href="#webvtt-position-and-regions">WebVTT: position and regions</a></li><li><a class="toc-h3" data-toc-link href="#ass-and-ssa">ASS and SSA</a></li><li><a class="toc-h3" data-toc-link href="#choosing-a-format">Choosing a format</a></li><li><a class="toc-h2" data-toc-link href="#reviewing-on-the-target-device">Reviewing on the target device</a></li><li><a class="toc-h3" data-toc-link href="#a-device-pass-checklist">A device pass checklist</a></li><li><a class="toc-h3" data-toc-link href="#what-to-record">What to record</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#should-subtitles-always-be-at-the-bottom">Should subtitles always be at the bottom?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-i-stop-captions-from-covering-faces">How do I stop captions from covering faces?</a></li><li><a class="toc-h3" data-toc-link href="#where-should-captions-go-in-vertical-video">Where should captions go in vertical video?</a></li><li><a class="toc-h3" data-toc-link href="#can-i-set-caption-position-in-an-srt-file">Can I set caption position in an SRT file?</a></li><li><a class="toc-h3" data-toc-link href="#how-many-lines-should-a-subtitle-have">How many lines should a subtitle have?</a></li><li><a class="toc-h3" data-toc-link href="#do-i-need-a-separate-caption-file-for-each-aspect-ratio">Do I need a separate caption file for each aspect ratio?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-i-identify-speakers-without-moving-captions">How do I identify speakers without moving captions?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Subtitle positioning is usually inherited rather than chosen. A captioning tool opens with a default, the default is bottom center, and every cue lands there for the length of the program. On a clean interview shot in 16:9 with the subject in the upper third, that placement works well enough that nobody notices it. On a phone, inside a social feed, over a lower third, or inside a vertical crop, the same default drops text across something the viewer needs to see.</p>
+<p>Most readability complaints do not trace back to font choice. They trace back to placement. A cue sits on a speaker&#39;s mouth during the one exchange where lip reading carries meaning. An end card&#39;s URL disappears behind a two-line caption. A burned-in chyron collides with translated dialogue. A progress bar slices through the second line because the player&#39;s own interface occupies the bottom of the screen.</p>
+<p>The bottom-center default exists because broadcast television was a single delivery context: one aspect ratio, one safe area, one screen, a viewer seated at a distance. None of those conditions hold across streaming services, social feeds, mobile players, and vertical crops. Subtitle positioning is a decision that has to be made per delivery target, and it leaves evidence: caption files carry position data, players render that data inconsistently, and a placement that looks correct in an editing timeline can be wrong on the device a viewer actually holds.</p>
+<h2 id="where-the-bottom-center-default-breaks-down">Where the bottom-center default breaks down</h2>
+<h3 id="the-assumptions-behind-the-default">The assumptions behind the default</h3>
+<p>Bottom-center placement assumes four things at once: the lower portion of the frame is empty, the viewer sees the full frame without interface elements on top of it, nothing in the program itself occupies that region, and the speaker&#39;s face sits above the cue. A single cue can violate all four and still pass a spot check on a desktop monitor with the transport controls hidden.</p>
+<h3 id="when-the-lower-third-is-already-occupied">When the lower third is already occupied</h3>
+<p>The most common conflicts are predictable once you list them:</p>
+<ul><li>Burned-in lower thirds and name supers identifying a speaker, location, or job title</li><li>Score bugs, clocks, and news tickers that sit in the lower band by design</li><li>Legal disclaimers, sponsor cards, and contest rules placed in the lower portion of the frame</li><li>Watermarks and network logos anchored to a lower corner</li><li>On-screen sign language interpreters, who occupy the same space and carry equal accessibility weight</li><li>End cards carrying a URL, QR code, or call to action</li></ul>
+<p>Burned-in material is the harder case because it is part of the video image. You cannot toggle it off or reflow it. If the graphic comes from a template you control, the cleaner fix is often to move the graphic and leave the captions where viewers expect them. If the graphic is locked, the caption has to move.</p>
+<h3 id="the-cost-of-leaving-it-alone">The cost of leaving it alone</h3>
+<p>A collision caught in review costs a re-export. A collision caught after delivery costs a re-upload, a re-index, and a fresh round of platform processing, and by then the caption file may already be cached by a player or attached to a syndicated copy. Placement decisions also multiply across languages: a cue that sits badly in the source sits badly in every translated version, and translated lines tend to run longer than the source, so a placement that barely fits will not survive localization.</p>
+<h2 id="reading-the-frame-before-placing-a-cue">Reading the frame before placing a cue</h2>
+<h3 id="protecting-the-mouth-and-eyes">Protecting the mouth and eyes</h3>
+<p>For deaf and hard-of-hearing viewers, the mouth is functional information, not decoration. A cue that touches the chin during dialogue removes the one region that supports lip reading. Keep the caption box clear of the mouth whenever the active speaker is on screen and the shot is close enough that the mouth is legible.</p>
+<p>The second protected region is the eyeline. On reaction shots and two-shots, a caption running across the middle of the frame severs the visual connection between two speakers, which changes how the scene reads. When you must choose between covering a face and covering the bottom of a wide shot, cover the wide shot.</p>
+<h3 id="burned-in-graphics-versus-platform-overlays">Burned-in graphics versus platform overlays</h3>
+<p>Burn-in graphics sit inside the video file and travel with it to every destination. Platform overlays, such as like buttons and progress bars, are drawn by the app at playback time and differ by app, version, and device. Burned-in conflicts are solved in the edit. Overlay conflicts are solved by leaving margin, since you cannot control what a given app draws.</p>
+<h3 id="action-that-matters-more-than-the-face">Action that matters more than the face</h3>
+<p>Faces are not always the priority. Cooking demonstrations, surgical footage, sign language, dance, sports, and instructional screen recordings all carry critical information in the lower half of the frame. The standard move is to raise the caption band for the duration of the sequence, then return it, provided the move is motivated by the content and not by a single cue&#39;s timing.</p>
+<h2 id="platform-chrome-aspect-ratios-and-safe-zones">Platform chrome, aspect ratios, and safe zones</h2>
+<h3 id="the-mobile-lower-third">The mobile lower third</h3>
+<p>In a vertical feed, the lower fifth of the screen is frequently covered by the caption toggle, username, audio track label, and action buttons, and the right edge carries a stack of icons. In a full-screen mobile player, a progress bar and scrubber appear on interaction and often persist. Designing for the full frame and assuming the interface will stay out of the way is the most reliable way to ship captions that are technically present and practically unreadable. Because these overlays change without notice, treat any specific measurement as a hypothesis to verify on the current version of the app rather than a fixed constant.</p>
+<h3 id="safe-zones-by-aspect-ratio">Safe zones by aspect ratio</h3>
+<ul><li>16:9 (1.78:1): the widest safe band. Bottom placement works when the lower frame is clear; keep cues inside roughly the central 90 percent horizontally.</li><li>9:16 vertical: the crop usually cuts a wide frame at the center, so faces that were off-center move inward and the lower band fills with interface. Captions commonly sit higher, often in the lower-middle third.</li><li>1:1 square: little horizontal room for long lines, so line count matters more than position. Two short lines beat one long one.</li><li>4:5: popular in feeds because it uses more vertical space than square. Bottom placement competes with the same chrome as 9:16.</li><li>2.39:1 scope: the image is short and wide, so a bottom band takes proportionally more of the picture. Captions can sit in the lower letterbox area only if the letterbox is part of the delivered frame.</li></ul>
+<h3 id="one-master-many-crops">One master, many crops</h3>
+<p>A single placement cannot serve both a 16:9 master and a 9:16 crop, because the crop changes what is beneath the text. Repositioning at render time is more predictable than hoping one file works everywhere. If you are generating caption files for each target ratio, the workflow in <a href="/features/subtitle-generation">subtitle generation</a> lets you produce separate sets rather than hand-editing a copy per platform. The same logic applies to multi-language delivery: translated lines carry different character counts, so each language deserves its own placement pass rather than a shared template.</p>
+<h2 id="line-breaking-line-count-and-placement">Line breaking, line count, and placement</h2>
+<h3 id="reading-speed-sets-the-line-count">Reading speed sets the line count</h3>
+<p>Line count and placement are one decision, not two. A cue placed in a narrow band forces shorter lines, which forces more cues per minute, which raises the reading load. Many captioning style guides cap a line in the range of 32 to 42 characters and hold cues to two lines, with reading speed targets in the high teens to low twenties of characters per second for adult audiences and lower for children&#39;s programming. Those numbers are conventions, not laws, but they explain why a placement decision cascades into timing.</p>
+<h3 id="where-the-line-break-falls">Where the line break falls</h3>
+<p>Break at clause boundaries and at natural pauses. Avoid separating an article from its noun, a preposition from its object, or a first name from a last name. Do not split a hyphenated word across lines, and avoid leaving a single short word alone on the second line. If a break produces an orphan, re-time the cue or shorten the text rather than shrinking the font.</p>
+<h3 id="stability-across-cues">Stability across cues</h3>
+<p>A caption that jumps between the top and the bottom of the frame is harder to follow than one that stays in an imperfect but consistent position. Choose a region per scene or per program segment, not per cue. If a lower third appears for eight seconds, the captions can move up for eight seconds; if graphics appear on and off throughout, pick a permanent height and stay there. Motion in captions should signal a change in the video, not the other way around.</p>
+<h2 id="speaker-identification-in-multi-speaker-scenes">Speaker identification in multi-speaker scenes</h2>
+<h3 id="labels-dashes-and-color">Labels, dashes, and color</h3>
+<p>Three approaches dominate. A leading dash per speaker is compact and language-neutral. A name label is explicit and helps viewers who join mid-scene. Color is fast to parse but fails for viewers with color vision deficiency and disappears entirely in monochrome or high-contrast display modes, so it should never be the only signal. Pair color with either a label or a position.</p>
+<h3 id="positional-attribution">Positional attribution</h3>
+<p>Positional attribution places a speaker&#39;s cue near that speaker in the frame, or consistently on one side. It works well when the composition is stable and speakers occupy fixed halves of a two-shot. It breaks when speakers move, when the shot cuts to singles, or when three or more people share the frame. Positional schemes also fight with placement constraints: a speaker on the right may sit exactly where the platform&#39;s action buttons live.</p>
+<h3 id="knowing-when-to-stop">Knowing when to stop</h3>
+<p>In rapid back-and-forth dialogue, repositioning every cue produces a strobe effect that costs more readability than it buys in attribution. Above roughly two speaker changes per second of screen time, hold one region and rely on labels. When captions cannot carry the distinction cleanly, an audio mix that keeps voices distinct does more work than any on-screen marker, which is where <a href="/features/subtitle-to-audio">subtitle-to-audio</a> becomes a reasonable companion to the caption file.</p>
+<h2 id="legibility-over-unpredictable-footage">Legibility over unpredictable footage</h2>
+<h3 id="boxes-versus-outlines">Boxes versus outlines</h3>
+<p>An outline preserves the image and works over most footage, but it thins out over bright, high-detail backgrounds such as snow, confetti, or a white kitchen. A background box guarantees contrast because it controls the pixels behind the text, at the cost of occluding more of the frame. For documentary and interview footage with varied backgrounds, a semi-transparent box is usually the safer default. For narrative work where the image matters, an outline plus a soft shadow is less intrusive.</p>
+<h3 id="shadow-fill-and-opacity">Shadow, fill, and opacity</h3>
+<p>A drop shadow with no blur reads as a second outline and can muddy thin strokes. A large blur radius softens the text edge instead of separating it. Keep shadows tight and offset slightly downward. Box opacity in the range of roughly 75 to 100 percent keeps text readable while letting some of the underlying image show through; below that, contrast becomes dependent on the footage again. Avoid pure white text on pure black boxes with hard corners if the rest of the program uses rounded, softer graphics, but do not trade legibility for stylistic consistency.</p>
+<h2 id="what-srt-vtt-and-ass-can-express">What SRT, VTT, and ASS can express</h2>
+<h3 id="srt-timing-and-text">SRT: timing and text</h3>
+<p>SRT carries a cue number, a start and end time, and text. That is the whole specification. It cannot express position, alignment, line breaks beyond literal newlines, font, color, or a background box. When a platform accepts only SRT, every placement decision has to be made in the renderer or the player, and you should assume the renderer will apply its own default: bottom center.</p>
+<h3 id="webvtt-position-and-regions">WebVTT: position and regions</h3>
+<p>WebVTT extends the cue to include alignment, line position, text position, size, and named regions. A cue can be told to sit at a given line, aligned to a given edge, inside a defined region that holds a consistent box across many cues. Support varies by player, and browsers handle some settings differently, so a VTT that positions correctly in one player may fall back to default in another. Test the fallback, not just the intended result.</p>
+<h3 id="ass-and-ssa">ASS and SSA</h3>
+<p>ASS and SSA were built for subtitling with typography and layout control: named styles, margins, absolute positioning, alignment anchors, fonts, outlines, shadows, and per-cue overrides. For burned-in captions, where the text becomes part of the video image, ASS gives you the closest match between what you designed and what ships. The trade-off is portability: ASS is poorly supported as a sidecar format in most modern players, so it is typically a rendering format rather than a delivery format.</p>
+<h3 id="choosing-a-format">Choosing a format</h3>
+<ul><li>Burned-in or fully controlled delivery: ASS, rendered at export.</li><li>Web and streaming playback: WebVTT, with a verified fallback.</li><li>Legacy pipelines and simple sidecar delivery: SRT, with placement handled downstream.</li><li>Programmatic pipelines: check the format and positioning parameters available in the <a href="/docs">API documentation</a> before assuming a setting will survive the round trip.</li></ul>
+<p>If captions are translated into multiple languages, run each language through its own placement check rather than reusing the source layout. Character expansion between languages changes line breaks and can push a two-line cue into three. A <a href="/features/subtitle-translation">subtitle translation</a> pass that preserves timing still needs a layout pass afterward, and for programs rebuilt in another language entirely, the same review applies to <a href="/features/video-translation">video translation</a> outputs where burned-in graphics may be regenerated.</p>
+<h2 id="reviewing-on-the-target-device">Reviewing on the target device</h2>
+<h3 id="a-device-pass-checklist">A device pass checklist</h3>
+<ol><li>Export the caption file at the target aspect ratio, not the editing ratio.</li><li>Play the program on the actual device or the closest emulator, not in the editing timeline.</li><li>Leave platform interface visible. Do not review in full-screen mode with chrome hidden if viewers will see chrome.</li><li>Toggle the platform&#39;s own auto-captions on, since two caption layers can stack.</li><li>Set the device to its largest supported text size or display zoom and watch for reflow.</li><li>Watch with audio muted, which is how a large share of feed viewers experience the program.</li><li>Check the first ten seconds and every end card separately, since those are the segments most likely to carry graphics.</li></ol>
+<h3 id="what-to-record">What to record</h3>
+<p>Log the device, the operating system version, the app version, the aspect ratio, and the timecode of each collision. Screenshots are faster to act on than descriptions, and a version number turns a subjective complaint into a reproducible bug. If the same collision appears in three languages, it is a placement problem, not a translation problem. If it appears on one platform only, it is a chrome problem and belongs in the safe-zone margin rather than the cue file. A placement review that produces no written record gets repeated on the next delivery.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="should-subtitles-always-be-at-the-bottom">Should subtitles always be at the bottom?</h3>
+<p>No. Bottom placement is a reasonable default for 16:9 content with a clear lower frame, and it matches viewer expectation. It fails when graphics, faces, or interface elements already occupy that band, and it fails more often on mobile and vertical delivery than on television.</p>
+<h3 id="how-do-i-stop-captions-from-covering-faces">How do I stop captions from covering faces?</h3>
+<p>Define a protected region around the mouth and eyes before placement, then choose a caption band that avoids it. On close shots, raise the band rather than letting it clip the chin. On wide shots where the face is small, bottom placement is usually safe.</p>
+<h3 id="where-should-captions-go-in-vertical-video">Where should captions go in vertical video?</h3>
+<p>Higher than the bottom edge, typically in the lower-middle third, because the bottom fifth and the right edge are commonly covered by app interface. Because those overlays change between app versions, verify on the current build rather than trusting a fixed measurement.</p>
+<h3 id="can-i-set-caption-position-in-an-srt-file">Can I set caption position in an SRT file?</h3>
+<p>No. SRT has no position field. Placement has to come from the renderer, the player, or a conversion to a format that supports positioning, such as WebVTT or ASS.</p>
+<h3 id="how-many-lines-should-a-subtitle-have">How many lines should a subtitle have?</h3>
+<p>Two is the working maximum for most content. Three lines force the viewer&#39;s eye to travel further and consume more of the frame, which is especially costly in vertical and scope aspect ratios. If a cue needs three lines, split it into two cues or shorten the text.</p>
+<h3 id="do-i-need-a-separate-caption-file-for-each-aspect-ratio">Do I need a separate caption file for each aspect ratio?</h3>
+<p>Yes, if placement matters. A 9:16 crop changes what sits beneath the text and how much horizontal room a line has, so a file positioned for 16:9 will not hold up in the crop.</p>
+<h3 id="how-do-i-identify-speakers-without-moving-captions">How do I identify speakers without moving captions?</h3>
+<p>Use labels or leading dashes in a single fixed region. Reserve positional attribution for stable two-shots where the composition genuinely supports it, and drop it entirely in fast exchanges.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Treat placement as a per-delivery decision and document it. Before the first cue is placed, list the delivery targets, the aspect ratios, and the graphics that occupy the frame. Then pick a caption region for each target, verify it against the protected regions in the actual footage, and write the choice down so the next editor on the project does not re-litigate it.</p>
+<p>Run the device pass before you call a file finished. The editing timeline hides more placement errors than any other part of the workflow, because it rarely shows platform chrome, rarely shows the true crop, and never shows the device at arm&#39;s length in daylight.</p>
+<p>If placement is currently a per-project improvisation, the fix is process, not software: a safe-zone reference per aspect ratio, a format decision documented per delivery target, and one reviewer who checks the final artifact on real hardware. Teams that want caption sets generated and repositioned per target rather than hand-edited can review the available <a href="/pricing">plans</a> or <a href="/contact">talk to the team</a> about how the pipeline handles multi-ratio and multilingual output.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsubtitle-positioning-and-overlap" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsubtitle-positioning-and-overlap&amp;text=Subtitle%20Positioning%3A%20Avoiding%20Overlap%20With%20Graphics%2C%20Faces%2C%20and%20Captions" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fsubtitle-positioning-and-overlap" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/accessibility">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/public-transit-announcement-translation" aria-label="Read Transit Announcement Translation: Multilingual Audio and Screens That Work"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/black-silk-wave.png" alt="Abstract dark-glass transit map with glowing multilingual lines and platform icons." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Transit Announcement Translation: Multilingual Audio and Screens That Work</h2><p class="blog-card-description">Learn a working method for transit announcement translation across routine, disruption, and emergency messages. You get concrete rules for multilingual audio, station names, screen and audio alignment, and testing every message type on a real platform.</p>
+      <time class="blog-card-date" datetime="2026-09-06T19:00:00Z">Sep 6, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/video-transcripts-seo-and-accessibility" aria-label="Read Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/edition-glass-spreads.png" alt="Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Video Transcripts: The One Asset That Serves SEO, Accessibility, and Localization at Once</h2><p class="blog-card-description">Most teams treat the transcript as a byproduct of captioning. It is closer to the single most valuable asset your video program produces.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:30:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/caption-accuracy-regulatory-standards" aria-label="Read Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/gauge-glass-dials.jpg" alt="Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Accessibility</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Caption Accuracy Standards: FCC, Ofcom, and Other Regulatory Benchmarks</h2><p class="blog-card-description">WCAG says captions must be accurate. Broadcast regulators actually define what accuracy means, in numbers, and audit against it.</p>
+      <time class="blog-card-date" datetime="2026-08-30T14:00:00Z">Aug 30, 2026 · 11 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

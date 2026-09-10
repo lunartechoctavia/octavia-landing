@@ -1,0 +1,746 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Profanity and Sensitive Content in Dubbing: Policy, Register, and Judgment | Octavia</title>
+    <meta name="description" content="How teams navigate profanity in dubbing: policy, register, and judgment, from studio disagreements to market norms that shape every translated swear word.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/profanity-and-sensitive-content-in-dubbing">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Profanity and Sensitive Content in Dubbing: Policy, Register, and Judgment">
+    <meta property="og:description" content="How teams navigate profanity in dubbing: policy, register, and judgment, from studio disagreements to market norms that shape every translated swear word.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/profanity-and-sensitive-content-in-dubbing">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/clean-signal-glass.jpg">
+    <meta property="article:published_time" content="2026-09-08T09:00:00Z">
+    <meta property="article:modified_time" content="2026-09-08T09:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Profanity and Sensitive Content in Dubbing: Policy, Register, and Judgment">
+    <meta name="twitter:description" content="How teams navigate profanity in dubbing: policy, register, and judgment, from studio disagreements to market norms that shape every translated swear word.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/clean-signal-glass.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Profanity and Sensitive Content in Dubbing: Policy, Register, and Judgment","description":"How teams navigate profanity in dubbing: policy, register, and judgment, from studio disagreements to market norms that shape every translated swear word.","image":"https://octavia.lunartech.ai/assets/blog/images/clean-signal-glass.jpg","datePublished":"2026-09-08T09:00:00Z","dateModified":"2026-09-08T09:00:00Z","wordCount":2707,"timeRequired":"PT13M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/profanity-and-sensitive-content-in-dubbing","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Profanity and Sensitive Content in Dubbing: Policy, Register, and Judgment","item":"https://octavia.lunartech.ai/blog/profanity-and-sensitive-content-in-dubbing"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/localization">Localization</a>
+        <h1 class="article-title">Profanity and Sensitive Content in Dubbing: Policy, Register, and Judgment</h1><p class="article-deck">This article explains how dubbing teams set policy for profanity, why register and market norms collide, and how judgment calls move from the script to the studio and final mix. It offers practical ways to keep sensitive content consistent across episodes.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-08T09:00:00Z">Sep 8, 2026</time><span class="article-meta-dot"></span><span>13 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/clean-signal-glass.jpg" alt="Abstract dark-glass shards overlapping subtitle text and a dim microphone silhouette" fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-profanity-in-dubbing-resists-one-to-one-translation">Why profanity in dubbing resists one-to-one translation</a></li><li><a class="toc-h3" data-toc-link href="#swear-words-are-calibrated-not-defined">Swear words are calibrated, not defined</a></li><li><a class="toc-h3" data-toc-link href="#the-two-failure-modes-overshoot-and-undershoot">The two failure modes: overshoot and undershoot</a></li><li><a class="toc-h3" data-toc-link href="#register-carries-more-than-vocabulary">Register carries more than vocabulary</a></li><li><a class="toc-h2" data-toc-link href="#writing-an-explicit-profanity-in-dubbing-policy-before-production">Writing an explicit profanity in dubbing policy before production</a></li><li><a class="toc-h3" data-toc-link href="#choose-a-stance-preserve-soften-or-adapt">Choose a stance: preserve, soften, or adapt</a></li><li><a class="toc-h3" data-toc-link href="#tag-the-script-before-translation">Tag the script before translation</a></li><li><a class="toc-h3" data-toc-link href="#run-the-workflow-in-order">Run the workflow in order</a></li><li><a class="toc-h3" data-toc-link href="#assign-one-owner-and-record-decisions">Assign one owner and record decisions</a></li><li><a class="toc-h2" data-toc-link href="#platform-standards-broadcaster-standards-and-age-ratings">Platform standards, broadcaster standards, and age ratings</a></li><li><a class="toc-h3" data-toc-link href="#a-rating-belongs-to-the-localized-version">A rating belongs to the localized version</a></li><li><a class="toc-h3" data-toc-link href="#delivery-specs-are-not-editorial-standards">Delivery specs are not editorial standards</a></li><li><a class="toc-h3" data-toc-link href="#build-a-market-matrix-and-keep-it-alive">Build a market matrix and keep it alive</a></li><li><a class="toc-h2" data-toc-link href="#culturally-weighted-references-and-slurs">Culturally weighted references and slurs</a></li><li><a class="toc-h3" data-toc-link href="#blasphemy-is-not-distributed-evenly">Blasphemy is not distributed evenly</a></li><li><a class="toc-h3" data-toc-link href="#political-references-relocate-and-expire">Political references relocate and expire</a></li><li><a class="toc-h3" data-toc-link href="#slurs-need-named-human-decision-makers">Slurs need named human decision-makers</a></li><li><a class="toc-h2" data-toc-link href="#documentary-and-journalistic-material">Documentary and journalistic material</a></li><li><a class="toc-h3" data-toc-link href="#the-record-matters-more-than-the-register">The record matters more than the register</a></li><li><a class="toc-h3" data-toc-link href="#narration-and-quotation-are-different-objects">Narration and quotation are different objects</a></li><li><a class="toc-h3" data-toc-link href="#when-the-language-is-the-subject">When the language is the subject</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-and-dub-divergence">Subtitle and dub divergence</a></li><li><a class="toc-h3" data-toc-link href="#the-tracks-may-differ-within-a-stated-rule">The tracks may differ within a stated rule</a></li><li><a class="toc-h3" data-toc-link href="#where-the-tracks-drift-apart">Where the tracks drift apart</a></li><li><a class="toc-h2" data-toc-link href="#content-warnings-and-metadata-that-travel-with-a-version">Content warnings and metadata that travel with a version</a></li><li><a class="toc-h3" data-toc-link href="#what-belongs-in-the-package">What belongs in the package</a></li><li><a class="toc-h3" data-toc-link href="#advisory-copy-is-a-translation-problem-too">Advisory copy is a translation problem too</a></li><li><a class="toc-h2" data-toc-link href="#escalation-cases-a-reviewer-should-not-decide-alone">Escalation: cases a reviewer should not decide alone</a></li><li><a class="toc-h3" data-toc-link href="#a-three-tier-path">A three-tier path</a></li><li><a class="toc-h3" data-toc-link href="#what-an-escalation-packet-contains">What an escalation packet contains</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#should-a-dubbed-line-ever-be-stronger-than-the-original">Should a dubbed line ever be stronger than the original?</a></li><li><a class="toc-h3" data-toc-link href="#can-subtitles-and-dubs-use-different-words">Can subtitles and dubs use different words?</a></li><li><a class="toc-h3" data-toc-link href="#who-should-approve-a-slur-in-a-dubbed-line">Who should approve a slur in a dubbed line?</a></li><li><a class="toc-h3" data-toc-link href="#does-a-localized-version-need-its-own-rating">Does a localized version need its own rating?</a></li><li><a class="toc-h3" data-toc-link href="#how-should-profanity-be-handled-in-documentary-interviews">How should profanity be handled in documentary interviews?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-a-language-ceiling">What is a language ceiling?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A dubbing script rarely fails over plot. It fails over a three-word line in episode four that nobody can agree on. The source says something obscene, or blasphemous, or cruel; a dictionary equivalent exists in the target language; and the line still does not work. It lands with a force the scene never earned, or with no force at all.</p>
+<p>That gap is the central problem of profanity in dubbing. Swear words are not labels for concepts. They are calibrated to a register, a relationship, a class position, and a moment of release, and every one of those calibrations shifts when the language changes. A term that reads as mild in one market reads as an insult to a family in another. A line a subtitle viewer skims past becomes a physical event when a voice actor performs it at volume in the viewer&#39;s own language.</p>
+<p>Most teams handle this badly because they handle it late. The director, the client, the translator, and the quality reviewer arrive with different assumptions about what the standard is, and the argument happens in the studio during recording, where changing the decision costs money. The result is a season where episode three is tame, episode nine is not, and nobody can explain the difference.</p>
+<p>The method below sets policy before production starts: how to choose between preserving, softening, and adapting; how broadcaster standards and ratings constrain the choice; how religious and political references shift by market; why slurs need named decision-makers rather than a guideline; how documentary material changes the calculus; whether subtitle and dub tracks may diverge; what metadata should travel with a localized version; and how to escalate cases a reviewer should not settle alone.</p>
+<h2 id="why-profanity-in-dubbing-resists-one-to-one-translation">Why profanity in dubbing resists one-to-one translation</h2>
+<h3 id="swear-words-are-calibrated-not-defined">Swear words are calibrated, not defined</h3>
+<p>A bilingual dictionary gives you an equivalent, not a voltage. Two words can share a meaning and differ in how often they are spoken, who is allowed to say them, and what they do to a room. Because these terms do not occur at the same rate in ordinary speech across languages, matching every instance one for one produces a dub that swears more often than the source, which is a characterization change even when no single line is wrong.</p>
+<p>Some languages mark rudeness through grammar rather than vocabulary. Japanese can express contempt through verb forms and pronoun choice without a single obscenity, so an angry line rendered into a language that depends on explicit swear words has to add something the original never contained. The translator is not converting a word. They are reconstructing an effect.</p>
+<h3 id="the-two-failure-modes-overshoot-and-undershoot">The two failure modes: overshoot and undershoot</h3>
+<p>Undershoot is more common. A policy that quietly caps everything at mild exclamations strips aggression from characters whose entire function is aggression. When a threat depends on the speaker being willing to say the unforgivable, a mild word makes the threat incoherent: the audience no longer understands why the other character backs down, and the scene reads as a writing problem rather than a language problem.</p>
+<p>Overshoot is more expensive. Choosing the strongest available target word for a term that was merely crude can turn a character profane into a character blasphemous, particularly in markets where the strongest vocabulary is religious. That shifts the meaning of the scene and can move a title into a higher rating.</p>
+<h3 id="register-carries-more-than-vocabulary">Register carries more than vocabulary</h3>
+<p>Profanity encodes class, region, generation, and intimacy at once. Two characters who swear at each other affectionately are in a different relationship from two who swear at each other in a fight, and the same word does both jobs depending on delivery. A dub that matches the word but not the delivery has matched the wrong thing, which is why the tier decision and the voice direction have to agree.</p>
+<h2 id="writing-an-explicit-profanity-in-dubbing-policy-before-production">Writing an explicit profanity in dubbing policy before production</h2>
+<h3 id="choose-a-stance-preserve-soften-or-adapt">Choose a stance: preserve, soften, or adapt</h3>
+<p>Three stances are defensible, and professional work uses all three.</p>
+<ul><li>Preserve: the dub swears where the source swears, at similar intensity, accepting that the target language will not match exactly.</li><li>Soften: a ceiling is applied, usually for a specific distributor or slot, and every line is brought under it.</li><li>Adapt: each instance is rebuilt for target-market register, which can mean stronger in one scene and weaker in another.</li></ul>
+<p>The trap is choosing per episode. Consistency across a season is what audiences notice, and inconsistency is what generates complaints.</p>
+<h3 id="tag-the-script-before-translation">Tag the script before translation</h3>
+<p>Pick a small number of levels and apply them to the source script first.</p>
+<ul><li>Tier 0: no profanity; exclamations become non-lexical sounds.</li><li>Tier 1: mild; terms that pass family broadcast.</li><li>Tier 2: moderate; the everyday vulgar vocabulary of adult speech.</li><li>Tier 3: strong; terms a broadcaster masks or a platform flags.</li><li>Tier 4: slurs and dehumanizing language, governed separately.</li></ul>
+<h3 id="run-the-workflow-in-order">Run the workflow in order</h3>
+<p>Because later steps are expensive to redo, sequence matters:</p>
+<ol><li>Tag every line in the source script by tier.</li><li>Set a target ceiling per market and distributor.</li><li>Translate to the tier, not to the word.</li><li>Review the script against the tier table before recording.</li><li>Record and direct to the tier.</li><li>Check quality against the tier, not against the source wording.</li></ol>
+<p>Step six is the one teams skip, and it is the one that catches drift, because a line can be correct in isolation and wrong inside a season. Consistency checks belong in the review of any track produced alongside the dub, including work handled through <a href="/features/video-dubbing">video dubbing</a>.</p>
+<h3 id="assign-one-owner-and-record-decisions">Assign one owner and record decisions</h3>
+<p>One person owns the policy, not a committee. Committees produce the lowest common denominator and no accountability. Put the stance, the tier table, the per-market ceilings, and the escalation path in a single document that translators and reviewers receive with the script. When a decision departs from it, update the document that week with the reason attached.</p>
+<h2 id="platform-standards-broadcaster-standards-and-age-ratings">Platform standards, broadcaster standards, and age ratings</h2>
+<h3 id="a-rating-belongs-to-the-localized-version">A rating belongs to the localized version</h3>
+<p>Ratings bodies evaluate the version they are given. A dub that strengthens language can move a title into a higher rating in that market, which changes placement, promotion, and sometimes whether the title ships at all. The same title can carry different ratings in different countries for the same reason. Language decisions are distribution decisions and belong in the same conversation as the delivery schedule.</p>
+<h3 id="delivery-specs-are-not-editorial-standards">Delivery specs are not editorial standards</h3>
+<p>These get confused constantly. A delivery specification states what the file must contain: track layout, loudness, subtitle format, metadata fields. An editorial standard states what the content may say before a given hour, on a given service, or under a given rating. A platform may accept strong language and still require it to be flagged; a broadcaster may forbid it in a slot where the file passes every technical check. Two documents, two audiences.</p>
+<h3 id="build-a-market-matrix-and-keep-it-alive">Build a market matrix and keep it alive</h3>
+<p>The matrix needs five columns: market, distributor, rating trigger, language ceiling, and the person who approves exceptions. Most of the value is in the last column, because it converts an argument into a phone call. When a decision contradicts the matrix, treat the contradiction as evidence the matrix is stale, and update it.</p>
+<h2 id="culturally-weighted-references-and-slurs">Culturally weighted references and slurs</h2>
+<h3 id="blasphemy-is-not-distributed-evenly">Blasphemy is not distributed evenly</h3>
+<p>Where the strongest available profanity is religious, mapping a mild source line to the strongest target word can turn casual speech into blasphemy. Where religious language has lost its force, the same word reads as archaic and slightly comic. The mapping is asymmetric in both directions, so a single strategy of reaching for the strongest word produces a different effect in every territory.</p>
+<h3 id="political-references-relocate-and-expire">Political references relocate and expire</h3>
+<p>A reference to a domestic political figure may mean nothing abroad or something quite different, and a joke built on a specific scandal usually has a shelf life of months. The practical move is to identify what the reference does, whether it signals the speaker&#39;s tribe, punctures authority, or dates the scene, then rebuild that function. Rebuilding often means replacing the reference rather than translating it.</p>
+<h3 id="slurs-need-named-human-decision-makers">Slurs need named human decision-makers</h3>
+<p>Slurs are not a stronger grade of profanity. They carry a target, a history, and a specific harm, and their reclamation is partial and contested: a term used inside a community and a term used against it are different speech acts even when the spelling is identical. That distinction cannot be encoded in a tier table, and it should not be settled by whoever is reviewing that day.</p>
+<p>Name an approver in advance, give them authority to refuse, and record their reasoning with the deliverable. Translating the line and documenting the choice is legitimate. Removing the term while preserving intent another way is legitimate. Keeping the term with an added advisory is legitimate. What is not legitimate is a decision nobody is willing to sign.</p>
+<p>Where a line is re-voiced rather than cut, <a href="/features/speech-generation">speech generation</a> can produce the replacement audio in the same voice, keeping the performance intact while the words change. The tool executes a decision. It does not make one.</p>
+<h2 id="documentary-and-journalistic-material">Documentary and journalistic material</h2>
+<h3 id="the-record-matters-more-than-the-register">The record matters more than the register</h3>
+<p>In documentary, a subject&#39;s words are evidence. Softening them changes what the person said, which is a different act from softening a fictional character&#39;s dialogue and can be a factual problem rather than a stylistic one. The default posture is preserve, with meaning carried in subtitles where the original language is not intelligible, plus an explicit note when a rendering is necessarily approximate.</p>
+<h3 id="narration-and-quotation-are-different-objects">Narration and quotation are different objects</h3>
+<p>Narration is authored by the production and can be rewritten freely, including its profanity. A subject&#39;s speech cannot. Where the source bleeps or masks a speaker, the localized version should reproduce that masking decision rather than invent a new one, unless local standards require otherwise, in which case the deviation is documented. <a href="/features/audio-translation">Audio translation</a> of archival material follows the same rule: the localized version inherits the editorial choices of the original.</p>
+<h3 id="when-the-language-is-the-subject">When the language is the subject</h3>
+<p>Some material is about speech itself: an interview about harassment, a scene where the vocabulary is the topic. Softening there does not adjust the register, it removes the subject. Treat these as escalation cases by definition.</p>
+<h2 id="subtitle-and-dub-divergence">Subtitle and dub divergence</h2>
+<h3 id="the-tracks-may-differ-within-a-stated-rule">The tracks may differ within a stated rule</h3>
+<p>Subtitles and dubs are consumed under different conditions, and forcing them to match word for word degrades both. A subtitle must be legible in under two seconds and cannot afford a term the viewer has to decode; a dub is performed and can carry register in the voice. The rule that keeps divergence from becoming inconsistency: both tracks land in the same tier band, with exceptions documented. A clean subtitle track paired with a strong dub is a defect, not a style, because a viewer who switches tracks gets a different character.</p>
+<h3 id="where-the-tracks-drift-apart">Where the tracks drift apart</h3>
+<p>Divergence appears most often when subtitle and dub are produced by different vendors from different documents. If the tier tag lives only in the dub script, the subtitle translator never sees it. Carry the tag through every artifact, and where subtitles go through a separate <a href="/features/subtitle-translation">subtitle translation</a> pass, verify the ceiling against the same table. Where both tracks derive from one master, <a href="/features/subtitle-generation">subtitle generation</a> should inherit the tags rather than the finished film alone.</p>
+<h2 id="content-warnings-and-metadata-that-travel-with-a-version">Content warnings and metadata that travel with a version</h2>
+<h3 id="what-belongs-in-the-package">What belongs in the package</h3>
+<p>A localized version should arrive with its own record:</p>
+<ul><li>Market rating and content descriptors.</li><li>The tier ceiling applied to the script.</li><li>Language and territory codes.</li><li>Version identifier and delivery date.</li><li>The name of the approver for any exception.</li></ul>
+<p>This is what a platform, a broadcaster, or a future licensing partner inherits. Metadata that lives only in an email thread does not survive the handoff. Field definitions and version flags are documented in the <a href="/docs">API reference</a>, and matching them exactly prevents a rejection later.</p>
+<h3 id="advisory-copy-is-a-translation-problem-too">Advisory copy is a translation problem too</h3>
+<p>Warning language is not neutral. A descriptor that reads as clinical in one market can read as sensational in another, and some territories prescribe exact vocabulary. Use the prescribed wording where it exists, keep descriptors parallel across tracks, and make sure the advisory matches the ceiling actually applied rather than the source content. An advisory that overstates the language is as much a defect as one that understates it.</p>
+<h2 id="escalation-cases-a-reviewer-should-not-decide-alone">Escalation: cases a reviewer should not decide alone</h2>
+<h3 id="a-three-tier-path">A three-tier path</h3>
+<ol><li>Reviewer resolves when the line falls within policy and the tier table. Log it and move on.</li><li>Lead reviewer or localization manager resolves when the policy is clear in intent but the line is unusual, or when the market matrix is silent. This tier catches most edge cases.</li><li>Named approver plus client resolves slurs, legal exposure, a likely rating change, and documentary material where the record is at stake. Experience does not qualify a reviewer on shift to decide these.</li></ol>
+<h3 id="what-an-escalation-packet-contains">What an escalation packet contains</h3>
+<p>An escalation should carry the timecode, the source line, a literal translation, two or three options with their tiers, the market and distributor, the applicable standard, and a recommendation. Escalation without a recommendation is a question, not a decision, and questions stall. Set a response expectation in advance so the answer arrives before the recording session rather than after it.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="should-a-dubbed-line-ever-be-stronger-than-the-original">Should a dubbed line ever be stronger than the original?</h3>
+<p>Yes, when the source term is mild in a language with a shallow vulgar vocabulary and the target has no equivalent carrying the same force. The test is whether the target line produces the same effect on the audience, not whether it is stronger.</p>
+<h3 id="can-subtitles-and-dubs-use-different-words">Can subtitles and dubs use different words?</h3>
+<p>They usually should, within limits. Both tracks should sit in the same tier band so that switching between them does not change a character&#39;s personality. Documented exceptions are fine; undocumented ones become complaints.</p>
+<h3 id="who-should-approve-a-slur-in-a-dubbed-line">Who should approve a slur in a dubbed line?</h3>
+<p>A named individual with the authority to refuse, working with the client, with the reasoning recorded alongside the deliverable. Slurs carry a target and a history that a tier table cannot capture, so the decision belongs to a person rather than a rule.</p>
+<h3 id="does-a-localized-version-need-its-own-rating">Does a localized version need its own rating?</h3>
+<p>Often yes. Ratings bodies evaluate the version submitted to them, and a dub that changes the strength of the language can change the rating even when the story is unchanged. Treat ratings as a per-market question and set the ceiling accordingly.</p>
+<h3 id="how-should-profanity-be-handled-in-documentary-interviews">How should profanity be handled in documentary interviews?</h3>
+<p>Preserve by default, because the words are evidence. Masking decisions made in the source should be reproduced unless local standards require otherwise, and any deviation should be documented with the deliverable.</p>
+<h3 id="what-is-a-language-ceiling">What is a language ceiling?</h3>
+<p>The highest tier a given market or distributor accepts without further review. It is set in advance, applied to the script before recording, and checked again in quality review.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The decision that matters is not what to do with any single obscenity. It is whether the organization has a stance it can apply repeatedly, in writing, before the studio is booked. Teams that settle this once spend their effort on the few lines that genuinely need judgment. Teams that settle it per episode spend the same effort on every line and still ship an inconsistent season.</p>
+<p>Start by writing the tier table and the ceilings, then tag one existing script against them as a test. The exercise usually shows that the working assumption was never shared across the people applying it. From there, name the approver for slurs and sensitive references, build the market matrix, and define what metadata leaves with each localized version. Difficult historical, religious, or political material deserves the same formality as the language rules, because those are the decisions hardest to defend after the fact.</p>
+<p>Once the policy is written and scripts are tagged, the tooling is the easy part: one tier table can govern translation, the dub script, and the subtitle pass. Teams that want a second opinion on a specific case, or need to confirm how a market handles a particular descriptor, can <a href="/contact">contact the team</a> directly.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fprofanity-and-sensitive-content-in-dubbing" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fprofanity-and-sensitive-content-in-dubbing&amp;text=Profanity%20and%20Sensitive%20Content%20in%20Dubbing%3A%20Policy%2C%20Register%2C%20and%20Judgment" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fprofanity-and-sensitive-content-in-dubbing" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/localization">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/choosing-languages-to-localize" aria-label="Read Choosing Which Languages to Localize Into: A Decision Framework"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="Choosing Which Languages to Localize Into: A Decision Framework" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Choosing Which Languages to Localize Into: A Decision Framework</h2><p class="blog-card-description">Speaker count is the worst available basis for choosing target languages, and it is the one most programs use.</p>
+      <time class="blog-card-date" datetime="2026-08-20T14:00:00Z">Aug 20, 2026 · 10 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/on-screen-text-localization" aria-label="Read On-Screen Text Localization: Titles, Lower Thirds, and Burned-In Graphics"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/cohort-glass-risers.png" alt="Abstract dark-glass panel with layered title bars, subtitle lines, and glowing text." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">On-Screen Text Localization: Titles, Lower Thirds, and Burned-In Graphics</h2><p class="blog-card-description">Learn how to spot recoverable text versus burned-in pixels, plan graphic layers that survive translation, and manage expansion, font fallback, and overlays in nine languages. You get a practical workflow for titles, lower thirds, and burned-in graphics that avoids last-minute rework.</p>
+      <time class="blog-card-date" datetime="2026-09-08T14:00:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/esports-broadcast-localization" aria-label="Read Esports Broadcast Localization: Casting, Clips, and Multilingual Streams"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/angled-glass-monitor.png" alt="Abstract dark-glass panels showing multilingual esports streams and clip timelines." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Localization</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Esports Broadcast Localization: Casting, Clips, and Multilingual Streams</h2><p class="blog-card-description">Learn how esports broadcast localization handles live casting, rapid subtitles, highlight clips, and multilingual streams. The guide covers workflows, terminology, quality tradeoffs, and production choices for global finals.</p>
+      <time class="blog-card-date" datetime="2026-09-05T19:00:00Z">Sep 5, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,750 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Audio Ducking in Dubbing: Balancing Voice, Music, and Effects | Octavia</title>
+    <meta name="description" content="Learn how audio ducking in dubbing balances voice, music, and effects, with practical tips on offsets, attack, release, stems, and normalization.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/audio-ducking-for-dubbed-video">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Audio Ducking in Dubbing: Balancing Voice, Music, and Effects">
+    <meta property="og:description" content="Learn how audio ducking in dubbing balances voice, music, and effects, with practical tips on offsets, attack, release, stems, and normalization.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/audio-ducking-for-dubbed-video">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/congregation-light-nave.jpg">
+    <meta property="article:published_time" content="2026-09-08T19:00:00Z">
+    <meta property="article:modified_time" content="2026-09-08T19:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Audio Ducking in Dubbing: Balancing Voice, Music, and Effects">
+    <meta name="twitter:description" content="Learn how audio ducking in dubbing balances voice, music, and effects, with practical tips on offsets, attack, release, stems, and normalization.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/congregation-light-nave.jpg">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Audio Ducking in Dubbing: Balancing Voice, Music, and Effects","description":"Learn how audio ducking in dubbing balances voice, music, and effects, with practical tips on offsets, attack, release, stems, and normalization.","image":"https://octavia.lunartech.ai/assets/blog/images/congregation-light-nave.jpg","datePublished":"2026-09-08T19:00:00Z","dateModified":"2026-09-08T19:00:00Z","wordCount":2939,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/audio-ducking-for-dubbed-video","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Audio Ducking in Dubbing: Balancing Voice, Music, and Effects","item":"https://octavia.lunartech.ai/blog/audio-ducking-for-dubbed-video"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">Audio Ducking in Dubbing: Balancing Voice, Music, and Effects</h1><p class="article-deck">This guide explains how to rebuild the balance between dubbed dialogue, music, and effects. You will learn when a static offset beats a dynamic envelope, how attack and release shape artifacts, and what stems and normalization make possible.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-08T19:00:00Z">Sep 8, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Abstract dark-glass panels with waveforms and fader lines for dubbing." fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#what-audio-ducking-in-dubbing-actually-controls">What audio ducking in dubbing actually controls</a></li><li><a class="toc-h3" data-toc-link href="#the-three-signal-groups">The three signal groups</a></li><li><a class="toc-h3" data-toc-link href="#why-a-dubbed-voice-does-not-sit-like-an-original-one">Why a dubbed voice does not sit like an original one</a></li><li><a class="toc-h3" data-toc-link href="#ducking-eq-carving-and-sidechain-compression-are-separate-tools">Ducking, EQ carving, and sidechain compression are separate tools</a></li><li><a class="toc-h2" data-toc-link href="#static-ducking-versus-dynamic-envelope-following-ducking">Static ducking versus dynamic, envelope-following ducking</a></li><li><a class="toc-h3" data-toc-link href="#static-ducking">Static ducking</a></li><li><a class="toc-h3" data-toc-link href="#dynamic-ducking">Dynamic ducking</a></li><li><a class="toc-h3" data-toc-link href="#hybrid-approaches">Hybrid approaches</a></li><li><a class="toc-h2" data-toc-link href="#attack-and-release-timing-and-the-artifacts-of-getting-them-wrong">Attack and release timing, and the artifacts of getting them wrong</a></li><li><a class="toc-h3" data-toc-link href="#attack">Attack</a></li><li><a class="toc-h3" data-toc-link href="#release-and-hold">Release and hold</a></li><li><a class="toc-h3" data-toc-link href="#depth-threshold-and-hysteresis">Depth, threshold, and hysteresis</a></li><li><a class="toc-h2" data-toc-link href="#stems-versus-a-mixed-track-what-becomes-possible">Stems versus a mixed track: what becomes possible</a></li><li><a class="toc-h3" data-toc-link href="#working-from-separated-dialogue-music-and-effects">Working from separated dialogue, music, and effects</a></li><li><a class="toc-h3" data-toc-link href="#when-only-a-mixed-track-exists">When only a mixed track exists</a></li><li><a class="toc-h3" data-toc-link href="#stem-hygiene-before-mixing">Stem hygiene before mixing</a></li><li><a class="toc-h2" data-toc-link href="#residual-original-dialogue-under-the-new-voice">Residual original dialogue under the new voice</a></li><li><a class="toc-h3" data-toc-link href="#where-bleed-comes-from">Where bleed comes from</a></li><li><a class="toc-h3" data-toc-link href="#how-to-catch-it">How to catch it</a></li><li><a class="toc-h3" data-toc-link href="#treatment">Treatment</a></li><li><a class="toc-h2" data-toc-link href="#preserving-music-intent-when-a-lyric-collides-with-dialogue">Preserving music intent when a lyric collides with dialogue</a></li><li><a class="toc-h3" data-toc-link href="#lyrics-under-dialogue">Lyrics under dialogue</a></li><li><a class="toc-h3" data-toc-link href="#lyrics-that-have-been-translated">Lyrics that have been translated</a></li><li><a class="toc-h3" data-toc-link href="#musical-moments-that-must-not-be-ducked">Musical moments that must not be ducked</a></li><li><a class="toc-h2" data-toc-link href="#loudness-targets-and-how-ducking-interacts-with-normalization">Loudness targets and how ducking interacts with normalization</a></li><li><a class="toc-h3" data-toc-link href="#the-order-of-operations">The order of operations</a></li><li><a class="toc-h3" data-toc-link href="#why-deep-ducking-partly-undoes-itself">Why deep ducking partly undoes itself</a></li><li><a class="toc-h3" data-toc-link href="#integrated-short-term-and-true-peak">Integrated, short-term, and true peak</a></li><li><a class="toc-h2" data-toc-link href="#checking-the-mix-on-phone-speakers-headphones-and-television">Checking the mix on phone speakers, headphones, and television</a></li><li><a class="toc-h3" data-toc-link href="#phone-speakers">Phone speakers</a></li><li><a class="toc-h3" data-toc-link href="#headphones">Headphones</a></li><li><a class="toc-h3" data-toc-link href="#television-and-soundbars">Television and soundbars</a></li><li><a class="toc-h3" data-toc-link href="#print-a-reference-and-check-the-translation">Print a reference and check the translation</a></li><li><a class="toc-h2" data-toc-link href="#a-repeatable-mix-checklist-for-a-dubbing-pipeline">A repeatable mix checklist for a dubbing pipeline</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#how-much-ducking-is-too-much">How much ducking is too much?</a></li><li><a class="toc-h3" data-toc-link href="#should-ducking-happen-before-or-after-normalization">Should ducking happen before or after normalization?</a></li><li><a class="toc-h3" data-toc-link href="#why-does-the-music-sound-like-it-is-breathing">Why does the music sound like it is breathing?</a></li><li><a class="toc-h3" data-toc-link href="#can-a-dub-be-ducked-if-only-a-finished-mix-exists">Can a dub be ducked if only a finished mix exists?</a></li><li><a class="toc-h3" data-toc-link href="#does-ducking-change-the-loudness-measurement">Does ducking change the loudness measurement?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-you-find-original-dialogue-left-under-the-new-voice">How do you find original dialogue left under the new voice?</a></li><li><a class="toc-h3" data-toc-link href="#is-static-ducking-ever-the-better-choice">Is static ducking ever the better choice?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A dubbed episode can pass every intelligibility check and still sound wrong. The new voice is clean, the sync lands on the mouth shapes, the pronunciation is right, and yet the moment a scene opens into score, the dialogue either disappears under the strings or the music collapses to a thin pad the instant anyone speaks. Both failures come from one place: the balance between the replacement voice and the original soundscape.</p>
+<p>The original mix was built around a performance recorded in the room, with a particular voice, microphone distance, and dynamic range, edited by someone who heard the whole scene and rode faders by hand. Replacing that performance with one recorded elsewhere, at a different level, with a narrower range invalidates the balance the mix encoded. Audio ducking in dubbing is the work of rebuilding that balance deliberately rather than inheriting it.</p>
+<p>This guide covers when a static offset beats a dynamic envelope, how attack and release produce audible artifacts, what separated stems make possible, how to handle residual original dialogue under the new voice, how to protect a lyric that collides with speech, and how ducking interacts with normalization.</p>
+<h2 id="what-audio-ducking-in-dubbing-actually-controls">What audio ducking in dubbing actually controls</h2>
+<h3 id="the-three-signal-groups">The three signal groups</h3>
+<p>Every dub mix resolves into three groups. Dialogue carries meaning. Music carries emotion and pacing. Effects carry the physical reality of the scene, from doors and footsteps to room tone. Ducking is a level relationship between groups, almost always music and effects reduced under dialogue. It is the coarse balance that keeps words intelligible without gutting the score.</p>
+<h3 id="why-a-dubbed-voice-does-not-sit-like-an-original-one">Why a dubbed voice does not sit like an original one</h3>
+<p>Original dialogue was tracked against a score written to picture, and the mixer could ride individual words, breathe the music into pauses, and let a cue bloom the moment a line ended. A dubbed voice arrives as a finished performance, usually compressed and narrow in dynamic range, cut to length. Talent delivering hundreds of lines in a session holds a steady level, and a voice produced by a <a href="/features/speech-generation">speech generation</a> system holds it even more tightly, so the variation the original mix depended on is missing. Meanwhile the music and effects stem is fixed: no alternate take, no composer available to thin a string section under a dense line. That pressure lands entirely on level control.</p>
+<h3 id="ducking-eq-carving-and-sidechain-compression-are-separate-tools">Ducking, EQ carving, and sidechain compression are separate tools</h3>
+<p>Gain reduction lowers the whole music and effects bus. Narrow-band carving opens a pocket around 1 to 4 kHz so the voice has room without the music dropping overall. Sidechain compression is the mechanism that makes dynamic ducking automatic. A durable dub uses all three in moderation. Deep gain reduction alone makes the score feel absent. Deep carving alone makes it hollow and phase-smeared. A few dB of ducking plus a gentle wide carve usually beats either extreme.</p>
+<h2 id="static-ducking-versus-dynamic-envelope-following-ducking">Static ducking versus dynamic, envelope-following ducking</h2>
+<h3 id="static-ducking">Static ducking</h3>
+<p>A static duck applies a fixed offset: music and effects down 3 dB for a dialogue scene, or down 6 dB whenever any dialogue is present. The cost is musical. During pauses the score stays suppressed at the moment it should carry the scene, and over an episode the soundtrack flattens, so action beats, comedic timing, and emotional swells all arrive at the same reduced level.</p>
+<h3 id="dynamic-ducking">Dynamic ducking</h3>
+<p>Dynamic ducking follows the dialogue&#39;s actual level. The dialogue bus feeds a sidechain input, and gain reduction on the music and effects bus rises and falls with it. A quiet line ducks less than a shouted one, and a pause lets the music return. Executed well, it is invisible; executed poorly, it becomes the most audible element in the mix.</p>
+<h3 id="hybrid-approaches">Hybrid approaches</h3>
+<p>Most professional dubs sit between the extremes. A common pattern is a scene-level static offset as the baseline plus a small dynamic range on top: a 2 dB static reduction with a dynamic stage adding up to 3 dB more on loud lines. When a deliverable is built by <a href="/features/subtitle-to-audio">converting subtitle timing into speech</a>, cue boundaries are known before the mix starts and often make more stable sidechain triggers than the waveform itself.</p>
+<h2 id="attack-and-release-timing-and-the-artifacts-of-getting-them-wrong">Attack and release timing, and the artifacts of getting them wrong</h2>
+<h3 id="attack">Attack</h3>
+<p>Attack is how quickly gain reduction engages once dialogue crosses the threshold. Set too fast, the music&#39;s transient gets clipped mid-note and produces a click or a suck that reads as a technical fault. Set too slow, the first syllable or two of each line sits under the music. That swallowed opening consonant is the most common viewer complaint, and it is nearly always an attack setting rather than a level problem. A reasonable starting range is 5 to 20 milliseconds, faster for dense rapid dialogue, slower for sparse lines over sustained music.</p>
+<h3 id="release-and-hold">Release and hold</h3>
+<p>Release is how quickly the music returns once dialogue drops below threshold. Too fast, and the music pumps back up at every comma and breath, a breathing effect that becomes fatiguing over an hour-long program. Too slow, and the music stays suppressed through a pause written to land, or bleeds into a music-only moment that should have been untouched. Releases between 150 and 400 milliseconds are a fair starting point, though hold time solves intra-line pumping more cleanly, because it delays the return between lines without smearing the moment the music is supposed to come back.</p>
+<h3 id="depth-threshold-and-hysteresis">Depth, threshold, and hysteresis</h3>
+<p>Three settings decide how much ducking happens and how stable it is.</p>
+<ul><li>Threshold sets the dialogue level at which ducking engages.</li><li>Depth, or range, sets the maximum reduction applied.</li><li>Hysteresis raises the disengage threshold above the engage threshold so gain does not chatter around a steady voice.</li></ul>
+<p>Without hysteresis, a voice sitting near the threshold produces a faint flutter that is easy to miss in a loud studio and obvious on headphones.</p>
+<h2 id="stems-versus-a-mixed-track-what-becomes-possible">Stems versus a mixed track: what becomes possible</h2>
+<h3 id="working-from-separated-dialogue-music-and-effects">Working from separated dialogue, music, and effects</h3>
+<p>Separated stems are the difference between solving the problem and negotiating with it. With clean music and effects, the original dialogue can be removed entirely and the new performance placed against an untouched score. Ducking then operates on material containing no competing speech, which permits shallower depth and fewer artifacts. Separation also makes speaker diarization useful, because individual speakers can be treated independently instead of as one undifferentiated bus. This is the standard arrangement when material passes through a full <a href="/features/video-dubbing">video dubbing</a> workflow rather than being assembled by hand.</p>
+<h3 id="when-only-a-mixed-track-exists">When only a mixed track exists</h3>
+<p>If the only source is a finished stereo or 5.1 mix, the options narrow sharply. Center-channel extraction helps only when dialogue was mixed to center. Spectral subtraction leaves smearing artifacts worse than the bleed it removes. Notch filtering around the original voice&#39;s fundamentals damages the music permanently. In that situation, accept a shallower duck, place the new voice slightly lower relative to the music than you otherwise would, document the compromise, and request stems for the next title.</p>
+<h3 id="stem-hygiene-before-mixing">Stem hygiene before mixing</h3>
+<p>Verify the stems before building anything.</p>
+<ul><li>Confirm sample-accurate alignment between dialogue and music and effects. A few milliseconds of offset smears stereo imaging and confuses sidechain timing.</li><li>Check polarity.</li><li>Solo the music and effects and confirm they contain no intelligible speech.</li><li>Confirm consistent stem lengths so nothing drops out mid-scene.</li></ul>
+<h2 id="residual-original-dialogue-under-the-new-voice">Residual original dialogue under the new voice</h2>
+<h3 id="where-bleed-comes-from">Where bleed comes from</h3>
+<p>Bleed is any audible trace of the original performance surviving under the new one. It arrives from three places: imperfect separation leaving a ghost of the original voice in the effects stem, a dub laid directly over a mixed track, and untranslated material such as crowd walla, a television playing in the background, or a public address announcement where the original language is kept deliberately. That last category is a creative decision, but it still needs to sit below the new dialogue so viewers do not try to parse it.</p>
+<h3 id="how-to-catch-it">How to catch it</h3>
+<p>Solo the music and effects bus and listen through every dialogue section louder than you would normally monitor. An intelligible word in the source language will be audible there. A second pass at reduced playback speed makes short fragments stand out. A third check is language-based: if you do not speak the source language, have someone who does listen to the effects stem alone and flag anything they understand. Bleed is easy to miss when you are fluent in the language you are monitoring, because the new performance holds your attention.</p>
+<h3 id="treatment">Treatment</h3>
+<p>Minor bleed can be handled with a narrow automated EQ cut or a short gain dip covering only the bleed duration, far less destructive than filtering an entire stem. Severe bleed usually warrants replacement: rebuild the effect from a library, or mute the region and let dialogue and score cover the gap. Where the bleed comes from an unseparated mixed track, there is no repair, only a request for better source material.</p>
+<h2 id="preserving-music-intent-when-a-lyric-collides-with-dialogue">Preserving music intent when a lyric collides with dialogue</h2>
+<h3 id="lyrics-under-dialogue">Lyrics under dialogue</h3>
+<p>When songs are not translated, the vocal sits inside the music and effects stem and gets ducked with everything else. That is usually correct, but a lyric line can vanish under a dialogue line. If the production intends the lyric to stay legible, reduce duck depth for that passage and absorb the intelligibility loss elsewhere, or move the dub line into a gap in the phrase. These are editorial calls, and they belong in a conversation with the director rather than in a surprise during final QC.</p>
+<h3 id="lyrics-that-have-been-translated">Lyrics that have been translated</h3>
+<p>If a song&#39;s lyric was carried into the target language by an <a href="/features/audio-translation">audio translation</a> pass and rerecorded, it stops behaving like music and starts behaving like dialogue. Give it its own ducking treatment against the score rather than burying it in the music stem, or the translated vocal will fight both the score and the spoken lines around it.</p>
+<h3 id="musical-moments-that-must-not-be-ducked">Musical moments that must not be ducked</h3>
+<p>Some moments carry a scene: a needle drop reveal, a solo entrance, a button ending that lands the joke. The levers are timing and level, and timing is better. If a line can be nudged into the preceding or following rest without breaking lip sync, do that instead of suppressing the cue. Where timing is immovable, automate the duck depth down by hand rather than through the sidechain, so the rest of the scene keeps its envelope. Ask for a cue sheet before mixing; knowing where cues start and end converts guesswork into a short schedule of planned exceptions.</p>
+<h2 id="loudness-targets-and-how-ducking-interacts-with-normalization">Loudness targets and how ducking interacts with normalization</h2>
+<h3 id="the-order-of-operations">The order of operations</h3>
+<p>Duck first, then normalize. Normalization applies program-level gain, so if it runs first, later ducking moves the program off target. Linear gain applied afterward preserves the relationship between dialogue and music. The complication is a limiter. If the normalization stage limits rather than applies pure gain, loud moments, usually dialogue over music, are controlled differently from quiet ones and the ducking balance shifts unpredictably. Check whether the delivery specification permits a limiter or requires gain-only normalization.</p>
+<h3 id="why-deep-ducking-partly-undoes-itself">Why deep ducking partly undoes itself</h3>
+<p>Ducking removes energy from the program. Deeper ducking produces a lower integrated loudness reading, which forces more makeup gain at normalization to reach the target. That gain raises dialogue along with everything else, and the music ends up closer to its original relationship with speech than the duck depth implied. Set depth by ear and measure short-term loudness in dialogue-dense scenes instead of trusting the program figure alone.</p>
+<h3 id="integrated-short-term-and-true-peak">Integrated, short-term, and true peak</h3>
+<p>Integrated loudness describes the whole program. Short-term loudness describes a few seconds and is the better instrument for judging whether one scene&#39;s dialogue-to-music relationship works. True peak matters because lossy codecs can push peaks above the sample ceiling during encoding, so a dub that measures at target but clips after encoding usually has a true-peak problem rather than a loudness one. Measure all three, and measure the encoded deliverable rather than only the session.</p>
+<h2 id="checking-the-mix-on-phone-speakers-headphones-and-television">Checking the mix on phone speakers, headphones, and television</h2>
+<h3 id="phone-speakers">Phone speakers</h3>
+<p>A phone driver reproduces almost no low end and emphasizes the band where dialogue lives. Ducking that sounds restrained in the studio can sound heavy there, because the reduced music has nothing left to fill the spectrum. Check at least one dialogue-dense scene on a phone at moderate volume.</p>
+<h3 id="headphones">Headphones</h3>
+<p>Headphones reveal what studio monitors forgive.</p>
+<ul><li>Release pumping and threshold chatter</li><li>Clicks at attack</li><li>Bleed fragments</li><li>Level jumps between lines</li></ul>
+<p>They are the best tool for finding artifacts and the worst for judging whether a scene feels balanced in a room, so use them diagnostically rather than for final approval.</p>
+<h3 id="television-and-soundbars">Television and soundbars</h3>
+<p>Television playback often applies its own dynamic range compression and dialogue enhancement. That processing masks small problems and exaggerates large ones, particularly deep ducking that leaves the music thin once the set&#39;s own compression has reduced it further. Test with dialogue enhancement enabled, because a meaningful share of the audience will leave it on.</p>
+<h3 id="print-a-reference-and-check-the-translation">Print a reference and check the translation</h3>
+<p>Export a stereo reference at final loudness and listen to the entire program in order without stopping. Then have a native speaker of the target language review that reference for intelligibility and for any passage where the new performance feels buried or exposed.</p>
+<h2 id="a-repeatable-mix-checklist-for-a-dubbing-pipeline">A repeatable mix checklist for a dubbing pipeline</h2>
+<ol><li>Confirm deliverables before opening the session: target language, loudness target, true-peak ceiling, channel format, and whether stems or a mixed track will be supplied.</li><li>Audit source stems for alignment, polarity, length, and a speech-free music and effects check.</li><li>Confirm the dub conforms to picture, including lines deliberately left in the source language.</li><li>Solo the music and effects and log every timestamp where source-language words are intelligible.</li><li>Choose a ducking architecture per scene type, static, dynamic, or hybrid, and write it down so the approach stays consistent across the episode.</li><li>Set a baseline static offset per scene type, then add dynamic range on top.</li><li>Tune attack, release, hold, threshold, depth, and hysteresis per scene rather than per line.</li><li>Carve a gentle wide EQ pocket around 1 to 4 kHz if the voice still fights the music after level control.</li><li>Automate exceptions by hand: musical moments, translated lyrics, and bleed repairs.</li><li>Measure short-term loudness in dialogue-dense scenes before running program normalization.</li><li>Normalize to target, then verify true peak on the encoded deliverable rather than the session.</li><li>Review the full program on phone, headphones, and television, with a native-speaker intelligibility pass.</li></ol>
+<p>Where a step runs through automation rather than a person, keep it as an explicit gate with logged output, so a scene that fails becomes visible instead of silent. The platform <a href="/docs">documentation</a> covers how those stages map onto programmatic workflows.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="how-much-ducking-is-too-much">How much ducking is too much?</h3>
+<p>When the music becomes noticeably absent rather than supportive, the depth is excessive. Mute the dialogue for a few seconds and ask whether the score still sounds like a score. If it sounds thin or hollow, reduce depth and lean on EQ carving instead.</p>
+<h3 id="should-ducking-happen-before-or-after-normalization">Should ducking happen before or after normalization?</h3>
+<p>Before. Normalization applies program-level gain, and running it first means later ducking moves the program off target. Ducking first also lets you hear the mix at a realistic level while making decisions.</p>
+<h3 id="why-does-the-music-sound-like-it-is-breathing">Why does the music sound like it is breathing?</h3>
+<p>Release is set too fast, or hold time is too short, so gain returns between words rather than between lines. Increase hold first, then lengthen release if the problem persists.</p>
+<h3 id="can-a-dub-be-ducked-if-only-a-finished-mix-exists">Can a dub be ducked if only a finished mix exists?</h3>
+<p>Technically yes, but the available tools damage the music. Expect to accept a shallower duck and a slightly lower dialogue level, and request separated stems for subsequent titles.</p>
+<h3 id="does-ducking-change-the-loudness-measurement">Does ducking change the loudness measurement?</h3>
+<p>Yes. Because ducking removes energy, deeper ducking lowers the integrated loudness reading and increases the makeup gain required at normalization, which pushes the music back toward its original relationship with speech.</p>
+<h3 id="how-do-you-find-original-dialogue-left-under-the-new-voice">How do you find original dialogue left under the new voice?</h3>
+<p>Solo the music and effects bus, monitor louder than usual, and listen through every dialogue section, ideally with a native speaker of the source language involved. Short fragments surface more easily at reduced playback speed.</p>
+<h3 id="is-static-ducking-ever-the-better-choice">Is static ducking ever the better choice?</h3>
+<p>Yes, in short-form content, heavily compressed deliverables, or scenes where music is nearly continuous. It is predictable and artifact-free, which matters more than musical shape when there is no room for the score to breathe anyway.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Ducking is not a single setting. It is a per-scene decision about how much of the original soundscape the new voice is allowed to displace, and the answer changes with the music, the pace of dialogue, and the deliverable. The mixers who get it right are not using better plugins; they are deciding deliberately, documenting the decision, and measuring the result on more than one playback system.</p>
+<p>A practical next step is to fix the architecture before the next title. Choose a default ducking approach per scene type, define the attack, release, hold, and hysteresis ranges that go with each, and put the checklist above into the pipeline as a set of gates. That converts a subjective balance problem into a repeatable one and makes exceptions visible while they are still cheap to fix.</p>
+<p>Where a title&#39;s source audio cannot support the result the deliverable requires, <a href="/contact">raise it with the team</a> before the mix is signed off rather than rebuilding after delivery, and treat the mix as finished only when a native speaker has heard it on a phone.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Faudio-ducking-for-dubbed-video" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Faudio-ducking-for-dubbed-video&amp;text=Audio%20Ducking%20in%20Dubbing%3A%20Balancing%20Voice%2C%20Music%2C%20and%20Effects" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Faudio-ducking-for-dubbed-video" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/code-switching-in-video-translation" aria-label="Read Code-Switching in Video Translation: When Speakers Mix Languages"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/clinical-glass-lattice.png" alt="Dark glass layers with overlapping language fragments and glowing translation paths." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Code-Switching in Video Translation: When Speakers Mix Languages</h2><p class="blog-card-description">Learn why single-language pipelines fail when speakers mix languages, how code-switching carries meaning that gets lost, and what practical steps keep bilingual video translation accurate and usable. See how to detect mixed-language segments and preserve speaker intent.</p>
+      <time class="blog-card-date" datetime="2026-09-08T11:30:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/numbers-dates-units-in-subtitles" aria-label="Read Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/classroom-glass-panes.jpg" alt="Dark-glass abstract hero with subtitle lines, numeric glyphs, and decimal separator split" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust</h2><p class="blog-card-description">This guide explains how numbers, dates, and units break subtitle trust across markets, then gives editors and QA reviewers a repeatable system for catching errors. You get separator and unit rules, failure modes, and a spot-check method that works on a full deliverable without reading every cue.</p>
+      <time class="blog-card-date" datetime="2026-09-07T19:00:00Z">Sep 7, 2026 · 15 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/pronunciation-dictionaries-for-dubbing" aria-label="Read Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/civic-glass-arches.jpg" alt="abstract dark-glass hero image of layered waveform and phonetic symbols" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right</h2><p class="blog-card-description">Learn how to treat a pronunciation dictionary for dubbing as a versioned production artifact. The guide covers entry design, phonetic notation, per-language variants, ownership, review, and testing to stop recurring name errors.</p>
+      <time class="blog-card-date" datetime="2026-09-07T16:30:00Z">Sep 7, 2026 · 13 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,756 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>Code-Switching in Video Translation: When Speakers Mix Languages | Octavia</title>
+    <meta name="description" content="Learn how code-switching in video translation breaks single-language pipelines, why mixed speech loses meaning, and how to preserve bilingual context.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/code-switching-in-video-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Code-Switching in Video Translation: When Speakers Mix Languages">
+    <meta property="og:description" content="Learn how code-switching in video translation breaks single-language pipelines, why mixed speech loses meaning, and how to preserve bilingual context.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/code-switching-in-video-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/clinical-glass-lattice.png">
+    <meta property="article:published_time" content="2026-09-08T11:30:00Z">
+    <meta property="article:modified_time" content="2026-09-08T11:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Code-Switching in Video Translation: When Speakers Mix Languages">
+    <meta name="twitter:description" content="Learn how code-switching in video translation breaks single-language pipelines, why mixed speech loses meaning, and how to preserve bilingual context.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/clinical-glass-lattice.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Code-Switching in Video Translation: When Speakers Mix Languages","description":"Learn how code-switching in video translation breaks single-language pipelines, why mixed speech loses meaning, and how to preserve bilingual context.","image":"https://octavia.lunartech.ai/assets/blog/images/clinical-glass-lattice.png","datePublished":"2026-09-08T11:30:00Z","dateModified":"2026-09-08T11:30:00Z","wordCount":2979,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/code-switching-in-video-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"Code-Switching in Video Translation: When Speakers Mix Languages","item":"https://octavia.lunartech.ai/blog/code-switching-in-video-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/technical-guides">Technical Guides</a>
+        <h1 class="article-title">Code-Switching in Video Translation: When Speakers Mix Languages</h1><p class="article-deck">Learn why single-language pipelines fail when speakers mix languages, how code-switching carries meaning that gets lost, and what practical steps keep bilingual video translation accurate and usable. See how to detect mixed-language segments and preserve speaker intent.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-08T11:30:00Z">Sep 8, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/clinical-glass-lattice.png" alt="Dark glass layers with overlapping language fragments and glowing translation paths." fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#why-code-switching-in-video-translation-breaks-single-language-asr">Why code-switching in video translation breaks single-language ASR</a></li><li><a class="toc-h3" data-toc-link href="#what-the-decoder-does-when-the-language-changes">What the decoder does when the language changes</a></li><li><a class="toc-h3" data-toc-link href="#the-damage-downstream-of-the-transcript">The damage downstream of the transcript</a></li><li><a class="toc-h3" data-toc-link href="#a-worked-example">A worked example</a></li><li><a class="toc-h2" data-toc-link href="#common-patterns-in-a-real-library">Common patterns in a real library</a></li><li><a class="toc-h3" data-toc-link href="#hinglish-and-south-asian-mixing">Hinglish and South Asian mixing</a></li><li><a class="toc-h3" data-toc-link href="#spanglish-in-bilingual-content">Spanglish in bilingual content</a></li><li><a class="toc-h3" data-toc-link href="#taglish-arabic-french-and-swahili-english">Taglish, Arabic-French, and Swahili-English</a></li><li><a class="toc-h3" data-toc-link href="#what-the-patterns-share">What the patterns share</a></li><li><a class="toc-h2" data-toc-link href="#code-switching-in-video-translation-intra-sentence-versus-speaker-level">Code-switching in video translation: intra-sentence versus speaker-level</a></li><li><a class="toc-h3" data-toc-link href="#intra-sentence-switching">Intra-sentence switching</a></li><li><a class="toc-h3" data-toc-link href="#speaker-level-switching">Speaker-level switching</a></li><li><a class="toc-h3" data-toc-link href="#why-the-handling-differs">Why the handling differs</a></li><li><a class="toc-h2" data-toc-link href="#deciding-what-the-switch-means-term-quote-or-habit">Deciding what the switch means: term, quote, or habit</a></li><li><a class="toc-h3" data-toc-link href="#the-lexical-gap-test">The lexical-gap test</a></li><li><a class="toc-h3" data-toc-link href="#register-and-institutional-terms">Register and institutional terms</a></li><li><a class="toc-h3" data-toc-link href="#social-and-identity-signals">Social and identity signals</a></li><li><a class="toc-h3" data-toc-link href="#keeping-a-switch-ledger">Keeping a switch ledger</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-conventions-for-marking-a-second-language-on-screen">Subtitle conventions for marking a second language on screen</a></li><li><a class="toc-h3" data-toc-link href="#italics-and-when-they-stop-working">Italics and when they stop working</a></li><li><a class="toc-h3" data-toc-link href="#the-target-language-collision-problem">The target-language collision problem</a></li><li><a class="toc-h3" data-toc-link href="#dashes-tags-and-speaker-attribution">Dashes, tags, and speaker attribution</a></li><li><a class="toc-h3" data-toc-link href="#when-not-to-translate">When not to translate</a></li><li><a class="toc-h2" data-toc-link href="#dubbing-decisions-preserve-normalize-or-flag-for-a-human">Dubbing decisions: preserve, normalize, or flag for a human</a></li><li><a class="toc-h3" data-toc-link href="#preserve-the-switch">Preserve the switch</a></li><li><a class="toc-h3" data-toc-link href="#normalize-to-one-language">Normalize to one language</a></li><li><a class="toc-h3" data-toc-link href="#flag-for-human-review">Flag for human review</a></li><li><a class="toc-h3" data-toc-link href="#voice-casting-and-voice-preservation">Voice casting and voice preservation</a></li><li><a class="toc-h2" data-toc-link href="#segmentation-and-timing-problems-in-mixed-language-audio">Segmentation and timing problems in mixed-language audio</a></li><li><a class="toc-h3" data-toc-link href="#word-boundary-drift">Word boundary drift</a></li><li><a class="toc-h3" data-toc-link href="#reading-speed-across-a-two-language-cue">Reading speed across a two-language cue</a></li><li><a class="toc-h3" data-toc-link href="#numbers-names-and-punctuation">Numbers, names, and punctuation</a></li><li><a class="toc-h2" data-toc-link href="#test-clips-and-a-review-workflow-for-ambiguous-switches">Test clips and a review workflow for ambiguous switches</a></li><li><a class="toc-h3" data-toc-link href="#what-the-clip-set-must-contain">What the clip set must contain</a></li><li><a class="toc-h3" data-toc-link href="#thresholds-and-routing">Thresholds and routing</a></li><li><a class="toc-h3" data-toc-link href="#bilingual-reviewer-instructions">Bilingual reviewer instructions</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#can-automated-systems-detect-code-switching-reliably">Can automated systems detect code-switching reliably?</a></li><li><a class="toc-h3" data-toc-link href="#should-subtitles-translate-a-switched-line-or-leave-it-in-the-source-language">Should subtitles translate a switched line or leave it in the source language?</a></li><li><a class="toc-h3" data-toc-link href="#does-dubbing-always-remove-the-original-switch">Does dubbing always remove the original switch?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-biggest-practical-cost-of-ignoring-code-switching">What is the biggest practical cost of ignoring code-switching?</a></li><li><a class="toc-h3" data-toc-link href="#how-do-you-handle-a-speaker-who-switches-to-quote-someone-else">How do you handle a speaker who switches to quote someone else?</a></li><li><a class="toc-h3" data-toc-link href="#do-you-need-a-bilingual-reviewer-for-every-project">Do you need a bilingual reviewer for every project?</a></li><li><a class="toc-h3" data-toc-link href="#how-many-languages-should-a-recognition-pass-be-configured-for">How many languages should a recognition pass be configured for?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>Most localization pipelines assume one source language per recording. A producer tags a file as Hindi, the recognition stage loads a Hindi model, and every downstream step inherits that decision. Then a speaker says, &quot;the deployment window is tight, humein logistics ke saath align karna padega,&quot; and the transcript comes back with the English words transliterated into Devanagari, duplicated, or dropped. The translator, who never heard the audio, renders it faithfully.</p>
+<p>Code-switching in video translation is not an edge case. Bilingual speakers switch because a term has no settled equivalent, because a quotation is only valid in its original form, because a professional register pulls in the English noun, or because they are more fluent in one language for one subject. The switch carries information, and a pipeline that treats it as noise produces output that is technically translated and practically wrong.</p>
+<p>The models are rarely the obstacle; most handle two languages when told to. Nobody tells them, because the metadata says one language and mixed speech is rarely distributed evenly through a file. Ten minutes of monolingual interview followed by ninety seconds of dense switching is still tagged as a monolingual asset.</p>
+<h2 id="why-code-switching-in-video-translation-breaks-single-language-asr">Why code-switching in video translation breaks single-language ASR</h2>
+<h3 id="what-the-decoder-does-when-the-language-changes">What the decoder does when the language changes</h3>
+<p>Speech recognition combines an acoustic score, which measures how well the audio matches a sequence of phones, with a language score, which measures how likely that token sequence is in the expected language. That second score is where code-switching does its damage. When a Hindi model hears &quot;deadline,&quot; the probability mass assigned to a Devanagari transliteration far exceeds the mass assigned to the English spelling, so the decoder writes डेडलाइन. The audience gets a Hindi noun where a shared English term belonged, and the intended register is gone.</p>
+<p>The acoustic model adds a second failure. Phoneme inventories differ across languages, and a model trained on one maps unfamiliar phones onto its nearest neighbors. English /θ/ and /ð/ collapse onto dental stops in a Hindi-tuned system; French nasal vowels flatten in an Arabic-tuned system; Swahili vowel length distinctions disappear under an English-tuned system. The transcript is phonetically wrong, not merely mislabeled, so correction by inspection cannot always recover the original word.</p>
+<h3 id="the-damage-downstream-of-the-transcript">The damage downstream of the transcript</h3>
+<p>Errors do not stay in the transcript. Punctuation restoration and sentence segmentation rely on the language model&#39;s sense of where clauses end, so confused boundaries become cue boundaries and subtitle timings. Termbase matching fails because the source string is transliterated rather than spelled conventionally, and translation memory lookups miss. Speaker diarization still separates voices, but one speaker who switches languages may be split into two if language is one of its features.</p>
+<p>Word error rate adds a measurement problem. The reference transcript must be code-switched the same way the audio is; a reference that normalizes &quot;schedule&quot; to a Hindi equivalent scores a correct English token as an error and a wrong Hindi token as correct.</p>
+<h3 id="a-worked-example">A worked example</h3>
+<p>Take a Spanglish line from a product update: &quot;Necesitamos cerrar el rollout antes del Q3, pero el budget todavía está en review.&quot; Three English tokens sit inside a Spanish frame, and each behaves differently. &quot;Rollout&quot; is an established borrowing that Spanish-speaking audiences read without friction. &quot;Q3&quot; is a proper noun that stays as-is in nearly every target language. &quot;Review&quot; is the interesting one: it can be translated as revisión, but in this speaker&#39;s organization the English word may be the internal term.</p>
+<p>An English-only pipeline outputs &quot;Necesitamos cerrar el roll out antes del cute three,&quot; or drops the Spanish. A Spanish-only pipeline transliterates all three English tokens into Spanish orthography. Neither output is usable without a human who can hear the audio.</p>
+<h2 id="common-patterns-in-a-real-library">Common patterns in a real library</h2>
+<h3 id="hinglish-and-south-asian-mixing">Hinglish and South Asian mixing</h3>
+<p>Hindi-English switching follows domain. Technical and commercial nouns arrive in English; verbs, connectors, and emotional content stay in Hindi. The mix is grammatically integrated rather than two languages stapled together: a Hindi verb can carry an English stem with Hindi morphology, so the switch happens inside a word rather than between words. Word-level language identification on such audio is unreliable.</p>
+<h3 id="spanglish-in-bilingual-content">Spanglish in bilingual content</h3>
+<p>In United States bilingual media, switching often tracks audience rather than topic. A speaker addressing a monolingual English colleague stays in English, then turns to a Spanish-dominant family member and switches mid-sentence. The switch is a social signal, and removing it removes characterization.</p>
+<h3 id="taglish-arabic-french-and-swahili-english">Taglish, Arabic-French, and Swahili-English</h3>
+<p>Taglish resembles Hinglish in structure but differs in default: English supplies the technical layer, Tagalog supplies affect and hedging. Arabic-French switching in North African and Levantine content marks formality in French and intimacy in Arabic. Swahili-English switching in East African broadcast and corporate content tends toward English for institutional vocabulary and Swahili for narrative. The direction of the switch tells you which language is the frame and which is the insert.</p>
+<h3 id="what-the-patterns-share">What the patterns share</h3>
+<ul><li>One language supplies most function words and the other supplies content words, so the switch is asymmetric.</li><li>The switch is topic-bound, so it clusters in time rather than distributing evenly.</li><li>The switch is intentional, and it is invisible in project metadata because the file was tagged before anyone listened.</li></ul>
+<h2 id="code-switching-in-video-translation-intra-sentence-versus-speaker-level">Code-switching in video translation: intra-sentence versus speaker-level</h2>
+<h3 id="intra-sentence-switching">Intra-sentence switching</h3>
+<p>A single utterance contains tokens from two languages. Language identification must operate below the utterance level, the acoustic model must survive two phoneme inventories, and translation must decide token by token whether to translate or preserve. Intra-sentence switching also breaks the assumption that a cue has one source language, which changes how you configure a <a href="/features/video-translation">video translation pipeline</a> and route output for review.</p>
+<h3 id="speaker-level-switching">Speaker-level switching</h3>
+<p>Different speakers use different languages, or one speaker uses a different language in clearly separated segments. This is easier because segmentation can carry the language label. The risks are mislabeled segments, abrupt timbre changes when a voice model is reloaded, and inconsistency when the same proper noun is spelled two ways across the file.</p>
+<h3 id="why-the-handling-differs">Why the handling differs</h3>
+<p>Speaker-level switching is a routing problem; intra-sentence switching is a token-level decision problem. Conflating them produces the worst of both: segment-level routing that splits a sentence in half, and token-level heuristics applied to a speaker who never mixed languages.</p>
+<p>A workable sequence for a mixed asset:</p>
+<ol><li>Detect language at the segment level and flag segments whose confidence is low or whose language differs from the file tag.</li><li>Re-run recognition on flagged segments with a two-language configuration.</li><li>Run word-level language identification on flagged segments only, recording per-token confidence.</li><li>Classify each flagged token using the decision rules below.</li><li>Route anything that fails classification to a bilingual reviewer with a timestamp and a short audio excerpt.</li></ol>
+<h2 id="deciding-what-the-switch-means-term-quote-or-habit">Deciding what the switch means: term, quote, or habit</h2>
+<h3 id="the-lexical-gap-test">The lexical-gap test</h3>
+<p>Ask whether the target language has a settled equivalent a domain expert would recognize. If it does and the speaker still used the other language, the switch is stylistic. If it does not, the switch marks a real gap, and the borrowed term should usually survive translation, perhaps with a gloss on first use.</p>
+<h3 id="register-and-institutional-terms">Register and institutional terms</h3>
+<p>Corporate titles, product names, compliance vocabulary, and internal jargon stay in the source language because the organization uses them that way. A Tagalog-dominant speaker in a Manila office may say &quot;quarterly business review&quot; in English because the calendar invite does, and translating it into Tagalog can make the line harder to match against the organization&#39;s own materials.</p>
+<h3 id="social-and-identity-signals">Social and identity signals</h3>
+<p>When a speaker shifts language to address a family member or quote a parent, the switch is character information, and translating it away flattens the scene. Preserving it asks the audience to read a line in a language they do not share, which is a legibility trade-off rather than a translation problem.</p>
+<h3 id="keeping-a-switch-ledger">Keeping a switch ledger</h3>
+<p>For any asset with more than a handful of switches, keep a ledger that travels with the project:</p>
+<ul><li>Timestamp range and speaker</li><li>Detected language and the confidence that triggered review</li><li>Classification: term, quotation, register marker, social signal, or unclear</li><li>Decision: preserve, translate, gloss, or flag</li><li>One-line rationale from the person who made the call</li><li>Whether the same switch exists in the target audience&#39;s repertoire</li></ul>
+<p>The ledger turns a per-cue argument into a reusable rule. When the same presenter appears in a second video, the decisions carry forward.</p>
+<h2 id="subtitle-conventions-for-marking-a-second-language-on-screen">Subtitle conventions for marking a second language on screen</h2>
+<h3 id="italics-and-when-they-stop-working">Italics and when they stop working</h3>
+<p>Many broadcast style guides italicize foreign-language dialogue. That convention assumes the audience shares a dominant language and the foreign line is an exception. In a genuinely bilingual asset, where a third of the dialogue is in the other language, italics stop signaling &quot;foreign&quot; and start signaling &quot;different,&quot; which readers interpret as arbitrary.</p>
+<h3 id="the-target-language-collision-problem">The target-language collision problem</h3>
+<p>If the source mixes Hindi and English and the target is English, the Hindi needs translation and the English insert does not. Translate both and the audience loses the fact that the speaker switched; translate neither and comprehension fails. The usual resolution is to translate the non-target language and leave the target-language insert untouched, so the switch stays visible. A <a href="/features/subtitle-translation">subtitle translation</a> workflow should expose this as a per-project setting rather than hardcode it.</p>
+<h3 id="dashes-tags-and-speaker-attribution">Dashes, tags, and speaker attribution</h3>
+<p>Dialogue dashes assume one language per cue. Where a cue spans a switch, some conventions insert a bracketed language tag and others use a dash plus italics on the switched portion. Tags survive small screens and auto-generated captions better than formatting, since italics may not render. Pick one and apply it across the series.</p>
+<h3 id="when-not-to-translate">When not to translate</h3>
+<p>If a scene is deliberately opaque to a character who does not speak the second language, translating the line destroys the dramatic function. Subtitle it anyway for accessibility or mark it as untranslated, but the decision belongs to the producer. Log it in the ledger.</p>
+<h2 id="dubbing-decisions-preserve-normalize-or-flag-for-a-human">Dubbing decisions: preserve, normalize, or flag for a human</h2>
+<h3 id="preserve-the-switch">Preserve the switch</h3>
+<p>Preservation works when the target audience plausibly shares the second language. A Spanish dub of an English-Spanish interview can leave the English lines in English, because the switch is part of what the audience came for. This option lives or dies on delivery: leave English lines to a voice actor with a heavy accent and the result reads as a mistake rather than a choice.</p>
+<h3 id="normalize-to-one-language">Normalize to one language</h3>
+<p>Normalization works when the switch is habitual rather than meaningful. If a speaker uses &quot;budget&quot; and &quot;presupuesto&quot; interchangeably in the same paragraph, translating both to presupuesto loses nothing. It also simplifies timing, because one target language produces more predictable syllable counts for lip synchronization.</p>
+<h3 id="flag-for-human-review">Flag for human review</h3>
+<p>Flag when the switch is a plot point, a quotation, a legal statement, or a term of art, and when the speaker&#39;s accent in the second language is itself characterization. Automated systems cannot reliably distinguish a speaker who is fluent from one who is performing fluency, and that distinction changes the correct treatment in a <a href="/features/video-dubbing">dubbing</a> pass.</p>
+<h3 id="voice-casting-and-voice-preservation">Voice casting and voice preservation</h3>
+<p>A dub that carries two languages is a casting decision: either one voice actor handles both convincingly, or two actors split the part with a risk of audible discontinuity. Speaker diarization establishes how many distinct voices exist before you assign any of them. Where the original speaker&#39;s identity matters, voice cloning preserves that voice across target languages, provided the speaker has authorized the use; <a href="/features/speech-generation">speech generation</a> for the target lines should follow the same authorization record as the source recording.</p>
+<h2 id="segmentation-and-timing-problems-in-mixed-language-audio">Segmentation and timing problems in mixed-language audio</h2>
+<h3 id="word-boundary-drift">Word boundary drift</h3>
+<p>Recognition errors near a switch point shift word boundaries. A segment that should start on a conjunction starts half a word later, and because cues are built from those boundaries, one bad boundary propagates through the paragraph. When you re-run recognition on a flagged segment, re-derive cue timing for that segment and the following one rather than only the flagged one.</p>
+<h3 id="reading-speed-across-a-two-language-cue">Reading speed across a two-language cue</h3>
+<p>A cue containing two languages runs longer than a monolingual cue with the same content, because the switch consumes screen space, especially with a language tag. A line that reads comfortably in one language can exceed a comfortable rate once a tag or gloss is added. Recheck characters per second on every cue carrying a switch marker, and split rather than compress.</p>
+<h3 id="numbers-names-and-punctuation">Numbers, names, and punctuation</h3>
+<p>Numbers spoken in one language and written in another are a common mismatch: the speaker says the number in Hindi, the surrounding text is Spanish, and numeral formatting differs by locale. Decide once whether numbers follow the target locale or the source. Names behave the same way when they have a conventional transliteration in one language and not the other.</p>
+<h2 id="test-clips-and-a-review-workflow-for-ambiguous-switches">Test clips and a review workflow for ambiguous switches</h2>
+<h3 id="what-the-clip-set-must-contain">What the clip set must contain</h3>
+<p>Build the evaluation set from your own library rather than public corpora, because your failure modes come from your speakers. Fifteen to twenty clips is enough if they cover the right axes:</p>
+<ul><li>Monolingual audio in each language your library uses, as a control</li><li>Intra-sentence switching with short inserts of one or two words</li><li>Intra-sentence switching with inserts that span a clause</li><li>Speaker-level switching between two speakers, and within one speaker across topic changes</li><li>Switching under noise, music, or overlapping dialogue, where the switch point is often the noisiest part of the clip</li><li>At least one quotation and one term of art</li></ul>
+<h3 id="thresholds-and-routing">Thresholds and routing</h3>
+<p>Define an explicit rule for usable output. A workable start: a token passes automatically when the detected language is confident and the classification is unambiguous, and is flagged when confidence is low, when classification is &quot;unclear,&quot; or when the token is a proper noun or numeral that exists in both languages. Tune the threshold against your clip set by measuring how many flagged tokens route to review and how many of those reviews change the output; a threshold that sends everything to review is as useless as one that sends nothing.</p>
+<h3 id="bilingual-reviewer-instructions">Bilingual reviewer instructions</h3>
+<p>Give reviewers three things: the audio with the switch timestamp marked, the current output, and an instruction sheet asking one question per flagged token, namely whether the speaker switched languages and what the switch does. Reviewers answer in a controlled vocabulary drawn from the ledger&#39;s classification list, so their answers feed back into the termbase and into the next project&#39;s rules. Teams wiring this into an existing system can exchange review metadata through the API, with the schema and field definitions in the <a href="/docs">documentation</a>, keeping timestamps, speaker labels, and review status attached to the asset instead of a separate file.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="can-automated-systems-detect-code-switching-reliably">Can automated systems detect code-switching reliably?</h3>
+<p>Segment-level detection is reliable when the language changes for more than a few seconds and the audio is clean. Word-level detection inside an utterance is far less reliable, particularly for single-word inserts and for languages that share loanwords. Treat it as a candidate generator that requires review.</p>
+<h3 id="should-subtitles-translate-a-switched-line-or-leave-it-in-the-source-language">Should subtitles translate a switched line or leave it in the source language?</h3>
+<p>Translate it if the target audience cannot be expected to understand it, and leave it if the switch is the point. Most productions translate for accessibility and preserve the switch through formatting or a language tag.</p>
+<h3 id="does-dubbing-always-remove-the-original-switch">Does dubbing always remove the original switch?</h3>
+<p>No. A dub can preserve the second language when the target audience shares it, normalize both into one when the switch is habitual, or flag the line for a human decision when the switch is meaningful. The choice is editorial, not technical.</p>
+<h3 id="what-is-the-biggest-practical-cost-of-ignoring-code-switching">What is the biggest practical cost of ignoring code-switching?</h3>
+<p>Rework. Errors introduced at recognition compound through translation, timing, and quality control. A switch caught at the transcript stage costs one correction; the same switch caught at subtitle review costs a re-translation, a re-timing pass, and a new review cycle.</p>
+<h3 id="how-do-you-handle-a-speaker-who-switches-to-quote-someone-else">How do you handle a speaker who switches to quote someone else?</h3>
+<p>Treat the quotation as its own unit. Preserve it if the audience is meant to recognize the original wording, and translate it with a quotation marker if the content matters more than the form. Record the decision in the ledger so a repeated quotation is handled consistently.</p>
+<h3 id="do-you-need-a-bilingual-reviewer-for-every-project">Do you need a bilingual reviewer for every project?</h3>
+<p>Only where switches are frequent or carry meaning. A single reviewer who speaks both source languages can cover a series, and their ledger decisions reduce the volume of future reviews.</p>
+<h3 id="how-many-languages-should-a-recognition-pass-be-configured-for">How many languages should a recognition pass be configured for?</h3>
+<p>Two covers most real switching. Three-language intra-sentence switching exists but is rare, and adding a third language increases false positives on monolingual audio more than it improves recall on mixed passages.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The practical first step is not a model change. It is a listening pass. Pull a sample from each series in your library, listen for switches, and note which pairing dominates and how the switch behaves. That tells you whether two-language recognition needs to run on every asset or only on a flagged subset, and which reviewer you need to hire.</p>
+<p>From there, set your defaults deliberately. For subtitles, decide whether you translate switched lines or preserve them, and pick a marking convention you can apply consistently. For dubbing, decide whether you preserve, normalize, or flag, and write the rule down so the outcome does not depend on who is on shift.</p>
+<p>The last step is the loop. Every ambiguous switch a reviewer classifies becomes a rule, and every rule shrinks the next project&#39;s review queue. Teams that run this loop end up with a termbase that reflects how their speakers actually talk, which is the only asset that makes mixed-language production sustainable. If you are starting from scratch, a short conversation about how your audio and your review workflow should connect is faster than rebuilding the pipeline twice; <a href="/contact">get in touch</a> before the next series goes into production.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fcode-switching-in-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fcode-switching-in-video-translation&amp;text=Code-Switching%20in%20Video%20Translation%3A%20When%20Speakers%20Mix%20Languages" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fcode-switching-in-video-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/technical-guides">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/audio-ducking-for-dubbed-video" aria-label="Read Audio Ducking in Dubbing: Balancing Voice, Music, and Effects"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/congregation-light-nave.jpg" alt="Abstract dark-glass panels with waveforms and fader lines for dubbing." loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Audio Ducking in Dubbing: Balancing Voice, Music, and Effects</h2><p class="blog-card-description">This guide explains how to rebuild the balance between dubbed dialogue, music, and effects. You will learn when a static offset beats a dynamic envelope, how attack and release shape artifacts, and what stems and normalization make possible.</p>
+      <time class="blog-card-date" datetime="2026-09-08T19:00:00Z">Sep 8, 2026 · 14 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/numbers-dates-units-in-subtitles" aria-label="Read Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/classroom-glass-panes.jpg" alt="Dark-glass abstract hero with subtitle lines, numeric glyphs, and decimal separator split" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Numbers, Dates, and Units in Subtitles: Localization Details That Break Trust</h2><p class="blog-card-description">This guide explains how numbers, dates, and units break subtitle trust across markets, then gives editors and QA reviewers a repeatable system for catching errors. You get separator and unit rules, failure modes, and a spot-check method that works on a full deliverable without reading every cue.</p>
+      <time class="blog-card-date" datetime="2026-09-07T19:00:00Z">Sep 7, 2026 · 15 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/pronunciation-dictionaries-for-dubbing" aria-label="Read Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/civic-glass-arches.jpg" alt="abstract dark-glass hero image of layered waveform and phonetic symbols" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Technical Guides</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Pronunciation Dictionaries for Dubbing: Getting Names and Terms Right</h2><p class="blog-card-description">Learn how to treat a pronunciation dictionary for dubbing as a versioned production artifact. The guide covers entry design, phonetic notation, per-language variants, ownership, review, and testing to stop recurring name errors.</p>
+      <time class="blog-card-date" datetime="2026-09-07T16:30:00Z">Sep 7, 2026 · 13 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>

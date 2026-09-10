@@ -1,0 +1,752 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Smooth load: lock the dark background immediately and keep content hidden
+         until the Tailwind styles are applied, then fade in — this removes the
+         flash of unstyled HTML that makes the load feel janky. */
+      html { background-color: #050505; }
+      body { opacity: 0; transition: opacity 0.5s ease; }
+      body.tw-ready { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+    </style>
+    <noscript><style>body{opacity:1 !important}</style></noscript>
+    <script>
+      (function () {
+        function reveal() { if (document.body) document.body.classList.add("tw-ready"); }
+        if (document.readyState !== 'loading') requestAnimationFrame(reveal);
+        else document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(reveal); });
+        window.addEventListener('load', reveal);
+        setTimeout(reveal, 1500);
+      })();
+    </script>
+    <title>User-Generated Content Translation: Scale, Consent, and Quality Control | Octavia</title>
+    <meta name="description" content="User-generated content translation means uneven volume, varied source quality, and creator consent. Our guide covers intake, quality control, and measurement.">
+    <!-- BLOG_SEO_START -->
+    <link rel="canonical" href="https://octavia.lunartech.ai/blog/user-generated-content-translation">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="User-Generated Content Translation: Scale, Consent, and Quality Control">
+    <meta property="og:description" content="User-generated content translation means uneven volume, varied source quality, and creator consent. Our guide covers intake, quality control, and measurement.">
+    <meta property="og:url" content="https://octavia.lunartech.ai/blog/user-generated-content-translation">
+    <meta property="og:image" content="https://octavia.lunartech.ai/assets/blog/images/adjacent-glass-monoliths.png">
+    <meta property="article:published_time" content="2026-09-05T11:30:00Z">
+    <meta property="article:modified_time" content="2026-09-05T11:30:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="User-Generated Content Translation: Scale, Consent, and Quality Control">
+    <meta name="twitter:description" content="User-generated content translation means uneven volume, varied source quality, and creator consent. Our guide covers intake, quality control, and measurement.">
+    <meta name="twitter:image" content="https://octavia.lunartech.ai/assets/blog/images/adjacent-glass-monoliths.png">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"User-Generated Content Translation: Scale, Consent, and Quality Control","description":"User-generated content translation means uneven volume, varied source quality, and creator consent. Our guide covers intake, quality control, and measurement.","image":"https://octavia.lunartech.ai/assets/blog/images/adjacent-glass-monoliths.png","datePublished":"2026-09-05T11:30:00Z","dateModified":"2026-09-05T11:30:00Z","wordCount":2959,"timeRequired":"PT14M","mainEntityOfPage":"https://octavia.lunartech.ai/blog/user-generated-content-translation","author":{"@type":"Organization","name":"Octavia Editorial Team"},"publisher":{"@type":"Organization","name":"Octavia","url":"https://octavia.lunartech.ai"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://octavia.lunartech.ai"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://octavia.lunartech.ai/blog"},{"@type":"ListItem","position":3,"name":"User-Generated Content Translation: Scale, Consent, and Quality Control","item":"https://octavia.lunartech.ai/blog/user-generated-content-translation"}]}</script>
+    <!-- BLOG_SEO_END -->
+    <link rel="icon" type="image/jpeg" href="../../assets/lunartechai_logo_black.jpg">
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- FOUC guard: born-hidden nav dropdown panels so their contents never flash in-flow
+         before Tailwind applies on load. Matches the class attribute (works pre-CSS);
+         Tailwind's group-hover rules win by specificity, so hover-to-open is unaffected. -->
+    <style>
+      nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- Page content renders immediately; no UnicornStudio project is used on this page. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            400: '#A78BFA',
+                            500: '#8B5CF6',
+                            600: '#7C3AED',
+                            900: '#2E1065',
+                        },
+                        neutral: {
+                            850: '#1a1a1a',
+                            900: '#111111',
+                            950: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Geist', 'Inter', 'sans-serif'],
+                        display: ['Geist', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 60px -15px rgba(139, 92, 246, 0.15)',
+                        'glow-sm': '0 0 20px -5px rgba(139, 92, 246, 0.3)',
+                    },
+                }
+            },
+            plugins: [
+                function ({ addUtilities }) {
+                    addUtilities({
+                        '.perspective-1000': { perspective: '1000px' },
+                        '.transform-style-3d': { transformStyle: 'preserve-3d' },
+                        '.backface-hidden': { backfaceVisibility: 'hidden' },
+                    })
+                }
+            ]
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'Geist';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('../../assets/fonts/geist-latin.woff2') format('woff2');
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Geist', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .content-wait-for-load {
+            opacity: 1;
+            transition: none;
+            will-change: auto;
+        }
+
+        .content-loaded {
+            opacity: 1;
+        }
+
+        /* Follow-us row */
+        .fu-row {
+            display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+            gap: 1rem; padding: 0.5rem 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .fu-row::-webkit-scrollbar { display: none; }
+        .fu-label { color: #a3a3a3; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+        .fu-sep { width: 1px; height: 14px; background: rgba(255, 255, 255, 0.12); flex: none; }
+        .fu-link { display: inline-flex; align-items: center; gap: 0.35rem; color: #d4d4d4; font-size: 0.72rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: color 0.25s ease; }
+        .fu-link iconify-icon { color: #8b5cf6; transition: color 0.25s ease; }
+        .fu-link:hover { color: #c4b5fd; }
+        .fu-link:hover iconify-icon { color: #a78bfa; }
+        @media (max-width: 767px) { .fu-label, .fu-sep { display: none; } }
+    </style>
+  <link rel="stylesheet" href="../../assets/octavia-mobile.css?v=1">
+  <link rel="stylesheet" href="../../assets/blog/css/blog.css">
+  <link rel="stylesheet" href="../../assets/octavia-footer.css?v=1">
+</head>
+
+<body class="antialiased selection:bg-purple-500/30 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
+        <div id="navbar-bg" class="w-full bg-transparent border-white/5 border-b backdrop-blur-xl transition-all duration-300">
+
+            <!-- Follow-us row -->
+            <div class="fu-row">
+                <span class="fu-label">Follow us for updates</span>
+                <span class="fu-sep" aria-hidden="true"></span>
+                <a href="https://www.linkedin.com/in/vahe-aslanyan/" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>VAHE ASLANYAN</span></a>
+                <a href="https://www.linkedin.com/in/tatev-karen-aslanyan" target="_blank" rel="noopener noreferrer" class="fu-link"><iconify-icon icon="simple-icons:linkedin" width="13"></iconify-icon><span>TATEV ASLANYAN</span></a>
+            </div>
+
+            <!-- Main nav row -->
+            <div class="nav-main-row flex w-full px-8 py-5 relative items-center justify-between">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center gap-2.5 z-20 shrink-0 group relative">
+                <!-- Glow effect behind logo -->
+                <div class="absolute inset-0 bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <img src="../../assets/lunartech-white.png" alt="LUNARTECH" class="h-7 w-auto object-contain relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            </a>
+
+            <!-- Centered Navigation -->
+            <nav class="hidden md:flex -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 items-center gap-1">
+                <!-- Features Dropdown -->
+                <div class="relative group">
+                    <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                        Features
+                        <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                        <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                            <div class="p-5">
+                                <a href="/features" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover/item:bg-purple-500/20 transition-colors border border-purple-500/10">
+                                        <iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-purple-300 transition-colors">All Features</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Overview of the full platform.</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="border-t border-white/5 p-5 grid grid-cols-2 gap-2">
+                                <a href="/features/video-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                                        <iconify-icon icon="lucide:video" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Video Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Dub videos in 60+ languages.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/audio-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                                        <iconify-icon icon="lucide:audio-waveform" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Audio Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate audio tracks instantly.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/speech-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                                        <iconify-icon icon="lucide:mic" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Speech Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Generate natural speech from text.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-generation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                                        <iconify-icon icon="lucide:subtitles" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Subtitle Generation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Auto-generate accurate subtitles.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-to-audio" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/10">
+                                        <iconify-icon icon="lucide:file-audio" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">Subtitle to Audio</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Convert subtitles into speech.</p>
+                                    </div>
+                                </a>
+                                <a href="/features/subtitle-translation" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 group-hover/item:bg-rose-500/20 transition-colors border border-rose-500/10">
+                                        <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-white group-hover/item:text-rose-300 transition-colors">Subtitle Translation</div>
+                                        <p class="text-[11px] text-neutral-500 leading-snug">Translate subtitle files directly.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/pricing" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Pricing</a>
+                <!-- Showcase Dropdown -->
+                <div class="relative group">
+                  <button class="pl-4 pr-2 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-0.5 group-hover:text-white">
+                    Showcase
+                    <iconify-icon icon="lucide:chevron-down" width="12" class="group-hover:rotate-180 transition-transform duration-200 ease-out"></iconify-icon>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 pt-6 w-[540px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform origin-top -translate-y-3 group-hover:translate-y-0">
+                    <div class="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl overflow-hidden">
+                      <div class="grid grid-cols-2">
+                        <!-- Part 1: Inspiration + Solutions -->
+                        <div class="p-5 flex flex-col gap-2">
+                          <a href="/inspiration" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover/item:bg-pink-500/20 transition-colors border border-pink-500/10">
+                              <iconify-icon icon="lucide:sparkles" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-pink-300 transition-colors">Inspiration</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Why we build &mdash; our mission.</p>
+                            </div>
+                          </a>
+                          <a href="/solutions" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover/item:bg-emerald-500/20 transition-colors border border-emerald-500/10">
+                              <iconify-icon icon="lucide:layout-grid" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-emerald-300 transition-colors">Solutions</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Tailored workflows for every team.</p>
+                            </div>
+                          </a>
+                        </div>
+                        <!-- Part 2: Translations, Blog, Docs -->
+                <div class="p-5 border-l border-white/5 flex flex-col gap-2">
+                  <a href="/translations" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover/item:bg-blue-500/20 transition-colors border border-blue-500/10">
+                              <iconify-icon icon="lucide:languages" width="16"></iconify-icon>
+                            </div>
+                            <div>
+                              <div class="text-sm font-medium text-white group-hover/item:text-blue-300 transition-colors">Translations</div>
+                              <p class="text-[11px] text-neutral-500 leading-snug">Real videos dubbed in 60+ languages.</p>
+                            </div>
+                          </a>
+                  <a href="/blog" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover/item:bg-amber-500/20 transition-colors border border-amber-500/10">
+                      <iconify-icon icon="lucide:newspaper" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-amber-300 transition-colors">Blog</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides on AI dubbing and localization.</p>
+                    </div>
+                  </a>
+                  <a href="/docs" class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group/item">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover/item:bg-indigo-500/20 transition-colors border border-indigo-500/10">
+                      <iconify-icon icon="lucide:book-open" width="16"></iconify-icon>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white group-hover/item:text-indigo-300 transition-colors">Docs</div>
+                      <p class="text-[11px] text-neutral-500 leading-snug">Guides and API reference.</p>
+                    </div>
+                  </a>
+                </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a href="/translations" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Translations</a>
+                <a href="/team" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Team</a>
+                <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-2 z-20 shrink-0">
+                <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
+                    <span class="z-10 text-xs font-medium tracking-wide relative">Get Started</span>
+                </a>
+                <a href="https://app.octavia.lunartech.ai/signup" class="nav-cta-signup inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black hover:bg-neutral-200 border border-white transition-all text-xs font-medium tracking-wide">
+                    Get Started Free
+                </a>
+                <!-- Mobile menu trigger (hidden from 768px up via CSS) -->
+                <button id="mobile-menu-btn" class="nav-burger" type="button" aria-label="Open menu"
+                  aria-controls="mobile-menu" aria-expanded="false">
+                  <span class="nav-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+            </div>
+        </div>
+    
+    <!-- Mobile navigation panel -->
+    <div id="mobile-menu" class="mnav" aria-hidden="true">
+      <nav class="mnav-inner" aria-label="Mobile">
+        <div class="mnav-group">
+          <p class="mnav-label">Explore</p>
+          <a class="mnav-item" href="/pricing">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="lucide:credit-card" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Pricing</span><span class="mnav-desc">Plans, credits and limits.</span></span>
+          </a>
+          <a class="mnav-item" href="/translations">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Translations</span><span class="mnav-desc">Real videos dubbed in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/team">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:users-round" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Team</span><span class="mnav-desc">The people behind Octavia.</span></span>
+          </a>
+          <a class="mnav-item" href="/contact">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:mail" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Contact</span><span class="mnav-desc">Talk to us about your workflow.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Features</p>
+          <a class="mnav-item" href="/features">
+            <span class="mnav-ico" style="--mi:#a78bfa"><iconify-icon icon="fa6-solid:burst" width="16"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">All Features</span><span class="mnav-desc">Overview of the full platform.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/video-translation">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:video" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Video Translation</span><span class="mnav-desc">Dub videos in 60+ languages.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/audio-translation">
+            <span class="mnav-ico" style="--mi:#60a5fa"><iconify-icon icon="lucide:audio-waveform" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Audio Translation</span><span class="mnav-desc">Translate audio tracks instantly.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/speech-generation">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:mic" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Speech Generation</span><span class="mnav-desc">Generate natural speech from text.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-generation">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:subtitles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Generation</span><span class="mnav-desc">Auto-generate accurate subtitles.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-to-audio">
+            <span class="mnav-ico" style="--mi:#22d3ee"><iconify-icon icon="lucide:file-audio" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle to Audio</span><span class="mnav-desc">Convert subtitles into speech.</span></span>
+          </a>
+          <a class="mnav-item" href="/features/subtitle-translation">
+            <span class="mnav-ico" style="--mi:#fb7185"><iconify-icon icon="lucide:languages" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Subtitle Translation</span><span class="mnav-desc">Translate subtitle files directly.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-group">
+          <p class="mnav-label">Showcase</p>
+          <a class="mnav-item" href="/inspiration">
+            <span class="mnav-ico" style="--mi:#f472b6"><iconify-icon icon="lucide:sparkles" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Inspiration</span><span class="mnav-desc">Why we build &mdash; our mission.</span></span>
+          </a>
+          <a class="mnav-item" href="/solutions">
+            <span class="mnav-ico" style="--mi:#34d399"><iconify-icon icon="lucide:layout-grid" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Solutions</span><span class="mnav-desc">Tailored workflows for every team.</span></span>
+          </a>
+          <a class="mnav-item" href="/blog">
+            <span class="mnav-ico" style="--mi:#fbbf24"><iconify-icon icon="lucide:newspaper" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Blog</span><span class="mnav-desc">Guides on AI dubbing and localization.</span></span>
+          </a>
+          <a class="mnav-item" href="/docs">
+            <span class="mnav-ico" style="--mi:#818cf8"><iconify-icon icon="lucide:book-open" width="17"></iconify-icon></span>
+            <span class="mnav-text"><span class="mnav-name">Docs</span><span class="mnav-desc">Guides and API reference.</span></span>
+          </a>
+        </div>
+
+        <div class="mnav-cta">
+          <a class="mnav-btn mnav-btn-primary" href="https://app.octavia.lunartech.ai/signup">Get Started Free</a>
+          <a class="mnav-btn mnav-btn-ghost" href="https://app.octavia.lunartech.ai/login">
+            <iconify-icon icon="lucide:log-in" width="15"></iconify-icon>
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+    <!-- BLOG_CONTENT_START -->
+    <!-- OCTAVIA_BLOG_GENERATED -->
+    <div class="article-progress" data-article-progress aria-hidden="true"></div>
+    <main class="article-shell"><div class="article-container">
+      <header class="article-header"><a class="article-category" href="/blog/category/creator-growth">Creator Growth</a>
+        <h1 class="article-title">User-Generated Content Translation: Scale, Consent, and Quality Control</h1><p class="article-deck">Learn how to scale user-generated content translation without flattening creator voice: consent and rights, intake rules, style transfer, moderation, credit, format choices, and measurement. The guide closes with a reusable policy that keeps quality control practical as volume grows.</p>
+        <div class="article-meta"><span>Octavia Editorial Team</span><span class="article-meta-dot"></span><time datetime="2026-09-05T11:30:00Z">Sep 5, 2026</time><span class="article-meta-dot"></span><span>14 min read</span></div>
+      </header>
+      <figure class="article-hero-image"><img src="../../assets/blog/images/adjacent-glass-monoliths.png" alt="Abstract dark-glass panels with faint multilingual captions and overlapping video frames." fetchpriority="high" decoding="async"></figure>
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="On this page"><p class="article-toc-label">On this page</p><ol class="article-toc-list"><li><a class="toc-h2" data-toc-link href="#consent-what-permission-to-translate-and-dub-actually-requires">Consent: what permission to translate and dub actually requires</a></li><li><a class="toc-h3" data-toc-link href="#what-a-standard-community-license-grants">What a standard community license grants</a></li><li><a class="toc-h3" data-toc-link href="#the-request-that-gets-a-yes">The request that gets a yes</a></li><li><a class="toc-h3" data-toc-link href="#revocation-deletion-and-takedown">Revocation, deletion, and takedown</a></li><li><a class="toc-h2" data-toc-link href="#an-intake-standard-for-user-generated-content-translation">An intake standard for user-generated content translation</a></li><li><a class="toc-h3" data-toc-link href="#the-six-point-check">The six-point check</a></li><li><a class="toc-h3" data-toc-link href="#triage-tiers">Triage tiers</a></li><li><a class="toc-h3" data-toc-link href="#keeping-the-intake-form-short-enough-to-be-used">Keeping the intake form short enough to be used</a></li><li><a class="toc-h2" data-toc-link href="#slang-humor-and-regional-reference-the-limits-of-literal-translation">Slang, humor, and regional reference: the limits of literal translation</a></li><li><a class="toc-h3" data-toc-link href="#three-failure-modes">Three failure modes</a></li><li><a class="toc-h3" data-toc-link href="#transcreate-gloss-or-drop">Transcreate, gloss, or drop</a></li><li><a class="toc-h3" data-toc-link href="#subtitle-first-as-a-calibration-pass">Subtitle-first as a calibration pass</a></li><li><a class="toc-h2" data-toc-link href="#moderation-before-and-after-translation">Moderation before and after translation</a></li><li><a class="toc-h3" data-toc-link href="#pre-translation-screening">Pre-translation screening</a></li><li><a class="toc-h3" data-toc-link href="#what-translation-can-amplify">What translation can amplify</a></li><li><a class="toc-h3" data-toc-link href="#sampling-and-back-translation">Sampling and back-translation</a></li><li><a class="toc-h2" data-toc-link href="#attribution-and-credit-when-a-clip-is-republished-in-another-language">Attribution and credit when a clip is republished in another language</a></li><li><a class="toc-h3" data-toc-link href="#what-credit-has-to-survive">What credit has to survive</a></li><li><a class="toc-h3" data-toc-link href="#placement-that-keeps-the-creator-visible">Placement that keeps the creator visible</a></li><li><a class="toc-h3" data-toc-link href="#handles-remixes-and-derivative-uploads">Handles, remixes, and derivative uploads</a></li><li><a class="toc-h2" data-toc-link href="#subtitle-or-dub-a-per-clip-decision-rule">Subtitle or dub? A per-clip decision rule</a></li><li><a class="toc-h3" data-toc-link href="#why-subtitles-usually-win-for-ugc">Why subtitles usually win for UGC</a></li><li><a class="toc-h3" data-toc-link href="#when-dubbing-earns-its-cost">When dubbing earns its cost</a></li><li><a class="toc-h3" data-toc-link href="#the-hybrid-track">The hybrid track</a></li><li><a class="toc-h2" data-toc-link href="#batch-workflows-for-user-generated-content-translation">Batch workflows for user-generated content translation</a></li><li><a class="toc-h3" data-toc-link href="#the-unit-of-work-is-the-clip-not-the-asset">The unit of work is the clip, not the asset</a></li><li><a class="toc-h3" data-toc-link href="#naming-tracking-and-qa-sampling">Naming, tracking, and QA sampling</a></li><li><a class="toc-h3" data-toc-link href="#cost-and-throughput">Cost and throughput</a></li><li><a class="toc-h3" data-toc-link href="#comparing-markets-fairly">Comparing markets fairly</a></li><li><a class="toc-h3" data-toc-link href="#what-to-report-back-to-creators">What to report back to creators</a></li><li><a class="toc-h2" data-toc-link href="#a-policy-document-your-community-team-can-operate-from">A policy document your community team can operate from</a></li><li><a class="toc-h3" data-toc-link href="#the-one-page-core">The one-page core</a></li><li><a class="toc-h3" data-toc-link href="#clauses-that-prevent-recurring-arguments">Clauses that prevent recurring arguments</a></li><li><a class="toc-h3" data-toc-link href="#review-cadence-and-ownership">Review cadence and ownership</a></li><li><a class="toc-h2" data-toc-link href="#frequently-asked-questions">Frequently asked questions</a></li><li><a class="toc-h3" data-toc-link href="#do-you-need-written-permission-to-translate-a-customer-s-video">Do you need written permission to translate a customer&#39;s video?</a></li><li><a class="toc-h3" data-toc-link href="#can-you-dub-a-creator-s-video-without-using-their-voice">Can you dub a creator&#39;s video without using their voice?</a></li><li><a class="toc-h3" data-toc-link href="#what-about-music-in-the-clip">What about music in the clip?</a></li><li><a class="toc-h3" data-toc-link href="#how-many-languages-should-a-clip-be-translated-into-first">How many languages should a clip be translated into first?</a></li><li><a class="toc-h3" data-toc-link href="#should-translated-ugc-be-labeled-as-translated">Should translated UGC be labeled as translated?</a></li><li><a class="toc-h3" data-toc-link href="#what-is-the-fastest-way-to-process-fifty-short-clips">What is the fastest way to process fifty short clips?</a></li><li><a class="toc-h2" data-toc-link href="#conclusion">Conclusion</a></li></ol></aside>
+        <article class="article-body" data-article-body><p>A community manager closes a quarter with forty clips: a two-minute unboxing shot in a kitchen, a fifteen-second reaction with the creator half out of frame, a testimonial recorded in a parked car, and a product demo where the speaker switches languages mid-sentence. The instinct is to run the folder through the process built for owned campaign assets, which assumes one long, professionally mixed file with a signed contract behind it. None of those conditions hold here.</p>
+<p>Three properties separate user-generated content translation from localizing a marketing video. Volume is uneven and arrives in bursts. Source quality varies by default rather than by exception. And the person on screen is a customer, not a vendor or an employee: they own what they made and have opinions about what happens to it.</p>
+<p>Each property changes a decision. Ownership determines what you may do and how you ask. Variance determines what you refuse to process. Volume determines how you organize the work and how you measure it. This guide follows the sequence from consent through intake, style transfer, moderation, credit, format choice, and measurement, and closes with the policy document that keeps the process consistent when staff change.</p>
+<h2 id="consent-what-permission-to-translate-and-dub-actually-requires">Consent: what permission to translate and dub actually requires</h2>
+<p>The first document to read is the license a creator accepted when they posted. It is usually the last one anyone checks.</p>
+<h3 id="what-a-standard-community-license-grants">What a standard community license grants</h3>
+<p>When a customer posts in your community or enters a challenge, the terms they accepted typically grant a license to reproduce and display their content. &quot;Display&quot; and &quot;repost&quot; cover publishing the clip on your own channels. They do not cover making a derivative work, and a translation is one. Dubbing adds a second layer: a new recorded performance of the creator&#39;s words, in a voice that may or may not be theirs. Where the terms say &quot;adapt,&quot; &quot;modify,&quot; or &quot;create derivative works,&quot; you are closer to covered. Where they are silent, treat the permission as absent and ask.</p>
+<h3 id="the-request-that-gets-a-yes">The request that gets a yes</h3>
+<p>Ask for the smallest scope that solves the problem. A request naming the platform, languages, channels, and time window gets answered. A request to &quot;feature you globally&quot; does not. Every ask should specify:</p>
+<ul><li>which clip, linked directly</li><li>target languages and territories</li><li>channels, and whether paid promotion is included</li><li>how long the permission lasts</li><li>what stays visible: handle, face, voice, or all three</li><li>whether the original audio is replaced by a dub or left in place</li></ul>
+<p>State plainly whether the voice is involved. Preserving a speaker across languages with a cloned voice is a shipped capability, but it is a separate grant from translating the words, and bundling the two without saying so is how programs lose contributors.</p>
+<h3 id="revocation-deletion-and-takedown">Revocation, deletion, and takedown</h3>
+<p>Two cases matter: the creator deletes the source and asks you to stop, or they withdraw consent while the license technically survives. Honor withdrawal within a defined window and unpublish. Keeping a clip running is rarely worth being the brand that refused.</p>
+<p>Keep a kill list mapping each clip ID to every channel where it appears, including paid placements and partner accounts, so removal is a list operation rather than a search. For clips featuring minors, identifiable bystanders who are speaking, or content recorded in a private space, raise the bar instead of lowering it.</p>
+<h2 id="an-intake-standard-for-user-generated-content-translation">An intake standard for user-generated content translation</h2>
+<p>Intake is where you spend the least money to save the most.</p>
+<h3 id="the-six-point-check">The six-point check</h3>
+<p>Run every clip through the same sequence before it reaches a translator or a recording session:</p>
+<ol><li>Consent is documented for the exact scope you intend to use.</li><li>The audio is intelligible: one dominant speaker, no clipping, no music masking consonants.</li><li>The clip carries its message without the surrounding thread; nothing depends on context that lives in the comments.</li><li>The reference travels: no joke whose entire payload is a local brand, a national holiday, or a dialect pun.</li><li>Length is under the threshold where fixed preparation costs still amortize.</li><li>No legal or safety flag: competitor logos, medical claims, identifiable private locations.</li></ol>
+<p>Clips that fail 2 or 6 are rejected outright. Clips that fail 4 route to transcreation rather than straight translation.</p>
+<h3 id="triage-tiers">Triage tiers</h3>
+<p>Three tiers keep the queue honest. Tier A: clean audio, message intact, no cultural payload, so the clip needs a straight translation and a subtitle pass. Tier B: a strong clip with one or two culturally loaded moments that need a rewrite decision and a second review. Tier C: process only if the creator&#39;s reach justifies manual handling; otherwise archive. The tier determines review depth for everything downstream.</p>
+<h3 id="keeping-the-intake-form-short-enough-to-be-used">Keeping the intake form short enough to be used</h3>
+<p>A form with twenty fields gets filled in with guesses. Five fields suffice: clip ID, creator handle, consent scope, tier, and target markets. The person doing intake will be a community staffer rather than a localization engineer, so the definitions have to be operational. &quot;Audio intelligible&quot; needs a test attached: can a native speaker of the source language transcribe the clip in a single pass without replaying?</p>
+<h2 id="slang-humor-and-regional-reference-the-limits-of-literal-translation">Slang, humor, and regional reference: the limits of literal translation</h2>
+<h3 id="three-failure-modes">Three failure modes</h3>
+<p>Reference failure: the joke depends on something that does not exist in the target market. Register failure: the source is casual, but the target comes out formal because the translator reached for the safest synonym. Rhythm failure: the line&#39;s timing depends on a syllable count or a pause that subtitle line breaks destroy.</p>
+<p>The first is a content problem, the second a voice problem, the third a formatting problem. Classifying the failure tells you whether to rewrite the line, re-tone it, or re-break it.</p>
+<h3 id="transcreate-gloss-or-drop">Transcreate, gloss, or drop</h3>
+<p>Three responses are legitimate when a line will not survive literal translation.</p>
+<ul><li>Rewrite the line so it carries the same intent in the target language, preserving the creator&#39;s meaning rather than their words.</li><li>Keep the line and add a short gloss where the reference itself is the interesting part, as a caption or a brief on-screen note.</li><li>Drop the line and cut around it when the clip&#39;s core message survives without it.</li></ul>
+<p>Dropping is the option teams forget. A six-second edit that removes an untranslatable aside beats three seconds of dead air and a footnote. Plan for the first pass to produce flags rather than finished text, so a reviewer decides which lines need transcreation instead of discovering the problem after publication.</p>
+<h3 id="subtitle-first-as-a-calibration-pass">Subtitle-first as a calibration pass</h3>
+<p>Produce one market&#39;s subtitles before commissioning a full set of dub scripts. That single pass through <a href="/features/subtitle-translation">subtitle translation</a> exposes which lines resist transfer and which clips cannot hold a longer target-language sentence without losing their pacing. A native reviewer reads the output against the source and flags register drift rather than literal errors. Correcting a subtitle file costs minutes; correcting a recorded dub costs a session.</p>
+<h2 id="moderation-before-and-after-translation">Moderation before and after translation</h2>
+<h3 id="pre-translation-screening">Pre-translation screening</h3>
+<p>The clip already passed a platform review, which is not the same as passing yours. Screen the source for claims about product performance, medical or financial statements, profanity whose acceptability varies by market, and gestures or symbols that read differently across borders. Record the decision alongside the clip so a reviewer in a second market does not repeat the work.</p>
+<h3 id="what-translation-can-amplify">What translation can amplify</h3>
+<p>A translation can make a mild statement sharper. It can make a slur explicit where the source was vague, or turn a region-specific political reference into apparent endorsement when it lands in a market where a party shares that name. Translation also strips hedging: a sentence softened in the source with &quot;I think&quot; or &quot;sort of&quot; can arrive as a flat assertion if the translator optimizes for brevity. Flag paraphrases that change certainty, and check any line involving numbers, health, safety, or the law against the source word by word.</p>
+<h3 id="sampling-and-back-translation">Sampling and back-translation</h3>
+<p>Review every Tier B clip, and sample the rest: one clip per translator per market per batch, plus anything containing numbers or claims. Back-translation, where a second person renders the target text into the source language without seeing the original, catches meaning drift that reading the target alone will not reveal. Pair each translated subtitle file with the source audio so the reviewer can compare timing as well as wording.</p>
+<h2 id="attribution-and-credit-when-a-clip-is-republished-in-another-language">Attribution and credit when a clip is republished in another language</h2>
+<h3 id="what-credit-has-to-survive">What credit has to survive</h3>
+<p>The handle is the credit. If the creator&#39;s name is written in a script the target audience cannot read, the credit still has to be present and legible, with a romanization alongside it if that helps people find the account. Display names are not handles. Never substitute a translated display name for the actual account string.</p>
+<h3 id="placement-that-keeps-the-creator-visible">Placement that keeps the creator visible</h3>
+<p>Credit in the description is the minimum. Credit in the first two seconds, as a lower third or an on-screen tag, is what survives clipping and re-uploading by other accounts. In a dubbed version the on-screen credit matters more, because the voice on the track is no longer identifiably the creator&#39;s. If voice preservation was part of the consent scope, say so in the post.</p>
+<h3 id="handles-remixes-and-derivative-uploads">Handles, remixes, and derivative uploads</h3>
+<p>Assume your translated clip will be re-cut. Watermark placement, credit overlay, and whether subtitles are burned in determine whether the creator&#39;s name survives to the third generation. Keep the credit out of the area a standard vertical crop removes. If the creator later changes their handle, point the follow-up link at the account rather than the string, so old posts do not become broken credits.</p>
+<h2 id="subtitle-or-dub-a-per-clip-decision-rule">Subtitle or dub? A per-clip decision rule</h2>
+<h3 id="why-subtitles-usually-win-for-ugc">Why subtitles usually win for UGC</h3>
+<p>Subtitles keep the creator&#39;s actual voice on the track, which is often why the audience trusted the clip in the first place. They are cheaper to produce, faster to review, and easy to correct after publication. They also fail gracefully: a slightly off line is visible and arguable, while a slightly off dub sounds like a different person saying something they did not say. For testimonials and reactions, where tone is the product, subtitles are the default.</p>
+<h3 id="when-dubbing-earns-its-cost">When dubbing earns its cost</h3>
+<p>Dubbing wins when the audience will not read: formats where viewers commonly watch muted, markets with a strong preference for local-language audio, and accessibility contexts. It also wins when a clip runs as a paid placement at scale, where viewers who cannot follow the audio drop off early. If the same clip is recycled across many placements, the per-view cost of <a href="/features/video-dubbing">video dubbing</a> falls quickly.</p>
+<h3 id="the-hybrid-track">The hybrid track</h3>
+<p>A middle option is subtitles on screen plus a translated audio track, so viewers choose. Subtitle files can be <a href="/features/subtitle-to-audio">rendered into a spoken track</a>, which helps where platform captions are generated poorly. The trade-off is review cost: two artifacts per clip that have to agree word for word. Keep them in the same folder under the same clip ID, or they will drift apart by the second revision.</p>
+<h2 id="batch-workflows-for-user-generated-content-translation">Batch workflows for user-generated content translation</h2>
+<h3 id="the-unit-of-work-is-the-clip-not-the-asset">The unit of work is the clip, not the asset</h3>
+<p>A campaign asset is one file. A UGC batch is fifty files with different durations, aspect ratios, audio profiles, and consent scopes. Represent each clip as a row with a status: consented, ingested, tiered, translated, reviewed, published. A clip lost after consent was granted is the kind of error creators notice.</p>
+<h3 id="naming-tracking-and-qa-sampling">Naming, tracking, and QA sampling</h3>
+<p>Use a naming convention that encodes clip ID, market, language, tier, and revision, so a reviewer never has to guess which file is current. <a href="/features/subtitle-generation">Subtitle generation</a> runs cleanly across a batch when the source files follow the same structure, and keeping source audio and translated subtitle files in one folder means a reviewer can always compare against the original. Sample quality assurance rather than reviewing everything: all Tier B clips, roughly one in ten Tier A clips, and anything flagged at intake.</p>
+<h3 id="cost-and-throughput">Cost and throughput</h3>
+<p>Fixed per-clip overhead dominates short clips. Consent verification, preparation, and review can cost as much as the translation itself, which means a fifteen-second clip can cost more per second than a two-minute one. Group clips by target language rather than by creator so setup costs are paid once. <a href="/pricing">Pricing</a> generally scales with volume, but intake rejection protects the budget more, because a rejected clip costs nothing. When volume justifies automation, clips can be submitted programmatically rather than one at a time in a browser; the <a href="/docs">API documentation</a> covers request structure and status polling.</p>
+<h3 id="comparing-markets-fairly">Comparing markets fairly</h3>
+<p>A translated clip&#39;s view count reflects the market&#39;s audience size and platform mix as much as the quality of the translation. Compare a clip against other clips of the same type published in the same market, not against the original&#39;s performance at home. A reaction clip that reaches a fraction of its source numbers in a smaller market may still be outperforming everything else on that channel&#39;s page for the month.</p>
+<h3 id="what-to-report-back-to-creators">What to report back to creators</h3>
+<p>Send the creator a short summary: which markets the clip ran in, which format was used, and the engagement in each. If a market underperformed, say so plainly rather than omitting it. Creators who understand that a small market produces small numbers keep contributing. Creators who see only their best market treated as the baseline start to feel their work is graded unfairly, and they are usually right.</p>
+<h2 id="a-policy-document-your-community-team-can-operate-from">A policy document your community team can operate from</h2>
+<h3 id="the-one-page-core">The one-page core</h3>
+<p>Six statements are enough: what the community terms already permit; what requires a separate ask, including dubbing and voice preservation; the intake criteria and who applies them; the review requirement by tier; the credit standard; and the removal promise with its window. If a new staffer cannot answer a creator&#39;s question from that page, the policy needs another line.</p>
+<h3 id="clauses-that-prevent-recurring-arguments">Clauses that prevent recurring arguments</h3>
+<p>Three clauses absorb most disputes. First, dubbing and voice are always a separate written ask, never assumed from a general content grant. Second, any clip featuring a minor, a medical claim, or a competitor logo is escalated rather than processed by default. Third, a creator&#39;s removal request is honored within the window even when the license would allow continued use. Each clause exists because someone will eventually argue the opposite, and having the answer written down ends the argument in one message.</p>
+<h3 id="review-cadence-and-ownership">Review cadence and ownership</h3>
+<p>Review the policy quarterly, and immediately after any removal dispute or moderation incident. Assign one named owner. A policy owned by a committee drifts; a policy owned by one person who fields creator questions gets amended when it fails. Keep a changelog with dates so a dispute can be checked against the version in force at the time.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="do-you-need-written-permission-to-translate-a-customer-s-video">Do you need written permission to translate a customer&#39;s video?</h3>
+<p>An explicit yes, recorded in writing, is the standard to work from. A reply saying &quot;sure, go ahead&quot; is usually enough if you save it with the clip ID, the date, and the exact scope you described. A general community license on its own rarely covers producing a translated or dubbed derivative.</p>
+<h3 id="can-you-dub-a-creator-s-video-without-using-their-voice">Can you dub a creator&#39;s video without using their voice?</h3>
+<p>Yes. A different voice actor or a synthesized voice can carry the translated script, which sidesteps the question of voice identity entirely. That is still a separate permission from translating the text, and the request should state which approach you intend to use.</p>
+<h3 id="what-about-music-in-the-clip">What about music in the clip?</h3>
+<p>Music licensed through a platform covers playback on that platform, not republication elsewhere. When a clip&#39;s audio bed is a commercial track you do not control, strip it and replace it with cleared audio, or publish without the original music. Separation of dialogue and music makes that practical on clips where speech and the track occupy different frequency ranges.</p>
+<h3 id="how-many-languages-should-a-clip-be-translated-into-first">How many languages should a clip be translated into first?</h3>
+<p>Two or three, chosen to represent different market conditions: one large language market, one smaller market with a strong preference for local-language audio, and one where the audience expects subtitles. Use those results to decide which clips deserve the full set.</p>
+<h3 id="should-translated-ugc-be-labeled-as-translated">Should translated UGC be labeled as translated?</h3>
+<p>In most cases, yes. A short on-screen note or a description line stating that the clip was translated explains why lip movement does not match audio, and it preempts accusations of fabrication. Where a dub uses a voice actor rather than the creator&#39;s preserved voice, say that too.</p>
+<h3 id="what-is-the-fastest-way-to-process-fifty-short-clips">What is the fastest way to process fifty short clips?</h3>
+<p>Triage first, then group by target language rather than by creator. Most clips land in Tier A and share the same settings, so they can run as a batch with a single review pass. Reserve manual attention for the Tier B clips and the handful flagged at intake.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Start with the constraint, not the tool. Before processing anything, read the community terms your contributors already accepted and write down the one sentence describing what those terms do not cover. In most programs that sentence is &quot;translation and dubbing need a separate ask,&quot; and knowing it changes which clips can enter the queue at all.</p>
+<p>Then build the filter. A written intake standard, three tiers, and a credit rule will do more for output quality than any amount of review effort applied to clips that were never worth translating. Rejecting a clip is cheap. Unpublishing a bad dub in a market you cannot easily reach is not.</p>
+<p>Pick one market and one format for the first batch, run the full sequence from consent request to performance report, and only then scale. The first batch will show which clause your policy is missing, and it is easier to add a clause than to explain to a creator why the rule was never written down.</p></article>
+        <aside class="article-share-rail">
+          <div class="article-share-group">
+            <p class="article-share-label">Share</p>
+            <div class="article-share-list">
+              <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fuser-generated-content-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="15"></iconify-icon></a><a class="article-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fuser-generated-content-translation&amp;text=User-Generated%20Content%20Translation%3A%20Scale%2C%20Consent%2C%20and%20Quality%20Control" target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X"><iconify-icon icon="simple-icons:x" width="15"></iconify-icon></a><a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foctavia.lunartech.ai%2Fblog%2Fuser-generated-content-translation" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook"><iconify-icon icon="simple-icons:facebook" width="15"></iconify-icon></a>
+              <button class="article-share-btn" type="button" data-copy-article-link aria-label="Copy link" title="Copy link"><iconify-icon icon="lucide:link" width="15"></iconify-icon></button>
+            </div>
+          </div>
+          <div class="article-follow-group">
+            <p class="article-share-label">Follow LunarTech</p>
+            <ul class="article-follow-list"><li><a class="article-follow-link" href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>LunarTech</span></a></li><li><a class="article-follow-link" href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:linkedin" width="14"></iconify-icon><span>Octavia</span></a></li><li><a class="article-follow-link" href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:instagram" width="14"></iconify-icon><span>Instagram</span></a></li><li><a class="article-follow-link" href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:x" width="14"></iconify-icon><span>X</span></a></li><li><a class="article-follow-link" href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer"><iconify-icon icon="simple-icons:substack" width="14"></iconify-icon><span>Substack</span></a></li></ul>
+          </div>
+        </aside>
+      </div>
+      <footer class="article-end"><div class="article-author"><div class="article-author-copy"><strong>Octavia Editorial Team</strong><span>Research and practical guidance from the Octavia team.</span></div><a class="blog-read-link" href="/blog">All articles <span aria-hidden="true">→</span></a></div></footer>
+    </div>
+    <section class="related-articles" aria-label="Related articles"><div class="related-heading"><h2>Keep reading</h2><a class="blog-read-link" href="/blog/category/creator-growth">View category <span aria-hidden="true">→</span></a></div><div class="blog-grid"><article class="blog-card">
+    <a class="blog-card-link" href="/blog/multilingual-creator-economy-guide" aria-label="Read The Multilingual Creator Economy: How to Expand Your Reach, Revenue, and Impact in 2026"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiating-ring-network.png" alt="The Multilingual Creator Economy: How to Expand Your Reach, Revenue, and Impact in 2026" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">The Multilingual Creator Economy: How to Expand Your Reach, Revenue, and Impact in 2026</h2><p class="blog-card-description">The creator economy is going global, but most creators remain locked into single-language markets. This comprehensive guide shows you how to break through language barriers, prioritize the right markets, avoid expensive mistakes, and build a multilingual content strategy that actually drives revenue—all without traditional dubbing costs.</p>
+      <time class="blog-card-date" datetime="2026-08-19T10:00:00Z">Aug 19, 2026 · 18 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/ai-dubbing-for-creators-guide" aria-label="Read AI Dubbing for Creators: How to Reach a Global Audience"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/radiant-globe-lines.png" alt="AI Dubbing for Creators: How to Reach a Global Audience" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">AI Dubbing for Creators: How to Reach a Global Audience</h2><p class="blog-card-description">AI dubbing removes the language barrier that keeps quality content invisible to most of the world. This complete guide explains how video translation works, why traditional dubbing was expensive, what enterprises need, and how Octavia makes multilingual content production accessible to individual creators.</p>
+      <time class="blog-card-date" datetime="2026-08-19T09:00:00Z">Aug 19, 2026 · 31 min read</time>
+    </div></div>
+  </article>
+<article class="blog-card">
+    <a class="blog-card-link" href="/blog/localized-thumbnail-and-title-testing" aria-label="Read Localized Thumbnail and Title Testing: Finding What Works Per Market"></a>
+    <div class="blog-card-media"><img src="../../assets/blog/images/converging-light-arcs.png" alt="Abstract dark-glass hero with market tiles, glowing thumbnail grids, and click lines" loading="lazy" decoding="async"></div>
+    <div class="blog-card-body"><span class="blog-category">Creator Growth</span><div class="blog-card-copy">
+      <h2 class="blog-card-title">Localized Thumbnail and Title Testing: Finding What Works Per Market</h2><p class="blog-card-description">Learn how thumbnail conventions differ across markets, what happens to overlay text after translation, and how to design localized click-through tests that reveal real per-market winners. You&#39;ll also see the confounds that mislead results and when to freeze a proven template.</p>
+      <time class="blog-card-date" datetime="2026-09-09T11:30:00Z">Sep 9, 2026 · 14 min read</time>
+    </div></div>
+  </article></div></section>
+    </main>
+    <!-- BLOG_CONTENT_END -->
+
+    <footer class="oc-foot">
+    
+        <div class="oc-foot-signup">
+          <form action="https://app.octavia.lunartech.ai/signup" method="get" novalidate>
+            <label for="oc-foot-email" class="oc-foot-sr">Email address</label>
+            <input id="oc-foot-email" name="email" type="email" autocomplete="email"
+              placeholder="Get started for early access...">
+            <button type="submit" class="oc-foot-sr" tabindex="-1" aria-hidden="true">Sign up</button>
+            <a class="oc-foot-go" href="https://app.octavia.lunartech.ai/signup" aria-label="Go to sign up">
+              <iconify-icon icon="lucide:arrow-right" width="16" aria-hidden="true"></iconify-icon>
+            </a>
+          </form>
+        </div>
+    
+        <div class="oc-foot-inner">
+    
+          <div class="oc-foot-top">
+            <div>
+              <p class="oc-foot-wordmark">Translate. <span>Dub.</span> Reach.</p>
+              <p class="oc-foot-blurb">
+                Octavia turns one upload into every language — translated video, audio, subtitles and
+                transcripts in 60+ languages, with the original voice, timing and atmosphere intact.
+              </p>
+              <ul class="oc-foot-social">
+            <li><a href="https://www.linkedin.com/company/octavia-lunartech/" target="_blank" rel="noopener noreferrer" aria-label="Octavia on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.linkedin.com/company/lunartechai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on LinkedIn"><iconify-icon icon="simple-icons:linkedin" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://www.instagram.com/lunartech.ai/" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Instagram"><iconify-icon icon="simple-icons:instagram" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://x.com/lunartechlabs" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on X"><iconify-icon icon="simple-icons:x" width="17" aria-hidden="true"></iconify-icon></a></li>
+            <li><a href="https://substack.com/@lunartech" target="_blank" rel="noopener noreferrer" aria-label="LunarTech on Substack"><iconify-icon icon="simple-icons:substack" width="17" aria-hidden="true"></iconify-icon></a></li>
+              </ul>
+            </div>
+    
+            <a class="oc-foot-card" href="https://app.octavia.lunartech.ai/signup">
+              <iconify-icon class="oc-foot-card-glyph" icon="lucide:languages" width="128" aria-hidden="true"></iconify-icon>
+              <div class="oc-foot-card-body">
+                <h3>Start translating now</h3>
+                <p>Break language barriers instantly. Reach global audiences with AI-powered dubbing.</p>
+                <div class="oc-foot-card-meta">
+                  <span>60+ languages</span>
+                  <iconify-icon icon="lucide:arrow-up-right" width="20" aria-hidden="true"></iconify-icon>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <nav class="oc-foot-nav" aria-label="Footer">
+          <div class="oc-foot-col">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/features">All features</a></li>
+              <li><a href="/features/video-translation">Video translation</a></li>
+              <li><a href="/features/audio-translation">Audio translation</a></li>
+              <li><a href="/features/speech-generation">Speech generation</a></li>
+              <li><a href="/features/subtitle-generation">Subtitle generation</a></li>
+              <li><a href="/features/subtitle-translation">Subtitle translation</a></li>
+              <li><a href="/features/subtitle-to-audio">Subtitle to audio</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/solutions">Solutions</a></li>
+              <li><a href="/pricing">Pricing</a></li>
+              <li><a href="/translations">Translations</a></li>
+              <li><a href="/inspiration">Inspiration</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Documentation</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/blog/category/translation-guides">Translation guides</a></li>
+              <li><a href="/blog/category/ai-dubbing">AI dubbing</a></li>
+              <li><a href="/blog/category/enterprise">Enterprise</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Who it’s for</h3>
+            <ul>
+              <li><a href="/for/creators">Creators</a></li>
+              <li><a href="/for/music">Artists &amp; Labels</a></li>
+              <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
+              <li><a href="/for/documentary">Documentary Teams</a></li>
+              <li><a href="/for/podcasters">Podcasters</a></li>
+              <li><a href="/for/gaming">Game Studios</a></li>
+              <li><a href="/for/educators">Educators &amp; Trainers</a></li>
+              <li><a href="/for/enterprise">Enterprise Teams</a></li>
+            </ul>
+          </div>
+          <div class="oc-foot-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="/team">Team</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/login" target="_blank" rel="noopener noreferrer">Log in</a></li>
+              <li><a href="https://app.octavia.lunartech.ai/signup" target="_blank" rel="noopener noreferrer">Sign up</a></li>
+            </ul>
+          </div>
+          </nav>
+    
+        </div>
+    
+        <div class="oc-foot-mark" aria-hidden="true"><span>OCTAVIA</span></div>
+    
+        <div class="oc-foot-inner">
+          <div class="oc-foot-bottom">
+            <p class="oc-foot-copy">&copy; 2026 Octavia by LunarTech</p>
+            <ul class="oc-foot-legal">
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/contact">Support</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbarBg = document.getElementById('navbar-bg');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('bg-transparent');
+                    navbarBg.classList.add('bg-black/50');
+                } else {
+                    navbarBg.classList.add('bg-transparent');
+                    navbarBg.classList.remove('bg-black/50');
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+  <script src="../../assets/octavia-mobile-nav.js" defer></script>
+  <script src="../../assets/blog/js/blog.js" defer></script>
+</body>
+
+</html>
