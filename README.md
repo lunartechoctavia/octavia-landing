@@ -18,7 +18,7 @@ Complete landing page for Octavia - The world's most advanced AI dubbing platfor
 
 1. **[index.html](octavia-landing/index.html)** (149KB)
    - Main landing page
-   - Hero: "One Upload. Every Language."
+   - Hero: "A New Era of Connection."
    - Features showcase, demo interface, testimonials
    - Process flow: Upload → AI Processing → Global Release
 
