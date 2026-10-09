@@ -69,9 +69,10 @@
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (!visible.length) return;
-        tocLinks.forEach((link) => link.classList.remove('is-active'));
         const active = byId.get(visible[0].target.id);
-        if (active) active.classList.add('is-active');
+        // toggle(name, force) skips links already in the right state; remove/add
+        // rewrote every link's class on each callback, firing a mutation apiece
+        tocLinks.forEach((link) => link.classList.toggle('is-active', link === active));
       },
       { rootMargin: '-18% 0px -68% 0px', threshold: 0 }
     );

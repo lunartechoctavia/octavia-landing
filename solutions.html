@@ -1822,15 +1822,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Navbar scroll effect
             const navbarBg = document.getElementById('navbar-bg');
+            // toggle(name, force) is a no-op when nothing changes, so scrolling
+            // doesn't fire a DOM mutation (and a Tailwind rescan) on every event
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbarBg.classList.remove('bg-transparent');
-                    navbarBg.classList.add('bg-black/50');
-                } else {
-                    navbarBg.classList.add('bg-transparent');
-                    navbarBg.classList.remove('bg-black/50');
-                }
-            });
+                const scrolled = window.scrollY > 50;
+                navbarBg.classList.toggle('bg-transparent', !scrolled);
+                navbarBg.classList.toggle('bg-black/50', scrolled);
+            }, { passive: true });
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
