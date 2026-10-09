@@ -3,6 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    /* Apply the saved theme before first paint. Default stays dark. */
+    (function () {
+      try {
+        var t = localStorage.getItem('octavia-theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+          if (t === 'light') document.documentElement.style.backgroundColor = '#ffffff';
+        }
+      } catch (e) {}
+    })();
+  </script>
   <style>
     /* Smooth load: lock the dark background immediately and keep content hidden
        until the Tailwind styles are applied, then fade in — this removes the
@@ -190,6 +202,7 @@
     nav .group > div[class~="invisible"] { position: absolute; opacity: 0; visibility: hidden; }
   </style>
   <link rel="stylesheet" href="assets/octavia-tailwind.css?v=20260522-perf1">
+  <link rel="stylesheet" href="assets/octavia-theme.css?v=20261009-soft2">
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
 
 
@@ -570,6 +583,11 @@
 
       <!-- Right Actions -->
       <div class="flex items-center gap-2 z-20 shrink-0">
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch colour theme"
+                  title="Switch colour theme" aria-pressed="false">
+                  <iconify-icon class="ti-sun" icon="lucide:sun" width="15" aria-hidden="true"></iconify-icon>
+                  <iconify-icon class="ti-moon" icon="lucide:moon" width="15" aria-hidden="true"></iconify-icon>
+                </button>
                 <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
@@ -3867,6 +3885,35 @@
 
   <script src="assets/octavia-mobile-nav.js" defer></script>
 
+  <script>
+    /* Theme switch. Stores the choice per visitor; dark is the default. */
+    (function () {
+      var KEY = 'octavia-theme';
+      var root = document.documentElement;
+      var btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+
+      function apply(theme, persist) {
+        if (theme === 'light') {
+          root.setAttribute('data-theme', 'light');
+          root.style.backgroundColor = '#ffffff';
+        } else {
+          root.setAttribute('data-theme', 'dark');
+          root.style.backgroundColor = '#050505';
+        }
+        btn.setAttribute('aria-pressed', String(theme === 'light'));
+        if (persist) {
+          try { localStorage.setItem(KEY, theme); } catch (e) {}
+        }
+      }
+
+      apply(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark', false);
+
+      btn.addEventListener('click', function () {
+        apply(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light', true);
+      });
+    })();
+  </script>
 </body>
 
 </html>

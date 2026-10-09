@@ -1,0 +1,1837 @@
+/* ==========================================================================
+   Octavia — second theme (Daylight)
+
+   Additive override layer. Every rule is scoped to html[data-theme="light"],
+   so with no attribute set, or data-theme="dark", this file changes nothing
+   and the original design renders exactly as before.
+
+   Specificity note: html[data-theme="light"] .x is (0,2,0) + element, which
+   outranks both Tailwind's (0,1,0) utilities and the page's own single-class
+   rules regardless of source order, so no !important is needed.
+   ========================================================================== */
+
+html[data-theme="light"] {
+  /* ground */
+  --t-pg: #ffffff;
+  --t-pg-2: #fafafa;
+  --t-pg-3: #f4f4f6;
+  --t-tint-bg: #faf8ff;           /* lilac-white, for pills and washes */
+
+  /* ink — neutrals carry a faint violet bias so greys read as Octavia's,
+     not as a default grey ramp. fg-3 and fg-4 both clear 4.5:1 on white. */
+  --t-fg: #0c0a14;
+  --t-fg-2: #3d3a4a;
+  --t-fg-3: #555262;
+  --t-fg-4: #6e6a7c;
+
+  /* hairlines + tints, derived from a violet-black rather than pure black */
+  --t-line-soft: rgba(28, 20, 60, 0.06);
+  --t-line: rgba(28, 20, 60, 0.09);
+  --t-line-strong: rgba(28, 20, 60, 0.16);
+  --t-tint: rgba(28, 20, 60, 0.035);
+  --t-tint-2: rgba(28, 20, 60, 0.06);
+  --t-tint-3: rgba(28, 20, 60, 0.09);
+
+  /* brand — purple-600/700 instead of 400/500, which needs the extra
+     weight to hold contrast against a white ground */
+  --t-brand: #7c3aed;
+  --t-brand-2: #6d28d9;
+  --t-brand-ink: #5b21b6;
+  --t-brand-soft: rgba(124, 58, 237, 0.08);
+  --t-brand-line: rgba(124, 58, 237, 0.16);
+
+  /* accent words: saturated violet into indigo, readable at display sizes */
+  --t-grad-text: linear-gradient(90deg, #7c3aed 0%, #6d28d9 45%, #4f46e5 100%);
+
+  /* ambient light */
+  --t-glow-violet: rgba(167, 139, 250, 0.22);
+  --t-glow-indigo: rgba(129, 140, 248, 0.16);
+
+  /* soft elevation: wide blur, negative spread, violet-black at low alpha */
+  --t-shadow-c: rgba(28, 20, 60, 0.1);
+  --t-shadow-c2: rgba(28, 20, 60, 0.16);
+  --t-shadow-1: 0 1px 2px rgba(28, 20, 60, 0.04), 0 6px 18px -10px rgba(28, 20, 60, 0.1);
+  --t-shadow-2: 0 1px 2px rgba(28, 20, 60, 0.04), 0 24px 48px -28px rgba(46, 16, 101, 0.2);
+  --t-shadow-3: 0 2px 6px rgba(28, 20, 60, 0.05), 0 40px 80px -40px rgba(46, 16, 101, 0.28);
+  --t-shadow-hover: 0 2px 6px rgba(28, 20, 60, 0.05), 0 30px 60px -30px rgba(76, 29, 149, 0.3);
+
+  /* cards */
+  --t-card-bg: linear-gradient(180deg, #ffffff 0%, #fcfbff 100%);
+  --t-card-border: rgba(28, 20, 60, 0.07);
+
+  color-scheme: light;
+  background-color: var(--t-pg);
+}
+
+/* --------------------------------------------------------------- 1. roots */
+
+html[data-theme="light"] body {
+  background: var(--t-pg);
+  background-color: var(--t-pg);
+  color: var(--t-fg);
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-track { background: var(--t-pg-3); }
+html[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(9, 9, 11, 0.2); }
+html[data-theme="light"] ::selection { background: var(--t-brand-soft); color: var(--t-fg); }
+
+/* ------------------------------------------- 2. inverted primary controls */
+/* A solid-white button is invisible on a white page, so the primary action
+   flips to ink-on-white. Its paired .text-black flips with it. */
+
+html[data-theme="light"] .bg-white { background-color: var(--t-fg); }
+html[data-theme="light"] .text-black { color: #ffffff; }
+html[data-theme="light"] .hover\:bg-white:hover { background-color: var(--t-fg-2); }
+html[data-theme="light"] .hover\:bg-neutral-200:hover { background-color: var(--t-fg-2); }
+html[data-theme="light"] .border-white { border-color: var(--t-fg); }
+
+/* ------------------------------------------------------------ 3. surfaces */
+
+html[data-theme="light"] .bg-black { background-color: var(--t-pg); }
+html[data-theme="light"] .bg-neutral-950 { background-color: var(--t-pg); }
+html[data-theme="light"] .bg-neutral-900 { background-color: var(--t-pg-2); }
+html[data-theme="light"] .bg-neutral-900\/10,
+html[data-theme="light"] .bg-neutral-900\/20,
+html[data-theme="light"] .bg-neutral-900\/30,
+html[data-theme="light"] .bg-neutral-900\/40 { background-color: var(--t-pg-2); }
+html[data-theme="light"] .bg-\[\#0A0A0A\] { background-color: var(--t-pg-2); }
+
+html[data-theme="light"] .bg-white\/5 { background-color: var(--t-tint); }
+html[data-theme="light"] .bg-white\/10 { background-color: var(--t-tint-2); }
+html[data-theme="light"] .bg-white\/20 { background-color: var(--t-tint-3); }
+html[data-theme="light"] .bg-white\/30 { background-color: rgba(9, 9, 11, 0.14); }
+html[data-theme="light"] .bg-white\/\[0\.02\] { background-color: rgba(9, 9, 11, 0.02); }
+html[data-theme="light"] .bg-white\/\[0\.03\] { background-color: rgba(9, 9, 11, 0.03); }
+
+html[data-theme="light"] .hover\:bg-white\/5:hover { background-color: var(--t-tint); }
+html[data-theme="light"] .hover\:bg-white\/10:hover { background-color: var(--t-tint-2); }
+html[data-theme="light"] .group:hover .group-hover\:bg-white\/20 { background-color: var(--t-tint-3); }
+
+html[data-theme="light"] .bg-neutral-800 { background-color: var(--t-pg-3); }
+html[data-theme="light"] .bg-neutral-800\/50 { background-color: var(--t-pg-3); }
+html[data-theme="light"] .bg-black\/20 { background-color: rgba(9, 9, 11, 0.05); }
+html[data-theme="light"] .bg-black\/70 { background-color: rgba(255, 255, 255, 0.82); }
+
+/* Section-edge gradient ramps fade a dark ground out; they have to fade a light
+   one instead. Tailwind's from-* sets three custom properties including a
+   position, so each has to be restated in full rather than just the colour.
+   (from-neutral-900/60 and via-neutral-950/80 appear in the markup but were
+   never compiled into the stylesheet, so there is nothing to override.) */
+html[data-theme="light"] .from-neutral-950 {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(255, 255, 255, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html[data-theme="light"] .from-black {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position);
+  --tw-gradient-to: transparent var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html[data-theme="light"] .to-neutral-950 {
+  --tw-gradient-to: #ffffff var(--tw-gradient-to-position);
+}
+/* the one from-white is a decorative sheen, which has to darken to stay visible */
+html[data-theme="light"] .from-white {
+  --tw-gradient-from: rgba(9, 9, 11, 0.9) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(9, 9, 11, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+html[data-theme="light"] .text-white\/\[0\.03\] { color: rgba(9, 9, 11, 0.04); }
+
+/* backdrop panels that leaned on a dark blur */
+html[data-theme="light"] .backdrop-blur-xl,
+html[data-theme="light"] .backdrop-blur-md { backdrop-filter: blur(16px) saturate(140%); }
+
+/* ---------------------------------------------------------------- 4. text */
+
+html[data-theme="light"] .text-white { color: var(--t-fg); }
+html[data-theme="light"] .text-neutral-300 { color: var(--t-fg-2); }
+html[data-theme="light"] .text-neutral-400 { color: var(--t-fg-3); }
+html[data-theme="light"] .text-neutral-500 { color: var(--t-fg-4); }
+html[data-theme="light"] .text-white\/60 { color: var(--t-fg-3); }
+html[data-theme="light"] .text-white\/70 { color: var(--t-fg-3); }
+html[data-theme="light"] .text-white\/80 { color: var(--t-fg-2); }
+html[data-theme="light"] .text-white\/90,
+html[data-theme="light"] .text-white\/95 { color: var(--t-fg); }
+html[data-theme="light"] .text-white\/40 { color: var(--t-fg-4); }
+
+html[data-theme="light"] .hover\:text-white:hover { color: var(--t-fg); }
+html[data-theme="light"] .group:hover .group-hover\:text-white { color: var(--t-fg); }
+
+/* purple accent text needs more weight on white */
+html[data-theme="light"] .text-purple-400,
+html[data-theme="light"] .text-purple-300,
+html[data-theme="light"] .text-purple-200,
+html[data-theme="light"] .text-purple-100 { color: var(--t-brand); }
+html[data-theme="light"] .text-purple-500 { color: var(--t-brand-2); }
+html[data-theme="light"] .text-\[\#A855F7\] { color: var(--t-brand-2); }
+html[data-theme="light"] .text-\[\#E9D5FF\] { color: var(--t-brand); }
+
+/* ------------------------------------------------------------- 5. borders */
+
+html[data-theme="light"] .border-white\/5 { border-color: var(--t-line-soft); }
+html[data-theme="light"] .border-white\/10 { border-color: var(--t-line); }
+html[data-theme="light"] .border-white\/20 { border-color: var(--t-line-strong); }
+html[data-theme="light"] .border-white\/40 { border-color: rgba(9, 9, 11, 0.26); }
+html[data-theme="light"] .border-white\/70 { border-color: rgba(9, 9, 11, 0.4); }
+
+html[data-theme="light"] .hover\:border-white\/10:hover { border-color: var(--t-line); }
+html[data-theme="light"] .hover\:border-white\/20:hover { border-color: var(--t-line-strong); }
+html[data-theme="light"] .group:hover .group-hover\:border-white\/20 { border-color: var(--t-line-strong); }
+html[data-theme="light"] .group:hover .group-hover\:border-white\/70 { border-color: rgba(9, 9, 11, 0.4); }
+
+html[data-theme="light"] .border-purple-500\/10 { border-color: rgba(124, 58, 237, 0.14); }
+html[data-theme="light"] .border-purple-500\/20 { border-color: rgba(124, 58, 237, 0.2); }
+html[data-theme="light"] .border-purple-500\/30 { border-color: rgba(124, 58, 237, 0.28); }
+html[data-theme="light"] .border-purple-500\/50 { border-color: rgba(124, 58, 237, 0.45); }
+
+html[data-theme="light"] .bg-purple-500\/5 { background-color: rgba(124, 58, 237, 0.05); }
+html[data-theme="light"] .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08); }
+html[data-theme="light"] .bg-purple-500\/20 { background-color: rgba(124, 58, 237, 0.12); }
+html[data-theme="light"] .bg-purple-500\/30 { background-color: rgba(124, 58, 237, 0.16); }
+
+/* ------------------------------------------------------- 6. hero + header */
+
+html[data-theme="light"] .hero-title { color: var(--t-fg); }
+/* the headline's white-to-lilac ramp becomes ink-to-brand */
+html[data-theme="light"] .hero-title span {
+  background-image: linear-gradient(to bottom right, var(--t-fg), #4c1d95, var(--t-brand));
+}
+html[data-theme="light"] .hero-subtitle { color: var(--t-fg-2); }
+
+/* The hero's WebGL layer paints an opaque black field, so swap it for a
+   light wash rather than leaving a black band at the top of a white page. */
+html[data-theme="light"] .unicorn-scene,
+html[data-theme="light"] .unicorn-placeholder { display: none; }
+html[data-theme="light"] .unicorn-stage { background: transparent; }
+html[data-theme="light"] .hero-header {
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(124, 58, 237, 0.12), transparent 60%),
+    radial-gradient(80% 60% at 85% 10%, rgba(96, 165, 250, 0.08), transparent 62%),
+    var(--t-pg);
+}
+
+html[data-theme="light"] .glass { border-bottom: 1px solid var(--t-line-soft); }
+html[data-theme="light"] #navbar-bg { border-bottom-color: var(--t-line-soft); }
+html[data-theme="light"] .fu-row { border-bottom: 1px solid var(--t-line-soft); }
+html[data-theme="light"] .fu-sep { background: rgba(9, 9, 11, 0.14); }
+html[data-theme="light"] .fu-link iconify-icon { color: var(--t-brand); }
+html[data-theme="light"] .fu-link:hover { color: var(--t-brand-2); }
+
+/* ------------------------------------------------- 7. the dark app mock */
+/* The product UI itself is a dark interface. It stays dark inside the light
+   page, the way a screenshot would, so these restore its own palette. */
+
+html[data-theme="light"] .hero-mock { color: #ffffff; }
+html[data-theme="light"] .hero-mock .text-white { color: #ffffff; }
+html[data-theme="light"] .hero-mock .text-neutral-300 { color: #d4d4d4; }
+html[data-theme="light"] .hero-mock .text-neutral-400 { color: #a3a3a3; }
+html[data-theme="light"] .hero-mock .text-neutral-500 { color: #737373; }
+html[data-theme="light"] .hero-mock .bg-white\/5 { background-color: rgba(255, 255, 255, 0.05); }
+html[data-theme="light"] .hero-mock .bg-white\/20 { background-color: rgba(255, 255, 255, 0.2); }
+html[data-theme="light"] .hero-mock .bg-white\/30 { background-color: rgba(255, 255, 255, 0.3); }
+html[data-theme="light"] .hero-mock .bg-white\/\[0\.03\] { background-color: rgba(255, 255, 255, 0.03); }
+html[data-theme="light"] .hero-mock .border-white\/5 { border-color: rgba(255, 255, 255, 0.05); }
+html[data-theme="light"] .hero-mock .border-white\/10 { border-color: rgba(255, 255, 255, 0.1); }
+html[data-theme="light"] .hero-mock .text-purple-400,
+html[data-theme="light"] .hero-mock .text-purple-100 { color: #c084fc; }
+html[data-theme="light"] .hero-mock .bg-white { background-color: #ffffff; }
+
+/* --------------------------------------------- 8. named section families */
+
+/* feature strip */
+html[data-theme="light"] .fs-section { background: var(--t-pg); }
+html[data-theme="light"] .fs-card {
+  background: var(--t-pg);
+  border: 1px solid var(--t-line);
+  box-shadow: 0 1px 0 rgba(9, 9, 11, 0.03), 0 30px 80px -48px var(--t-shadow-c2);
+}
+html[data-theme="light"] .fs-card:hover {
+  box-shadow: 0 1px 0 rgba(9, 9, 11, 0.04), 0 36px 90px -44px rgba(124, 58, 237, 0.3);
+}
+html[data-theme="light"] .fs-item:hover { background: var(--t-tint); }
+html[data-theme="light"] .fs-item:hover .fs-title { color: var(--t-fg); }
+html[data-theme="light"] .fs-title { color: var(--t-fg); }
+html[data-theme="light"] .fs-icon { color: var(--t-brand); }
+
+/* demo card */
+html[data-theme="light"] .demo-card {
+  background: var(--t-pg);
+  border: 1px solid var(--t-line);
+  box-shadow: 0 40px 110px -45px var(--t-shadow-c2), 0 0 26px -12px var(--t-shadow-c);
+}
+html[data-theme="light"] .demo-card:hover {
+  border-color: var(--t-line-strong);
+  box-shadow: 0 46px 120px -42px rgba(9, 9, 11, 0.22);
+}
+html[data-theme="light"] .demo-play {
+  color: var(--t-fg);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--t-line-strong);
+  box-shadow: 0 0 50px -16px var(--t-shadow-c2);
+}
+html[data-theme="light"] .demo-card:hover .demo-play { background: #ffffff; }
+html[data-theme="light"] .demo-caption { text-shadow: 0 1px 10px rgba(255, 255, 255, 0.9); }
+
+/* workflow */
+html[data-theme="light"] .wf-section { background: var(--t-pg); }
+html[data-theme="light"] .wf-title { color: var(--t-fg); }
+html[data-theme="light"] .wf-accent {
+  background-image: linear-gradient(to right, var(--t-brand-2), var(--t-brand), #4c1d95);
+}
+html[data-theme="light"] .wf-sub { color: var(--t-fg-3); }
+html[data-theme="light"] .wf-bubble {
+  color: var(--t-fg);
+  background: #f5f3ff;
+  border: 3px solid #ddd6fe;
+}
+html[data-theme="light"] .wf-num { color: #ffffff; background: var(--t-brand); }
+html[data-theme="light"] .wf-node:hover .wf-bubble iconify-icon { color: var(--t-brand-2); }
+html[data-theme="light"] .wf-label h3 { color: var(--t-fg); }
+
+/* input / output */
+html[data-theme="light"] .io-section { background: var(--t-pg); }
+html[data-theme="light"] .io-title { color: var(--t-fg); }
+html[data-theme="light"] .io-accent {
+  background-image: linear-gradient(to right, var(--t-brand-2), var(--t-brand), #4c1d95);
+}
+html[data-theme="light"] .io-source {
+  box-shadow: 0 1px 0 rgba(9, 9, 11, 0.04), 0 40px 80px -50px rgba(124, 58, 237, 0.45);
+}
+html[data-theme="light"] .io-source-icon {
+  color: var(--t-brand-2);
+  border: 1px solid var(--t-line);
+  background: var(--t-tint);
+}
+html[data-theme="light"] .io-source-label { color: var(--t-fg); }
+html[data-theme="light"] .io-card {
+  border: 1px solid var(--t-line);
+  background: linear-gradient(162deg, rgba(9, 9, 11, 0.03), rgba(9, 9, 11, 0.008));
+}
+html[data-theme="light"] .io-card h3 { color: var(--t-fg); }
+
+/* pricing */
+html[data-theme="light"] .pricing-grid > div {
+  background: var(--t-pg);
+  box-shadow: 0 1px 0 0 rgba(9, 9, 11, 0.04);
+}
+html[data-theme="light"] .pricing-grid > div:hover {
+  box-shadow: 0 1px 0 0 rgba(9, 9, 11, 0.05), 0 30px 70px -34px var(--t-shadow-c2),
+    0 0 60px -22px rgba(var(--accent), 0.4);
+}
+
+/* night-map band */
+html[data-theme="light"] .nm-section { background: var(--t-pg); }
+html[data-theme="light"] .nm-section::before {
+  background: linear-gradient(to bottom, var(--t-pg), rgba(255, 255, 255, 0));
+}
+html[data-theme="light"] .nm-fade-left {
+  background: linear-gradient(to right, var(--t-pg) 0%, rgba(255, 255, 255, 0.6) 35%, transparent 100%);
+}
+html[data-theme="light"] .nm-fade-bottom {
+  background: linear-gradient(to top, var(--t-pg) 0%, transparent 45%);
+}
+html[data-theme="light"] .nm-title { color: var(--t-fg); }
+html[data-theme="light"] .nm-btn {
+  background: var(--t-fg);
+  color: #ffffff;
+  box-shadow: 0 10px 24px -12px var(--t-shadow-c2);
+}
+html[data-theme="light"] .nm-btn:hover { box-shadow: 0 14px 30px -12px rgba(9, 9, 11, 0.3); }
+html[data-theme="light"] .nm-band {
+  border-top: 1px solid var(--t-line-soft);
+  background: rgba(9, 9, 11, 0.03);
+}
+/* the globe artwork is a dark-field render; keep it on its own dark plate */
+html[data-theme="light"] .nm-globe-wrap { background: #050505; border-radius: 1rem; }
+
+/* video modal stays dark — it frames video */
+html[data-theme="light"] .yt-modal-inner {
+  box-shadow: 0 40px 120px -20px rgba(9, 9, 11, 0.45), 0 0 90px -30px rgba(124, 58, 237, 0.3);
+}
+
+/* accordion / FAQ */
+html[data-theme="light"] .accordion-content { color: var(--t-fg-3); }
+
+/* ------------------------------------------------------ 9. footer + menu */
+
+html[data-theme="light"] .oc-foot { background: var(--t-pg-2); color: var(--t-fg); }
+html[data-theme="light"] .oc-foot-signup input {
+  background: var(--t-pg);
+  border: 1px solid var(--t-line);
+  color: var(--t-fg);
+}
+html[data-theme="light"] .oc-foot-go { background: var(--t-fg); color: #ffffff; }
+html[data-theme="light"] .oc-foot-social { background: var(--t-tint); }
+html[data-theme="light"] .oc-foot-card-glyph { color: rgba(255, 255, 255, 0.16); }
+html[data-theme="light"] .oc-foot-card-meta { border-top: 1px solid rgba(9, 9, 11, 0.14); }
+html[data-theme="light"] .oc-foot-mark { color: rgba(9, 9, 11, 0.16); }
+html[data-theme="light"] .oc-foot a { color: inherit; }
+
+html[data-theme="light"] .mnav { background: var(--t-pg); color: var(--t-fg); }
+html[data-theme="light"] .mnav-inner { background: var(--t-pg); }
+html[data-theme="light"] .mnav-sec { color: var(--t-fg-4); }
+html[data-theme="light"] .mnav-link { color: var(--t-fg); border-color: var(--t-line-soft); }
+html[data-theme="light"] .mnav-link:hover { background: var(--t-tint); }
+html[data-theme="light"] .nav-burger { color: var(--t-fg); }
+
+/* --------------------------------------------------- 10. the theme toggle */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+html[data-theme="light"] .theme-toggle {
+  border-color: var(--t-line);
+  background: var(--t-tint);
+  color: var(--t-fg);
+}
+
+html[data-theme="light"] .theme-toggle:hover {
+  background: var(--t-tint-2);
+  border-color: var(--t-line-strong);
+}
+
+html[data-theme="light"] .theme-toggle:focus-visible { outline-color: var(--t-brand); }
+
+/* the icon shows the theme you would switch TO: a sun while dark, a moon while light */
+.theme-toggle .ti-moon { display: none; }
+.theme-toggle .ti-sun { display: block; }
+html[data-theme="light"] .theme-toggle .ti-moon { display: block; }
+html[data-theme="light"] .theme-toggle .ti-sun { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle { transition: none; }
+}
+
+/* ------------------------------------------------ 11. foundation: soft system */
+
+/* Saturated fills keep white text. The global .text-white -> ink swap is right
+   for text on the page ground and wrong for text on a purple button or badge. */
+html[data-theme="light"] .bg-purple-600.text-white,
+html[data-theme="light"] .bg-purple-600 .text-white,
+html[data-theme="light"] .from-purple-600.text-white,
+html[data-theme="light"] .from-purple-600 .text-white,
+html[data-theme="light"] .hover\:bg-purple-500.text-white:hover,
+html[data-theme="light"] .hover\:bg-purple-600.text-white:hover,
+html[data-theme="light"] .group:hover .group-hover\:bg-purple-500.group-hover\:text-white { color: #ffffff; }
+
+/* The ambient glows were blended with `screen`, and screen against a white
+   ground always yields white, so every wash on the page vanished in Daylight.
+   Multiply lets the same lilac blobs tint the white instead. The app mock is a
+   dark island and keeps its screen blend. */
+html[data-theme="light"] .mix-blend-screen:not(.hero-mock *) { mix-blend-mode: multiply; }
+
+/* Accent words: the purple-400 family washes out on white. The hero headline
+   has its own ink-to-violet ramp and is left alone. */
+html[data-theme="light"] .bg-clip-text.text-transparent:not(.hero-title *) {
+  background-image: var(--t-grad-text);
+}
+
+/* Tailwind's large shadows were tuned for a black ground; on white they read as
+   grey smudges. Swap them for the soft elevation ramp. */
+html[data-theme="light"] .shadow-lg:not(.hero-mock *) { box-shadow: var(--t-shadow-1); }
+html[data-theme="light"] .shadow-xl:not(.hero-mock *) { box-shadow: var(--t-shadow-2); }
+html[data-theme="light"] .shadow-2xl:not(.hero-mock *) { box-shadow: var(--t-shadow-3); }
+
+/* the app mock's credit figure keeps its own violet */
+html[data-theme="light"] .hero-mock .text-\[\#A855F7\] { color: #a855f7; }
+
+/* ==================== soft daylight: section layers ==================== */
+
+/* ---------------------------------------------------------------------------
+   g1-nav: navigation, follow-us row, dropdowns, mobile menu, logo marquee
+   --------------------------------------------------------------------------- */
+/* ==========================================================================
+   g1-nav — Daylight treatment for the navigation bar, follow-us row,
+   Features / Showcase dropdowns, theme toggle + CTAs, burger, mobile menu,
+   and the logo marquee band under the hero.
+
+   Every selector starts with html[data-theme="light"]; treatment only.
+   ========================================================================== */
+
+/* ------------------------------------------------------------ 1. the bar */
+
+/* At the top of the page the bar sits on the hero wash: a whisper of white
+   glass so the follow-us strip and the main row read as one surface. */
+html[data-theme="light"] body > nav #navbar-bg {
+  background-color: rgba(255, 255, 255, 0.28);
+  border-bottom-color: var(--t-line-soft);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Scrolled: the page script swaps bg-transparent for bg-black/50, which on
+   white became a muddy grey slab. Soft frosted white glass instead. */
+html[data-theme="light"] body > nav #navbar-bg.bg-black\/50 {
+  background-color: rgba(255, 255, 255, 0.74);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border-bottom-color: var(--t-line);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 12px 32px -22px rgba(46, 16, 101, 0.22);
+}
+
+/* Mobile menu open: octavia-mobile.css paints the bar #050505 */
+html[data-theme="light"] body.mnav-open > nav #navbar-bg {
+  background-color: rgba(255, 255, 255, 0.97);
+  border-bottom-color: var(--t-line-soft);
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------ 2. follow-us row */
+
+html[data-theme="light"] body > nav .fu-row {
+  border-bottom-color: var(--t-line-soft);
+}
+html[data-theme="light"] body > nav .fu-label { color: var(--t-fg-3); }
+html[data-theme="light"] body > nav .fu-sep { background: var(--t-line-strong); }
+html[data-theme="light"] body > nav .fu-link { color: var(--t-fg-2); }
+html[data-theme="light"] body > nav .fu-link iconify-icon { color: var(--t-brand); }
+html[data-theme="light"] body > nav .fu-link:hover { color: var(--t-brand-2); }
+html[data-theme="light"] body > nav .fu-link:hover iconify-icon { color: var(--t-brand-2); }
+
+/* ------------------------------------------------------------- 3. logo */
+
+/* The wordmark is a white PNG; brightness(0) renders it as solid ink while
+   keeping the alpha edge, so it stays crisp. */
+html[data-theme="light"] body > nav img[alt="LUNARTECH"] {
+  filter: brightness(0);
+}
+html[data-theme="light"] body > nav .nav-logo a:hover img[alt="LUNARTECH"] {
+  filter: brightness(0) drop-shadow(0 0 10px rgba(124, 58, 237, 0.28));
+}
+html[data-theme="light"] body > nav .nav-logo .bg-purple-500\/20 {
+  background-color: rgba(167, 139, 250, 0.22);
+}
+
+/* ------------------------------------------------------- 4. centre links */
+
+html[data-theme="light"] body > nav nav.hidden > a,
+html[data-theme="light"] body > nav nav.hidden > .group > button { color: var(--t-fg-3); }
+html[data-theme="light"] body > nav nav.hidden > a:hover,
+html[data-theme="light"] body > nav nav.hidden > .group:hover > button { color: var(--t-fg); }
+
+/* --------------------------------------------------- 5. dropdown panels */
+
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] {
+  background:
+    radial-gradient(70% 90% at 100% 0%, rgba(167, 139, 250, 0.12), transparent 60%),
+    radial-gradient(60% 80% at 0% 100%, rgba(129, 140, 248, 0.06), transparent 60%),
+    var(--t-card-bg);
+  border-color: var(--t-card-border);
+  box-shadow: var(--t-shadow-3), 0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+}
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .border-white\/5 { border-color: var(--t-line-soft); }
+
+/* menu items: lilac hover tint */
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover {
+  background-color: rgba(124, 58, 237, 0.045);
+}
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .text-white { color: var(--t-fg); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .text-neutral-500 { color: var(--t-fg-4); }
+
+/* capability-hued icon tiles: hue at ~9% fill, ~18% border, 600-shade icon */
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.08); border-color: rgba(124, 58, 237, 0.18); color: #7c3aed; }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-pink-500\/10 { background-color: rgba(219, 39, 119, 0.08); border-color: rgba(219, 39, 119, 0.18); color: #db2777; }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.08); border-color: rgba(37, 99, 235, 0.18); color: #2563eb; }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-amber-500\/10 { background-color: rgba(217, 119, 6, 0.09); border-color: rgba(217, 119, 6, 0.2); color: #d97706; }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.08); border-color: rgba(5, 150, 105, 0.18); color: #059669; }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-cyan-500\/10 { background-color: rgba(8, 145, 178, 0.08); border-color: rgba(8, 145, 178, 0.18); color: #0891b2; }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.08); border-color: rgba(225, 29, 72, 0.18); color: #e11d48; }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .bg-indigo-500\/10 { background-color: rgba(79, 70, 229, 0.08); border-color: rgba(79, 70, 229, 0.18); color: #4f46e5; }
+
+/* tile on item hover: a touch deeper */
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-purple-500\/10 { background-color: rgba(124, 58, 237, 0.13); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-pink-500\/10 { background-color: rgba(219, 39, 119, 0.13); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-blue-500\/10 { background-color: rgba(37, 99, 235, 0.13); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-amber-500\/10 { background-color: rgba(217, 119, 6, 0.14); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-emerald-500\/10 { background-color: rgba(5, 150, 105, 0.13); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-cyan-500\/10 { background-color: rgba(8, 145, 178, 0.13); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-rose-500\/10 { background-color: rgba(225, 29, 72, 0.13); }
+html[data-theme="light"] body > nav .bg-\[\#0A0A0A\] .group\/item:hover .bg-indigo-500\/10 { background-color: rgba(79, 70, 229, 0.13); }
+
+/* item title on hover takes its hue at the 700 shade */
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-purple-300 { color: #6d28d9; }
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-pink-300 { color: #be185d; }
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-blue-300 { color: #1d4ed8; }
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-amber-300 { color: #b45309; }
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-emerald-300 { color: #047857; }
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-cyan-300 { color: #0e7490; }
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-rose-300 { color: #be123c; }
+html[data-theme="light"] body > nav .group\/item:hover .group-hover\/item\:text-indigo-300 { color: #4338ca; }
+
+/* ------------------------------------------- 6. toggle + CTAs + burger */
+
+/* secondary: white fill, faint line, soft shadow, ink text */
+html[data-theme="light"] body > nav .nav-cta-login {
+  background-color: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] body > nav .nav-cta-login:hover {
+  background-color: #ffffff;
+  border-color: var(--t-brand-line);
+  box-shadow: 0 1px 2px rgba(28, 20, 60, 0.04), 0 10px 24px -14px rgba(76, 29, 149, 0.3);
+}
+html[data-theme="light"] body > nav .nav-cta-login iconify-icon { color: var(--t-brand); }
+html[data-theme="light"] body > nav .nav-cta-login:hover iconify-icon { color: var(--t-brand-2); }
+html[data-theme="light"] body > nav .nav-cta-login .from-purple-500\/10 {
+  --tw-gradient-from: rgba(124, 58, 237, 0.06) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(59, 130, 246, 0.06) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+/* primary: ink fill, white text */
+html[data-theme="light"] body > nav .nav-cta-signup {
+  background-color: var(--t-fg);
+  border-color: var(--t-fg);
+  color: #ffffff;
+  box-shadow: var(--t-shadow-1), 0 8px 20px -12px rgba(46, 16, 101, 0.35);
+}
+html[data-theme="light"] body > nav .nav-cta-signup:hover {
+  background-color: #1f1a2e;
+  border-color: #1f1a2e;
+}
+
+/* theme toggle: same family as the secondary pill */
+html[data-theme="light"] body > nav .theme-toggle {
+  background: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg-2);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] body > nav .theme-toggle:hover {
+  background: #ffffff;
+  border-color: var(--t-brand-line);
+  color: var(--t-brand-2);
+}
+
+/* burger (phones / small tablets) */
+html[data-theme="light"] body > nav .nav-burger {
+  background: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] body > nav .nav-burger[aria-expanded="true"] {
+  background: var(--t-tint-bg);
+  border-color: var(--t-brand-line);
+  color: var(--t-brand-ink);
+}
+
+/* --------------------------------------------------------- 7. mobile menu */
+
+html[data-theme="light"] #mobile-menu {
+  background:
+    radial-gradient(90% 30% at 100% 0%, rgba(167, 139, 250, 0.11), transparent 100%),
+    radial-gradient(90% 30% at 0% 100%, rgba(129, 140, 248, 0.07), transparent 100%),
+    var(--t-pg);
+  border-top-color: var(--t-line-soft);
+  color: var(--t-fg);
+}
+html[data-theme="light"] #mobile-menu .mnav-inner { background: transparent; }
+html[data-theme="light"] #mobile-menu .mnav-label { color: var(--t-fg-4); }
+html[data-theme="light"] #mobile-menu .mnav-item { color: var(--t-fg); }
+html[data-theme="light"] #mobile-menu .mnav-item:active,
+html[data-theme="light"] #mobile-menu .mnav-item:hover { background: rgba(124, 58, 237, 0.045); }
+html[data-theme="light"] #mobile-menu .mnav-desc { color: var(--t-fg-4); }
+
+/* icon tiles: the inline --mi hues are 400 shades; light uses the 600 shade */
+html[data-theme="light"] #mobile-menu .mnav-ico { --mi-l: #7c3aed; }
+html[data-theme="light"] #mobile-menu .mnav-ico[style*="#60a5fa"] { --mi-l: #2563eb; }
+html[data-theme="light"] #mobile-menu .mnav-ico[style*="#34d399"] { --mi-l: #059669; }
+html[data-theme="light"] #mobile-menu .mnav-ico[style*="#f472b6"] { --mi-l: #db2777; }
+html[data-theme="light"] #mobile-menu .mnav-ico[style*="#fbbf24"] { --mi-l: #d97706; }
+html[data-theme="light"] #mobile-menu .mnav-ico[style*="#22d3ee"] { --mi-l: #0891b2; }
+html[data-theme="light"] #mobile-menu .mnav-ico[style*="#fb7185"] { --mi-l: #e11d48; }
+html[data-theme="light"] #mobile-menu .mnav-ico[style*="#818cf8"] { --mi-l: #4f46e5; }
+html[data-theme="light"] #mobile-menu .mnav-ico {
+  color: var(--mi-l);
+  background: color-mix(in srgb, var(--mi-l) 8%, #ffffff);
+  border-color: color-mix(in srgb, var(--mi-l) 18%, transparent);
+}
+
+html[data-theme="light"] #mobile-menu .mnav-btn-primary {
+  background: var(--t-fg);
+  border-color: var(--t-fg);
+  color: #ffffff;
+  box-shadow: var(--t-shadow-1), 0 10px 24px -14px rgba(46, 16, 101, 0.4);
+}
+html[data-theme="light"] #mobile-menu .mnav-btn-ghost {
+  background: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] #mobile-menu .mnav-btn-ghost iconify-icon { color: var(--t-brand); }
+
+/* --------------------------------------------------------- 8. logo marquee */
+/* A <script> sits between the hero header and the band, so both adjacency
+   forms are listed. */
+
+html[data-theme="light"] .hero-header + section,
+html[data-theme="light"] .hero-header + script + section {
+  /* carries the lilac glow under the hero mock across the seam, then fades
+     to the open page ground */
+  background: radial-gradient(48% 100% at 50% 0%, rgba(167, 139, 250, 0.09), rgba(167, 139, 250, 0.03) 55%, transparent 100%);
+  border-color: transparent;
+}
+html[data-theme="light"] .hero-header + section .animate-marquee,
+html[data-theme="light"] .hero-header + script + section .animate-marquee {
+  color: var(--t-fg-2);
+  opacity: 0.56;
+}
+
+/* ---------------------------------------------------------------------------
+   g2-hero: hero and feature strip
+   --------------------------------------------------------------------------- */
+/* ==========================================================================
+   g2-hero — Daylight treatment for the hero header and the feature strip.
+   Every selector is scoped to html[data-theme="light"] and to its region.
+   Treatment only: colour, background, border colour, shadow, filter.
+   ========================================================================== */
+
+/* ------------------------------------------------------------ hero ground */
+/* Soft daylight: a lilac sky at the top, a periwinkle bloom off the right
+   shoulder, a faint lilac pool on the left, and a violet halo that sits behind
+   the lower half of the app mock so the light carries down the page instead
+   of stopping at the headline. The ground finishes on white at the bottom so
+   the next section continues the same surface without a seam. */
+html[data-theme="light"] .hero-header {
+  background:
+    radial-gradient(16% 34% at 50% 0%, rgba(196, 181, 253, 0.30), rgba(196, 181, 253, 0) 75%),
+    radial-gradient(70% 36% at 50% 0%, rgba(167, 139, 250, 0.24), rgba(167, 139, 250, 0) 72%),
+    radial-gradient(52% 36% at 92% 12%, rgba(129, 140, 248, 0.15), rgba(129, 140, 248, 0) 72%),
+    radial-gradient(46% 34% at 4% 26%, rgba(196, 181, 253, 0.20), rgba(196, 181, 253, 0) 72%),
+    radial-gradient(22% 34% at 0% 66%, rgba(167, 139, 250, 0.20), rgba(167, 139, 250, 0) 72%),
+    radial-gradient(22% 34% at 100% 62%, rgba(129, 140, 248, 0.18), rgba(129, 140, 248, 0) 72%),
+    radial-gradient(60% 30% at 50% 80%, rgba(167, 139, 250, 0.18), rgba(167, 139, 250, 0) 70%),
+    radial-gradient(44% 20% at 50% 100%, rgba(196, 181, 253, 0.16), rgba(196, 181, 253, 0) 72%),
+    linear-gradient(180deg, #f7f4ff 0%, #fcfbff 34%, #ffffff 60%, #fbfaff 86%, #ffffff 100%);
+}
+
+/* the bottom ramp (from-black → white) fades into a lilac-white, not a flat
+   white bar, so the halo under the mock dissolves rather than being cut */
+html[data-theme="light"] .hero-header > .-z-10 > .from-black {
+  --tw-gradient-from: rgba(255, 255, 255, 0.92) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(255, 255, 255, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+/* ----------------------------------------------------------- social proof */
+html[data-theme="light"] .hero-header .border-\[\#050505\] {
+  border-color: #ffffff;
+  box-shadow: 0 1px 2px rgba(28, 20, 60, 0.08), 0 4px 10px -4px rgba(46, 16, 101, 0.28);
+}
+
+/* ------------------------------------------------------------------- CTAs */
+/* primary: ink fill (from the foundation), soft violet-black lift instead of
+   the white bloom that was tuned for a black ground */
+html[data-theme="light"] .hero-header .hero-cta > a {
+  box-shadow: 0 1px 2px rgba(12, 10, 20, 0.14), 0 10px 24px -12px rgba(46, 16, 101, 0.45);
+}
+html[data-theme="light"] .hero-header .hero-cta > a:hover {
+  background-color: #1c1830;
+  box-shadow: 0 1px 2px rgba(12, 10, 20, 0.14), 0 14px 28px -12px rgba(76, 29, 149, 0.5);
+}
+
+/* secondary: soft white with a hairline */
+html[data-theme="light"] .hero-header #watch-demo-btn {
+  background-color: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] .hero-header #watch-demo-btn:hover {
+  background-color: var(--t-tint-bg);
+  border-color: var(--t-brand-line);
+  box-shadow: var(--t-shadow-1), 0 8px 22px -14px rgba(124, 58, 237, 0.35);
+}
+
+/* -------------------------------------------------------------- app mock */
+/* The mock's interior keeps its own dark palette. Only how it sits on the
+   page changes: a hairline edge, soft elevation and a wide violet ambient
+   replace the dense purple bloom. */
+html[data-theme="light"] .hero-header .hero-mock {
+  box-shadow:
+    0 0 0 1px rgba(28, 20, 60, 0.06),
+    0 2px 6px rgba(28, 20, 60, 0.05),
+    0 36px 72px -36px rgba(76, 29, 149, 0.34),
+    0 24px 140px -36px rgba(139, 92, 246, 0.30);
+}
+
+/* the extruded base glow under the mock: a softer violet pool */
+html[data-theme="light"] .hero-header .hero-mock-wrap > .bg-purple-600\/30 {
+  background-color: rgba(139, 92, 246, 0.16);
+}
+html[data-theme="light"] .hero-header .hero-mock-wrap.group:hover > .group-hover\:bg-purple-600\/40 {
+  background-color: rgba(139, 92, 246, 0.22);
+}
+
+/* ------------------------------------------------------- feature strip */
+/* The section ground is transparent white with a faint lilac pool behind the
+   card, so the strip reads as lit by the same light as the hero. The pool
+   fades out well before the section edges, so there is no band. */
+html[data-theme="light"] .fs-section {
+  background:
+    radial-gradient(46% 70% at 22% 50%, rgba(167, 139, 250, 0.10), rgba(167, 139, 250, 0) 72%),
+    radial-gradient(40% 70% at 80% 55%, rgba(129, 140, 248, 0.08), rgba(129, 140, 248, 0) 72%),
+    var(--t-pg);
+}
+
+/* featured soft card */
+html[data-theme="light"] .fs-section .fs-card {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(167, 139, 250, 0.17), rgba(167, 139, 250, 0) 50%),
+    radial-gradient(70% 90% at 0% 100%, rgba(129, 140, 248, 0.06), rgba(129, 140, 248, 0) 55%),
+    var(--t-card-bg);
+  border-color: var(--t-card-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--t-shadow-3);
+}
+html[data-theme="light"] .fs-section .fs-card:hover {
+  border-color: var(--t-brand-line);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--t-shadow-hover);
+}
+html[data-theme="light"] .fs-section .fs-card::before {
+  background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(139, 92, 246, 0.08), transparent 62%);
+}
+
+/* items: a faint violet tint on hover */
+html[data-theme="light"] .fs-section .fs-item:hover {
+  background: rgba(124, 58, 237, 0.045);
+  border-color: var(--t-brand-line);
+  box-shadow: 0 14px 30px -20px rgba(76, 29, 149, 0.32);
+}
+
+html[data-theme="light"] .fs-section .fs-icon { color: var(--t-brand); }
+html[data-theme="light"] .fs-section .fs-item:hover .fs-icon {
+  color: var(--t-brand-2);
+  filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.55));
+}
+
+html[data-theme="light"] .fs-section .fs-title { color: var(--t-fg); }
+html[data-theme="light"] .fs-section .fs-item:hover .fs-title {
+  color: var(--t-fg);
+  text-shadow: none;
+}
+
+html[data-theme="light"] .fs-section .fs-desc { color: var(--t-fg-3); }
+html[data-theme="light"] .fs-section .fs-item:hover .fs-desc { color: var(--t-fg-2); }
+
+/* ---------------------------------------------------------------------------
+   g3-features: demo and features grid
+   --------------------------------------------------------------------------- */
+/* ==========================================================================
+   Daylight — g3: demo section (#demo) + features bento grid (#features)
+   Every selector is scoped to html[data-theme="light"], so Dark is untouched.
+   Treatment only: colour / background / border-colour / shadow.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ DEMO */
+/* The video frame is a dark island: its interior (image, overlay, glass play
+   button, caption) keeps the Dark palette. Only the way it sits on the page
+   changes: a soft violet-black elevation instead of the grey halo. */
+
+html[data-theme="light"] #demo .demo-card {
+  background: #000;
+  border-color: rgba(28, 20, 60, 0.1);
+  box-shadow:
+    0 2px 6px rgba(28, 20, 60, 0.06),
+    0 30px 60px -34px rgba(28, 20, 60, 0.32),
+    0 60px 120px -50px rgba(76, 29, 149, 0.34);
+}
+html[data-theme="light"] #demo .demo-card:hover {
+  border-color: rgba(124, 58, 237, 0.22);
+  box-shadow:
+    0 2px 6px rgba(28, 20, 60, 0.06),
+    0 36px 70px -34px rgba(28, 20, 60, 0.36),
+    0 70px 130px -50px rgba(109, 40, 217, 0.42);
+}
+
+/* restore the dark glass play button and caption exactly as in Dark */
+html[data-theme="light"] #demo .demo-play {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 50px -10px rgba(255, 255, 255, 0.35);
+}
+html[data-theme="light"] #demo .demo-card:hover .demo-play {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 70px -8px rgba(255, 255, 255, 0.5);
+}
+html[data-theme="light"] #demo .demo-caption {
+  color: #e5e5e5;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+/* -------------------------------------------------------------- FEATURES */
+
+/* a faint lilac wash behind the grid so the cards feel lit, not pasted */
+html[data-theme="light"] #features {
+  background:
+    radial-gradient(55% 35% at 88% 42%, rgba(167, 139, 250, 0.075), transparent 70%),
+    radial-gradient(50% 30% at 8% 82%, rgba(129, 140, 248, 0.055), transparent 70%),
+    var(--t-pg);
+}
+
+/* soft card */
+html[data-theme="light"] #features .grid > div {
+  background: var(--t-card-bg);
+  border-color: var(--t-card-border);
+  box-shadow: var(--t-shadow-2);
+}
+html[data-theme="light"] #features .grid > div:hover {
+  border-color: var(--t-brand-line);
+  box-shadow: var(--t-shadow-hover);
+}
+
+/* featured: the flagship translator card and multi-speaker diarization */
+html[data-theme="light"] #features .grid > div:nth-child(1),
+html[data-theme="light"] #features .grid > div:nth-child(8) {
+  background:
+    radial-gradient(70% 90% at 100% 0%, rgba(167, 139, 250, 0.17), rgba(167, 139, 250, 0.05) 45%, transparent 70%),
+    var(--t-card-bg);
+  border-color: rgba(124, 58, 237, 0.1);
+  box-shadow: var(--t-shadow-3);
+}
+html[data-theme="light"] #features .grid > div:nth-child(1):hover,
+html[data-theme="light"] #features .grid > div:nth-child(8):hover {
+  border-color: rgba(124, 58, 237, 0.24);
+  box-shadow:
+    0 2px 6px rgba(28, 20, 60, 0.05),
+    0 40px 80px -38px rgba(76, 29, 149, 0.34);
+}
+
+/* card text */
+html[data-theme="light"] #features .grid h3 { color: var(--t-fg); }
+html[data-theme="light"] #features .grid p { color: var(--t-fg-3); }
+
+/* the flagship's right-edge hairline */
+html[data-theme="light"] #features .grid > div:nth-child(1) > .absolute.w-\[1px\] {
+  background-image: linear-gradient(to bottom, rgba(124, 58, 237, 0.32), rgba(124, 58, 237, 0));
+}
+
+/* icon tiles: tinted with each capability hue (fill ~9%, border ~20%, icon at 600) */
+html[data-theme="light"] #features .grid .w-10.h-10.rounded-xl {
+  --g3-hue: 124 58 237;
+  --g3-ink: #7c3aed;
+  background-color: rgb(var(--g3-hue) / 0.09);
+  border-color: rgb(var(--g3-hue) / 0.2);
+  color: var(--g3-ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px rgba(28, 20, 60, 0.04);
+}
+html[data-theme="light"] #features .grid .group:hover .w-10.h-10.rounded-xl {
+  background-color: rgb(var(--g3-hue) / 0.14);
+  border-color: rgb(var(--g3-hue) / 0.28);
+}
+html[data-theme="light"] #features .grid .w-10.h-10.text-purple-400  { --g3-hue: 124 58 237; --g3-ink: #7c3aed; }
+html[data-theme="light"] #features .grid .w-10.h-10.text-amber-400   { --g3-hue: 245 158 11; --g3-ink: #d97706; }
+html[data-theme="light"] #features .grid .w-10.h-10.text-emerald-400 { --g3-hue: 16 185 129;  --g3-ink: #059669; }
+html[data-theme="light"] #features .grid .w-10.h-10.text-pink-400    { --g3-hue: 236 72 153;  --g3-ink: #db2777; }
+html[data-theme="light"] #features .grid .w-10.h-10.text-blue-400    { --g3-hue: 59 130 246;  --g3-ink: #2563eb; }
+html[data-theme="light"] #features .grid .w-10.h-10.text-cyan-400    { --g3-hue: 6 182 212;   --g3-ink: #0891b2; }
+html[data-theme="light"] #features .grid .w-10.h-10.text-violet-400  { --g3-hue: 139 92 246;  --g3-ink: #7c3aed; }
+html[data-theme="light"] #features .grid .w-10.h-10.text-indigo-400  { --g3-hue: 99 102 241;  --g3-ink: #4f46e5; }
+/* text-sky-400 is not in the compiled Tailwind build, so in Dark this icon
+   inherits plain ink; Daylight keeps that neutral as an ink tile */
+html[data-theme="light"] #features .grid .w-10.h-10.text-sky-400 {
+  --g3-ink: var(--t-fg-2);
+  background-color: var(--t-tint);
+  border-color: var(--t-line);
+}
+html[data-theme="light"] #features .grid .group:hover .w-10.h-10.text-sky-400 {
+  background-color: var(--t-tint-2);
+  border-color: var(--t-line-strong);
+}
+
+/* "4 seconds": amber-300 is invisible on white; amber-700 clears 4.5:1 */
+html[data-theme="light"] #features .text-amber-300 { color: #b45309; }
+
+/* chips as soft pills */
+html[data-theme="light"] #features .grid span.rounded-full.uppercase {
+  background-color: var(--t-tint-bg);
+  border-color: var(--t-brand-line);
+  color: var(--t-brand-2);
+  box-shadow: 0 1px 2px rgba(28, 20, 60, 0.04);
+}
+/* the neutral "Diarization" chip stays neutral until hover, as in Dark */
+html[data-theme="light"] #features .grid span.rounded-full.uppercase.bg-white\/5 {
+  background-color: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg-3);
+}
+html[data-theme="light"] #features .grid .group:hover span.rounded-full.uppercase.bg-white\/5 {
+  background-color: var(--t-tint-bg);
+  border-color: var(--t-brand-line);
+  color: var(--t-brand-2);
+}
+
+/* Magic Mode's waveform strokes: keep the pink, a touch deeper on white */
+html[data-theme="light"] #features .bg-pink-500\/40 { background-color: rgb(219 39 119 / 0.38); }
+html[data-theme="light"] #features .bg-pink-500\/60 { background-color: rgb(219 39 119 / 0.55); }
+html[data-theme="light"] #features .bg-pink-500\/30 { background-color: rgb(219 39 119 / 0.26); }
+
+/* ---------------------------------------------------------------------------
+   g4-flow: workflow orbit and input/output diagram
+   --------------------------------------------------------------------------- */
+/* =====================================================================
+   g4-flow — Daylight treatment for the workflow orbit (.wf-section)
+   and the input/output diagram (.io-section).
+   Treatment only: colour / background / border-colour / shadow / filter.
+   Every selector starts with html[data-theme="light"].
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   WORKFLOW ORBIT
+   --------------------------------------------------------------------- */
+
+/* Continuous ground with a faint lilac wash centred on the orbit, fading
+   out well before the section edges so it reads as ambient light. */
+html[data-theme="light"] .wf-section {
+  background:
+    radial-gradient(48% 38% at 50% 64%, rgba(167, 139, 250, 0.09), rgba(167, 139, 250, 0) 72%),
+    var(--t-pg);
+}
+
+/* Node copy: readable muted ink instead of #9ca3af */
+html[data-theme="light"] .wf-section .wf-label h3 { color: var(--t-fg); }
+html[data-theme="light"] .wf-section .wf-label p { color: var(--t-fg-4); }
+
+/* Bubbles: soft lilac glass on white */
+html[data-theme="light"] .wf-section .wf-bubble {
+  background:
+    radial-gradient(120% 120% at 30% 18%, #ffffff 0%, #faf7ff 45%, #f1ebff 100%);
+  border-color: rgba(196, 181, 253, 0.75);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -6px 14px -8px rgba(124, 58, 237, 0.14),
+    0 1px 2px rgba(28, 20, 60, 0.05),
+    0 14px 28px -14px rgba(76, 29, 149, 0.30),
+    0 0 0 5px rgba(167, 139, 250, 0.06);
+}
+html[data-theme="light"] .wf-section .wf-bubble iconify-icon { color: var(--t-brand); }
+
+html[data-theme="light"] .wf-section .wf-node:hover .wf-bubble {
+  border-color: rgba(167, 139, 250, 0.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -6px 14px -8px rgba(124, 58, 237, 0.18),
+    0 2px 6px rgba(28, 20, 60, 0.05),
+    0 22px 38px -16px rgba(76, 29, 149, 0.38),
+    0 0 0 7px rgba(167, 139, 250, 0.11);
+}
+html[data-theme="light"] .wf-section .wf-node:hover .wf-bubble iconify-icon { color: var(--t-brand-ink); }
+
+/* Number badges: saturated violet chip, white numeral, white keyline */
+html[data-theme="light"] .wf-section .wf-num {
+  color: #ffffff;
+  background: linear-gradient(140deg, #7c3aed 0%, #6d28d9 100%);
+  border-color: #ffffff;
+  box-shadow: 0 4px 10px -3px rgba(109, 40, 217, 0.45), 0 0 0 1px rgba(124, 58, 237, 0.12);
+}
+
+/* Dashed orbit ring + spokes: soft lilac lines */
+html[data-theme="light"] .wf-section .wf-ring {
+  border-color: rgba(139, 92, 246, 0.30);
+  box-shadow: 0 0 70px rgba(167, 139, 250, 0.10), inset 0 0 70px rgba(167, 139, 250, 0.08);
+}
+html[data-theme="light"] .wf-section .wf-ray {
+  background: linear-gradient(to right, rgba(139, 92, 246, 0) 22%, rgba(139, 92, 246, 0.32));
+}
+html[data-theme="light"] .wf-section .wf-ray::after {
+  background: linear-gradient(to right, rgba(139, 92, 246, 0), rgba(124, 58, 237, 0.55), rgba(139, 92, 246, 0));
+}
+
+/* AI core: keep the dark brand orb; replace the halo smear with a soft
+   violet light that falls off gently, and seat the orb with a shadow. */
+html[data-theme="light"] .wf-section .wf-core::before {
+  background: radial-gradient(circle,
+    rgba(167, 139, 250, 0.30) 0%,
+    rgba(196, 181, 253, 0.18) 38%,
+    rgba(221, 214, 254, 0.08) 56%,
+    rgba(221, 214, 254, 0) 70%);
+  filter: blur(12px);
+}
+/* drop-shadow follows the orb's alpha (the PNG has transparent padding),
+   so no disc appears; the image itself is not tinted or washed. */
+html[data-theme="light"] .wf-section .wf-core img {
+  filter: drop-shadow(0 18px 22px rgba(46, 16, 101, 0.28)) drop-shadow(0 2px 4px rgba(46, 16, 101, 0.18));
+}
+
+/* ---------------------------------------------------------------------
+   INPUT / OUTPUT
+   --------------------------------------------------------------------- */
+
+html[data-theme="light"] .io-section {
+  background:
+    radial-gradient(36% 46% at 12% 62%, rgba(167, 139, 250, 0.10), rgba(167, 139, 250, 0) 72%),
+    var(--t-pg);
+}
+
+html[data-theme="light"] .io-section .io-sub { color: var(--t-fg-3); }
+
+/* Source card — the featured soft card */
+html[data-theme="light"] .io-section .io-source {
+  border-color: rgba(124, 58, 237, 0.20);
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(167, 139, 250, 0.18), rgba(167, 139, 250, 0) 55%),
+    linear-gradient(180deg, #ffffff 0%, #faf7ff 48%, #f1eaff 100%);
+  box-shadow: inset 0 1px 0 #ffffff, var(--t-shadow-3);
+}
+html[data-theme="light"] .io-section .io-source-pulse {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.26), rgba(167, 139, 250, 0) 66%);
+  filter: blur(14px);
+}
+/* In the stacked (row) layout the pulse sits mid-card, away from the icon,
+   and reads as a smudge; keep it as a barely-there breath of light. */
+@media (max-width: 1023px) {
+  html[data-theme="light"] .io-section .io-source-pulse {
+    background: radial-gradient(circle, rgba(167, 139, 250, 0.12), rgba(167, 139, 250, 0) 66%);
+  }
+}
+html[data-theme="light"] .io-section .io-source-icon {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.55);
+  background: linear-gradient(140deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 12px 24px -10px rgba(109, 40, 217, 0.55),
+    0 0 0 5px rgba(167, 139, 250, 0.12);
+}
+html[data-theme="light"] .io-section .io-source-label { color: var(--t-fg); }
+html[data-theme="light"] .io-section .io-source-sub { color: var(--t-brand-2); }
+
+/* Dotted connectors: soft lilac, fading in from the source */
+html[data-theme="light"] .io-section .io-link stop:first-child { stop-color: #a78bfa; stop-opacity: 0.35; }
+html[data-theme="light"] .io-section .io-link stop:last-child { stop-color: #8b5cf6; stop-opacity: 0.9; }
+
+/* Output cards: soft white cards */
+html[data-theme="light"] .io-section .io-card {
+  border-color: var(--t-card-border);
+  background: var(--t-card-bg);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] .io-section .io-card h3 { color: var(--t-fg); }
+html[data-theme="light"] .io-section .io-card:hover {
+  border-color: rgba(var(--c6), 0.28);
+  box-shadow: 0 2px 6px rgba(28, 20, 60, 0.05), 0 26px 48px -26px rgba(var(--c6), 0.45);
+}
+
+/* Capability hue at its 600 shade (inline --c is the 400 shade) */
+html[data-theme="light"] .io-section .io-card:nth-child(1) { --c6: 124, 58, 237; }  /* violet  */
+html[data-theme="light"] .io-section .io-card:nth-child(2) { --c6: 37, 99, 235; }   /* blue    */
+html[data-theme="light"] .io-section .io-card:nth-child(3) { --c6: 5, 150, 105; }   /* emerald */
+html[data-theme="light"] .io-section .io-card:nth-child(4) { --c6: 219, 39, 119; }  /* pink    */
+html[data-theme="light"] .io-section .io-card:nth-child(5) { --c6: 8, 145, 178; }   /* cyan    */
+html[data-theme="light"] .io-section .io-card:nth-child(6) { --c6: 217, 119, 6; }   /* amber   */
+html[data-theme="light"] .io-section .io-card:nth-child(7) { --c6: 192, 38, 211; }  /* fuchsia */
+html[data-theme="light"] .io-section .io-card:nth-child(8) { --c6: 79, 70, 229; }   /* indigo  */
+
+html[data-theme="light"] .io-section .io-tile {
+  color: rgb(var(--c6));
+  background: rgba(var(--c6), 0.09);
+  border-color: rgba(var(--c6), 0.20);
+}
+html[data-theme="light"] .io-section .io-card:hover .io-tile {
+  background: rgba(var(--c6), 0.13);
+  box-shadow: 0 10px 20px -10px rgba(var(--c6), 0.50);
+}
+html[data-theme="light"] .io-section .io-combo-arrow { color: var(--t-fg-4); }
+
+/* ---------------------------------------------------------------------------
+   g5-pricing: process steps and pricing
+   --------------------------------------------------------------------------- */
+/* ==========================================================================
+   g5-pricing — Daylight treatment for "From Upload to Worldwide" (process)
+   and "Pricing that scales with you" (+ enterprise banner).
+   Every selector starts with html[data-theme="light"]. Treatment only.
+
+   !important note: the pricing block's own inline <style> sets card
+   border-color, check-icon colour, accent-pill colours and accent-btn colours
+   with !important, and the enterprise banner sets its background in a style=""
+   attribute. Neither can be beaten by specificity alone, so the matching
+   overrides below carry !important (scoped to light, so Dark is untouched).
+   ========================================================================== */
+
+/* ------------------------------------------------------------- PROCESS */
+
+/* Outer band (bg-neutral-900/20 + border-y) and inner section (bg-neutral-950
+   + border-t) become one continuous ground with a faint lilac wash that
+   drifts in from the section edges. */
+html[data-theme="light"] .io-section + section {
+  background:
+    radial-gradient(60% 40% at 0% 18%, rgba(167, 139, 250, 0.10), transparent 70%),
+    radial-gradient(55% 40% at 100% 88%, rgba(129, 140, 248, 0.08), transparent 70%),
+    transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+html[data-theme="light"] .io-section + section > section {
+  background: transparent;
+  border-top-color: transparent;
+}
+
+/* step + feature cards -> soft cards */
+html[data-theme="light"] .io-section + section .grid > .rounded-3xl {
+  background: var(--t-card-bg);
+  border-color: var(--t-card-border);
+  box-shadow: var(--t-shadow-2);
+}
+html[data-theme="light"] .io-section + section .grid > .rounded-3xl:hover {
+  border-color: var(--t-brand-line);
+  box-shadow: var(--t-shadow-hover);
+}
+
+/* step eyebrows: 500 shades are too light on white */
+html[data-theme="light"] .io-section + section .text-purple-500 { color: var(--t-brand-2); }
+html[data-theme="light"] .io-section + section .text-blue-500 { color: #1d4ed8; }
+html[data-theme="light"] .io-section + section .text-green-500 { color: #15803d; }
+
+/* MP4 / MOV / WAV stacked format chips */
+html[data-theme="light"] .io-section + section .rounded-full.bg-neutral-800 {
+  background: #ffffff;
+  border-color: var(--t-line-strong);
+  color: var(--t-fg-2);
+  box-shadow: 0 1px 2px rgba(28, 20, 60, 0.06), 0 4px 10px -6px rgba(28, 20, 60, 0.18);
+}
+
+/* AI processing progress bar */
+html[data-theme="light"] .io-section + section .h-1.bg-neutral-800 {
+  background: rgba(37, 99, 235, 0.10);
+}
+html[data-theme="light"] .io-section + section .h-1 .bg-blue-500 {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.30);
+}
+
+/* EN / JP / ES language chips */
+html[data-theme="light"] .io-section + section .rounded.bg-neutral-800 {
+  background: var(--t-pg-3);
+  border-color: var(--t-line);
+  color: var(--t-fg-3);
+}
+html[data-theme="light"] .io-section + section .bg-green-500\/20 {
+  background: rgba(22, 163, 74, 0.06);
+  border-color: rgba(22, 163, 74, 0.26);
+  color: #15803d;
+}
+
+/* feature icon tiles keep their capability hue */
+html[data-theme="light"] .io-section + section .rounded-xl.bg-neutral-800 {
+  border-color: var(--t-line);
+}
+html[data-theme="light"] .io-section + section .rounded-xl.text-pink-400 {
+  background: rgba(219, 39, 119, 0.08);
+  border-color: rgba(219, 39, 119, 0.18);
+  color: #db2777;
+}
+html[data-theme="light"] .io-section + section .rounded-xl.text-orange-400 {
+  background: rgba(234, 88, 12, 0.08);
+  border-color: rgba(234, 88, 12, 0.18);
+  color: #ea580c;
+}
+html[data-theme="light"] .io-section + section .rounded-xl.text-cyan-400 {
+  background: rgba(8, 145, 178, 0.08);
+  border-color: rgba(8, 145, 178, 0.18);
+  color: #0891b2;
+}
+html[data-theme="light"] .io-section + section .group:hover .rounded-xl.text-pink-400 { background: rgba(219, 39, 119, 0.13); }
+html[data-theme="light"] .io-section + section .group:hover .rounded-xl.text-orange-400 { background: rgba(234, 88, 12, 0.13); }
+html[data-theme="light"] .io-section + section .group:hover .rounded-xl.text-cyan-400 { background: rgba(8, 145, 178, 0.13); }
+
+/* ------------------------------------------------------------- PRICING */
+
+/* faint ambient light behind the featured card and the enterprise panel */
+html[data-theme="light"] section.content-wait-for-load {
+  background:
+    radial-gradient(45% 35% at 72% 30%, rgba(167, 139, 250, 0.10), transparent 70%),
+    radial-gradient(50% 30% at 15% 92%, rgba(129, 140, 248, 0.07), transparent 70%),
+    transparent;
+}
+
+/* per-tier ink shade (the 700 of each accent hue) for text and icons */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:nth-child(1) { --a-ink: 51, 65, 85; }    /* slate-700 */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:nth-child(2) { --a-ink: 3, 105, 161; }   /* sky-700 */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:nth-child(3) { --a-ink: 4, 120, 87; }    /* emerald-700 */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:nth-child(4) { --a-ink: 109, 40, 217; }  /* violet-700 */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:nth-child(5) { --a-ink: 185, 28, 28; }   /* red-700 */
+
+/* soft white cards, accent hairline kept but quieter */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div {
+  background: var(--t-card-bg);
+  border-color: rgba(var(--accent), 0.24) !important;
+  box-shadow: var(--t-shadow-2);
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:nth-child(1) {
+  border-color: var(--t-card-border) !important;
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:hover {
+  border-color: rgba(var(--accent), 0.45) !important;
+  box-shadow: var(--t-shadow-hover), 0 0 60px -26px rgba(var(--accent), 0.45);
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div:nth-child(1):hover {
+  border-color: var(--t-line-strong) !important;
+}
+
+/* Pro: featured card with a violet corner glow */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div.pro-pop {
+  background:
+    radial-gradient(120% 70% at 100% 0%, rgba(167, 139, 250, 0.16), transparent 55%),
+    var(--t-card-bg);
+  border-color: rgba(124, 58, 237, 0.34) !important;
+  box-shadow: var(--t-shadow-3), 0 0 0 4px rgba(124, 58, 237, 0.04);
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div.pro-pop:hover {
+  border-color: rgba(124, 58, 237, 0.5) !important;
+  box-shadow: var(--t-shadow-3), 0 36px 80px -36px rgba(124, 58, 237, 0.38), 0 0 0 4px rgba(124, 58, 237, 0.06);
+}
+
+/* "/mo" sits inside the corner glow on the featured card; one step darker */
+html[data-theme="light"] section.content-wait-for-load .pro-pop .text-neutral-500 { color: var(--t-fg-3); }
+
+/* "Most Popular" badge: white on violet, soft lift */
+html[data-theme="light"] section.content-wait-for-load .pro-pop > .absolute.from-purple-600 {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 6px 16px -6px rgba(109, 40, 217, 0.45);
+}
+
+/* x min/mo accent pills: 700-shade text on their own tint */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid .accent-pill {
+  background: rgba(var(--accent), 0.12) !important;
+  border-color: rgba(var(--a-ink), 0.22) !important;
+  color: rgb(var(--a-ink)) !important;
+}
+
+/* credits pills */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid .rounded-full.bg-white\/5 {
+  background: var(--t-pg-3);
+  border-color: var(--t-line);
+  color: var(--t-fg-2);
+}
+
+/* check icons: accent 400 shades -> ink shade of the tier */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div ul iconify-icon {
+  color: rgb(var(--a-ink)) !important;
+}
+
+/* secondary "Create Account" buttons: white, hairline, soft shadow */
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div > a.bg-white\/5 {
+  background: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div > a.bg-white\/5:hover {
+  background: var(--t-pg-2);
+  border-color: var(--t-line-strong);
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid > div.group:hover > a.bg-white\/5 {
+  border-color: rgba(var(--a-ink), 0.28);
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid .accent-btn {
+  border-color: rgba(var(--a-ink), 0.24) !important;
+}
+html[data-theme="light"] section.content-wait-for-load .pricing-grid .accent-btn:hover {
+  background: rgba(var(--accent), 0.08) !important;
+  border-color: rgba(var(--a-ink), 0.4) !important;
+}
+
+/* Pro primary: keep violet with white text, softer violet lift */
+html[data-theme="light"] section.content-wait-for-load .pro-pop > a.bg-purple-600 {
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(76, 29, 149, 0.15), 0 10px 22px -10px rgba(124, 58, 237, 0.55);
+}
+
+/* ---------------------------------------------------- ENTERPRISE BANNER */
+
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl {
+  background:
+    radial-gradient(60% 120% at 100% 0%, rgba(167, 139, 250, 0.18), transparent 60%),
+    radial-gradient(40% 90% at 0% 100%, rgba(129, 140, 248, 0.06), transparent 70%),
+    linear-gradient(100deg, #ffffff 0%, #fbf9ff 45%, #f3eeff 100%) !important;
+  border-color: rgba(124, 58, 237, 0.18);
+  box-shadow: var(--t-shadow-3);
+}
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl > div[aria-hidden="true"] {
+  background: rgba(167, 139, 250, 0.28) !important;
+}
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl h3 { color: var(--t-fg); }
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl p.text-neutral-400 { color: var(--t-fg-3); }
+
+/* Enterprise eyebrow pill */
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl .inline-flex.rounded-full {
+  background: #ffffff;
+  border-color: var(--t-brand-line);
+  color: var(--t-brand-2);
+  box-shadow: 0 1px 2px rgba(28, 20, 60, 0.04);
+}
+
+/* Talk to Sales: ink primary */
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl a.bg-white {
+  background: var(--t-fg);
+  color: #ffffff;
+  box-shadow: var(--t-shadow-1), 0 10px 20px -14px rgba(12, 10, 20, 0.35);
+}
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl a.bg-white:hover {
+  background: var(--t-fg-2);
+}
+
+/* View API Docs: soft secondary */
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl a.border-white\/10 {
+  background: #ffffff;
+  border-color: var(--t-line);
+  color: var(--t-fg);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] section.content-wait-for-load .mt-12.rounded-3xl a.border-white\/10:hover {
+  background: var(--t-pg-2);
+  border-color: var(--t-line-strong);
+}
+
+/* ---------------------------------------------------------------------------
+   g6-globe: globe band and reference section
+   --------------------------------------------------------------------------- */
+/* g6-globe — Daylight polish for the globe band (.nm-section) and the
+   reference section (#who-can-use). Every selector is light-scoped. */
+
+/* ---------------------------------------------------------------- globe band */
+
+/* soft lilac light behind the globe so its edge reads as lit, not grey */
+html[data-theme="light"] .nm-section {
+  background:
+    radial-gradient(ellipse 46% 62% at 80% 58%, rgba(167, 139, 250, 0.14), rgba(167, 139, 250, 0) 72%),
+    var(--t-pg);
+}
+/* desktop: a second, lower lilac pool so the globe's dissolving edge passes
+   through violet-grey rather than neutral grey */
+@media (min-width: 1024px) {
+  html[data-theme="light"] .nm-section {
+    background:
+      radial-gradient(ellipse 34% 40% at 78% 80%, rgba(167, 139, 250, 0.2), rgba(167, 139, 250, 0) 75%),
+      radial-gradient(ellipse 22% 46% at 56% 62%, rgba(129, 140, 248, 0.1), rgba(129, 140, 248, 0) 75%),
+      radial-gradient(ellipse 46% 62% at 80% 58%, rgba(167, 139, 250, 0.14), rgba(167, 139, 250, 0) 72%),
+      var(--t-pg);
+  }
+}
+
+/* the white top seam painted over the dark artwork produced grey; the mask
+   below handles the top edge instead */
+html[data-theme="light"] .nm-section::before { background: none; }
+
+/* no white paint over the dark image — that was the grey smear */
+html[data-theme="light"] .nm-section .nm-fade-left,
+html[data-theme="light"] .nm-section .nm-fade-bottom { background: none; }
+
+/* desktop: dissolve the dark plate into the white page with masks, so the
+   globe floats with soft edges. The radial layer follows the limb (keeps the
+   violet atmosphere, drops the black space around it); the linear layers
+   ease the left/top edges and clear the language band. Eased multi-stop
+   ramps avoid a visible grey band where dark meets white. */
+@media (min-width: 1024px) {
+  html[data-theme="light"] .nm-section .nm-globe img {
+    -webkit-mask-image:
+      radial-gradient(circle at 84% 100%, #000 0, #000 500px, rgba(0, 0, 0, 0.6) 570px, rgba(0, 0, 0, 0.2) 610px, rgba(0, 0, 0, 0) 650px),
+      linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 18%),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 12%, #000 48%, rgba(0, 0, 0, 0.78) 62%, rgba(0, 0, 0, 0.45) 74%, rgba(0, 0, 0, 0.16) 84%, rgba(0, 0, 0, 0) 91%);
+    mask-image:
+      radial-gradient(circle at 84% 100%, #000 0, #000 500px, rgba(0, 0, 0, 0.6) 570px, rgba(0, 0, 0, 0.2) 610px, rgba(0, 0, 0, 0) 650px),
+      linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 18%),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 12%, #000 48%, rgba(0, 0, 0, 0.78) 62%, rgba(0, 0, 0, 0.45) 74%, rgba(0, 0, 0, 0.16) 84%, rgba(0, 0, 0, 0) 91%);
+    -webkit-mask-composite: source-in, source-in;
+    mask-composite: intersect;
+  }
+}
+
+/* mobile/tablet: the globe spans the full width *behind* the copy, so a dark
+   render cannot sit there. Re-key it as a light-field map: invert + hue-rotate
+   flips the black space to white while keeping the violet network, faded to a
+   soft lilac texture on the right and kept clear of the language band. */
+@media (max-width: 1023.98px) {
+  html[data-theme="light"] .nm-section .nm-globe { opacity: 0.45; }
+  html[data-theme="light"] .nm-section .nm-globe img {
+    /* invert + hue-rotate: black space -> white, violet network stays violet */
+    filter: invert(1) hue-rotate(180deg);
+    -webkit-mask-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, #000 75%),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0) 15%, #000 36%, #000 62%, rgba(0, 0, 0, 0) 82%);
+    mask-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, #000 75%),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0) 15%, #000 36%, #000 62%, rgba(0, 0, 0, 0) 82%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+}
+
+/* copy */
+html[data-theme="light"] .nm-section .nm-accent { background-image: var(--t-grad-text); }
+html[data-theme="light"] .nm-section .nm-sub { color: var(--t-fg-3); }
+
+/* language band: seamless, no grey strip, a hairline that fades at both ends */
+html[data-theme="light"] .nm-section .nm-band {
+  /* the band only has a 1px top border, so border-image paints just that
+     hairline (no geometry change) */
+  border-image: linear-gradient(90deg, rgba(28, 20, 60, 0), var(--t-line) 30%, var(--t-line) 70%, rgba(28, 20, 60, 0)) 1;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+html[data-theme="light"] .nm-section .nm-band span { color: var(--t-fg-3); }
+html[data-theme="light"] .nm-section .nm-band span:hover { color: var(--t-brand-2); }
+
+/* ------------------------------------------------- who-can-use (reference) */
+
+/* "Live" status chip: emerald-700 text on its emerald tint */
+html[data-theme="light"] #who-can-use .text-emerald-400 { color: #047857; }
+
+/* ---------------------------------------------------------------------------
+   g7-learnings: recent translations
+   --------------------------------------------------------------------------- */
+/* ==========================================================================
+   g7-learnings — "Recent Translations" video grid, Daylight treatment.
+   Every selector is scoped to html[data-theme="light"] #learnings.
+   Treatment only: colour, background, border colour, shadow, opacity, filter.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- section */
+/* continuous ground with a faint lilac wash that drifts off both edges */
+html[data-theme="light"] #learnings {
+  background:
+    radial-gradient(50% 30% at 0% 32%, rgba(167, 139, 250, 0.11), transparent 70%),
+    radial-gradient(45% 30% at 100% 90%, rgba(129, 140, 248, 0.08), transparent 70%),
+    var(--t-pg);
+}
+
+/* ------------------------------------------------------------ video cards */
+html[data-theme="light"] #learnings .yt-card {
+  background: var(--t-card-bg);
+  border-color: var(--t-card-border);
+  box-shadow: var(--t-shadow-2);
+}
+html[data-theme="light"] #learnings .yt-card:hover {
+  border-color: var(--t-brand-line);
+  box-shadow: var(--t-shadow-hover);
+}
+
+/* card body sits on the card's own white gradient */
+html[data-theme="light"] #learnings .yt-card .p-4.bg-neutral-900 { background: transparent; }
+html[data-theme="light"] #learnings .yt-card h4 { color: var(--t-fg); }
+html[data-theme="light"] #learnings .yt-card p.text-neutral-400 { color: var(--t-fg-3); }
+html[data-theme="light"] #learnings .yt-card p iconify-icon { color: var(--t-brand); }
+
+/* Thumbnail = dark island. A dark plate behind the image means the hover
+   opacity dip darkens (as in Dark) instead of bleaching toward white. */
+html[data-theme="light"] #learnings .yt-card .aspect-video { background-color: #0c0a14; }
+
+/* The overlay was a dark-to-transparent scrim that the base theme turned into
+   a white wash. Replace it with a short, light dark-scrim along the bottom
+   edge only: the picture stays fully vivid and the duration chip gets a seat. */
+html[data-theme="light"] #learnings .yt-card .bg-gradient-to-t {
+  background-image: linear-gradient(to top, rgba(12, 10, 20, 0.30) 0%, rgba(12, 10, 20, 0) 30%);
+}
+
+/* overlay chips share one recipe: crisp near-white chip + soft lifted shadow */
+html[data-theme="light"] #learnings .yt-card .bg-red-500\/20,
+html[data-theme="light"] #learnings .yt-card .bg-purple-500\/20,
+html[data-theme="light"] #learnings .yt-card .bg-black\/70 {
+  box-shadow: 0 1px 2px rgba(12, 10, 20, 0.14), 0 6px 14px -6px rgba(12, 10, 20, 0.35);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  backdrop-filter: blur(10px) saturate(160%);
+}
+
+/* YouTube badge: white chip, red-600 glyph, red-700 text */
+html[data-theme="light"] #learnings .yt-card .bg-red-500\/20 {
+  background-color: rgba(255, 255, 255, 0.94);
+  border-color: rgba(220, 38, 38, 0.20);
+  color: #b91c1c;
+}
+html[data-theme="light"] #learnings .yt-card .bg-red-500\/20 iconify-icon { color: #dc2626; }
+
+/* language badge: lilac-white chip, violet-700 text */
+html[data-theme="light"] #learnings .yt-card .bg-purple-500\/20 {
+  background-color: rgba(250, 248, 255, 0.95);
+  border-color: rgba(124, 58, 237, 0.24);
+  color: #6d28d9;
+}
+
+/* duration chip: same white glass, ink numerals */
+html[data-theme="light"] #learnings .yt-card .bg-black\/70 {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: var(--t-fg);
+}
+
+/* play button: frosted white disc, ink glyph, lifts to solid white + violet */
+html[data-theme="light"] #learnings .yt-card .w-12.h-12 {
+  background-color: rgba(255, 255, 255, 0.90);
+  border-color: rgba(255, 255, 255, 0.95);
+  color: var(--t-fg);
+  box-shadow: 0 2px 6px rgba(12, 10, 20, 0.14), 0 14px 30px -10px rgba(12, 10, 20, 0.45);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+}
+html[data-theme="light"] #learnings .yt-card:hover .w-12.h-12 {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: var(--t-brand);
+  box-shadow: 0 2px 6px rgba(12, 10, 20, 0.14), 0 18px 36px -12px rgba(76, 29, 149, 0.55);
+}
+
+/* ----------------------------------------- "Go Global in Minutes" promo */
+/* featured soft lilac card: white -> lilac, violet glow in the top-right */
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 {
+  background:
+    radial-gradient(110% 75% at 100% 0%, rgba(167, 139, 250, 0.32), transparent 58%),
+    radial-gradient(90% 60% at 0% 100%, rgba(129, 140, 248, 0.10), transparent 60%),
+    linear-gradient(165deg, #ffffff 0%, #faf7ff 45%, #f1eaff 100%);
+  border-color: rgba(124, 58, 237, 0.14);
+  box-shadow: var(--t-shadow-3);
+}
+html[data-theme="light"] #learnings .break-inside-avoid.p-6:hover {
+  border-color: rgba(124, 58, 237, 0.26);
+  box-shadow: var(--t-shadow-hover);
+}
+
+/* the dark photo + dark scrim belonged to the black card; retire both */
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 > .absolute.inset-0 img { opacity: 0; }
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 > .absolute.inset-0 > .bg-gradient-to-b {
+  background-image: none;
+}
+
+/* corner sparkle reads as a soft violet mark */
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 > .opacity-20 { opacity: 0.32; }
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 > .opacity-20 iconify-icon { color: #8b5cf6; }
+
+/* "Trending Now" eyebrow pill */
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 .rounded-full.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: var(--t-brand-line);
+  color: var(--t-brand-2);
+  box-shadow: var(--t-shadow-1);
+}
+
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 h3 { color: var(--t-fg); }
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 li { color: var(--t-fg-2); }
+
+/* violet check tiles */
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 li > .rounded-full {
+  background: linear-gradient(rgba(124, 58, 237, 0.12), rgba(124, 58, 237, 0.12)), #ffffff;
+  border-color: rgba(124, 58, 237, 0.24);
+  color: var(--t-brand-2);
+}
+
+/* stat chips */
+html[data-theme="light"] #learnings .break-inside-avoid.p-6 .rounded.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-color: var(--t-line);
+  color: var(--t-fg-3);
+  box-shadow: var(--t-shadow-1);
+}
+
+/* ---------------------------------------------------------------------------
+   g8-footer: FAQ and footer
+   --------------------------------------------------------------------------- */
+/* ==========================================================================
+   Daylight — g8: FAQ (#faq) + footer (.oc-foot)
+   Treatment only. Every selector is scoped to html[data-theme="light"].
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ FAQ */
+
+/* section ground: white, with a faint lilac wash low down that carries
+   into the footer's lilac ground */
+html[data-theme="light"] #faq.bg-black {
+  background-color: var(--t-pg);
+  background-image:
+    radial-gradient(60% 45% at 85% 100%, rgba(167, 139, 250, 0.10), rgba(167, 139, 250, 0) 100%);
+}
+
+/* the container becomes the featured soft card (corner glow, wide shadow) */
+html[data-theme="light"] #faq .max-w-3xl.bg-neutral-900\/30 {
+  background:
+    radial-gradient(120% 60% at 100% 0%, rgba(167, 139, 250, 0.14), transparent 55%),
+    linear-gradient(180deg, #fdfcff 0%, #f9f7ff 100%);
+  border-color: var(--t-card-border);
+  box-shadow: var(--t-shadow-3);
+}
+
+html[data-theme="light"] #faq h2.text-white { color: var(--t-fg); }
+html[data-theme="light"] #faq .mb-10 > p.text-neutral-400 { color: var(--t-fg-3); }
+
+/* rows: white, hairline, barely-there lift */
+html[data-theme="light"] #faq .faq-item.bg-white\/5 {
+  background-color: #ffffff;
+  border-color: var(--t-line);
+  box-shadow: var(--t-shadow-1);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+html[data-theme="light"] #faq .faq-item.bg-white\/5:hover {
+  border-color: var(--t-brand-line);
+}
+html[data-theme="light"] #faq .faq-item.bg-white\/5:has(.accordion-content.open) {
+  border-color: var(--t-brand-line);
+  box-shadow: var(--t-shadow-2);
+}
+
+html[data-theme="light"] #faq .faq-trigger.hover\:bg-white\/5:hover {
+  background-color: rgba(124, 58, 237, 0.04);
+}
+html[data-theme="light"] #faq .faq-trigger .text-white { color: var(--t-fg); }
+
+/* +/- icon in brand violet */
+html[data-theme="light"] #faq .accordion-icon.text-neutral-400 { color: var(--t-brand); }
+
+/* open answer: no grey slab, muted ink */
+html[data-theme="light"] #faq .accordion-content.bg-black\/20 { background-color: transparent; }
+html[data-theme="light"] #faq .accordion-content .text-neutral-400 { color: var(--t-fg-3); }
+
+html[data-theme="light"] #faq .faq-trigger:focus-visible {
+  outline: 2px solid var(--t-brand-line);
+  outline-offset: -2px;
+}
+
+/* --------------------------------------------------------------- FOOTER */
+
+/* ground: continues from the white page into a faint lilac wash.
+   --oc-* tokens are re-pointed so the component's own rules (watermark
+   fade, hairlines, dim text) resolve to light values. */
+html[data-theme="light"] .oc-foot {
+  --oc-bg: #f6f3ff;
+  --oc-muted: var(--t-fg-3);
+  --oc-dim: var(--t-fg-4);
+  --oc-line: var(--t-line-soft);
+  --oc-accent: var(--t-brand);
+  background-color: #f6f3ff;
+  background-image:
+    radial-gradient(60% 22% at 85% 0%, rgba(167, 139, 250, 0.10), rgba(167, 139, 250, 0) 100%),
+    radial-gradient(40% 24% at 88% 26%, rgba(167, 139, 250, 0.10), rgba(167, 139, 250, 0) 100%),
+    linear-gradient(180deg, #ffffff 0%, #fbfaff 22%, #f6f3ff 62%, #f6f3ff 100%);
+  border-top-color: transparent;
+  color: var(--t-fg);
+}
+
+/* --- signup pill ------------------------------------------------------- */
+html[data-theme="light"] .oc-foot .oc-foot-signup form {
+  background: #ffffff;
+  border-color: var(--t-line);
+  box-shadow: var(--t-shadow-2);
+}
+html[data-theme="light"] .oc-foot .oc-foot-signup form:hover,
+html[data-theme="light"] .oc-foot .oc-foot-signup form:focus-within {
+  border-color: rgba(124, 58, 237, 0.35);
+  box-shadow: var(--t-shadow-hover);
+}
+html[data-theme="light"] .oc-foot .oc-foot-signup input {
+  background: transparent;
+  border: 0;
+  color: var(--t-fg);
+}
+html[data-theme="light"] .oc-foot .oc-foot-signup input::placeholder { color: var(--t-fg-4); opacity: 1; }
+html[data-theme="light"] .oc-foot .oc-foot-signup .oc-foot-go {
+  background: var(--t-fg);
+  color: #ffffff;
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] .oc-foot .oc-foot-signup .oc-foot-go:hover {
+  background: var(--t-brand);
+  color: #ffffff;
+}
+
+/* --- brand row --------------------------------------------------------- */
+html[data-theme="light"] .oc-foot .oc-foot-wordmark { color: var(--t-fg); }
+html[data-theme="light"] .oc-foot .oc-foot-wordmark span {
+  color: #7f76a3;
+  background-image: linear-gradient(90deg, #8075a8 0%, #7774ad 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html[data-theme="light"] .oc-foot .oc-foot-blurb { color: var(--t-fg-3); }
+
+/* social: individual white chips */
+html[data-theme="light"] .oc-foot .oc-foot-social { background: transparent; }
+html[data-theme="light"] .oc-foot .oc-foot-social a {
+  color: var(--t-fg-2);
+  background: #ffffff;
+  border-color: var(--t-line);
+  box-shadow: var(--t-shadow-1);
+}
+html[data-theme="light"] .oc-foot .oc-foot-social a:hover {
+  color: var(--t-brand);
+  background: var(--t-tint-bg);
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: var(--t-shadow-hover);
+}
+
+/* --- purple CTA card stays purple ------------------------------------- */
+html[data-theme="light"] .oc-foot .oc-foot-card {
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 55%),
+    #7c3aed;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(46, 16, 101, 0.10), 0 30px 60px -30px rgba(109, 40, 217, 0.55);
+}
+html[data-theme="light"] .oc-foot .oc-foot-card:hover {
+  box-shadow: 0 2px 6px rgba(46, 16, 101, 0.10), 0 34px 64px -24px rgba(109, 40, 217, 0.6);
+}
+html[data-theme="light"] .oc-foot .oc-foot-card h3 { color: #ffffff; }
+html[data-theme="light"] .oc-foot .oc-foot-card p { color: rgba(255, 255, 255, 0.97); }
+html[data-theme="light"] .oc-foot .oc-foot-card-meta {
+  color: #ffffff;
+  border-top-color: rgba(255, 255, 255, 0.26);
+}
+html[data-theme="light"] .oc-foot .oc-foot-card-glyph { color: rgba(255, 255, 255, 0.16); }
+
+/* --- navigation -------------------------------------------------------- */
+html[data-theme="light"] .oc-foot .oc-foot-nav { border-top-color: var(--t-line); }
+html[data-theme="light"] .oc-foot .oc-foot-col h3 { color: var(--t-fg-3); }
+html[data-theme="light"] .oc-foot .oc-foot-col a { color: var(--t-fg-2); }
+html[data-theme="light"] .oc-foot .oc-foot-col a:hover { color: var(--t-brand); }
+
+/* --- watermark: soft violet-grey, fading downward, no dark band -------- */
+html[data-theme="light"] .oc-foot .oc-foot-mark { color: inherit; }
+html[data-theme="light"] .oc-foot .oc-foot-mark span {
+  color: rgba(91, 33, 182, 0.10);
+  background-image: linear-gradient(180deg,
+      rgba(109, 40, 217, 0.17) 0%,
+      rgba(109, 40, 217, 0.09) 55%,
+      rgba(109, 40, 217, 0.02) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html[data-theme="light"] .oc-foot .oc-foot-mark::after {
+  background: linear-gradient(to top, #f6f3ff, rgba(246, 243, 255, 0));
+}
+
+/* --- bottom bar -------------------------------------------------------- */
+html[data-theme="light"] .oc-foot .oc-foot-copy { color: var(--t-fg-3); }
+html[data-theme="light"] .oc-foot .oc-foot-legal a { color: var(--t-fg-3); }
+html[data-theme="light"] .oc-foot .oc-foot-legal a:hover { color: var(--t-brand); }
+
+html[data-theme="light"] .oc-foot a:focus-visible,
+html[data-theme="light"] .oc-foot input:focus-visible {
+  outline-color: var(--t-brand);
+}
