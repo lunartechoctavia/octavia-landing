@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
@@ -444,10 +445,19 @@ function articleMain(article, related) {
     </main>`;
 }
 
+// vercel.json serves /assets/blog/* as immutable for a year, so these URLs must
+// change whenever the files do or returning visitors keep the old copy. Line
+// endings are normalised so a Windows checkout and Vercel hash the same.
+const BLOG_ASSET_VERSIONS = Object.fromEntries(['blog/css/blog.css', 'blog/js/blog.js'].map((file) => [
+  file,
+  crypto.createHash('md5').update(fs.readFileSync(path.join(ROOT, 'assets', file), 'utf8').replace(/\r\n/g, '\n')).digest('hex').slice(0, 10),
+]));
+
 function normalizeShell(shell) {
   return shell
     .replace(/(src|href)="assets\//g, '$1="/assets/')
-    .replace(/url\((['"]?)assets\//g, 'url($1/assets/');
+    .replace(/url\((['"]?)assets\//g, 'url($1/assets/')
+    .replace(/\/assets\/(blog\/css\/blog\.css|blog\/js\/blog\.js)(?:\?v=[\w-]*)?/g, (_, file) => `/assets/${file}?v=${BLOG_ASSET_VERSIONS[file]}`);
 }
 
 function composePage(shell, { main, seo, title, description, assetPrefix = '/assets/', pageId }) {
