@@ -1,8 +1,22 @@
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-page="blog-list">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- theme:prepaint -->
+    <script>
+      /* Apply the saved theme before first paint. Default stays dark. */
+      (function () {
+        try {
+          var t = localStorage.getItem('octavia-theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+            if (t === 'light') document.documentElement.style.backgroundColor = '#ffffff';
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <!-- /theme:prepaint -->
     <style>
       /* Smooth load: lock the dark background immediately and keep content hidden
          until the Tailwind styles are applied, then fade in — this removes the
@@ -173,6 +187,7 @@
   <link rel="stylesheet" href="../../../assets/octavia-mobile.css?v=1">
   <link rel="stylesheet" href="../../../assets/blog/css/blog.css">
   <link rel="stylesheet" href="../../../assets/octavia-footer.css?v=1">
+  <!-- theme:link --><link rel="stylesheet" href="../../../assets/octavia-theme.css?v=20261009-soft3"><!-- /theme:link -->
 </head>
 
 <body class="antialiased selection:bg-purple-500/30 selection:text-white">
@@ -351,6 +366,13 @@
 
             <!-- Right Actions -->
             <div class="flex items-center gap-2 z-20 shrink-0">
+                      <!-- theme:toggle -->
+                      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch colour theme"
+                        title="Switch colour theme" aria-pressed="false">
+                        <iconify-icon class="ti-sun" icon="lucide:sun" width="15" aria-hidden="true"></iconify-icon>
+                        <iconify-icon class="ti-moon" icon="lucide:moon" width="15" aria-hidden="true"></iconify-icon>
+                      </button>
+                      <!-- /theme:toggle -->
                 <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
@@ -540,7 +562,7 @@
       <time class="blog-card-date" datetime="2026-08-26T21:00:00Z">Aug 26, 2026 · 9 min read</time>
     </div></div>
   </article></section>
-      <nav class="blog-pagination" aria-label="Blog pagination"><a class="pagination-link pagination-link-wide" href="/blog/page/13" rel="prev">← Previous</a><a class="pagination-link" href="/blog">1</a><a class="pagination-link" href="/blog/page/2">2</a><a class="pagination-link" href="/blog/page/3">3</a><a class="pagination-link" href="/blog/page/4">4</a><a class="pagination-link" href="/blog/page/5">5</a><a class="pagination-link" href="/blog/page/6">6</a><a class="pagination-link" href="/blog/page/7">7</a><a class="pagination-link" href="/blog/page/8">8</a><a class="pagination-link" href="/blog/page/9">9</a><a class="pagination-link" href="/blog/page/10">10</a><a class="pagination-link" href="/blog/page/11">11</a><a class="pagination-link" href="/blog/page/12">12</a><a class="pagination-link" href="/blog/page/13">13</a><a class="pagination-link" href="/blog/page/14" aria-current="page">14</a><a class="pagination-link" href="/blog/page/15">15</a><a class="pagination-link" href="/blog/page/16">16</a><a class="pagination-link" href="/blog/page/17">17</a><a class="pagination-link" href="/blog/page/18">18</a><a class="pagination-link" href="/blog/page/19">19</a><a class="pagination-link" href="/blog/page/20">20</a><a class="pagination-link" href="/blog/page/21">21</a><a class="pagination-link" href="/blog/page/22">22</a><a class="pagination-link" href="/blog/page/23">23</a><a class="pagination-link" href="/blog/page/24">24</a><a class="pagination-link" href="/blog/page/25">25</a><a class="pagination-link" href="/blog/page/26">26</a><a class="pagination-link" href="/blog/page/27">27</a><a class="pagination-link" href="/blog/page/28">28</a><a class="pagination-link" href="/blog/page/29">29</a><a class="pagination-link" href="/blog/page/30">30</a><a class="pagination-link" href="/blog/page/31">31</a><a class="pagination-link" href="/blog/page/32">32</a><a class="pagination-link" href="/blog/page/33">33</a><a class="pagination-link" href="/blog/page/34">34</a><a class="pagination-link" href="/blog/page/35">35</a><a class="pagination-link pagination-link-wide" href="/blog/page/15" rel="next">Next →</a></nav>
+      <nav class="blog-pagination" aria-label="Blog pagination"><a class="pagination-link pagination-link-wide pagination-prev" href="/blog/page/13" rel="prev"><span aria-hidden="true">←</span>Previous</a><ol class="pagination-pages"><li><a class="pagination-link" href="/blog" aria-label="Page 1">1</a></li><li aria-hidden="true"><span class="pagination-ellipsis">…</span></li><li><a class="pagination-link" href="/blog/page/13" aria-label="Page 13">13</a></li><li><a class="pagination-link" href="/blog/page/14" aria-label="Page 14" aria-current="page">14</a></li><li><a class="pagination-link" href="/blog/page/15" aria-label="Page 15">15</a></li><li aria-hidden="true"><span class="pagination-ellipsis">…</span></li><li><a class="pagination-link" href="/blog/page/35" aria-label="Page 35">35</a></li></ol><a class="pagination-link pagination-link-wide pagination-next" href="/blog/page/15" rel="next">Next<span aria-hidden="true">→</span></a></nav>
     </div></main>
     <!-- BLOG_CONTENT_END -->
 
@@ -626,13 +648,13 @@
             <h3>Who it’s for</h3>
             <ul>
               <li><a href="/for/creators">Creators</a></li>
-              <li><a href="/for/music">Artists &amp; Labels</a></li>
               <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
-              <li><a href="/for/documentary">Documentary Teams</a></li>
               <li><a href="/for/podcasters">Podcasters</a></li>
-              <li><a href="/for/gaming">Game Studios</a></li>
               <li><a href="/for/educators">Educators &amp; Trainers</a></li>
               <li><a href="/for/enterprise">Enterprise Teams</a></li>
+              <li><a href="/for/government">Government &amp; Public Agencies</a></li>
+              <li><a href="/for/journalists">Journalists &amp; Newsrooms</a></li>
+              <li><a href="/for">All audiences</a></li>
             </ul>
           </div>
           <div class="oc-foot-col">
@@ -690,6 +712,9 @@
 
   <script src="../../../assets/octavia-mobile-nav.js" defer></script>
   <script src="../../../assets/blog/js/blog.js" defer></script>
+  <!-- theme:switch -->
+  <script src="../../../assets/octavia-theme.js?v=20261009-soft3" defer></script>
+  <!-- /theme:switch -->
 </body>
 
 </html>

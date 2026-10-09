@@ -1,7 +1,21 @@
-<html class="scroll-smooth" lang="en">
+<html class="scroll-smooth" lang="en" data-page="pricing">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
+<!-- theme:prepaint -->
+<script>
+  /* Apply the saved theme before first paint. Default stays dark. */
+  (function () {
+    try {
+      var t = localStorage.getItem('octavia-theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+        if (t === 'light') document.documentElement.style.backgroundColor = '#ffffff';
+      }
+    } catch (e) {}
+  })();
+</script>
+<!-- /theme:prepaint -->
 <style>
   /* Smooth load: lock the dark background immediately and keep content hidden
      until the runtime (CDN) Tailwind styles are applied, then fade in — this
@@ -284,6 +298,7 @@
   </style>
   <link rel="stylesheet" href="assets/octavia-mobile.css?v=1">
   <link rel="stylesheet" href="assets/octavia-footer.css?v=1">
+  <!-- theme:link --><link rel="stylesheet" href="assets/octavia-theme.css?v=20261009-soft3"><!-- /theme:link -->
 </head>
 <body class="antialiased selection:bg-purple-500/30 selection:text-white">
 <nav class="fixed top-0 left-0 right-0 z-50 flex justify-center w-full">
@@ -460,6 +475,13 @@
 </nav>
 <!-- Right Actions -->
             <div class="flex items-center gap-2 z-20 shrink-0">
+                      <!-- theme:toggle -->
+                      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch colour theme"
+                        title="Switch colour theme" aria-pressed="false">
+                        <iconify-icon class="ti-sun" icon="lucide:sun" width="15" aria-hidden="true"></iconify-icon>
+                        <iconify-icon class="ti-moon" icon="lucide:moon" width="15" aria-hidden="true"></iconify-icon>
+                      </button>
+                      <!-- /theme:toggle -->
                 <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
@@ -2184,13 +2206,13 @@
         <h3>Who it’s for</h3>
         <ul>
           <li><a href="/for/creators">Creators</a></li>
-          <li><a href="/for/music">Artists &amp; Labels</a></li>
           <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
-          <li><a href="/for/documentary">Documentary Teams</a></li>
           <li><a href="/for/podcasters">Podcasters</a></li>
-          <li><a href="/for/gaming">Game Studios</a></li>
           <li><a href="/for/educators">Educators &amp; Trainers</a></li>
           <li><a href="/for/enterprise">Enterprise Teams</a></li>
+          <li><a href="/for/government">Government &amp; Public Agencies</a></li>
+          <li><a href="/for/journalists">Journalists &amp; Newsrooms</a></li>
+          <li><a href="/for">All audiences</a></li>
         </ul>
       </div>
       <div class="oc-foot-col">
@@ -2261,5 +2283,8 @@
             });
         </script>
   <script src="assets/octavia-mobile-nav.js" defer></script>
+  <!-- theme:switch -->
+  <script src="assets/octavia-theme.js?v=20261009-soft3" defer></script>
+  <!-- /theme:switch -->
 </body>
 </html>

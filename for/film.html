@@ -1,9 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-page="audience">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- theme:prepaint -->
+    <script>
+      /* Apply the saved theme before first paint. Default stays dark. */
+      (function () {
+        try {
+          var t = localStorage.getItem('octavia-theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+            if (t === 'light') document.documentElement.style.backgroundColor = '#ffffff';
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <!-- /theme:prepaint -->
     <style>
       /* Smooth load: lock the dark background immediately and keep content hidden
          until the Tailwind styles are applied, then fade in — this removes the
@@ -96,6 +110,7 @@
     </style>
   <link rel="stylesheet" href="../assets/octavia-mobile.css?v=1">
   <link rel="stylesheet" href="../assets/octavia-footer.css?v=1">
+  <!-- theme:link --><link rel="stylesheet" href="../assets/octavia-theme.css?v=20261009-soft3"><!-- /theme:link -->
   <link rel="canonical" href="https://octavia.lunartech.ai/for/film">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://octavia.lunartech.ai/for/film">
@@ -104,7 +119,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Octavia for Filmmakers &amp; Studios — Dub Film and TV at Catalogue Scale">
   <meta name="twitter:description" content="Localize features, series and back catalogue in 60+ languages, with the music and effects bed preserved.">
-  <link rel="stylesheet" href="../assets/octavia-audience.css?v=1">
+  <link rel="stylesheet" href="../assets/octavia-audience.css?v=2">
 </head>
 
 <body class="antialiased selection:bg-purple-500/30 selection:text-white">
@@ -273,6 +288,13 @@
                 <a href="/contact" class="px-4 py-2 text-xs font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
             </nav>
             <div class="flex items-center gap-2 z-20 shrink-0">
+                      <!-- theme:toggle -->
+                      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch colour theme"
+                        title="Switch colour theme" aria-pressed="false">
+                        <iconify-icon class="ti-sun" icon="lucide:sun" width="15" aria-hidden="true"></iconify-icon>
+                        <iconify-icon class="ti-moon" icon="lucide:moon" width="15" aria-hidden="true"></iconify-icon>
+                      </button>
+                      <!-- /theme:toggle -->
                 <a href="https://app.octavia.lunartech.ai/login" class="nav-cta-login group relative inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/30 transition-all text-white shadow-[0_0_20px_-10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <iconify-icon icon="lucide:log-in" width="14" stroke-width="1.5" class="text-purple-300 group-hover:text-purple-200 transition-colors relative z-10"></iconify-icon>
@@ -520,16 +542,61 @@
         <span class="oc-a-label">More audiences</span>
         <h2>Who else uses Octavia</h2>
         <p class="oc-a-sec-lede">The same engine, pointed at a different kind of work.</p>
-        <div class="oc-a-siblings">
-          <a class="oc-a-sibling" href="/for/creators">Creators</a>
-          <a class="oc-a-sibling" href="/for/music">Artists &amp; Labels</a>
-          <a class="oc-a-sibling" href="/for/film" aria-current="page">Filmmakers &amp; Studios</a>
-          <a class="oc-a-sibling" href="/for/documentary">Documentary Teams</a>
-          <a class="oc-a-sibling" href="/for/podcasters">Podcasters</a>
-          <a class="oc-a-sibling" href="/for/gaming">Game Studios</a>
-          <a class="oc-a-sibling" href="/for/educators">Educators &amp; Trainers</a>
-          <a class="oc-a-sibling" href="/for/enterprise">Enterprise Teams</a>
+        <div class="oc-a-groups">
+          <div class="oc-a-group">
+            <h3 class="oc-a-group-label">Media &amp; entertainment</h3>
+            <div class="oc-a-siblings">
+              <a class="oc-a-sibling" href="/for/creators">Creators</a>
+              <a class="oc-a-sibling" href="/for/music">Artists &amp; Labels</a>
+              <a class="oc-a-sibling" href="/for/film" aria-current="page">Filmmakers &amp; Studios</a>
+              <a class="oc-a-sibling" href="/for/documentary">Documentary Teams</a>
+              <a class="oc-a-sibling" href="/for/podcasters">Podcasters</a>
+              <a class="oc-a-sibling" href="/for/gaming">Game Studios</a>
+              <a class="oc-a-sibling" href="/for/broadcasters">Broadcasters &amp; TV Networks</a>
+              <a class="oc-a-sibling" href="/for/streaming">Streaming &amp; FAST Channels</a>
+              <a class="oc-a-sibling" href="/for/animation">Animation Studios</a>
+              <a class="oc-a-sibling" href="/for/audiobooks">Audiobook Publishers</a>
+              <a class="oc-a-sibling" href="/for/sports">Sports &amp; Esports</a>
+              <a class="oc-a-sibling" href="/for/events">Events &amp; Conferences</a>
+              <a class="oc-a-sibling" href="/for/faith">Faith &amp; Ministries</a>
+            </div>
+          </div>
+          <div class="oc-a-group">
+            <h3 class="oc-a-group-label">Public sector &amp; security</h3>
+            <div class="oc-a-siblings">
+              <a class="oc-a-sibling" href="/for/government">Government &amp; Public Agencies</a>
+              <a class="oc-a-sibling" href="/for/defense">Defense &amp; Military</a>
+              <a class="oc-a-sibling" href="/for/law-enforcement">Law Enforcement</a>
+              <a class="oc-a-sibling" href="/for/emergency-management">Emergency Management</a>
+              <a class="oc-a-sibling" href="/for/journalists">Journalists &amp; Newsrooms</a>
+              <a class="oc-a-sibling" href="/for/osint">OSINT &amp; Research Analysts</a>
+              <a class="oc-a-sibling" href="/for/legal">Courts &amp; Legal</a>
+              <a class="oc-a-sibling" href="/for/ngos">NGOs &amp; Humanitarian</a>
+              <a class="oc-a-sibling" href="/for/diplomacy">Diplomacy &amp; International Organizations</a>
+            </div>
+          </div>
+          <div class="oc-a-group">
+            <h3 class="oc-a-group-label">Business teams</h3>
+            <div class="oc-a-siblings">
+              <a class="oc-a-sibling" href="/for/enterprise">Enterprise Teams</a>
+              <a class="oc-a-sibling" href="/for/marketing">Marketing &amp; Agencies</a>
+              <a class="oc-a-sibling" href="/for/sales">Sales Teams</a>
+              <a class="oc-a-sibling" href="/for/saas">SaaS &amp; Product Teams</a>
+              <a class="oc-a-sibling" href="/for/ecommerce">E-commerce Brands</a>
+              <a class="oc-a-sibling" href="/for/hr">HR &amp; People Teams</a>
+              <a class="oc-a-sibling" href="/for/financial-services">Financial Services</a>
+            </div>
+          </div>
+          <div class="oc-a-group">
+            <h3 class="oc-a-group-label">Education &amp; health</h3>
+            <div class="oc-a-siblings">
+              <a class="oc-a-sibling" href="/for/educators">Educators &amp; Trainers</a>
+              <a class="oc-a-sibling" href="/for/healthcare">Healthcare &amp; Hospitals</a>
+              <a class="oc-a-sibling" href="/for/pharma">Pharma &amp; Life Sciences</a>
+            </div>
+          </div>
         </div>
+        <a class="oc-a-all" href="/for">Browse all 32 audiences<iconify-icon icon="lucide:arrow-right" width="15" aria-hidden="true"></iconify-icon></a>
       </div>
     </section>
 
@@ -630,13 +697,13 @@
         <h3>Who it’s for</h3>
         <ul>
           <li><a href="/for/creators">Creators</a></li>
-          <li><a href="/for/music">Artists &amp; Labels</a></li>
           <li><a href="/for/film">Filmmakers &amp; Studios</a></li>
-          <li><a href="/for/documentary">Documentary Teams</a></li>
           <li><a href="/for/podcasters">Podcasters</a></li>
-          <li><a href="/for/gaming">Game Studios</a></li>
           <li><a href="/for/educators">Educators &amp; Trainers</a></li>
           <li><a href="/for/enterprise">Enterprise Teams</a></li>
+          <li><a href="/for/government">Government &amp; Public Agencies</a></li>
+          <li><a href="/for/journalists">Journalists &amp; Newsrooms</a></li>
+          <li><a href="/for">All audiences</a></li>
         </ul>
       </div>
       <div class="oc-foot-col">
@@ -680,5 +747,8 @@ const waiting = document.querySelector('.content-wait-for-load'); if (waiting) w
 });
 </script>
   <script src="../assets/octavia-mobile-nav.js" defer></script>
+  <!-- theme:switch -->
+  <script src="../assets/octavia-theme.js?v=20261009-soft3" defer></script>
+  <!-- /theme:switch -->
 </body>
 </html>

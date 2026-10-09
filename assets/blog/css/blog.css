@@ -393,12 +393,25 @@
 .blog-pagination {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 3.5rem 0 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--blog-line);
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  margin: 3.5rem 0 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .pagination-link {
+  box-sizing: border-box;
   display: inline-grid;
   place-items: center;
   min-width: 42px;
@@ -406,8 +419,9 @@
   border: 1px solid var(--blog-line);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.035);
-  color: #a6a6ac;
+  color: var(--blog-muted);
   font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
   text-decoration: none;
   transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
 }
@@ -415,13 +429,13 @@
 .pagination-link:hover {
   transform: translateY(-2px);
   border-color: rgba(167, 139, 250, 0.5);
-  color: #fff;
+  color: var(--blog-text);
 }
 
 .pagination-link[aria-current="page"] {
   border-color: rgba(167, 139, 250, 0.6);
   background: rgba(139, 92, 246, 0.18);
-  color: #fff;
+  color: var(--blog-text);
 }
 
 .pagination-link[aria-disabled="true"] {
@@ -431,9 +445,21 @@
 
 .pagination-link-wide {
   display: inline-flex;
-  gap: 0.45rem;
-  width: auto;
-  padding-inline: 0.9rem;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 1rem;
+  white-space: nowrap;
+}
+
+.pagination-ellipsis {
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 42px;
+  color: var(--blog-faint);
+  font-size: 0.78rem;
+  user-select: none;
 }
 
 /* Article pages */
@@ -856,8 +882,11 @@
   .blog-card,
   .blog-card-body { min-height: 370px; }
 
-  .blog-pagination { flex-wrap: wrap; }
+  /* Page numbers get their own row; Previous / Next sit underneath at the edges. */
+  .blog-pagination { flex-wrap: wrap; row-gap: 1.25rem; }
+  .pagination-pages { order: -1; flex-basis: 100%; gap: 0.375rem; }
   .pagination-link { min-width: 39px; height: 39px; }
+  .pagination-ellipsis { min-width: 20px; height: 39px; }
 
   .article-shell { padding: calc(var(--nav-h, 111px) + 3rem) 0 5rem; }
   .article-header { margin-bottom: 2.5rem; }

@@ -56,15 +56,16 @@ const COLUMNS = [
     ['AI dubbing', '/blog/category/ai-dubbing'],
     ['Enterprise', '/blog/category/enterprise'],
   ]],
+  // A sample across the groups; the /for hub lists every audience.
   ['Who it’s for', [
     ['Creators', '/for/creators'],
-    ['Artists &amp; Labels', '/for/music'],
     ['Filmmakers &amp; Studios', '/for/film'],
-    ['Documentary Teams', '/for/documentary'],
     ['Podcasters', '/for/podcasters'],
-    ['Game Studios', '/for/gaming'],
     ['Educators &amp; Trainers', '/for/educators'],
     ['Enterprise Teams', '/for/enterprise'],
+    ['Government &amp; Public Agencies', '/for/government'],
+    ['Journalists &amp; Newsrooms', '/for/journalists'],
+    ['All audiences', '/for'],
   ]],
   ['Company', [
     ['Team', '/team'],

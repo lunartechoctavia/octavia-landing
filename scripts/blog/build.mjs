@@ -364,14 +364,29 @@ function filters(categories, active = '') {
   return `<nav class="blog-filters" aria-label="Article categories">${items.join('')}</nav>`;
 }
 
+// Seven slots at most: first, last, the current page with a neighbour each side,
+// and a gap marker wherever two or more pages are skipped. The count stays fixed
+// so the row doesn't change width from page to page.
+function paginationItems(page, totalPages) {
+  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, index) => index + 1);
+  if (page <= 4) return [1, 2, 3, 4, 5, null, totalPages];
+  if (page >= totalPages - 3) return [1, null, totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+  return [1, null, page - 1, page, page + 1, null, totalPages];
+}
+
 function pagination(page, totalPages) {
   if (totalPages <= 1) return '';
   const url = (number) => number === 1 ? '/blog' : `/blog/page/${number}`;
-  const links = [];
-  links.push(`<a class="pagination-link pagination-link-wide" href="${page > 1 ? url(page - 1) : '#'}"${page === 1 ? ' aria-disabled="true" tabindex="-1"' : ''} rel="prev">← Previous</a>`);
-  for (let i = 1; i <= totalPages; i += 1) links.push(`<a class="pagination-link" href="${url(i)}"${i === page ? ' aria-current="page"' : ''}>${i}</a>`);
-  links.push(`<a class="pagination-link pagination-link-wide" href="${page < totalPages ? url(page + 1) : '#'}"${page === totalPages ? ' aria-disabled="true" tabindex="-1"' : ''} rel="next">Next →</a>`);
-  return `<nav class="blog-pagination" aria-label="Blog pagination">${links.join('')}</nav>`;
+  const step = (target, rel, label) => {
+    const className = `pagination-link pagination-link-wide pagination-${rel}`;
+    return target
+      ? `<a class="${className}" href="${url(target)}" rel="${rel}">${label}</a>`
+      : `<span class="${className}" aria-disabled="true">${label}</span>`;
+  };
+  const pages = paginationItems(page, totalPages).map((number) => number === null
+    ? '<li aria-hidden="true"><span class="pagination-ellipsis">…</span></li>'
+    : `<li><a class="pagination-link" href="${url(number)}" aria-label="Page ${number}"${number === page ? ' aria-current="page"' : ''}>${number}</a></li>`);
+  return `<nav class="blog-pagination" aria-label="Blog pagination">${step(page > 1 && page - 1, 'prev', '<span aria-hidden="true">←</span>Previous')}<ol class="pagination-pages">${pages.join('')}</ol>${step(page < totalPages && page + 1, 'next', 'Next<span aria-hidden="true">→</span>')}</nav>`;
 }
 
 function listingMain({ pageArticles, allArticles, categories, page = 1, totalPages = 1, activeCategory = '', heading = 'Practical ideas for <em>global impact.</em>', intro = 'Clear, useful guides for teams creating multilingual video, audio, and learning experiences.' }) {
@@ -435,8 +450,10 @@ function normalizeShell(shell) {
     .replace(/url\((['"]?)assets\//g, 'url($1/assets/');
 }
 
-function composePage(shell, { main, seo, title, description, assetPrefix = '/assets/' }) {
+function composePage(shell, { main, seo, title, description, assetPrefix = '/assets/', pageId }) {
   let output = normalizeShell(shell);
+  // listings keep the shell's theme scope (blog-list); articles get their own
+  if (pageId) output = output.replace(/(<html\b[^>]*\bdata-page=")[^"]*(")/, `$1${pageId}$2`);
   output = output.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`);
   output = output.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${escapeAttr(description)}">`);
   output = output.replace(/<!-- BLOG_SEO_START -->[\s\S]*?<!-- BLOG_SEO_END -->/, `<!-- BLOG_SEO_START -->\n    ${seo}\n    <!-- BLOG_SEO_END -->`);
@@ -464,7 +481,7 @@ function generateSitemap(articles, categories, totalPages) {
     .filter((entry) => entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'blog.html')
     .map((entry) => ({ loc: entry.name === 'index.html' ? `${SITE_URL}/` : `${SITE_URL}/${entry.name.replace(/\.html$/, '')}` }));
   const dirPages = (dir) => (fs.existsSync(path.join(ROOT, dir))
-    ? fs.readdirSync(path.join(ROOT, dir)).filter((file) => file.endsWith('.html')).map((file) => ({ loc: `${SITE_URL}/${dir}/${file.replace(/\.html$/, '')}` }))
+    ? fs.readdirSync(path.join(ROOT, dir)).filter((file) => file.endsWith('.html')).map((file) => ({ loc: file === 'index.html' ? `${SITE_URL}/${dir}` : `${SITE_URL}/${dir}/${file.replace(/\.html$/, '')}` }))
     : []);
   const featurePages = dirPages('features');
   const audiencePages = dirPages('for');
@@ -576,7 +593,7 @@ async function main() {
     const fallback = articles.filter((item) => item.slug !== article.slug && item.categorySlug === article.categorySlug);
     const broader = articles.filter((item) => item.slug !== article.slug);
     const related = [...new Map([...explicit, ...fallback, ...broader].map((item) => [item.slug, item])).values()].slice(0, 3);
-    writePage(`blog/${article.slug}/index.html`, composePage(shell, { main: articleMain(article, related), seo: articleSeo(article), title: `${article.title} | Octavia`, description: article.metaDescription, assetPrefix: '../../assets/' }));
+    writePage(`blog/${article.slug}/index.html`, composePage(shell, { main: articleMain(article, related), seo: articleSeo(article), title: `${article.title} | Octavia`, description: article.metaDescription, assetPrefix: '../../assets/', pageId: 'blog-article' }));
   }
 
   fs.writeFileSync(path.join(BLOG_DIR, 'feed.xml'), generateFeed(articles), 'utf8');
